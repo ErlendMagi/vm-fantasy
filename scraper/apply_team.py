@@ -89,7 +89,7 @@ def _apply_and_verify(t: dict) -> None:
 def _verify(applied_ids, target_ids) -> None:
     if set(applied_ids) != set(target_ids):
         sys.exit(f"VERIFY FAILED: applied squad {sorted(applied_ids)} != target — check the app!")
-    print(f"\n✓ verified: all {len(target_ids)} players set correctly on TV 2.")
+    print(f"\nVERIFIED: all {len(target_ids)} players set correctly on TV 2.")
 
 
 def _apply_with_requests(t: dict, token: str) -> None:

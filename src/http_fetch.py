@@ -15,31 +15,40 @@ import requests
 
 
 def fetch_json(url: str, params: dict | None = None, timeout: int = 20,
-               retries: int = 2) -> tuple[dict | list | None, dict]:
+               retries: int = 2, headers: dict | None = None) -> tuple[dict | list | None, dict]:
     """Returns (parsed_json | None, response_headers)."""
     for attempt in range(retries + 1):
         if attempt:
             time.sleep(1.0 * attempt)
         try:
-            r = requests.get(url, params=params, timeout=timeout)
+            r = requests.get(url, params=params, timeout=timeout, headers=headers)
             r.raise_for_status()
             return r.json(), dict(r.headers)
         except requests.RequestException:
             if sys.platform == "win32":
-                payload, headers = _fetch_via_powershell(url, params, timeout)
+                payload, resp_headers = _fetch_via_powershell(url, params, timeout, headers)
                 if payload is not None:
-                    return payload, headers
+                    return payload, resp_headers
     return None, {}
 
 
-def _fetch_via_powershell(url: str, params: dict | None, timeout: int) -> tuple[dict | list | None, dict]:
+def _fetch_via_powershell(url: str, params: dict | None, timeout: int,
+                          headers: dict | None = None) -> tuple[dict | list | None, dict]:
     full = url + ("?" + urlencode(params) if params else "")
     full = full.replace("'", "''")  # PS single-quote escape: closes the injection sink
+    hdr_ps = ""
+    if headers:
+        pairs = "; ".join(
+            f"$hd['{k.replace(chr(39), chr(39)*2)}']='{str(v).replace(chr(39), chr(39)*2)}'"
+            for k, v in headers.items())
+        hdr_ps = f"$hd=@{{}}; {pairs};"
     ps = (
         "[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;"
         "$ProgressPreference='SilentlyContinue';"
         "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12;"
-        f"$r = Invoke-WebRequest -UseBasicParsing -Uri '{full}' -TimeoutSec {timeout};"
+        + hdr_ps +
+        f"$r = Invoke-WebRequest -UseBasicParsing -Uri '{full}' -TimeoutSec {timeout}"
+        + (" -Headers $hd" if headers else "") + ";"
         "$h = @{}; foreach ($k in $r.Headers.Keys) { $h[$k] = [string]$r.Headers[$k] };"
         "@{status=[int]$r.StatusCode; headers=$h; content=$r.Content} | ConvertTo-Json -Depth 3 -Compress"
     )

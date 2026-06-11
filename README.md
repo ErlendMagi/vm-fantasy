@@ -4,16 +4,21 @@ Personal dashboard for TV 2's VM Fantasy: tracks your team vs. the most-owned
 "template" team, projects player points from **betting odds adjusted for heat**,
 and suggests transfers each round (elimination-risk aware).
 
-**How it works:** a sync script on your PC scrapes vmfantasy.tv2.no with your
-logged-in browser session + pulls odds, commits the JSON to this repo and
-pushes. The deployed Streamlit app just reads the repo — it holds no
-credentials and spends no API credits.
+**How it works:** a sync job pulls your TV 2 squad/players + betting odds and
+commits the JSON to this repo; the deployed Streamlit app reads the repo and
+recomputes projections. The sync can run **two ways**:
+
+- **Locally** (`python scraper/sync.py`) using your saved browser login, or
+- **Fully in the cloud, computer off** — GitHub Actions runs the sync on a
+  schedule using your TV 2 token + odds key (see "Hands-off automation" below).
+  TV 2's backend is a plain REST API and your token lasts 120 days, so no
+  browser is needed on the server.
 
 ```
-[your PC]  sync.py ──> data/*.json ──git push──> [GitHub] ──auto deploy──> [Streamlit Cloud]
-            │  TV 2 scrape (Playwright, your login)                            │
-            │  The Odds API (free key, ~2 credits/day)                  phone / browser
-            └─ Open-Meteo weather is fetched by the app itself (free, keyless)
+[GitHub Actions, every 6h]  sync ──> data/*.json ──commit──> [GitHub] ──auto deploy──> [Streamlit Cloud]
+   TV 2 REST API (bearer token)                                              │
+   The Odds API (free key)                                            phone / browser
+   Open-Meteo weather is fetched by the app itself (free, keyless)
 ```
 
 ## One-time setup (~20 min)
@@ -57,6 +62,22 @@ python scraper/discover_endpoints.py   # log in, then close the window
 2. Go to https://share.streamlit.io → New app → pick the repo, main file
    `Home.py` → Deploy. Open the app URL on your phone and bookmark it.
 
+### 5. Hands-off automation (runs with your computer OFF)
+The sync can run entirely on GitHub's servers (`.github/workflows/sync.yml`,
+every 6 hours). Add two repository secrets so it can log in to TV 2 and the
+odds API — **Settings → Secrets and variables → Actions → New repository secret**:
+
+| Secret name    | Value |
+|----------------|-------|
+| `TV2_TOKEN`    | your TV 2 bearer token (the JWT — valid ~120 days, re-paste if it expires) |
+| `ODDS_API_KEY` | your the-odds-api.com key |
+
+To grab a fresh `TV2_TOKEN`: open vmfantasy.tv2.no logged in → DevTools (F12) →
+Application → Local Storage → copy the JWT value; or run
+`python scraper/print_token.py` locally. Once the secrets are set the workflow
+self-runs; the Actions tab shows each run. This is the only part that needs
+your accounts — I can't create GitHub/Streamlit logins for you.
+
 ## During the tournament
 
 **Daily (or at least before every transfer deadline):**
@@ -73,15 +94,32 @@ transfer suggestions keep working from odds + weather alone. Fixtures fall back
 to `data/static/fixtures_fallback.json` (refresh it with
 `python scraper/build_static.py` after re-downloading the openfootball JSON).
 
+## The model's optimal team & applying it
+
+The **⭐ Optimal Team** page shows the squad that maximises the odds+heat model's
+projected points within the 100M budget (2 GK / 5 DEF / 5 MID / 3 FWD, ≤3 per
+country), plus the exact transfers to get there from your team. It ignores
+ownership, so it is deliberately a high-variance, low-owned, differential team —
+a reasonable way to *win* a small money league, but it swings round to round.
+
+To push that team onto your TV 2 account automatically:
+```powershell
+python scraper/apply_team.py            # DRY RUN: prints the team, sends nothing
+python scraper/apply_team.py --confirm  # actually sets it (verifies afterwards)
+```
+The write uses the game's own `PUT /squad/update`. One field (`formation`) isn't
+verified against the game, so the script aborts cleanly if the API rejects it
+rather than leaving a half-applied squad — the first `--confirm` is worth doing
+while you can watch the result. Transfers are free & unlimited until round 1
+locks, so applying it pre-deadline costs nothing and is reversible.
+
 ## Current state
 
-The repo ships with a **real sync** already done (2026-06-11): 1,249 players
-with live prices and ownership, and your actual squad "Erlend er best"
-(Wiegele, Kobel / Muñoz, Nuno Mendes, Fonville, Kimmich, Robinson /
-W. Pierre, Bruno Fernandes, Yamal, L. Pierre, Wirtz / Haaland, Providence,
-Suárez), bank 2.5M. Run `python scraper/sync.py` to refresh before each
-deadline. Projections become odds-aware once you add the Odds API key (step 2);
-until then they rank on price, position and venue heat only.
+The repo ships with a **real, odds-aware sync** (2026-06-11): 1,249 players with
+live prices/ownership, your actual squad "Erlend er best" (bank 2.5M), live
+match + outright odds, and the verified TV 2 scoring ruleset. The Optimal Team
+page is live. Refresh anytime with `python scraper/sync.py`, or let the GitHub
+Action do it.
 
 ## Model in one paragraph
 

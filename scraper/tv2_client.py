@@ -7,6 +7,7 @@ API's real payload shapes; price is in cents (priceCents / 1e6 = game M unit),
 positions already come as GK/DEF/MID/FWD, ownership as a percentage.
 """
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -15,6 +16,7 @@ PROFILE = ROOT / "playwright-profile"
 ENDPOINTS_FILE = Path(__file__).parent / "endpoints.json"
 sys.path.insert(0, str(ROOT))
 from src import config, data_access  # noqa: E402
+from src.http_fetch import fetch_json  # noqa: E402
 
 PRICE_DIVISOR = 1_000_000  # priceCents -> game "M" unit (budget 100)
 
@@ -33,7 +35,28 @@ class Tv2Client:
                 raise ValueError(f"endpoints.json: '{key}' URL not filled in yet.")
 
     def fetch_raw(self) -> dict[str, dict]:
-        """GET every configured endpoint through the logged-in browser context."""
+        """GET every configured endpoint. Token mode (TV2_TOKEN env set) uses
+        plain HTTP with the bearer token - no browser, for cloud/CI. Otherwise
+        uses the logged-in Playwright session locally."""
+        token = os.environ.get("TV2_TOKEN")
+        if token:
+            return self._fetch_with_token(token)
+        return self._fetch_with_browser()
+
+    def _fetch_with_token(self, token: str) -> dict[str, dict]:
+        headers = {"Authorization": f"Bearer {token}",
+                   "User-Agent": "Mozilla/5.0", "Accept": "application/json"}
+        raw = {}
+        for key, url in self.endpoints.items():
+            if key.startswith("_") or url == "https://...":
+                continue
+            payload, _ = fetch_json(url, timeout=30, headers=headers)
+            if payload is None:
+                raise RuntimeError(f"{key}: fetch failed from {url} - TV2_TOKEN expired or network?")
+            raw[key] = payload
+        return raw
+
+    def _fetch_with_browser(self) -> dict[str, dict]:
         from playwright.sync_api import sync_playwright  # lazy: scraper-only dep
 
         raw = {}

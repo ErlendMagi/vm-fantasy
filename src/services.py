@@ -67,6 +67,19 @@ def get_transfer_plans(squad: list[str], bank: float, free: int) -> list[dict]:
     return _plans(_data_sig(), _weather_bucket(), tuple(squad), float(bank), int(free))
 
 
+@st.cache_data(show_spinner="Building the model's optimal squad...")
+def _optimal(sig: tuple, weather_bucket: str, value_col: str) -> dict:
+    from src import squad_builder
+    proj = _computed(sig, weather_bucket)["proj"]
+    if proj is None:
+        return {}
+    return squad_builder.build_optimal_squad(proj, value_col=value_col)
+
+
+def get_optimal_squad(value_col: str = "xp_horizon") -> dict:
+    return _optimal(_data_sig(), _weather_bucket(), value_col)
+
+
 def render_banners(d: dict) -> None:
     """Shared warning banners: stale sync, seed data, unverified scoring."""
     meta, players = d["meta"], d["players"]

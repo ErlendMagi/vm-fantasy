@@ -39,7 +39,7 @@ def build_target(value_col: str) -> dict:
     proj = projections.project(players, fixtures, mo, ou,
                                data_access.completed_rounds(fixtures), nr, pp)
     res = squad_builder.build_optimal_squad(proj, value_col=value_col)
-    return {**compose_lineup(proj, res["squad_ids"]), "proj": proj, "res": res}
+    return {**compose_lineup(proj, res["squad_ids"]), "proj": proj, "res": res, "value_col": value_col}
 
 
 def compose_lineup(proj, squad_ids: list[str]) -> dict:
@@ -140,7 +140,7 @@ def main() -> None:
     ap.add_argument("--next", action="store_true", help="optimise for the next round only (default: 2-round horizon)")
     args = ap.parse_args()
 
-    t = build_target("xp_next" if args.next else "xp_horizon")
+    t = build_target("xp_next" if args.next else "xp_tournament")
     print_team(t, t["proj"])
     if not args.confirm:
         print("\n[dry run] nothing sent. Re-run with --confirm to apply this to your TV 2 team.")

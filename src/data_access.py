@@ -112,6 +112,22 @@ def load_outrights() -> dict | None:
     return _read_json(config.ODDS_DIR / "outrights.json")
 
 
+def load_player_odds() -> dict[tuple[str, str], dict]:
+    """(canonical_team, folded_name) -> {anytime_goal, assist} decimal odds.
+    A player is indexed under both fixture sides so lookup by their own team
+    works regardless of home/away."""
+    data = _read_json(config.ODDS_DIR / "player_odds.json")
+    if not data:
+        return {}
+    out: dict[tuple[str, str], dict] = {}
+    for p in data.get("players", []):
+        rec = {"anytime_goal": p.get("anytime_goal"), "assist": p.get("assist")}
+        for team in (p.get("home"), p.get("away")):
+            if team:
+                out[(normalize_team(team), _fold(p["name"]))] = rec
+    return out
+
+
 # ---------------------------------------------------------------- round helpers
 
 def completed_rounds(fixtures: list[dict]) -> list[int]:

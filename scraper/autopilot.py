@@ -76,7 +76,7 @@ def main() -> None:
 
     if ti.get("unlimitedTransfers"):
         print("transfers are unlimited - rebuilding the optimal squad from scratch")
-        res = squad_builder.build_optimal_squad(proj, value_col="xp_horizon")
+        res = squad_builder.build_optimal_squad(proj, value_col="xp_tournament")
         target_ids = res["squad_ids"]
     else:
         free = my_team["free_transfers"]

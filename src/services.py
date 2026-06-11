@@ -76,7 +76,7 @@ def _optimal(sig: tuple, weather_bucket: str, value_col: str) -> dict:
     return squad_builder.build_optimal_squad(proj, value_col=value_col)
 
 
-def get_optimal_squad(value_col: str = "xp_horizon") -> dict:
+def get_optimal_squad(value_col: str = "xp_tournament") -> dict:
     return _optimal(_data_sig(), _weather_bucket(), value_col)
 
 

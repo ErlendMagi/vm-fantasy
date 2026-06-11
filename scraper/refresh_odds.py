@@ -107,6 +107,73 @@ def _totals_consensus(bookmakers: list) -> dict | None:
     return {"line": line, "over": overs[len(overs) // 2], "under": unders[len(unders) // 2]}
 
 
+def _median(xs: list[float]) -> float:
+    xs = sorted(xs)
+    return xs[len(xs) // 2]
+
+
+def _credits_remaining(key: str) -> int | None:
+    """Cheap credit-balance check (the /sports list is free)."""
+    _, headers = fetch_json(f"{API}/sports", params={"apiKey": key}, timeout=15)
+    rem = _remaining(headers)
+    return int(rem) if rem is not None and str(rem).isdigit() else None
+
+
+def fetch_player_props(key: str, sport_key: str, days: int = 3) -> dict:
+    """Anytime-goalscorer (+assist) odds per player for matches kicking off
+    within `days`. Stops before dipping under the credit floor - so the core
+    sync can never be starved by props. 1 region keeps it ~1-2 credits/match."""
+    from src import config
+
+    events, _ = fetch_json(f"{API}/sports/{sport_key}/events", params={"apiKey": key}, timeout=20)
+    if not events:
+        return {"players": [], "note": "no events"}
+    now = datetime.now(timezone.utc)
+    upcoming = [e for e in events
+                if 0 <= (datetime.fromisoformat(e["commence_time"].replace("Z", "+00:00")) - now).days <= days]
+
+    players, fetched, skipped_low = [], 0, False
+    for e in upcoming:
+        remaining = _credits_remaining(key)
+        if remaining is not None and remaining <= config.ODDS_CREDIT_FLOOR:
+            skipped_low = True
+            break
+        od, _ = fetch_json(f"{API}/sports/{sport_key}/events/{e['id']}/odds", params={
+            "apiKey": key, "regions": "eu", "markets": config.PLAYER_PROPS_MARKETS,
+            "oddsFormat": "decimal",
+        }, timeout=30)
+        if not od:
+            continue
+        fetched += 1
+        home = data_access.normalize_team(e["home_team"])
+        away = data_access.normalize_team(e["away_team"])
+        goal_q: dict[str, list[float]] = {}
+        assist_q: dict[str, list[float]] = {}
+        for bm in od.get("bookmakers", []):
+            for m in bm.get("markets", []):
+                bucket = goal_q if m["key"] == "player_goal_scorer_anytime" else (
+                    assist_q if m["key"] == "player_assists" else None)
+                if bucket is None:
+                    continue
+                for o in m.get("outcomes", []):
+                    if o.get("name") in ("Yes", "Over") and o.get("description") and o.get("price"):
+                        bucket.setdefault(o["description"], []).append(o["price"])
+        names = set(goal_q) | set(assist_q)
+        for name in names:
+            players.append({
+                "name": name, "home": home, "away": away,
+                "anytime_goal": round(_median(goal_q[name]), 2) if name in goal_q else None,
+                "assist": round(_median(assist_q[name]), 2) if name in assist_q else None,
+            })
+    return {
+        "fetched_at": now.isoformat(),
+        "credits_remaining": _credits_remaining(key),
+        "matches_covered": fetched,
+        "stopped_at_credit_floor": skipped_low,
+        "players": players,
+    }
+
+
 def fetch_match_odds(key: str, sport_key: str) -> dict:
     events, headers = fetch_json(f"{API}/sports/{sport_key}/odds", params={
         "apiKey": key, "regions": "eu", "markets": "h2h,totals", "oddsFormat": "decimal",
@@ -157,12 +224,30 @@ def fetch_outrights(key: str, sport_key: str) -> dict:
     }
 
 
+def _fresh(path: Path, max_age_hours: float) -> bool:
+    if not path.exists():
+        return False
+    age = (datetime.now(timezone.utc).timestamp() - path.stat().st_mtime) / 3600
+    return age < max_age_hours
+
+
 def main() -> None:
+    from src import config
+
     parser = argparse.ArgumentParser()
     parser.add_argument("--outrights", action="store_true", help="also fetch tournament winner odds (1 credit)")
+    parser.add_argument("--props", action="store_true", help="also fetch player goalscorer/assist props")
+    parser.add_argument("--props-min-age", type=float, default=36.0,
+                        help="skip props if player_odds.json is younger than this many hours")
     args = parser.parse_args()
 
     key = _key()
+    balance = _credits_remaining(key)
+    if balance is not None and balance <= config.ODDS_CREDIT_FLOOR:
+        print(f"odds credits low ({balance} <= floor {config.ODDS_CREDIT_FLOOR}) - "
+              "keeping existing odds, fetching nothing this run")
+        return
+
     match_key, outright_key = _find_sport_keys(key)
     if not match_key:
         sys.exit("No World Cup sport key found on The Odds API - check their /sports list manually.")
@@ -170,21 +255,35 @@ def main() -> None:
     odds_dir = ROOT / "data" / "odds"
     odds_dir.mkdir(parents=True, exist_ok=True)
 
-    data = fetch_match_odds(key, match_key)
-    if not data["matches"]:
-        sys.exit(f"0 usable matches from '{match_key}' - refusing to overwrite the existing snapshot")
-    (odds_dir / "match_odds.json").write_text(json.dumps(data, indent=1), encoding="utf-8")
-    print(f"match odds: {len(data['matches'])} matches, credits remaining: {data['credits_remaining']}")
+    # throttle by file age so the 5x/day sync doesn't burn the monthly budget
+    if _fresh(odds_dir / "match_odds.json", 8.0):
+        print("match odds still fresh (<8h) - skipping")
+    else:
+        data = fetch_match_odds(key, match_key)
+        if not data["matches"]:
+            sys.exit(f"0 usable matches from '{match_key}' - refusing to overwrite the existing snapshot")
+        (odds_dir / "match_odds.json").write_text(json.dumps(data, indent=1), encoding="utf-8")
+        print(f"match odds: {len(data['matches'])} matches, credits remaining: {data['credits_remaining']}")
 
-    if args.outrights:
-        if not outright_key:
-            print("no outright sport key found - skipping")
-        else:
-            data = fetch_outrights(key, outright_key)
-            if not data["prices"]:
-                sys.exit(f"0 outright prices from '{outright_key}' - refusing to overwrite the existing snapshot")
+    if args.outrights and outright_key and not _fresh(odds_dir / "outrights.json", 48.0):
+        data = fetch_outrights(key, outright_key)
+        if data["prices"]:
             (odds_dir / "outrights.json").write_text(json.dumps(data, indent=1), encoding="utf-8")
             print(f"outrights: {len(data['prices'])} teams, credits remaining: {data['credits_remaining']}")
+
+    if args.props:
+        if _fresh(odds_dir / "player_odds.json", args.props_min_age):
+            print(f"player props still fresh (<{args.props_min_age}h) - skipping to save credits")
+        else:
+            props = fetch_player_props(key, match_key)
+            if props["players"]:
+                (odds_dir / "player_odds.json").write_text(json.dumps(props, indent=1, ensure_ascii=False),
+                                                           encoding="utf-8")
+                note = " (stopped at credit floor)" if props["stopped_at_credit_floor"] else ""
+                print(f"player props: {len(props['players'])} player-quotes over "
+                      f"{props['matches_covered']} matches, credits left {props['credits_remaining']}{note}")
+            else:
+                print("player props: none available - keeping any existing file")
 
 
 if __name__ == "__main__":

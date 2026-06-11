@@ -59,6 +59,45 @@ def _greedy_start(pool: dict, budget: float, value_col: str, rng: np.random.Gene
     return chosen
 
 
+def _formation_seed(info: dict, pool_ids: dict, formation: tuple, budget: float) -> list[str] | None:
+    """A premium-XI-plus-cheap-bench seed for one formation: cheapest legal
+    bench first, then fill the starting XI with the highest-VALUE affordable
+    players (reserving each remaining slot's minimum price). This lands the
+    search near the strong-attacker optimum instead of a cheap local one."""
+    d, m, f = formation
+    xi_need = {"GK": 1, "DEF": d, "MID": m, "FWD": f}
+    bench_need = {"GK": 1, "DEF": 5 - d, "MID": 5 - m, "FWD": 3 - f}
+    chosen, counts, spent = [], {}, 0.0
+
+    for pos, n in bench_need.items():
+        taken = 0
+        for cid in sorted(pool_ids[pos], key=lambda i: info[i][2]):  # cheapest first
+            if taken >= n:
+                break
+            t = info[cid][3]
+            if cid in chosen or counts.get(t, 0) >= config.MAX_PER_TEAM:
+                continue
+            chosen.append(cid); counts[t] = counts.get(t, 0) + 1; spent += info[cid][2]; taken += 1
+        if taken < n:
+            return None
+
+    xi_min = {pos: min(info[i][2] for i in pool_ids[pos]) for pos in xi_need}
+    need = dict(xi_need)
+    for cid in sorted((i for pos in xi_need for i in pool_ids[pos] if i not in chosen),
+                      key=lambda i: -info[i][1]):  # highest value first
+        pos, _, price, t = info[cid]
+        if need.get(pos, 0) <= 0 or counts.get(t, 0) >= config.MAX_PER_TEAM:
+            continue
+        after = dict(need); after[pos] -= 1
+        reserve = sum(after[p] * xi_min[p] for p in after)
+        if spent + price + reserve > budget + 1e-9:
+            continue
+        chosen.append(cid); counts[t] = counts.get(t, 0) + 1; spent += price; need[pos] -= 1
+        if not any(need.values()):
+            break
+    return chosen if not any(need.values()) else None
+
+
 def _hill_climb(squad: list[str], info: dict, pool_ids: dict, budget: float) -> tuple[list[str], float]:
     """Best-improvement local search over single same-position swaps, using the
     fast tuple evaluator. info[pid]=(pos, xp, price, team)."""
@@ -87,10 +126,52 @@ def _hill_climb(squad: list[str], info: dict, pool_ids: dict, budget: float) -> 
                 val = optimizer._fast_squad_value(trial, info)
                 if val > best_val + 1e-9 and (best_move is None or val > best_move[1]):
                     best_move = (trial, val)
+        # paired reallocation: downgrade one player to a cheap filler so an
+        # upgrade elsewhere becomes affordable (single swaps can't see this)
+        if not best_move:
+            best_move = _reallocation_move(best, best_val, info, pool_ids, budget)
         if best_move:
             best, best_val = best_move
             improved = True
     return best, best_val
+
+
+def _reallocation_move(best, best_val, info, pool_ids, budget):
+    owned = set(best)
+    spent = sum(info[i][2] for i in best)
+    by_val = sorted(best, key=lambda i: info[i][1])  # lowest value first
+    # cheapest unowned filler per position (to free budget)
+    cheapest = {pos: min((c for c in pool_ids[pos] if c not in owned),
+                         key=lambda i: info[i][2], default=None) for pos in config.SQUAD_SHAPE}
+    move = None
+    for drop in by_val[:6]:                       # a low-value player to downgrade
+        fp = cheapest[info[drop][0]]
+        if fp is None or info[fp][2] >= info[drop][2]:
+            continue
+        freed = info[drop][2] - info[fp][2]
+        for up in by_val:                         # a player to upgrade with the freed cash
+            if up == drop:
+                continue
+            up_pos = info[up][0]
+            for cid in pool_ids[up_pos][:20]:     # best-value candidates that pos
+                if cid in owned or cid == fp:
+                    continue
+                if info[cid][2] > info[up][2] + freed + 1e-9:
+                    continue
+                trial = [fp if x == drop else (cid if x == up else x) for x in best]
+                if len(set(trial)) != config.SQUAD_SIZE:
+                    continue
+                counts = {}
+                for i in trial:
+                    counts[info[i][3]] = counts.get(info[i][3], 0) + 1
+                if max(counts.values()) > config.MAX_PER_TEAM:
+                    continue
+                if sum(info[i][2] for i in trial) > budget + 1e-9:
+                    continue
+                val = optimizer._fast_squad_value(trial, info)
+                if val > best_val + 1e-9 and (move is None or val > move[1]):
+                    move = (trial, val)
+    return move
 
 
 def build_optimal_squad(players: pd.DataFrame, budget: float = config.BUDGET,
@@ -105,10 +186,14 @@ def build_optimal_squad(players: pd.DataFrame, budget: float = config.BUDGET,
             for _, r in union.iterrows()}
     pool_ids = {pos: list(df["id"]) for pos, df in pool.items()}
 
+    # seed from every formation's premium-XI build, plus a few randomized greedy
+    # starts for diversity; hill-climb each and keep the best
+    seeds = [_formation_seed(info, pool_ids, fm, budget) for fm in config.FORMATIONS]
+    seeds += [_greedy_start(pool, budget, value_col, rng) for _ in range(restarts)]
+
     best_squad, best_val = None, -1.0
-    for _ in range(restarts):
-        start = _greedy_start(pool, budget, value_col, rng)
-        if start is None:
+    for start in seeds:
+        if start is None or len(set(start)) != config.SQUAD_SIZE:
             continue
         squad, val = _hill_climb(start, info, pool_ids, budget)
         if val > best_val:

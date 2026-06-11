@@ -2,9 +2,11 @@
     python tests/smoke_pages.py
 Renders every Streamlit page headlessly and fails on any exception.
 """
+import os
 import sys
 from pathlib import Path
 
+os.environ.setdefault("VMFANTASY_NO_WEATHER", "1")  # skip slow local weather fetches
 from streamlit.testing.v1 import AppTest
 
 ROOT = Path(__file__).resolve().parents[1]

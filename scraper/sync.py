@@ -68,6 +68,34 @@ def git(*args: str) -> None:
     subprocess.run(["git", *args], cwd=ROOT, check=True)
 
 
+def _append_league_history(tv2, league, cur_round, now) -> None:
+    """Accumulate a per-round snapshot of every rival's squad so the app can show
+    what changed between rounds. Keyed by round number; the latest snapshot for a
+    round wins (so a round freezes once it advances)."""
+    if cur_round is None:
+        return
+    path = tv2 / "league_history.json"
+    hist = {}
+    if path.exists():
+        try:
+            hist = json.loads(path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            hist = {}
+    rounds = hist.setdefault("rounds", {})
+    snap = {}
+    for lg in league["leagues"]:
+        for m in lg["members"]:
+            if m.get("squad"):  # only snapshot once squads are revealed
+                snap[m["squad_name"]] = {
+                    "manager": m["manager"], "squad": m["squad"],
+                    "starter_ids": m.get("starter_ids", []), "captain_id": m.get("captain_id"),
+                    "formation": m.get("formation"), "total_points": m.get("total_points", 0),
+                }
+    if snap:
+        rounds[str(cur_round)] = {"synced_at": now, "members": snap}
+        path.write_text(json.dumps(hist, indent=1, ensure_ascii=False), encoding="utf-8")
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--dry-run", action="store_true")
@@ -109,8 +137,11 @@ def main() -> None:
 
     league = raw.get("_league") or {}
     if league.get("leagues"):
+        cur_round = (raw.get("transfer_info") or {}).get("targetRound", {}).get("number")
         (tv2 / "league.json").write_text(
-            json.dumps({"synced_at": now, **league}, indent=1, ensure_ascii=False), encoding="utf-8")
+            json.dumps({"synced_at": now, "current_round": cur_round, **league},
+                       indent=1, ensure_ascii=False), encoding="utf-8")
+        _append_league_history(tv2, league, cur_round, now)
     (tv2 / "meta.json").write_text(json.dumps({
         "last_synced": now,
         "scraper_mode": "xhr",

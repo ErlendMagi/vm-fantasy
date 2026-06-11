@@ -100,14 +100,18 @@ class Tv2Client:
                     continue
                 members = []
                 for e in lb.get("entries", []):
-                    view = get(f"{base}/squad/view/{e.get('squadId')}")
+                    view = get(f"{base}/squad/view/{e.get('squadId')}") or {}
                     squad_ids = [str(p.get("playerId")) for p in (view.get("players") or [])
                                  if p.get("playerId")] if isinstance(view, dict) else []
                     members.append({
                         "manager": e.get("managerName"), "squad_name": e.get("squadName"),
+                        "squad_id": e.get("squadId"),
                         "rank": e.get("rank"), "total_points": e.get("totalPoints", 0),
                         "latest_round_points": e.get("latestRoundPoints", 0),
                         "round_scores": e.get("roundScores", []), "squad": squad_ids,
+                        "starter_ids": [str(i) for i in (view.get("starterIds") or [])],
+                        "captain_id": str(view["captainId"]) if view.get("captainId") else None,
+                        "formation": view.get("formation"),
                     })
                 leagues.append({"name": lg.get("leagueName"), "league_id": lid,
                                 "my_rank": (lb.get("myRank") or {}).get("rank"), "members": members})

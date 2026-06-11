@@ -94,6 +94,10 @@ def load_league() -> dict | None:
     return _read_json(config.TV2_DIR / "league.json")
 
 
+def load_league_history() -> dict:
+    return _read_json(config.TV2_DIR / "league_history.json") or {}
+
+
 def load_duties() -> dict[str, dict]:
     data = _read_json(config.STATIC_DIR / "duties.json")
     return (data or {}).get("duties", {})

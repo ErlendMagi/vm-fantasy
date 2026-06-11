@@ -81,9 +81,14 @@ def _fast_squad_value(ids: list[str], info: dict[str, tuple]) -> float:
 
 def transfer_plans(players: pd.DataFrame, my_squad_ids: list[str], bank: float,
                    free_transfers: int = config.FREE_TRANSFERS_PER_ROUND,
-                   xp_col: str = "xp_horizon", top_n: int = 10,
-                   shortlist_size: int = 12) -> list[dict]:
-    """Returns plans sorted by net gain (xP gain minus hit cost) vs no transfers."""
+                   xp_col: str = config.TRANSFER_VALUE_COL, top_n: int = 10,
+                   shortlist_size: int = 14) -> list[dict]:
+    """Plans sorted by net gain = (squad value gain on `xp_col`) - (−4 hits), vs
+    no transfers. `xp_col` defaults to whole-tournament value, so swapping out a
+    player whose country is likely eliminated correctly counts their lost future
+    games, and a −4 hit for a star is taken only when its rest-of-cup value beats
+    the cost. Searches 0..MAX_PLAN_TRANSFERS (multiple hits at once when several
+    teams are eliminated together)."""
     owned = players.loc[[i for i in my_squad_ids if i in players.index]]
     if len(owned) < config.SQUAD_SIZE:
         raise ValueError(f"only {len(owned)}/{config.SQUAD_SIZE} squad ids found in player data")
@@ -157,22 +162,27 @@ def transfer_plans(players: pd.DataFrame, my_squad_ids: list[str], bank: float,
 
     plans.sort(key=lambda p: p["net_gain"], reverse=True)
 
-    # consider one -4 hit: extend the best double with its best marginal single
-    if free_transfers >= 2:
-        best_double = next((p for p in plans if p["n_transfers"] == 2), None)
-        if best_double:
-            remaining = [i for i in owned.index if i not in best_double["out_ids"]]
-            best_triple = None
-            for out_id in remaining:
-                pos = owned.loc[out_id, "position"]
-                for in_id in shortlist[pos].index:
-                    if in_id in best_double["in_ids"]:
-                        continue
-                    plan = evaluate(best_double["out_ids"] + [out_id], best_double["in_ids"] + [in_id])
-                    if plan and (best_triple is None or plan["net_gain"] > best_triple["net_gain"]):
-                        best_triple = plan
-            if best_triple and best_triple["net_gain"] > best_double["net_gain"] + config.HIT_MARGIN:
-                plans.insert(0, best_triple)
-                plans.sort(key=lambda p: p["net_gain"], reverse=True)
+    # Greedily extend toward more transfers (each an extra -4 hit). Keep adding
+    # the best marginal single swap while it raises the net (post-hit) gain by
+    # more than HIT_MARGIN - this is the -4 ROI simulation, and it stacks when
+    # several teams are eliminated at once (post-group reshuffle).
+    anchor = next((p for p in plans if p["n_transfers"] == 2), None) or plans[0]
+    while anchor["n_transfers"] < config.MAX_PLAN_TRANSFERS:
+        remaining = [i for i in owned.index if i not in anchor["out_ids"]]
+        best_ext = None
+        for out_id in remaining:
+            pos = owned.loc[out_id, "position"]
+            for in_id in shortlist[pos].index:
+                if in_id in anchor["in_ids"]:
+                    continue
+                ext = evaluate(anchor["out_ids"] + [out_id], anchor["in_ids"] + [in_id])
+                if ext and (best_ext is None or ext["net_gain"] > best_ext["net_gain"]):
+                    best_ext = ext
+        if best_ext and best_ext["net_gain"] > anchor["net_gain"] + config.HIT_MARGIN:
+            plans.append(best_ext)
+            anchor = best_ext
+        else:
+            break
 
+    plans.sort(key=lambda p: p["net_gain"], reverse=True)
     return plans[:top_n]

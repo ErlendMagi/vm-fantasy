@@ -3,6 +3,7 @@
 Free, keyless, 16-day hourly horizon. Returns None for kickoffs beyond the
 forecast window (callers treat None as 'no heat adjustment yet').
 """
+import os
 from datetime import datetime, timedelta, timezone
 
 from src.http_fetch import fetch_json
@@ -14,6 +15,8 @@ _cache: dict[tuple, float | None] = {}
 def apparent_temp_at_kickoff(lat: float, lon: float, kickoff_utc: str) -> float | None:
     """Mean apparent temperature (deg C) over kickoff hour + 2h, or None if
     out of forecast range / fetch failure."""
+    if os.environ.get("VMFANTASY_NO_WEATHER"):   # fast local testing (no heat adj.)
+        return None
     kickoff = datetime.fromisoformat(kickoff_utc)
     if kickoff.tzinfo is None:
         kickoff = kickoff.replace(tzinfo=timezone.utc)

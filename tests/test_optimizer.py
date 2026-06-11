@@ -8,8 +8,8 @@ def make_players():
     rows = []
 
     def add(pid, pos, team, price, xp):
-        rows.append({"id": pid, "name": pid, "team": team, "position": pos,
-                     "price": price, "xp_next": xp, "xp_horizon": xp, "status": "available"})
+        rows.append({"id": pid, "name": pid, "team": team, "position": pos, "price": price,
+                     "xp_next": xp, "xp_horizon": xp, "xp_tournament": xp, "status": "available"})
 
     # owned 15: 2 GK / 5 DEF / 5 MID / 3 FWD across distinct teams
     add("gk1", "GK", "T1", 5.0, 4.0); add("gk2", "GK", "T2", 4.0, 2.0)
@@ -71,6 +71,34 @@ def test_hit_only_with_margin():
         assert triples[0]["hit_cost"] == 4
 
 
+def test_takes_multiple_hits_for_big_upgrades():
+    """The planner should chain several -4 hits when each replacement is a big
+    enough upgrade (e.g. a post-group reshuffle into surviving favourites)."""
+    rows = []
+
+    def add(pid, pos, team, price, xp):
+        rows.append({"id": pid, "name": pid, "team": team, "position": pos, "price": price,
+                     "xp_next": xp, "xp_horizon": xp, "xp_tournament": xp, "status": "available"})
+
+    add("gk1", "GK", "T1", 5.0, 5.0); add("gk2", "GK", "T2", 4.0, 2.0)
+    for i in range(5):
+        add(f"d{i}", "DEF", f"T{i+3}", 5.0, 4.0)
+    # five weak starting mids/fwds (xp ~3), all would start
+    for i in range(5):
+        add(f"m{i}", "MID", f"T{i+8}", 7.0, 3.0)
+    add("f0", "FWD", "T13", 7.0, 3.0); add("f1", "FWD", "T14", 7.0, 3.0); add("f2", "FWD", "T15", 7.0, 3.0)
+    # strong same-price replacements (+6 each) -> each swap nets +6-4 = +2 > margin
+    for i in range(4):
+        add(f"star{i}", "MID", f"S{i}", 7.0, 9.0)
+    players = pd.DataFrame(rows).set_index("id", drop=False)
+    squad = [r for r in players.index if not r.startswith("star")][:15]
+    plans = optimizer.transfer_plans(players, squad, bank=0.0, free_transfers=2)
+    best = plans[0]
+    assert best["n_transfers"] >= 3          # 2 free + at least one ROI-positive hit
+    assert best["hit_cost"] >= 4
+    assert best["net_gain"] > 0
+
+
 def test_zero_transfer_baseline_present():
     players = make_players()
     squad = list(players.index[:15])
@@ -97,8 +125,8 @@ def test_cannot_buy_into_team_at_cap():
     rows = []
 
     def add(pid, pos, team, price, xp):
-        rows.append({"id": pid, "name": pid, "team": team, "position": pos,
-                     "price": price, "xp_next": xp, "xp_horizon": xp, "status": "available"})
+        rows.append({"id": pid, "name": pid, "team": team, "position": pos, "price": price,
+                     "xp_next": xp, "xp_horizon": xp, "xp_tournament": xp, "status": "available"})
 
     # legal squad already holding 3 from BRA
     add("gk1", "GK", "T1", 5.0, 4.0); add("gk2", "GK", "T2", 4.0, 2.0)

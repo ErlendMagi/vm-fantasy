@@ -1,0 +1,8 @@
+{
+  "_comment": "Discovered 2026-06-11 from vmfantasy.tv2.no (backend: vm-fantasyapi-production.up.railway.app). Auth via saved Playwright session cookies in playwright-profile/.",
+  "players": "https://vm-fantasyapi-production.up.railway.app/tournaments/vm-2026/players",
+  "my_team": "https://vm-fantasyapi-production.up.railway.app/squad/full?tournamentId=vm-2026",
+  "transfer_info": "https://vm-fantasyapi-production.up.railway.app/squad/transfer-info?tournamentId=vm-2026",
+  "fixtures": "https://vm-fantasyapi-production.up.railway.app/tournaments/vm-2026/rounds",
+  "ruleset": "https://vm-fantasyapi-production.up.railway.app/tournaments/vm-2026/ruleset/active"
+}

@@ -20,6 +20,7 @@ can reuse it without logging in again.
 """
 import json
 import re
+import sys
 from pathlib import Path
 
 from playwright.sync_api import sync_playwright
@@ -69,8 +70,18 @@ def main() -> None:
         page.goto("https://vmfantasy.tv2.no/")
         print("\n>>> Log in and click through: squad, player list, a player's points,")
         print(">>> transfers, league. JSON responses are being recorded above.")
-        input(">>> Press Enter here when you are done...")
-        ctx.close()
+        if sys.stdin is not None and sys.stdin.isatty():
+            input(">>> Press Enter here when you are done...")
+        else:
+            print(">>> When you are done, CLOSE the browser window to finish.")
+            try:
+                ctx.wait_for_event("close", timeout=0)  # 0 = wait forever
+            except Exception:
+                pass
+        try:
+            ctx.close()
+        except Exception:
+            pass  # already closed by the user
 
     print(f"\nDumped {seen} JSON responses to {DUMPS}/")
     template_path = ROOT / "scraper" / "endpoints.json"

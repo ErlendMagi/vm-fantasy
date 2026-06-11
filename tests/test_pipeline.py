@@ -13,33 +13,44 @@ def client() -> Tv2Client:
     return Tv2Client.__new__(Tv2Client)  # skip __init__ (needs endpoints.json)
 
 
-# ------------------------------------------------------- round_points shapes
+# ------------------------------------------- playerMatchScores -> round points
 
-def test_round_points_dict_with_nones():
-    assert Tv2Client._normalize_round_points({"1": 5, "2": None}) == {"1": 5}
+def test_round_points_from_scores_accumulates():
+    scores = [{"roundNumber": 1, "points": 5}, {"roundNumber": 2, "points": 0},
+              {"round": 3, "totalPoints": 7}]
+    by_round, total = Tv2Client._round_points_from_scores(scores)
+    assert by_round == {"1": 5, "2": 0, "3": 7}
+    assert total == 12
 
 
-def test_round_points_list_of_dicts():
-    raw = [{"round": 1, "points": 5}, {"round": 2, "points": 0}, {"event": 3, "score": 7}]
-    assert Tv2Client._normalize_round_points(raw) == {"1": 5, "2": 0, "3": 7}
-
-
-def test_round_points_scalar_and_junk():
-    assert Tv2Client._normalize_round_points(5) == {}
-    assert Tv2Client._normalize_round_points(None) == {}
-    assert Tv2Client._normalize_round_points(["not-a-dict"]) == {}
+def test_round_points_from_scores_empty_and_junk():
+    assert Tv2Client._round_points_from_scores([]) == ({}, 0)
+    assert Tv2Client._round_points_from_scores(None) == ({}, 0)
+    assert Tv2Client._round_points_from_scores(["x"]) == ({}, 0)
 
 
 # ------------------------------------------------------- my_team picks shapes
 
-def test_my_team_scalar_picks():
-    out = client().normalize_my_team({"picks": [101, "202"], "captain": 101})
-    assert out["squad"] == ["101", "202"]
+def test_my_team_real_shape():
+    out = client().normalize_my_team(
+        {"players": [{"playerId": "a"}, {"playerId": "b"}], "budgetRemainingCents": 2500000,
+         "name": "Erlend er best"},
+        {"unlimitedTransfers": False, "freeTransfersAvailable": 2})
+    assert out["squad"] == ["a", "b"]
+    assert out["bank"] == 2.5
+    assert out["free_transfers"] == 2
+    assert out["squad_name"] == "Erlend er best"
 
 
-def test_my_team_dict_picks():
-    out = client().normalize_my_team({"squad": [{"playerId": 7}, {"element": 9}]})
-    assert out["squad"] == ["7", "9"]
+def test_my_team_scalar_and_dict_fallback():
+    out = client().normalize_my_team({"picks": [101, {"id": 9}]})
+    assert out["squad"] == ["101", "9"]
+
+
+def test_my_team_unlimited_pretournament():
+    out = client().normalize_my_team(
+        {"players": [{"playerId": "a"}]}, {"unlimitedTransfers": True})
+    assert out["free_transfers"] >= 15
 
 
 # ------------------------------------------------------- sync validation gate

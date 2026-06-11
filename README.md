@@ -37,22 +37,16 @@ Then fetch the first snapshot (uses 3 credits):
 python scraper/refresh_odds.py --outrights
 ```
 
-### 3. Discover TV 2's internal API (needs you at the keyboard once)
+### 3. TV 2 API — already discovered ✅
+The game's backend (`vm-fantasyapi-production.up.railway.app`) was reverse-
+engineered on 2026-06-11; `scraper/endpoints.json` is filled in, the real
+scoring ruleset is in `src/config.py` (`SCORING_VERIFIED = True`), and your
+login session is saved in `playwright-profile/`.
+
+If your session ever expires (sync returns HTTP 401), just re-run the login:
 ```powershell
-python scraper/discover_endpoints.py
+python scraper/discover_endpoints.py   # log in, then close the window
 ```
-A browser opens on vmfantasy.tv2.no. **Log in**, then click through: your squad,
-the player list, one player's point details, the transfers page. Press Enter in
-the terminal when done. Open the `scrape_dumps/` folder, find the JSON responses
-holding (a) all players with prices/ownership, (b) your squad, (c) fixtures —
-and paste their URLs into `scraper/endpoints.json`.
-
-Also check the dumps for the game's **scoring rules** and update
-`src/config.py` (`SCORING`, `SQUAD_SHAPE`, `MAX_PER_TEAM`), then set
-`SCORING_VERIFIED = True`.
-
-> If a payload doesn't normalize, run `python scraper/sync.py --dry-run` and
-> adjust `FIELD_MAP` / `normalize_my_team` in `scraper/tv2_client.py` to match.
 
 ### 4. GitHub + Streamlit Cloud (free)
 1. Create a **private** repo on https://github.com/new (e.g. `vm-fantasy`), then:
@@ -79,14 +73,15 @@ transfer suggestions keep working from odds + weather alone. Fixtures fall back
 to `data/static/fixtures_fallback.json` (refresh it with
 `python scraper/build_static.py` after re-downloading the openfootball JSON).
 
-## Current state / what's seeded
+## Current state
 
-The repo ships with **seed data**: your actual 15-man squad (Rangel, Vargas,
-Kimmich, Brown, Meunier, Tagliafico, Douglas, Raphinha, Bruno Fernandes,
-De Bruyne, James, Baena, Mbappé, Oyarzabal (C), Jiménez) plus ~45 star players
-with *estimated* prices and **no ownership data**. The app works in this mode
-(flagged with a yellow banner) but the template-team comparison needs the first
-real sync.
+The repo ships with a **real sync** already done (2026-06-11): 1,249 players
+with live prices and ownership, and your actual squad "Erlend er best"
+(Wiegele, Kobel / Muñoz, Nuno Mendes, Fonville, Kimmich, Robinson /
+W. Pierre, Bruno Fernandes, Yamal, L. Pierre, Wirtz / Haaland, Providence,
+Suárez), bank 2.5M. Run `python scraper/sync.py` to refresh before each
+deadline. Projections become odds-aware once you add the Odds API key (step 2);
+until then they rank on price, position and venue heat only.
 
 ## Model in one paragraph
 

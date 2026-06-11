@@ -81,7 +81,7 @@ def main() -> None:
     print("fetching TV 2 data through logged-in browser session...")
     raw = client.fetch_raw()
     players = client.normalize_players(raw["players"])
-    my_team = client.normalize_my_team(raw["my_team"])
+    my_team = client.normalize_my_team(raw["my_team"], raw.get("transfer_info"))
 
     errors = validate(players, my_team)
     if errors:
@@ -97,21 +97,23 @@ def main() -> None:
                    indent=1, ensure_ascii=False), encoding="utf-8")
     (tv2 / "my_team.json").write_text(
         json.dumps({"synced_at": now, **my_team}, indent=1, ensure_ascii=False), encoding="utf-8")
+    fixtures_written = 0
     if "fixtures" in raw:
-        # fixtures normalization depends on the discovered payload shape; until
-        # then the app falls back to data/static/fixtures_fallback.json
-        dump = json.dumps(raw["fixtures"], indent=1, ensure_ascii=False)
-        if len(dump) <= 2_000_000:
-            (tv2 / "fixtures_raw.json").write_text(dump, encoding="utf-8")
-        else:
-            print(f"fixtures payload too large ({len(dump)} chars) - skipped fixtures_raw.json",
-                  file=sys.stderr)
+        fixtures = client.normalize_fixtures(raw["fixtures"])
+        if fixtures:  # never overwrite the good schedule with an empty list
+            (tv2 / "fixtures.json").write_text(
+                json.dumps({"source": "tv2+openfootball", "matches": fixtures},
+                           indent=1, ensure_ascii=False), encoding="utf-8")
+            fixtures_written = sum(1 for m in fixtures if m.get("status") == "finished")
     (tv2 / "meta.json").write_text(json.dumps({
         "last_synced": now,
         "scraper_mode": "xhr",
         "player_count": len(players),
+        "squad_name": my_team.get("squad_name"),
+        "finished_fixtures": fixtures_written,
     }, indent=1), encoding="utf-8")
-    print(f"wrote {len(players)} players, squad of {len(my_team['squad'])}")
+    print(f"wrote {len(players)} players, squad of {len(my_team['squad'])} "
+          f"('{my_team.get('squad_name')}'), bank {my_team['bank']}M")
 
     odds_refreshed = False
     if not args.skip_odds:

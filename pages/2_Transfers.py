@@ -2,7 +2,7 @@ import streamlit as st
 
 st.set_page_config(page_title="Transfers", page_icon="🔁", layout="wide")
 
-from src import optimizer, services
+from src import config, optimizer, services
 
 d = services.get_data()
 st.title("🔁 Transfer suggestions")
@@ -29,8 +29,14 @@ st.dataframe(
 )
 
 st.subheader("Best transfer plans")
+default_free = int(my.get("free_transfers", 2))
+unlimited = default_free >= config.SQUAD_SIZE
+if unlimited:
+    st.info("Transfers are currently **unlimited** (the squad isn't locked yet) — no −4 hits apply. "
+            "After round 1 locks this becomes 2 free per round.")
 c1, c2 = st.columns(2)
-free = c1.number_input("Free transfers", 0, 5, int(my.get("free_transfers", 2)))
+free = c1.number_input("Free transfers", 0, max(5, default_free),
+                       5 if unlimited else default_free)
 bank = c2.number_input("Bank (M)", 0.0, 50.0, float(my.get("bank", 0.0)), 0.1)
 
 plans = services.get_transfer_plans(my["squad"], bank, free)

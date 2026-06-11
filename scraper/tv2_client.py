@@ -1,36 +1,24 @@
 """TV 2 VM Fantasy client: replays the game's internal JSON endpoints using the
 logged-in Playwright session (cookies live in playwright-profile/).
 
-Requires scraper/endpoints.json - produced by you after running
-discover_endpoints.py. The normalizers below try common fantasy-API field
-names; after the first real sync, adjust FIELD_MAP to match the actual
-MonkeyBytes payload (run sync.py --dry-run and inspect data/tv2/*.json).
+Backend discovered 2026-06-11: vm-fantasyapi-production.up.railway.app, a plain
+REST API. Endpoints in scraper/endpoints.json. The parsers below target that
+API's real payload shapes; price is in cents (priceCents / 1e6 = game M unit),
+positions already come as GK/DEF/MID/FWD, ownership as a percentage.
 """
 import json
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 PROFILE = ROOT / "playwright-profile"
 ENDPOINTS_FILE = Path(__file__).parent / "endpoints.json"
+sys.path.insert(0, str(ROOT))
+from src import config, data_access  # noqa: E402
 
-# candidate key names per logical field, tried in order
-FIELD_MAP = {
-    "id": ["id", "playerId", "player_id", "elementId"],
-    "name": ["name", "fullName", "webName", "displayName", "full_name", "web_name"],
-    "team": ["team", "teamName", "country", "nation", "team_name", "squad"],
-    "position": ["position", "elementType", "pos", "element_type", "positionName"],
-    "price": ["price", "cost", "nowCost", "now_cost", "value"],
-    "ownership_pct": ["ownership", "selectedBy", "selected_by_percent", "ownershipPercentage", "pickedBy"],
-    "total_points": ["totalPoints", "total_points", "points", "score"],
-    "status": ["status", "availability", "chanceOfPlaying"],
-}
-POSITION_MAP = {
-    "1": "GK", "2": "DEF", "3": "MID", "4": "FWD",
-    "gk": "GK", "goalkeeper": "GK", "keeper": "GK", "målvakt": "GK", "keepere": "GK",
-    "def": "DEF", "defender": "DEF", "forsvar": "DEF", "forsvarere": "DEF", "back": "DEF",
-    "mid": "MID", "midfielder": "MID", "midtbane": "MID", "midtbanespillere": "MID",
-    "fwd": "FWD", "forward": "FWD", "striker": "FWD", "angrep": "FWD", "angripere": "FWD", "spiss": "FWD",
-}
+PRICE_DIVISOR = 1_000_000  # priceCents -> game "M" unit (budget 100)
+
+FINISHED_STATUSES = {"FINISHED", "FT", "AET", "PEN", "ENDED", "COMPLETE", "AWARDED"}
 
 
 class Tv2Client:
@@ -50,13 +38,36 @@ class Tv2Client:
 
         raw = {}
         with sync_playwright() as p:
-            ctx = p.chromium.launch_persistent_context(str(PROFILE), headless=True)
+            # ignore_https_errors: some local security software (e.g. Avast)
+            # MITMs TLS with a cert Node's CA bundle doesn't trust; the browser
+            # trusts it but APIRequestContext otherwise rejects it.
+            ctx = p.chromium.launch_persistent_context(
+                str(PROFILE), headless=True, ignore_https_errors=True)
             page = ctx.pages[0] if ctx.pages else ctx.new_page()
-            page.goto("https://vmfantasy.tv2.no/", wait_until="networkidle")  # refresh tokens
+
+            # the API authenticates with a Bearer token (not a cookie); capture
+            # the Authorization header the app itself sends, then replay it
+            captured: dict[str, str] = {}
+
+            def grab_auth(req):
+                auth = req.headers.get("authorization")
+                if auth and "railway.app" in req.url:
+                    captured["auth"] = auth
+
+            page.on("request", grab_auth)
+            page.goto("https://vmfantasy.tv2.no/", wait_until="networkidle")
+            if "auth" not in captured:  # nudge the app into an authed call
+                token = page.evaluate(
+                    "() => { for (const k in localStorage) { const v = localStorage[k];"
+                    " if (v && v.length > 40 && v.split('.').length === 3) return v; } return null; }")
+                if token:
+                    captured["auth"] = f"Bearer {token}"
+
+            auth_headers = {"Authorization": captured["auth"]} if "auth" in captured else {}
             for key, url in self.endpoints.items():
                 if key.startswith("_") or url == "https://...":
                     continue
-                resp = ctx.request.get(url)
+                resp = ctx.request.get(url, headers=auth_headers)
                 if not resp.ok:
                     raise RuntimeError(f"{key}: HTTP {resp.status} from {url} - session expired? "
                                        "Re-run discover_endpoints.py to log in again.")
@@ -64,87 +75,112 @@ class Tv2Client:
             ctx.close()
         return raw
 
-    # ------------------------------------------------------------ normalizers
+    # ------------------------------------------------------------ players
 
     @staticmethod
-    def _get(obj: dict, field: str, default=None):
-        for key in FIELD_MAP[field]:
-            if key in obj:
-                return obj[key]
-        return default
-
-    @staticmethod
-    def _find_player_list(payload) -> list[dict]:
-        """Locate the list of player dicts wherever it is nested in the payload."""
-        if isinstance(payload, list) and len(payload) > 100 and isinstance(payload[0], dict):
-            return payload
-        if isinstance(payload, dict):
-            for v in payload.values():
-                found = Tv2Client._find_player_list(v)
-                if found:
-                    return found
-        return []
-
-    @staticmethod
-    def _normalize_round_points(raw) -> dict[str, int]:
-        """Accepts the three realistic shapes: {round: points} dict, list of
-        per-round dicts, or a scalar (ignored - no round attribution)."""
-        if isinstance(raw, dict):
-            return {str(k): int(v) for k, v in raw.items() if v is not None}
-        if isinstance(raw, list):
-            out = {}
-            for entry in raw:
-                if not isinstance(entry, dict):
-                    continue
-                rnd = next((entry[k] for k in ("round", "event", "gameweek", "matchday")
-                            if entry.get(k) is not None), None)
-                pts = next((entry[k] for k in ("points", "score", "total")
-                            if entry.get(k) is not None), None)
-                if rnd is not None and pts is not None:
-                    out[str(rnd)] = int(pts)
-            return out
-        return {}
+    def _round_points_from_scores(match_scores) -> tuple[dict[str, int], int]:
+        """playerMatchScores -> ({round_number: points}, total). Tolerant of the
+        exact key names since the populated shape is unseen pre-tournament."""
+        by_round: dict[str, int] = {}
+        if not isinstance(match_scores, list):
+            return by_round, 0
+        for s in match_scores:
+            if not isinstance(s, dict):
+                continue
+            rnd = s.get("roundNumber") or s.get("round") or s.get("roundId")
+            pts = s.get("points") if s.get("points") is not None else s.get("totalPoints")
+            if rnd is not None and pts is not None:
+                by_round[str(rnd)] = by_round.get(str(rnd), 0) + int(pts)
+        return by_round, sum(by_round.values())
 
     def normalize_players(self, payload) -> list[dict]:
-        rows = self._find_player_list(payload)
-        if not rows:
-            raise ValueError("could not locate player list in payload - adjust _find_player_list / FIELD_MAP")
+        if not isinstance(payload, list):
+            raise ValueError("players payload is not a list - endpoint changed?")
         out = []
-        for r in rows:
-            pos_raw = str(self._get(r, "position", "")).strip().lower()
-            ownership = self._get(r, "ownership_pct")
-            points_by_round = r.get("roundPoints") or r.get("round_points") or r.get("eventPoints") or {}
+        for r in payload:
+            prices = r.get("prices") or []
+            price = (prices[-1]["priceCents"] / PRICE_DIVISOR) if prices else 0.0
+            ownership = r.get("ownershipPercent")
+            by_round, total = self._round_points_from_scores(r.get("playerMatchScores"))
             out.append({
-                "id": str(self._get(r, "id")),
-                "name": self._get(r, "name"),
-                "team": str(self._get(r, "team")),
-                "position": POSITION_MAP.get(pos_raw, pos_raw.upper()[:3]),
-                "price": float(self._get(r, "price", 0)),
-                "ownership_pct": float(ownership) if ownership is not None else None,
-                "total_points": int(self._get(r, "total_points", 0) or 0),
-                "round_points": self._normalize_round_points(points_by_round),
-                "status": str(self._get(r, "status", "available")),
+                "id": str(r["id"]),
+                "name": r.get("name"),
+                "team": (r.get("team") or {}).get("name", ""),
+                "position": r.get("position", ""),
+                "price": round(float(price), 2),
+                "ownership_pct": round(float(ownership), 3) if ownership is not None else None,
+                "total_points": total,
+                "round_points": by_round,
+                "status": "available" if r.get("isAvailable", True) else "out",
             })
         return out
 
-    def normalize_my_team(self, payload) -> dict:
-        """Best-effort - inspect data/tv2/my_team.json after a --dry-run and
-        adjust to the real payload shape."""
-        picks = payload.get("picks") or payload.get("squad") or payload.get("players") or []
+    # ------------------------------------------------------------ my team
+
+    def normalize_my_team(self, payload, transfer_info=None) -> dict:
+        picks = payload.get("players") or payload.get("picks") or payload.get("squad") or []
         squad = []
         for p in picks:
             if isinstance(p, dict):
-                pid = p.get("id") or p.get("playerId") or p.get("element")
+                pid = p.get("playerId") or p.get("id") or p.get("element")
                 if pid is None:
                     raise ValueError(f"squad pick without a recognizable id key: {p}")
                 squad.append(str(pid))
             else:
-                squad.append(str(p))  # plain id (int/string)
+                squad.append(str(p))  # plain id
+        bank = float(payload.get("budgetRemainingCents") or 0) / PRICE_DIVISOR
+
+        free = 2
+        if transfer_info:
+            if transfer_info.get("unlimitedTransfers"):
+                free = config.SQUAD_SIZE  # pre-tournament: effectively unlimited
+            else:
+                avail = transfer_info.get("freeTransfersAvailable")
+                free = max(int(avail), 0) if avail is not None and avail >= 0 else 2
+
         return {
             "squad": squad,
-            "starting_xi": squad[:11] if len(squad) >= 11 else squad,
-            "captain_id": str(payload.get("captain") or payload.get("captainId") or ""),
-            "bank": float(payload.get("bank") or payload.get("transfersBank") or 0),
-            "free_transfers": int(payload.get("freeTransfers") or payload.get("free_transfers") or 2),
-            "round_history": payload.get("roundHistory") or {},
+            "starting_xi": squad[:11],          # app recomputes the suggested XI/captain
+            "captain_id": None,                 # TV 2 lineup/captain not exposed pre-lock
+            "bank": round(bank, 2),
+            "free_transfers": free,
+            "squad_name": payload.get("name"),
+            "round_history": {},
         }
+
+    # ------------------------------------------------------------ fixtures
+
+    def normalize_fixtures(self, rounds_payload) -> list[dict]:
+        """Merge TV 2 live status/scores onto the openfootball schedule (which
+        has venues, groups and knockout fixtures TV 2 hasn't published yet).
+        Joins on (fantasy_round, unordered team pair)."""
+        fallback = json.loads(
+            (ROOT / "data" / "static" / "fixtures_fallback.json").read_text(encoding="utf-8")
+        )["matches"]
+        merged = [dict(m) for m in fallback]
+        index = {}
+        for m in merged:
+            if m.get("fantasy_round"):
+                key = (m["fantasy_round"], frozenset({
+                    data_access.normalize_team(m["home"]), data_access.normalize_team(m["away"])}))
+                index[key] = m
+
+        for rnd in rounds_payload or []:
+            number = rnd.get("number")
+            for fx in rnd.get("fixtures", []):
+                home = data_access.normalize_team((fx.get("homeTeam") or {}).get("name", ""))
+                away = data_access.normalize_team((fx.get("awayTeam") or {}).get("name", ""))
+                target = index.get((number, frozenset({home, away})))
+                if target is None:
+                    continue  # knockout placeholder or name mismatch - keep fallback row
+                status = str(fx.get("status", "")).upper()
+                target["status"] = "finished" if status in FINISHED_STATUSES else "scheduled"
+                if fx.get("homeScore") is not None and fx.get("awayScore") is not None:
+                    # orient scores to the fallback row's home/away
+                    if data_access.normalize_team(target["home"]) == home:
+                        target["score_home"], target["score_away"] = fx["homeScore"], fx["awayScore"]
+                    else:
+                        target["score_home"], target["score_away"] = fx["awayScore"], fx["homeScore"]
+                if fx.get("kickoffAt"):
+                    target["kickoff_utc"] = fx["kickoffAt"]
+        return merged

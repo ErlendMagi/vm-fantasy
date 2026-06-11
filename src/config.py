@@ -15,15 +15,20 @@ ODDS_DIR = DATA / "odds"
 STATIC_DIR = DATA / "static"
 
 # ---------------------------------------------------------------- scoring
-SCORING_VERIFIED = False  # flip after verifying against TV 2's rules page
+# Verified 2026-06-11 from the live game ruleset endpoint
+# (/tournaments/vm-2026/ruleset/active "scoringJson").
+SCORING_VERIFIED = True
 SCORING = {
-    "appearance": 1,          # any minutes
-    "sixty_minutes": 1,       # extra point for 60+ minutes
-    "goal": {"GK": 6, "DEF": 6, "MID": 5, "FWD": 4},
+    "appearance": 1,          # any minutes (the 2-pt 60+ tier is encoded as 1 + 1)
+    "sixty_minutes": 1,       # extra point for 60+ minutes -> 2 total, matches ruleset
+    "goal": {"GK": 10, "DEF": 6, "MID": 5, "FWD": 4},
     "assist": 3,
     "clean_sheet": {"GK": 4, "DEF": 4, "MID": 1, "FWD": 0},
-    "flat_negative_tax": 0.1,  # expected cards / own-goal drag per match
+    "flat_negative_tax": 0.2,  # expected yellow (-1) / own goal (-2) / pen miss (-2) drag
 }
+# other ruleset scoring (folded into the tax or modeled post-MVP):
+# ownGoal -2, redCard -3, yellowCard -1, penaltyMiss -2, penaltySave +5,
+# savesForThree +1 (1 pt per 3 GK saves)
 CAPTAIN_MULTIPLIER = 2
 
 # ---------------------------------------------------------------- squad rules

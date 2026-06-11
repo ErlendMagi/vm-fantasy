@@ -123,7 +123,7 @@ def _distribute(df: pd.DataFrame, total: float, raw_market: dict,
 
 
 def _team_xp(df: pd.DataFrame, mu_team: float, mu_opp: float, multiplier: float,
-             player_odds: dict, duties: dict | None = None) -> pd.DataFrame:
+             player_odds: dict, duties: dict | None = None, full90_p: float = 0.70) -> pd.DataFrame:
     """Base per-player xP for one team in one match (everything except the
     Man-of-the-Match bonus, which needs both teams). Also returns the standout
     weight `w` used to allocate MotM."""
@@ -144,7 +144,7 @@ def _team_xp(df: pd.DataFrame, mu_team: float, mu_opp: float, multiplier: float,
     goal_pts = df["position"].map(s["goal"])
     cs_pts = df["position"].map(s["clean_sheet"])
     concede = df["position"].map(s["concede_per2"]) * (mu_opp / 2.0)
-    full_match = df["position"].map(s["full_match"]) * df["p_start"] * 0.7  # P(plays 90 | starts)
+    full_match = df["position"].map(s["full_match"]) * df["p_start"] * full90_p  # P(plays 90 | starts)
 
     is_gk = (df["position"] == "GK").astype(float)
     gk_saves = is_gk * (2.5 + 0.85 * mu_opp) / 3.0 * s["save_per3"] * df["p_start"]
@@ -193,13 +193,30 @@ def _win_probs(mu_h: float, mu_a: float) -> tuple[float, float]:
     return ph, pa
 
 
+def _generic_ko_mu(team: str, strengths: dict, avg_s: float) -> tuple[float, float]:
+    """Expected goals for/against in a generic knockout tie, scaled by the
+    team's strength vs the average surviving team. Stronger teams score more and
+    concede fewer (so their defenders/keepers earn more clean-sheet points)."""
+    s = strengths.get(team, avg_s)
+    p_win = s / (s + avg_s) if (s + avg_s) > 0 else 0.5
+    base = config.KNOCKOUT_BASE_MU
+    return base * (0.6 + 0.8 * p_win), base * (0.6 + 0.8 * (1 - p_win))
+
+
 def project_round(players: pd.DataFrame, fixtures_r: list[dict], mus: dict[str, dict],
                   stadiums: dict, climate: dict, player_odds: dict,
-                  temp_fn=weather.apparent_temp_at_kickoff, duties: dict | None = None) -> pd.DataFrame:
-    """xP for one round, including the match-level MotM allocation."""
+                  temp_fn=weather.apparent_temp_at_kickoff, duties: dict | None = None,
+                  stage: str = "group") -> pd.DataFrame:
+    """xP for one round, including the match-level MotM allocation. Knockout
+    stages scale scoring down (tighter games -> fewer goals, more clean sheets)
+    and raise the full-90 probability (no dead rubbers / extra time)."""
+    goal_scale = config.STAGE_GOAL_SCALE.get(stage, 1.0)
+    full90_p = config.STAGE_FULL90_P.get(stage, 0.70)
     parts, fixture_rows = [], []
     for fx in fixtures_r:
-        mu = mus[fx["match_id"]]
+        mu = {"mu_home": mus[fx["match_id"]]["mu_home"] * goal_scale,
+              "mu_away": mus[fx["match_id"]]["mu_away"] * goal_scale,
+              "source": mus[fx["match_id"]].get("source")}
         stadium = stadiums.get(fx["venue_id"])
         temp = temp_fn(stadium["lat"], stadium["lon"], fx["kickoff_utc"]) \
             if stadium and not stadium["indoor_ac"] else None
@@ -214,7 +231,7 @@ def project_round(players: pd.DataFrame, fixtures_r: list[dict], mus: dict[str, 
             if tp.empty:
                 continue
             mult = heat.heat_multiplier(temp, climate.get(fx[side], "temperate"), indoor)
-            part = _team_xp(tp, mu_t, mu_o, mult, player_odds, duties)
+            part = _team_xp(tp, mu_t, mu_o, mult, player_odds, duties, full90_p)
             part["opponent"] = fx[opp]
             part["venue"] = fx["venue_id"]
             part["apparent_temp"] = np.nan if temp is None else float(temp)
@@ -272,8 +289,9 @@ def project(players: pd.DataFrame, fixtures: list[dict], match_odds: dict | None
             if label == "after":
                 out["p_plays_after"] = 0.0
             continue
+        stage = config.STAGE_OF_ROUND.get(rnd, "group")
         fixtures_r = data_access.round_fixtures(fixtures, rnd)
-        proj = project_round(df, fixtures_r, mus, stadiums, climate, player_odds, temp_fn, duties)
+        proj = project_round(df, fixtures_r, mus, stadiums, climate, player_odds, temp_fn, duties, stage)
         raw = proj["xp"].reindex(out.index).astype(float).fillna(0.0)
         if label == "next":
             for col in ["xg", "xa", "heat_mult", "opponent", "venue", "apparent_temp"]:
@@ -281,11 +299,14 @@ def project(players: pd.DataFrame, fixtures: list[dict], match_odds: dict | None
             comps_next = proj.reindex(out.index).reindex(columns=component_cols).fillna(0.0)
             out["motm"] = comps_next["pts_motm"]
             out.attrs["fixtures_next"] = proj.attrs.get("fixtures", [])
-        if rnd > 3:  # knockout round with unknown pairings -> generic per-team match
+        if rnd > 3:  # knockout round with unknown pairings -> strength-aware generic tie
             covered = {fx["home"] for fx in fixtures_r} | {fx["away"] for fx in fixtures_r}
             generic = ~out["team"].isin(covered)
-            for _, tp in df[generic].groupby("team"):
-                g = _team_xp(tp, GENERIC_MU, GENERIC_MU, 1.0, player_odds, duties)
+            full90_p = config.STAGE_FULL90_P.get(stage, 0.82)
+            avg_s = (sum(strengths.values()) / len(strengths)) if strengths else 1.0
+            for team, tp in df[generic].groupby("team"):
+                mu_for, mu_against = _generic_ko_mu(team, strengths, avg_s)
+                g = _team_xp(tp, mu_for, mu_against, 1.0, player_odds, duties, full90_p)
                 raw.loc[g.index] = g["xp_base"] + config.MOTM_POINTS_PER_MATCH * g["w"] / max(g["w"].sum(), 1e-9) / 2
         per_match[label] = raw
 

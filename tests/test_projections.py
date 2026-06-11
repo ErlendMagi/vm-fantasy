@@ -78,6 +78,34 @@ def test_no_phantom_round_after_final():
     assert (proj["p_plays_after"] == 0).all()
 
 
+def test_stronger_team_better_in_generic_knockout():
+    from src import projections
+    strengths = {"Strong": 0.20, "Weak": 0.02}
+    avg = sum(strengths.values()) / 2
+    mu_for_s, mu_against_s = projections._generic_ko_mu("Strong", strengths, avg)
+    mu_for_w, mu_against_w = projections._generic_ko_mu("Weak", strengths, avg)
+    assert mu_for_s > mu_against_s          # strong team outscores its generic opponent
+    assert mu_for_w < mu_against_w          # weak team is outscored
+    assert mu_for_s > mu_for_w              # strong team scores more than the weak one
+
+
+def test_knockout_stage_lifts_clean_sheets():
+    """A defender's clean-sheet points should be higher in a knockout (tighter,
+    lower-scoring) than the same matchup scored as a group game."""
+    from src import config, projections
+    df = make_players()
+    df = projections.start_probabilities(df, [])
+    df["ppg"] = 0.0
+    brazil = df[df["team"] == "Brazil"]
+    grp = projections._team_xp(brazil, 1.6, 1.2, 1.0, {}, None,
+                               config.STAGE_FULL90_P["group"])
+    ko = projections._team_xp(brazil, 1.6 * config.STAGE_GOAL_SCALE["QF"],
+                              1.2 * config.STAGE_GOAL_SCALE["QF"], 1.0, {}, None,
+                              config.STAGE_FULL90_P["QF"])
+    dfn = brazil[brazil["position"] == "DEF"].index
+    assert (ko.loc[dfn, "pts_cs"] > grp.loc[dfn, "pts_cs"]).all()
+
+
 def test_generic_knockout_share_is_per_team():
     """With no concrete round-5 fixtures, each team's striker takes the capped
     share of HIS team's generic mu - not a share of a pooled all-teams attack."""

@@ -87,6 +87,17 @@ MAX_ASSIST_SHARE = {"FWD": 0.35, "MID": 0.40, "DEF": 0.25, "GK": 0.05}
 # ---------------------------------------------------------------- optimizer
 HIT_MARGIN = 2.0              # take a -4 hit only if extra gain > 4 + this margin
 
+# ---------------------------------------------------------------- stage effects
+# Fantasy round -> tournament stage. Knockouts are tighter and lower-scoring
+# (fewer goals -> fewer attacking points but MORE clean sheets, exp(-mu)),
+# and starters go the distance (no dead rubbers, extra time) so the MID/FWD
+# full-90 bonus is more reliable. Evidence: WC CS rate ~0.34 group -> ~0.42 KO.
+STAGE_OF_ROUND = {1: "group", 2: "group", 3: "group", 4: "R32", 5: "R16",
+                  6: "QF", 7: "SF", 8: "F"}
+STAGE_GOAL_SCALE = {"group": 1.00, "R32": 0.93, "R16": 0.90, "QF": 0.88, "SF": 0.86, "F": 0.85}
+STAGE_FULL90_P = {"group": 0.70, "R32": 0.82, "R16": 0.84, "QF": 0.86, "SF": 0.88, "F": 0.90}
+KNOCKOUT_BASE_MU = 1.15      # avg goals-per-team in a generic knockout tie (vs ~1.35 group)
+
 # ---------------------------------------------------------------- advancement
 MC_SIMS = 10_000
 KNOCKOUT_ROUNDS = ["R32", "R16", "QF", "SF", "F"]

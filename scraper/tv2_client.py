@@ -9,8 +9,6 @@ MonkeyBytes payload (run sync.py --dry-run and inspect data/tv2/*.json).
 import json
 from pathlib import Path
 
-from playwright.sync_api import sync_playwright
-
 ROOT = Path(__file__).resolve().parents[1]
 PROFILE = ROOT / "playwright-profile"
 ENDPOINTS_FILE = Path(__file__).parent / "endpoints.json"
@@ -48,6 +46,8 @@ class Tv2Client:
 
     def fetch_raw(self) -> dict[str, dict]:
         """GET every configured endpoint through the logged-in browser context."""
+        from playwright.sync_api import sync_playwright  # lazy: scraper-only dep
+
         raw = {}
         with sync_playwright() as p:
             ctx = p.chromium.launch_persistent_context(str(PROFILE), headless=True)
@@ -85,6 +85,26 @@ class Tv2Client:
                     return found
         return []
 
+    @staticmethod
+    def _normalize_round_points(raw) -> dict[str, int]:
+        """Accepts the three realistic shapes: {round: points} dict, list of
+        per-round dicts, or a scalar (ignored - no round attribution)."""
+        if isinstance(raw, dict):
+            return {str(k): int(v) for k, v in raw.items() if v is not None}
+        if isinstance(raw, list):
+            out = {}
+            for entry in raw:
+                if not isinstance(entry, dict):
+                    continue
+                rnd = next((entry[k] for k in ("round", "event", "gameweek", "matchday")
+                            if entry.get(k) is not None), None)
+                pts = next((entry[k] for k in ("points", "score", "total")
+                            if entry.get(k) is not None), None)
+                if rnd is not None and pts is not None:
+                    out[str(rnd)] = int(pts)
+            return out
+        return {}
+
     def normalize_players(self, payload) -> list[dict]:
         rows = self._find_player_list(payload)
         if not rows:
@@ -102,7 +122,7 @@ class Tv2Client:
                 "price": float(self._get(r, "price", 0)),
                 "ownership_pct": float(ownership) if ownership is not None else None,
                 "total_points": int(self._get(r, "total_points", 0) or 0),
-                "round_points": {str(k): int(v) for k, v in dict(points_by_round).items()},
+                "round_points": self._normalize_round_points(points_by_round),
                 "status": str(self._get(r, "status", "available")),
             })
         return out
@@ -111,7 +131,15 @@ class Tv2Client:
         """Best-effort - inspect data/tv2/my_team.json after a --dry-run and
         adjust to the real payload shape."""
         picks = payload.get("picks") or payload.get("squad") or payload.get("players") or []
-        squad = [str(p.get("id") or p.get("playerId") or p.get("element") or p) for p in picks]
+        squad = []
+        for p in picks:
+            if isinstance(p, dict):
+                pid = p.get("id") or p.get("playerId") or p.get("element")
+                if pid is None:
+                    raise ValueError(f"squad pick without a recognizable id key: {p}")
+                squad.append(str(pid))
+            else:
+                squad.append(str(p))  # plain id (int/string)
         return {
             "squad": squad,
             "starting_xi": squad[:11] if len(squad) >= 11 else squad,

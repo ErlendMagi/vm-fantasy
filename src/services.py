@@ -77,6 +77,8 @@ def render_banners(d: dict) -> None:
     if source == "seed":
         st.warning("⚠️ Running on **seed data** (estimated prices, no ownership). "
                    "Run the TV 2 sync to get real data: `python scraper/sync.py`")
+    if d["my_team"] is None:
+        st.error("No team data - run `python scraper/sync.py` (or `python scraper/manual_entry.py`) locally.")
     if meta.get("is_stale"):
         age = meta.get("age_hours")
         st.error(f"🕐 Data is stale ({age if age is not None else '?'}h old). "

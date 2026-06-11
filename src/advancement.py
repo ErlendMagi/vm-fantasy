@@ -45,8 +45,9 @@ def advancement_table(fixtures: list[dict], match_odds: dict | None,
     rng = np.random.default_rng(seed)
     group_matches = [m for m in fixtures if m.get("stage") == "group"]
     strengths = projections.team_strengths(outrights)
-    remaining = [m for m in group_matches if m.get("status") != "finished"]
-    mus = projections.fixture_mus(remaining, match_odds, strengths)
+    # mus over ALL group matches: a match flagged finished but missing a score
+    # (live-feed lag) must still be simulatable
+    mus = projections.fixture_mus(group_matches, match_odds, strengths)
 
     groups: dict[str, list[str]] = {}
     for m in group_matches:
@@ -64,7 +65,8 @@ def advancement_table(fixtures: list[dict], match_odds: dict | None,
         gf = np.zeros((n_sims, 4))
         for m in (x for x in group_matches if x["group"] == g):
             i, j = idx[m["home"]], idx[m["away"]]
-            if m.get("status") == "finished" and m.get("score_home") is not None:
+            if (m.get("status") == "finished"
+                    and m.get("score_home") is not None and m.get("score_away") is not None):
                 hg = np.full(n_sims, m["score_home"])
                 ag = np.full(n_sims, m["score_away"])
             else:

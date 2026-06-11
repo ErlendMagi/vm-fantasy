@@ -153,21 +153,27 @@ def project(players: pd.DataFrame, fixtures: list[dict], match_odds: dict | None
 
     out = df.copy()
     for label, rnd in [("next", next_rnd), ("after", next_rnd + 1)]:
+        if rnd > 8:  # tournament has no round 9 - the final is round 8
+            out[f"xp_{label}"] = 0.0
+            if label == "after":
+                out["p_plays_after"] = 0.0
+            continue
         fixtures_r = data_access.round_fixtures(fixtures, rnd)
         proj = project_round(df, fixtures_r, mus, stadiums, climate, temp_fn)
-        out[f"xp_{label}"] = proj["xp"].reindex(out.index).fillna(0.0)
+        out[f"xp_{label}"] = proj["xp"].reindex(out.index).astype(float).fillna(0.0)
         if label == "next":
             for col in ["heat_mult", "opponent", "venue", "apparent_temp"]:
                 out[col] = proj[col].reindex(out.index)
             out.attrs["fixtures_next"] = proj.attrs.get("fixtures", [])
         # teams alive but without a concrete fixture (unknown knockout pairing):
-        # generic average match, no heat adjustment
+        # generic average match per TEAM (not pooled), no heat adjustment
         if rnd > 3:
             covered = {fx["home"] for fx in fixtures_r} | {fx["away"] for fx in fixtures_r}
             generic = ~out["team"].isin(covered)
             if generic.any():
-                gen_proj = _team_attack_xp(df[generic], GENERIC_MU, GENERIC_MU, 1.0)
-                out.loc[generic, f"xp_{label}"] = gen_proj["xp"]
+                for _, team_players in df[generic].groupby("team"):
+                    gen_proj = _team_attack_xp(team_players, GENERIC_MU, GENERIC_MU, 1.0)
+                    out.loc[gen_proj.index, f"xp_{label}"] = gen_proj["xp"]
         alive = out["team"].map(lambda t, r=rnd: p_plays.get((t, r), 1.0))
         out[f"xp_{label}"] = out[f"xp_{label}"] * alive
         if label == "next":

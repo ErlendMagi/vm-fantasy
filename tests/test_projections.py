@@ -47,3 +47,27 @@ def test_heat_multiplier_applied_by_climate(proj):
 
 def test_horizon_blends_two_rounds(proj):
     assert (proj["xp_horizon"] >= proj["xp_next"] * 0.99).all()  # group stage: p_alive=1
+
+
+def test_no_phantom_round_after_final():
+    """next round 8 (final + 3rd place) has no round 9 - xp_after must be 0."""
+    players = data_access.load_players()
+    fixtures = data_access.load_fixtures()
+    proj = projections.project(players, fixtures, None, None, [], 8, {}, temp_fn=hot_everywhere)
+    assert (proj["xp_after"] == 0).all()
+    assert (proj["p_plays_after"] == 0).all()
+
+
+def test_generic_knockout_share_is_per_team():
+    """With no concrete round-5 fixtures, a team's sole striker takes the
+    capped share of HIS team's generic mu - not a share of a pooled
+    all-teams attack."""
+    players = data_access.load_players()
+    fixtures = [m for m in data_access.load_fixtures() if m["stage"] == "group"]
+    proj = projections.project(players, fixtures, None, None, [], 5, {}, temp_fn=hot_everywhere)
+    by_name = proj.set_index("name")
+    # Mbappe (France's only listed FWD) and Kane (England's only listed FWD)
+    # have equal prices and should project nearly identically in a generic
+    # match (small spread from team-composition assist shares is fine)
+    assert by_name.loc["Mbappe", "xp_next"] == pytest.approx(by_name.loc["Kane", "xp_next"], abs=0.8)
+    assert by_name.loc["Mbappe", "xp_next"] > 2.0  # not diluted into a 48-team pool

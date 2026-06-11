@@ -34,7 +34,9 @@ def fetch_json(url: str, params: dict | None = None, timeout: int = 20,
 
 def _fetch_via_powershell(url: str, params: dict | None, timeout: int) -> tuple[dict | list | None, dict]:
     full = url + ("?" + urlencode(params) if params else "")
+    full = full.replace("'", "''")  # PS single-quote escape: closes the injection sink
     ps = (
+        "[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;"
         "$ProgressPreference='SilentlyContinue';"
         "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12;"
         f"$r = Invoke-WebRequest -UseBasicParsing -Uri '{full}' -TimeoutSec {timeout};"
@@ -44,9 +46,10 @@ def _fetch_via_powershell(url: str, params: dict | None, timeout: int) -> tuple[
     try:
         out = subprocess.run(
             ["powershell", "-NoProfile", "-NonInteractive", "-Command", ps],
-            capture_output=True, text=True, timeout=timeout + 15, encoding="utf-8",
+            capture_output=True, text=True, timeout=timeout + 15,
+            encoding="utf-8", errors="replace",
         )
-        if out.returncode != 0 or not out.stdout.strip():
+        if out.returncode != 0 or not out.stdout or not out.stdout.strip():
             return None, {}
         wrapper = json.loads(out.stdout)
         if wrapper.get("status") != 200:

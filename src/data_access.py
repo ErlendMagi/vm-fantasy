@@ -83,9 +83,10 @@ def load_fixtures() -> list[dict]:
     data = _read_json(config.TV2_DIR / "fixtures.json") or _read_json(config.STATIC_DIR / "fixtures_fallback.json")
     fixtures = data["matches"]
     for m in fixtures:
-        if m.get("stage") == "group":
-            m["home"] = normalize_team(m["home"])
-            m["away"] = normalize_team(m["away"])
+        # knockout placeholders ("Winner Group A") pass through unchanged -
+        # normalize_team returns unknown names as-is
+        m["home"] = normalize_team(m["home"])
+        m["away"] = normalize_team(m["away"])
     return fixtures
 
 

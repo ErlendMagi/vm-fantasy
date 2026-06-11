@@ -1,9 +1,10 @@
-"""The 'consensus' team: most-owned legal squad, and my-team-vs-template frames.
+"""The 'consensus' team: most-owned squad, and my-team-vs-template frames.
 
-Template definition (a modeling choice, shown in the app): top-2 GK, top-5 DEF,
-top-5 MID, top-3 FWD by current ownership; XI = most-owned legal formation;
-captain = most-owned player in the XI. Historical rounds are scored with the
-players' actual round points (ownership is today's snapshot - documented bias).
+Template definition (a modeling choice, shown in the app): per position, the
+most-owned players (2 GK / 5 DEF / 5 MID / 3 FWD) respecting the per-country
+cap; XI = most-owned legal formation; captain = most-owned player in the XI.
+Budget is NOT enforced. Historical rounds are scored with the players' actual
+round points (ownership is today's snapshot - documented bias).
 """
 import pandas as pd
 
@@ -13,13 +14,21 @@ from src import config, optimizer
 def template_squad(players: pd.DataFrame) -> pd.DataFrame | None:
     if players["ownership_pct"].isna().all():
         return None
-    parts = [
-        players[players["position"] == pos]
-        .sort_values(["ownership_pct", "total_points"], ascending=False)
-        .head(n)
-        for pos, n in config.SQUAD_SHAPE.items()
-    ]
-    squad = pd.concat(parts)
+    team_counts: dict[str, int] = {}
+    picked: list[str] = []
+    for pos, n in config.SQUAD_SHAPE.items():
+        cands = players[players["position"] == pos].sort_values(
+            ["ownership_pct", "total_points"], ascending=False)
+        taken = 0
+        for pid, row in cands.iterrows():
+            if taken >= n:
+                break
+            if team_counts.get(row["team"], 0) >= config.MAX_PER_TEAM:
+                continue
+            picked.append(pid)
+            team_counts[row["team"]] = team_counts.get(row["team"], 0) + 1
+            taken += 1
+    squad = players.loc[picked]
     return squad if len(squad) == config.SQUAD_SIZE else None
 
 
@@ -73,7 +82,7 @@ def differentials(players: pd.DataFrame, my_squad_ids: list[str]) -> tuple[pd.Da
                         "total_points", "xp_next", "xp_horizon"] if c in players.columns]
     mine = set(my_squad_ids)
     tmpl = set(template.index)
-    mine_only = players.loc[sorted(mine - tmpl, key=lambda i: -players.loc[i].get("ownership_pct") or 0)][cols] \
+    mine_only = players.loc[list(mine - tmpl)][cols].sort_values("ownership_pct", ascending=False) \
         if mine - tmpl else players.head(0)[cols]
     tmpl_only = players.loc[list(tmpl - mine)][cols].sort_values("ownership_pct", ascending=False) \
         if tmpl - mine else players.head(0)[cols]

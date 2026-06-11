@@ -15,6 +15,7 @@ import argparse
 import json
 import os
 import sys
+from collections import Counter
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -51,7 +52,11 @@ def _find_sport_keys(key: str) -> tuple[str | None, str | None]:
     match_key = outright_key = None
     for s in sports:
         k = s["key"]
-        if "world_cup" not in k or "women" in k:
+        # strictly the men's FIFA World Cup - not cricket/rugby world cups,
+        # the Club World Cup, qualifiers or youth tournaments
+        if not k.startswith("soccer_fifa_world_cup"):
+            continue
+        if any(bad in k for bad in ("women", "club", "qualifier", "u20", "u17")):
             continue
         if s.get("has_outrights") or k.endswith("_winner"):
             outright_key = outright_key or k
@@ -76,6 +81,32 @@ def _best_price(bookmakers: list, market_key: str, outcome_name: str) -> float |
     return prices[len(prices) // 2]
 
 
+def _totals_consensus(bookmakers: list) -> dict | None:
+    """Modal totals line across bookmakers, with over/under medians taken ONLY
+    from bookmakers quoting that line (mixing prices across different lines
+    would corrupt the odds->xG fit)."""
+    quotes = []  # one (point, over, under) per bookmaker
+    for bm in bookmakers:
+        for market in bm.get("markets", []):
+            if market["key"] != "totals":
+                continue
+            point = over = under = None
+            for o in market["outcomes"]:
+                if o["name"] == "Over":
+                    over, point = o.get("price"), o.get("point", point)
+                elif o["name"] == "Under":
+                    under, point = o.get("price"), o.get("point", point)
+            if point is not None and over and under:
+                quotes.append((point, over, under))
+            break  # first totals market per bookmaker
+    if not quotes:
+        return None
+    line = Counter(q[0] for q in quotes).most_common(1)[0][0]
+    overs = sorted(q[1] for q in quotes if q[0] == line)
+    unders = sorted(q[2] for q in quotes if q[0] == line)
+    return {"line": line, "over": overs[len(overs) // 2], "under": unders[len(unders) // 2]}
+
+
 def fetch_match_odds(key: str, sport_key: str) -> dict:
     events, headers = fetch_json(f"{API}/sports/{sport_key}/odds", params={
         "apiKey": key, "regions": "eu", "markets": "h2h,totals", "oddsFormat": "decimal",
@@ -93,19 +124,7 @@ def fetch_match_odds(key: str, sport_key: str) -> dict:
             "draw": _best_price(bms, "h2h", "Draw"),
             "away": _best_price(bms, "h2h", ev["away_team"]),
         }
-        totals = None
-        for bm in bms:  # find the most common totals line
-            for market in bm.get("markets", []):
-                if market["key"] == "totals" and market["outcomes"]:
-                    line = market["outcomes"][0].get("point", 2.5)
-                    totals = {
-                        "line": line,
-                        "over": _best_price(bms, "totals", "Over"),
-                        "under": _best_price(bms, "totals", "Under"),
-                    }
-                    break
-            if totals:
-                break
+        totals = _totals_consensus(bms)
         if all(h2h.values()):
             matches.append({"home": home, "away": away,
                             "kickoff_utc": ev["commence_time"], "h2h": h2h, "totals": totals})
@@ -152,6 +171,8 @@ def main() -> None:
     odds_dir.mkdir(parents=True, exist_ok=True)
 
     data = fetch_match_odds(key, match_key)
+    if not data["matches"]:
+        sys.exit(f"0 usable matches from '{match_key}' - refusing to overwrite the existing snapshot")
     (odds_dir / "match_odds.json").write_text(json.dumps(data, indent=1), encoding="utf-8")
     print(f"match odds: {len(data['matches'])} matches, credits remaining: {data['credits_remaining']}")
 
@@ -160,6 +181,8 @@ def main() -> None:
             print("no outright sport key found - skipping")
         else:
             data = fetch_outrights(key, outright_key)
+            if not data["prices"]:
+                sys.exit(f"0 outright prices from '{outright_key}' - refusing to overwrite the existing snapshot")
             (odds_dir / "outrights.json").write_text(json.dumps(data, indent=1), encoding="utf-8")
             print(f"outrights: {len(data['prices'])} teams, credits remaining: {data['credits_remaining']}")
 

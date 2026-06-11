@@ -76,3 +76,47 @@ def test_zero_transfer_baseline_present():
     squad = list(players.index[:15])
     plans = optimizer.transfer_plans(players, squad, bank=0.0)
     assert any(p["n_transfers"] == 0 and p["net_gain"] == 0.0 for p in plans)
+
+
+def test_no_duplicate_plans():
+    players = make_players()
+    # add a second strong MID so same-position double swaps are attractive
+    extra = players.iloc[[players.index.get_loc("mid_up")]].copy()
+    extra["id"] = "mid_up2"
+    extra["xp_next"] = extra["xp_horizon"] = 5.8
+    extra["team"] = "T25"
+    extra.index = ["mid_up2"]
+    players = pd.concat([players, extra])
+    plans = optimizer.transfer_plans(players, list(players.index[:15]), bank=3.0)
+    keys = [(frozenset(p["out_ids"]), frozenset(p["in_ids"])) for p in plans]
+    assert len(keys) == len(set(keys)), "duplicate squads in the plan list"
+
+
+def test_cannot_buy_into_team_at_cap():
+    import pandas as pd
+    rows = []
+
+    def add(pid, pos, team, price, xp):
+        rows.append({"id": pid, "name": pid, "team": team, "position": pos,
+                     "price": price, "xp_next": xp, "xp_horizon": xp, "status": "available"})
+
+    # legal squad already holding 3 from BRA
+    add("gk1", "GK", "T1", 5.0, 4.0); add("gk2", "GK", "T2", 4.0, 2.0)
+    add("d0", "DEF", "BRA", 5.0, 3.0); add("d1", "DEF", "BRA", 5.0, 3.0)
+    for i in range(2, 5):
+        add(f"d{i}", "DEF", f"T{i+3}", 5.0, 3.0)
+    add("m0", "MID", "BRA", 7.0, 1.0)
+    for i in range(1, 5):
+        add(f"m{i}", "MID", f"T{i+8}", 7.0, 4.0)
+    add("f0", "FWD", "T13", 9.0, 5.0); add("f1", "FWD", "T14", 8.0, 4.5); add("f2", "FWD", "T15", 7.0, 3.0)
+    add("bra_star", "MID", "BRA", 7.0, 9.9)   # tempting, but BRA is at the cap
+    add("other_mid", "MID", "T30", 7.0, 6.0)
+    players = pd.DataFrame(rows).set_index("id", drop=False)
+    plans = optimizer.transfer_plans(players, list(players.index[:15]), bank=5.0)
+    for p in plans:
+        in_teams = [t for _, t in p["ins"]]
+        out_teams = [t for _, t in p["outs"]]
+        # buying a Brazilian is only legal if a Brazilian also leaves AND the
+        # result stays within the cap of 3 - here that means swap m0 -> bra_star
+        if "BRA" in in_teams:
+            assert "BRA" in out_teams

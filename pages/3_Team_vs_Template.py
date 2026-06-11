@@ -18,8 +18,9 @@ if template is None:
             "real TV 2 sync. Run `python scraper/sync.py` once the scraper is configured.")
     st.stop()
 
-st.caption("Template = most-owned legal squad right now (today's ownership snapshot applied to past "
-           "rounds — a small bias, documented on purpose). Captain = most-owned XI player.")
+st.caption("Template = most-owned squad right now, respecting the per-country cap (budget not "
+           "enforced; today's ownership snapshot applied to past rounds — a small bias, documented "
+           "on purpose). Captain = most-owned XI player.")
 
 
 def round_matrix(squad: pd.DataFrame) -> pd.DataFrame:

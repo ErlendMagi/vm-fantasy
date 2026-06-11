@@ -47,5 +47,6 @@ def apparent_temp_at_kickoff(lat: float, lon: float, kickoff_utc: str) -> float 
                 result = round(sum(window) / len(window), 1)
     except (KeyError, ValueError, TypeError):
         result = None
-    _cache[key] = result
+    if result is not None:  # don't cache failures - retry on the next compute
+        _cache[key] = result
     return result

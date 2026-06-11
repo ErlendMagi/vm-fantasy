@@ -48,3 +48,26 @@ def test_p_plays_lookup_group_rounds_always_one(adv):
     assert lookup[("Norway", 3)] == 1.0
     assert lookup[("Norway", 4)] == pytest.approx(adv.loc["Norway", "R32"])
     assert lookup[("Spain", 8)] == pytest.approx(adv.loc["Spain", "SF"])
+
+
+def test_finished_match_with_partial_score_does_not_crash():
+    """Live feeds may flip status to finished before scores propagate."""
+    fixtures = [dict(m) for m in FIXTURES]
+    broken = next(m for m in fixtures if m["stage"] == "group")
+    broken["status"] = "finished"
+    broken["score_home"], broken["score_away"] = 2, None
+    adv = advancement.advancement_table(fixtures, None, OUTRIGHTS, n_sims=1000)
+    assert adv["R32"].sum() == pytest.approx(32.0, abs=1.2)
+
+
+def test_fully_finished_match_is_deterministic():
+    fixtures = [dict(m) for m in FIXTURES]
+    done = next(m for m in fixtures if m["stage"] == "group" and "Norway" in (m["home"], m["away"]))
+    done["status"] = "finished"
+    if done["home"] == "Norway":
+        done["score_home"], done["score_away"] = 5, 0   # huge Norway win
+    else:
+        done["score_home"], done["score_away"] = 0, 5
+    base = advancement.advancement_table(FIXTURES, None, OUTRIGHTS, n_sims=2000)
+    boosted = advancement.advancement_table(fixtures, None, OUTRIGHTS, n_sims=2000)
+    assert boosted.loc["Norway", "R32"] > base.loc["Norway", "R32"]

@@ -51,7 +51,7 @@ def main() -> None:
             continue
         squad.append(pid)
 
-    captain = pick_player(players, "captain name: ")
+    captain = pick_player(players.loc[squad], "captain name: ")  # captain must be in the squad
     bank = float(input("bank (money left, e.g. 0.5): ").strip() or 0)
     free = int(input("free transfers available (default 2): ").strip() or 2)
 

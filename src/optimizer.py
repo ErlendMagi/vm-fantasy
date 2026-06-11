@@ -114,7 +114,9 @@ def transfer_plans(players: pd.DataFrame, my_squad_ids: list[str], bank: float,
         for i in ins:
             team = info[i][3]
             counts[team] = counts.get(team, 0) + 1
-            if counts[team] > max(config.MAX_PER_TEAM, int(current_counts.get(team, 0))):
+            # any team you buy INTO must end within the cap; teams not receiving
+            # an "in" are never checked, so existing excess stays grandfathered
+            if counts[team] > config.MAX_PER_TEAM:
                 return None
         new_ids = [pid for pid in owned_ids if pid not in outs] + ins
         value = _fast_squad_value(new_ids, info)
@@ -142,14 +144,16 @@ def transfer_plans(players: pd.DataFrame, my_squad_ids: list[str], bank: float,
 
     for out_a, out_b in combinations(owned.index, 2):
         pos_a, pos_b = owned.loc[out_a, "position"], owned.loc[out_b, "position"]
-        cands_a, cands_b = shortlist[pos_a].index, shortlist[pos_b].index
-        for in_a in cands_a:
-            for in_b in cands_b:
-                if in_a == in_b:
-                    continue
-                plan = evaluate([out_a, out_b], [in_a, in_b])
-                if plan:
-                    plans.append(plan)
+        if pos_a == pos_b:
+            # which "in" replaces which "out" is irrelevant for same-position
+            # swaps - unordered pairs avoid duplicate plans
+            in_pairs = combinations(shortlist[pos_a].index, 2)
+        else:
+            in_pairs = ((ia, ib) for ia in shortlist[pos_a].index for ib in shortlist[pos_b].index)
+        for in_a, in_b in in_pairs:
+            plan = evaluate([out_a, out_b], [in_a, in_b])
+            if plan:
+                plans.append(plan)
 
     plans.sort(key=lambda p: p["net_gain"], reverse=True)
 

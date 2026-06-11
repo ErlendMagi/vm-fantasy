@@ -8,7 +8,7 @@ from src import optimizer, services, template_team
 d = services.get_data()
 st.title("⚽ VM Fantasy Companion")
 services.render_banners(d)
-if d["players"] is None or d["proj"] is None:
+if d["players"] is None or d["proj"] is None or d["my_team"] is None:
     st.stop()
 
 proj, my = d["proj"], d["my_team"]

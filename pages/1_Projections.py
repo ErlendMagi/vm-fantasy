@@ -44,7 +44,7 @@ st.dataframe(
         "xp_next": st.column_config.NumberColumn("xP next", format="%.2f"),
         "xp_after": st.column_config.NumberColumn("xP after", format="%.2f"),
         "xp_horizon": st.column_config.NumberColumn("xP horizon", format="%.2f"),
-        "p_plays_after": st.column_config.NumberColumn("P(plays next+1)", format="%.0f%%"),
+        "p_plays_after": st.column_config.NumberColumn("P(plays next+1)", format="percent"),
     },
     hide_index=True, width="stretch", height=600,
 )

@@ -28,11 +28,25 @@ def validate(players: list[dict], my_team: dict) -> list[str]:
     if len(players) < 400:
         errors.append(f"only {len(players)} players (expected 400+) - partial payload?")
     ids = {p["id"] for p in players}
+    if len(ids) != len(players):
+        errors.append(f"{len(players) - len(ids)} duplicate player ids in payload")
+    if any(not p.get("name") for p in players):
+        errors.append("players with empty names")
     missing = [pid for pid in my_team["squad"] if pid not in ids]
     if len(my_team["squad"]) != config.SQUAD_SIZE:
         errors.append(f"squad has {len(my_team['squad'])} ids (expected {config.SQUAD_SIZE})")
+    if len(set(my_team["squad"])) != len(my_team["squad"]):
+        errors.append("duplicate ids in squad")
     if missing:
         errors.append(f"squad ids not in player list: {missing}")
+    else:
+        by_id = {p["id"]: p for p in players}
+        shape: dict[str, int] = {}
+        for pid in my_team["squad"]:
+            pos = by_id[pid]["position"]
+            shape[pos] = shape.get(pos, 0) + 1
+        if shape != config.SQUAD_SHAPE:
+            errors.append(f"squad shape {shape} != expected {config.SQUAD_SHAPE}")
     bad_own = [p["name"] for p in players
                if p["ownership_pct"] is not None and not 0 <= p["ownership_pct"] <= 100]
     if bad_own:
@@ -86,8 +100,12 @@ def main() -> None:
     if "fixtures" in raw:
         # fixtures normalization depends on the discovered payload shape; until
         # then the app falls back to data/static/fixtures_fallback.json
-        (tv2 / "fixtures_raw.json").write_text(
-            json.dumps(raw["fixtures"], indent=1, ensure_ascii=False)[:2_000_000], encoding="utf-8")
+        dump = json.dumps(raw["fixtures"], indent=1, ensure_ascii=False)
+        if len(dump) <= 2_000_000:
+            (tv2 / "fixtures_raw.json").write_text(dump, encoding="utf-8")
+        else:
+            print(f"fixtures payload too large ({len(dump)} chars) - skipped fixtures_raw.json",
+                  file=sys.stderr)
     (tv2 / "meta.json").write_text(json.dumps({
         "last_synced": now,
         "scraper_mode": "xhr",
@@ -95,16 +113,22 @@ def main() -> None:
     }, indent=1), encoding="utf-8")
     print(f"wrote {len(players)} players, squad of {len(my_team['squad'])}")
 
+    odds_refreshed = False
     if not args.skip_odds:
         cmd = [sys.executable, str(ROOT / "scraper" / "refresh_odds.py")]
         if args.outrights:
             cmd.append("--outrights")
-        subprocess.run(cmd, check=True)
+        odds_refreshed = subprocess.run(cmd).returncode == 0
+        if not odds_refreshed:
+            print("WARNING: odds refresh failed - committing TV 2 data only", file=sys.stderr)
 
     if args.dry_run:
         print("dry run - skipping git")
         return
-    git("add", "data/")
+    # stage only what this run produced and validated - never the whole data/ tree
+    git("add", "data/tv2")
+    if odds_refreshed:
+        git("add", "data/odds")
     result = subprocess.run(["git", "diff", "--cached", "--quiet"], cwd=ROOT)
     if result.returncode == 0:
         print("no data changes - nothing to commit")

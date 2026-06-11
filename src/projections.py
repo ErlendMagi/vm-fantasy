@@ -22,7 +22,7 @@ import math
 import numpy as np
 import pandas as pd
 
-from src import config, data_access, heat, poisson_fit, weather
+from src import config, data_access, heat, player_profile, poisson_fit, weather
 
 STARTER_SLOTS = {"GK": 1, "DEF": 4, "MID": 4, "FWD": 2}
 GENERIC_MU = 1.3            # knockout fixture vs an unknown average opponent
@@ -148,22 +148,25 @@ def _team_xp(df: pd.DataFrame, mu_team: float, mu_opp: float, multiplier: float,
     is_gk = (df["position"] == "GK").astype(float)
     gk_saves = is_gk * (2.5 + 0.85 * mu_opp) / 3.0 * s["save_per3"] * df["p_start"]
 
-    xp_base = (
-        df["p_play"] * s["appearance"]
-        + df["p_start"] * s["sixty_minutes"]
-        + full_match
-        + multiplier * (xg * goal_pts + xa * s["assist"])
-        + p_cs * df["p_start"] * cs_pts
-        - df["p_start"] * concede
-        + gk_saves
-        - s["flat_negative_tax"]
-    )
+    # per-component expected points (so value is transparently more than goals)
+    pts_appear = df["p_play"] * s["appearance"] + df["p_start"] * s["sixty_minutes"] + full_match
+    pts_goals = multiplier * xg * goal_pts
+    pts_assists = multiplier * xa * s["assist"]
+    pts_cs = p_cs * df["p_start"] * cs_pts
+    pts_concede = -df["p_start"] * concede
+    pts_saves = gk_saves
+    pts_tax = pd.Series(-s["flat_negative_tax"], index=df.index)
+    xp_base = pts_appear + pts_goals + pts_assists + pts_cs + pts_concede + pts_saves + pts_tax
+
     # standout weight ~ what wins a high match rating: dominated by attacking
     # output (goals/assists), small per-position prior, GK clean-sheet heroics
     prior = df["position"].map(config.MOTM_POSITION_PRIOR)
     w = 3.0 * xg + 2.0 * xa + prior * df["p_start"] + 0.4 * p_cs * df["p_start"] * is_gk
-    return pd.DataFrame({"xp_base": xp_base, "xg": xg, "xa": xa, "p_cs": p_cs,
-                         "heat_mult": multiplier, "w": w})
+    return pd.DataFrame({
+        "xp_base": xp_base, "xg": xg, "xa": xa, "p_cs": p_cs, "heat_mult": multiplier, "w": w,
+        "pts_appear": pts_appear, "pts_goals": pts_goals, "pts_assists": pts_assists,
+        "pts_cs": pts_cs, "pts_concede": pts_concede, "pts_saves": pts_saves,
+    })
 
 
 def _win_probs(mu_h: float, mu_a: float) -> tuple[float, float]:
@@ -206,12 +209,13 @@ def project_round(players: pd.DataFrame, fixtures_r: list[dict], mus: dict[str, 
             motm = (config.MOTM_POINTS_PER_MATCH * match["w"] * match["_rf"] / denom) if denom > 0 \
                 else match["w"] * 0.0
             match["xp"] = match["xp_base"] + motm
-            match["motm"] = motm
+            match["pts_motm"] = motm
             parts.append(match.drop(columns=["_rf"]))
         fixture_rows.append({**fx, **mu, "apparent_temp": temp, "indoor_ac": indoor,
                              "p_home_win": p_home, "p_away_win": p_away})
 
-    cols = ["xp", "xp_base", "motm", "xg", "xa", "p_cs", "heat_mult", "opponent", "venue", "apparent_temp"]
+    cols = ["xp", "xp_base", "pts_motm", "xg", "xa", "p_cs", "heat_mult", "opponent", "venue",
+            "apparent_temp", "pts_appear", "pts_goals", "pts_assists", "pts_cs", "pts_concede", "pts_saves"]
     if not parts:
         return pd.DataFrame(columns=cols)
     result = pd.concat(parts)
@@ -236,8 +240,10 @@ def project(players: pd.DataFrame, fixtures: list[dict], match_odds: dict | None
     df["ppg"] = df["total_points"] / max(1, len(completed))
     p_plays = p_plays or {}
 
+    component_cols = ["pts_appear", "pts_goals", "pts_assists", "pts_cs", "pts_concede",
+                      "pts_saves", "pts_motm"]
     out = df.copy()
-    per_match = {}
+    per_match, comps_next = {}, None
     for label, rnd in [("next", next_rnd), ("after", next_rnd + 1)]:
         if rnd > 8:
             out[f"xp_{label}"] = 0.0
@@ -249,8 +255,10 @@ def project(players: pd.DataFrame, fixtures: list[dict], match_odds: dict | None
         proj = project_round(df, fixtures_r, mus, stadiums, climate, player_odds, temp_fn)
         raw = proj["xp"].reindex(out.index).astype(float).fillna(0.0)
         if label == "next":
-            for col in ["xg", "xa", "motm", "heat_mult", "opponent", "venue", "apparent_temp"]:
+            for col in ["xg", "xa", "heat_mult", "opponent", "venue", "apparent_temp"]:
                 out[col] = proj[col].reindex(out.index)
+            comps_next = proj.reindex(out.index).reindex(columns=component_cols).fillna(0.0)
+            out["motm"] = comps_next["pts_motm"]
             out.attrs["fixtures_next"] = proj.attrs.get("fixtures", [])
         if rnd > 3:  # knockout round with unknown pairings -> generic per-team match
             covered = {fx["home"] for fx in fixtures_r} | {fx["away"] for fx in fixtures_r}
@@ -259,8 +267,22 @@ def project(players: pd.DataFrame, fixtures: list[dict], match_odds: dict | None
                 g = _team_xp(tp, GENERIC_MU, GENERIC_MU, 1.0, player_odds)
                 raw.loc[g.index] = g["xp_base"] + config.MOTM_POINTS_PER_MATCH * g["w"] / max(g["w"].sum(), 1e-9) / 2
         per_match[label] = raw
-        alive = out["team"].map(lambda t, r=rnd: p_plays.get((t, r), 1.0))
-        out[f"xp_{label}"] = raw * alive
+
+    # dynamic form: blend the odds prior with observed fantasy points so far
+    prior_ppm = (per_match["next"] + per_match["after"]) / 2.0
+    form = player_profile.form_multiplier(df, completed, prior_ppm)
+    out["form_mult"] = form
+    for label in ("next", "after"):
+        per_match[label] = per_match[label] * form
+    if comps_next is not None:
+        comps_next = comps_next.mul(form, axis=0)
+        for col in component_cols:
+            out[col] = comps_next[col]
+
+    for label, rnd in [("next", next_rnd), ("after", next_rnd + 1)]:
+        alive = out["team"].map(lambda t, r=rnd: p_plays.get((t, r), 1.0)) if rnd <= 8 \
+            else pd.Series(0.0, index=out.index)
+        out[f"xp_{label}"] = per_match[label] * alive
         out[f"p_plays_{label}"] = alive
 
     w1, w2 = config.HORIZON_WEIGHTS

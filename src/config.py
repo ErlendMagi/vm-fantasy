@@ -65,6 +65,10 @@ HORIZON_WEIGHTS = [1.0, 0.6]  # next round, round after (x p_alive)
 TOURNAMENT_DECAY = 0.92       # mild per-round discount on top of survival odds
 FALLBACK_MU_TOTAL = 2.6       # league-average total goals when no totals market
 ASSISTED_GOAL_SHARE = 0.75    # share of goals that yield an assist
+# Dynamic form: after g games, observed points get weight g/(g+K). Short
+# tournament -> modest K so 1-2 strong games move the needle without dominating.
+FORM_SHRINKAGE_K = 2.5
+FORM_MULT_BOUNDS = (0.75, 1.35)  # form can't swing a projection more than this
 POSITION_GOAL_FACTOR = {"FWD": 1.0, "MID": 0.5, "DEF": 0.15, "GK": 0.0}
 POSITION_ASSIST_FACTOR = {"FWD": 0.6, "MID": 1.0, "DEF": 0.35, "GK": 0.05}
 PRICE_INVOLVEMENT_EXP = 1.5   # weight ~ price^exp: stars take bigger attacking share

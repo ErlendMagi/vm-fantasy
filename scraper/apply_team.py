@@ -39,29 +39,32 @@ def build_target(value_col: str) -> dict:
     proj = projections.project(players, fixtures, mo, ou,
                                data_access.completed_rounds(fixtures), nr, pp)
     res = squad_builder.build_optimal_squad(proj, value_col=value_col)
-    xi = optimizer.best_xi(proj.loc[res["squad_ids"]], "xp_next")
+    return {**compose_lineup(proj, res["squad_ids"]), "proj": proj, "res": res}
+
+
+def compose_lineup(proj, squad_ids: list[str]) -> dict:
+    """Best XI + captain/vice + ordered bench for a given 15 - the full write
+    payload fields. Shared by apply_team and autopilot."""
+    xi = optimizer.best_xi(proj.loc[squad_ids], "xp_next")
     starters = xi["xi_ids"]
-    bench = [p for p in res["squad_ids"] if p not in starters]
+    bench = [p for p in squad_ids if p not in starters]
     # bench order: backup GK first, then outfield by descending next-round xP
     bench.sort(key=lambda i: (proj.loc[i, "position"] != "GK", -proj.loc[i, "xp_next"]))
     xi_by_xp = proj.loc[starters].sort_values("xp_next", ascending=False)
-    d_, m_, f_ = (int(x) for x in xi["formation"].split("-"))
     return {
-        "proj": proj,
-        "playerIds": res["squad_ids"],
+        "playerIds": squad_ids,
         "starterIds": starters,
         "benchIds": bench,
         "captainId": xi["captain_id"],
         "viceCaptainId": xi_by_xp.index[1],
-        "formation": f"{d_}-{m_}-{f_}",
-        "res": res,
+        "formation": xi["formation"],
     }
 
 
-def _print_team(t: dict) -> None:
-    proj = t["proj"]
-    print(f"\nOptimal squad — {t['res']['price']}/{config.BUDGET:.0f}M, formation {t['formation']}, "
-          f"captain {proj.loc[t['captainId'], 'name']}, model value {t['res']['value']}")
+def print_team(t: dict, proj) -> None:
+    price = float(proj.loc[t["playerIds"], "price"].sum())
+    print(f"\nSquad - {price:.1f}/{config.BUDGET:.0f}M, formation {t['formation']}, "
+          f"captain {proj.loc[t['captainId'], 'name']}")
     for pid in t["starterIds"] + t["benchIds"]:
         r = proj.loc[pid]
         tag = "C" if pid == t["captainId"] else ("V" if pid == t["viceCaptainId"] else
@@ -78,12 +81,15 @@ def _payload(t: dict, round_id: str) -> dict:
     }
 
 
-def _apply_and_verify(t: dict) -> None:
+def apply_and_verify(t: dict, round_id: str | None = None) -> None:
+    """PUT the squad to TV 2 and verify. round_id defaults to the active round
+    (pre-lock); autopilot passes transfer-info's targetRound for correctness
+    around deadline locks."""
     token = os.environ.get("TV2_TOKEN")
     if token:
-        _apply_with_requests(t, token)
+        _apply_with_requests(t, token, round_id)
     else:
-        _apply_with_browser(t)
+        _apply_with_browser(t, round_id)
 
 
 def _verify(applied_ids, target_ids) -> None:
@@ -92,10 +98,11 @@ def _verify(applied_ids, target_ids) -> None:
     print(f"\nVERIFIED: all {len(target_ids)} players set correctly on TV 2.")
 
 
-def _apply_with_requests(t: dict, token: str) -> None:
+def _apply_with_requests(t: dict, token: str, round_id: str | None = None) -> None:
     import requests
     h = {"Authorization": f"Bearer {token}", "Content-Type": "application/json"}
-    rid = requests.get(f"{API}/tournaments/{TID}/active-round", headers=h, timeout=30).json()["round"]["id"]
+    rid = round_id or requests.get(f"{API}/tournaments/{TID}/active-round",
+                                   headers=h, timeout=30).json()["round"]["id"]
     r = requests.put(f"{API}/squad/update", params={"tournamentId": TID},
                      json=_payload(t, rid), headers=h, timeout=30)
     if not r.ok:
@@ -104,7 +111,7 @@ def _apply_with_requests(t: dict, token: str) -> None:
     _verify([p["playerId"] for p in full["players"]], t["playerIds"])
 
 
-def _apply_with_browser(t: dict) -> None:
+def _apply_with_browser(t: dict, round_id: str | None = None) -> None:
     from playwright.sync_api import sync_playwright
     profile = ROOT / "playwright-profile"
     with sync_playwright() as p:
@@ -115,7 +122,8 @@ def _apply_with_browser(t: dict) -> None:
                 if rq.headers.get("authorization") and "railway.app" in rq.url else None)
         page.goto("https://vmfantasy.tv2.no/", wait_until="networkidle")
         auth = {"Authorization": cap.get("auth"), "Content-Type": "application/json"}
-        rid = ctx.request.get(f"{API}/tournaments/{TID}/active-round", headers=auth).json()["round"]["id"]
+        rid = round_id or ctx.request.get(f"{API}/tournaments/{TID}/active-round",
+                                          headers=auth).json()["round"]["id"]
         resp = ctx.request.put(f"{API}/squad/update?tournamentId={TID}",
                                data=json.dumps(_payload(t, rid)), headers=auth)
         if not resp.ok:
@@ -133,12 +141,12 @@ def main() -> None:
     args = ap.parse_args()
 
     t = build_target("xp_next" if args.next else "xp_horizon")
-    _print_team(t)
+    print_team(t, t["proj"])
     if not args.confirm:
         print("\n[dry run] nothing sent. Re-run with --confirm to apply this to your TV 2 team.")
         return
     print("\napplying to TV 2...")
-    _apply_and_verify(t)
+    apply_and_verify(t)
 
 
 if __name__ == "__main__":

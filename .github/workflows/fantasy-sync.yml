@@ -6,7 +6,7 @@ name: sync-fantasy-data
 
 on:
   schedule:
-    - cron: "0 */6 * * *"   # every 6 hours (4 odds pulls/day ≈ 240 credits/month, within the free 500)
+    - cron: "0 0,6,12,15,18 * * *"  # every 6h + extra runs at 15/18 UTC so the autopilot always fires inside its pre-deadline window (TV 2 deadlines are typically 19-22 UTC)
   workflow_dispatch:          # lets you run it on demand from the Actions tab
 
 permissions:
@@ -39,3 +39,11 @@ jobs:
           TV2_TOKEN: ${{ secrets.TV2_TOKEN }}
           ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
         run: python scraper/sync.py --outrights
+
+      # Autopilot: when a transfer deadline is within 8 hours, applies the
+      # optimizer's best transfers + lineup + captain directly to the TV 2
+      # team (verified after writing). Outside that window it does nothing.
+      - name: Autopilot transfers near deadline
+        env:
+          TV2_TOKEN: ${{ secrets.TV2_TOKEN }}
+        run: python scraper/autopilot.py --confirm

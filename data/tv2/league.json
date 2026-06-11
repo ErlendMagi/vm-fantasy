@@ -1,0 +1,57 @@
+{
+ "synced_at": "2026-06-11T17:48:11.006794+00:00",
+ "leagues": [
+  {
+   "name": "BPG",
+   "league_id": "0e140160-5f7e-43f1-8a1e-5e43433d5b12",
+   "my_rank": 1,
+   "members": [
+    {
+     "manager": "Thomas",
+     "squad_name": "Cabrones",
+     "rank": 1,
+     "total_points": 0,
+     "latest_round_points": 0,
+     "round_scores": [],
+     "squad": []
+    },
+    {
+     "manager": "Preben",
+     "squad_name": "Brødrene Dahl",
+     "rank": 1,
+     "total_points": 0,
+     "latest_round_points": 0,
+     "round_scores": [],
+     "squad": []
+    },
+    {
+     "manager": "Jostein",
+     "squad_name": "I dont know what I am doing",
+     "rank": 1,
+     "total_points": 0,
+     "latest_round_points": 0,
+     "round_scores": [],
+     "squad": []
+    },
+    {
+     "manager": "julle",
+     "squad_name": "USTAB IL",
+     "rank": 1,
+     "total_points": 0,
+     "latest_round_points": 0,
+     "round_scores": [],
+     "squad": []
+    },
+    {
+     "manager": "Erlend",
+     "squad_name": "Erlend er best",
+     "rank": 1,
+     "total_points": 0,
+     "latest_round_points": 0,
+     "round_scores": [],
+     "squad": []
+    }
+   ]
+  }
+ ]
+}

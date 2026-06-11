@@ -34,11 +34,16 @@ jobs:
           git config user.name "vm-fantasy-bot"
           git config user.email "actions@users.noreply.github.com"
 
-      - name: Sync TV 2 data + odds and push
+      - name: Warn if the TV 2 token is near expiry
+        env:
+          TV2_TOKEN: ${{ secrets.TV2_TOKEN }}
+        run: python scraper/check_token.py || true
+
+      - name: Sync TV 2 data + odds + player props and push
         env:
           TV2_TOKEN: ${{ secrets.TV2_TOKEN }}
           ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
-        run: python scraper/sync.py --outrights
+        run: python scraper/sync.py --outrights --props
 
       # Autopilot: when a transfer deadline is within 8 hours, applies the
       # optimizer's best transfers + lineup + captain directly to the TV 2

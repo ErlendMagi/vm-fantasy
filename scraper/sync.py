@@ -74,6 +74,7 @@ def main() -> None:
     parser.add_argument("--skip-odds", action="store_true")
     parser.add_argument("--no-push", action="store_true")
     parser.add_argument("--outrights", action="store_true", help="also refresh outright odds")
+    parser.add_argument("--props", action="store_true", help="also refresh player goalscorer props")
     args = parser.parse_args()
 
     now = datetime.now(timezone.utc).isoformat()
@@ -105,6 +106,11 @@ def main() -> None:
                 json.dumps({"source": "tv2+openfootball", "matches": fixtures},
                            indent=1, ensure_ascii=False), encoding="utf-8")
             fixtures_written = sum(1 for m in fixtures if m.get("status") == "finished")
+
+    league = raw.get("_league") or {}
+    if league.get("leagues"):
+        (tv2 / "league.json").write_text(
+            json.dumps({"synced_at": now, **league}, indent=1, ensure_ascii=False), encoding="utf-8")
     (tv2 / "meta.json").write_text(json.dumps({
         "last_synced": now,
         "scraper_mode": "xhr",
@@ -120,6 +126,8 @@ def main() -> None:
         cmd = [sys.executable, str(ROOT / "scraper" / "refresh_odds.py")]
         if args.outrights:
             cmd.append("--outrights")
+        if args.props:
+            cmd.append("--props")
         odds_refreshed = subprocess.run(cmd).returncode == 0
         if not odds_refreshed:
             print("WARNING: odds refresh failed - committing TV 2 data only", file=sys.stderr)

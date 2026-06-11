@@ -11,7 +11,8 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 PAGES = ["Home.py", "pages/1_Projections.py", "pages/2_Transfers.py",
-         "pages/3_Team_vs_Template.py", "pages/4_Data_Status.py", "pages/5_Optimal_Team.py"]
+         "pages/3_Team_vs_Template.py", "pages/4_Data_Status.py", "pages/5_Optimal_Team.py",
+         "pages/6_League.py"]
 
 failed = False
 for page in PAGES:

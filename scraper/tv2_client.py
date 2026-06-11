@@ -35,68 +35,86 @@ class Tv2Client:
                 raise ValueError(f"endpoints.json: '{key}' URL not filled in yet.")
 
     def fetch_raw(self) -> dict[str, dict]:
-        """GET every configured endpoint. Token mode (TV2_TOKEN env set) uses
-        plain HTTP with the bearer token - no browser, for cloud/CI. Otherwise
-        uses the logged-in Playwright session locally."""
+        """All configured endpoints + private-league data. Token mode
+        (TV2_TOKEN env) uses plain HTTP for the cloud; otherwise the logged-in
+        browser channel (reliable for the large payloads behind local TLS
+        interception). Both go through one `get(url)` closure."""
         token = os.environ.get("TV2_TOKEN")
         if token:
-            return self._fetch_with_token(token)
-        return self._fetch_with_browser()
+            headers = {"Authorization": f"Bearer {token}",
+                       "User-Agent": "Mozilla/5.0", "Accept": "application/json"}
 
-    def _fetch_with_token(self, token: str) -> dict[str, dict]:
-        headers = {"Authorization": f"Bearer {token}",
-                   "User-Agent": "Mozilla/5.0", "Accept": "application/json"}
+            def get(url):
+                return fetch_json(url, timeout=30, headers=headers)[0]
+
+            return self._collect(get)
+
+        from playwright.sync_api import sync_playwright  # lazy: scraper-only dep
+        with sync_playwright() as p:
+            ctx = p.chromium.launch_persistent_context(
+                str(PROFILE), headless=True, ignore_https_errors=True)
+            page = ctx.pages[0] if ctx.pages else ctx.new_page()
+            cap: dict[str, str] = {}
+            page.on("request", lambda rq: cap.__setitem__("a", rq.headers.get("authorization"))
+                    if rq.headers.get("authorization") and "railway.app" in rq.url else None)
+            page.goto("https://vmfantasy.tv2.no/", wait_until="networkidle")
+            auth = {"Authorization": cap["a"]} if "a" in cap else {}
+
+            def get(url):
+                r = ctx.request.get(url, headers=auth)
+                return r.json() if r.ok else None
+
+            try:
+                return self._collect(get)
+            finally:
+                ctx.close()
+
+    def _collect(self, get) -> dict[str, dict]:
         raw = {}
         for key, url in self.endpoints.items():
             if key.startswith("_") or url == "https://...":
                 continue
-            payload, _ = fetch_json(url, timeout=30, headers=headers)
+            payload = get(url)
             if payload is None:
-                raise RuntimeError(f"{key}: fetch failed from {url} - TV2_TOKEN expired or network?")
+                raise RuntimeError(f"{key}: fetch failed from {url} - token expired or session lost?")
             raw[key] = payload
+        raw["_league"] = self._fetch_league(get)
         return raw
 
-    def _fetch_with_browser(self) -> dict[str, dict]:
-        from playwright.sync_api import sync_playwright  # lazy: scraper-only dep
-
-        raw = {}
-        with sync_playwright() as p:
-            # ignore_https_errors: some local security software (e.g. Avast)
-            # MITMs TLS with a cert Node's CA bundle doesn't trust; the browser
-            # trusts it but APIRequestContext otherwise rejects it.
-            ctx = p.chromium.launch_persistent_context(
-                str(PROFILE), headless=True, ignore_https_errors=True)
-            page = ctx.pages[0] if ctx.pages else ctx.new_page()
-
-            # the API authenticates with a Bearer token (not a cookie); capture
-            # the Authorization header the app itself sends, then replay it
-            captured: dict[str, str] = {}
-
-            def grab_auth(req):
-                auth = req.headers.get("authorization")
-                if auth and "railway.app" in req.url:
-                    captured["auth"] = auth
-
-            page.on("request", grab_auth)
-            page.goto("https://vmfantasy.tv2.no/", wait_until="networkidle")
-            if "auth" not in captured:  # nudge the app into an authed call
-                token = page.evaluate(
-                    "() => { for (const k in localStorage) { const v = localStorage[k];"
-                    " if (v && v.length > 40 && v.split('.').length === 3) return v; } return null; }")
-                if token:
-                    captured["auth"] = f"Bearer {token}"
-
-            auth_headers = {"Authorization": captured["auth"]} if "auth" in captured else {}
-            for key, url in self.endpoints.items():
-                if key.startswith("_") or url == "https://...":
+    def _fetch_league(self, get) -> dict:
+        """Private-league standings + each member's per-round history and squad.
+        Best-effort: returns {} on failure (rival squads are often hidden until
+        the round locks)."""
+        base = "https://vm-fantasyapi-production.up.railway.app"
+        try:
+            summary = get(f"{base}/leagues/summary?tournamentId=vm-2026")
+            if not isinstance(summary, list):
+                return {}
+            leagues = []
+            for lg in summary:
+                if lg.get("leagueType") == "MAIN":      # skip the 60k-member global league
                     continue
-                resp = ctx.request.get(url, headers=auth_headers)
-                if not resp.ok:
-                    raise RuntimeError(f"{key}: HTTP {resp.status} from {url} - session expired? "
-                                       "Re-run discover_endpoints.py to log in again.")
-                raw[key] = resp.json()
-            ctx.close()
-        return raw
+                lid = lg.get("leagueId")
+                lb = get(f"{base}/leagues/{lid}/leaderboard?page=1&limit=100")
+                if not lb:
+                    continue
+                members = []
+                for e in lb.get("entries", []):
+                    view = get(f"{base}/squad/view/{e.get('squadId')}")
+                    squad_ids = [str(p.get("playerId")) for p in (view.get("players") or [])
+                                 if p.get("playerId")] if isinstance(view, dict) else []
+                    members.append({
+                        "manager": e.get("managerName"), "squad_name": e.get("squadName"),
+                        "rank": e.get("rank"), "total_points": e.get("totalPoints", 0),
+                        "latest_round_points": e.get("latestRoundPoints", 0),
+                        "round_scores": e.get("roundScores", []), "squad": squad_ids,
+                    })
+                leagues.append({"name": lg.get("leagueName"), "league_id": lid,
+                                "my_rank": (lb.get("myRank") or {}).get("rank"), "members": members})
+            return {"leagues": leagues}
+        except Exception as exc:  # never let league fetching break the core sync
+            print(f"league fetch skipped: {exc}", file=sys.stderr)
+            return {}
 
     # ------------------------------------------------------------ players
 

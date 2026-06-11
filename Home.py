@@ -13,16 +13,31 @@ if d["players"] is None or d["proj"] is None or d["my_team"] is None:
 
 proj, my = d["proj"], d["my_team"]
 owned = proj.loc[[i for i in my["squad"] if i in proj.index]]
+xi = optimizer.best_xi(owned, "xp_next")
+cap_name = proj.loc[xi["captain_id"], "name"] if xi["captain_id"] else "-"
 
-c1, c2, c3, c4 = st.columns(4)
+c1, c2, c3, c4, c5 = st.columns(5)
 c1.metric("Next round", f"Round {d['next_round']}")
-c2.metric("My total points", int(owned["total_points"].sum()))
-c3.metric("Bank", f"{my.get('bank', 0):.1f}M")
-c4.metric("Free transfers", my.get("free_transfers", 2))
+c2.metric("Projected XI", f"{xi['total']:.0f} pts", help="Best starting XI for the next round, captain doubled")
+c3.metric("Captain", cap_name)
+c4.metric("My total points", int(owned["total_points"].sum()))
+c5.metric("Bank", f"{my.get('bank', 0):.1f}M")
+
+# ---------------------------------------------------------------- contributions
+st.subheader("Where your next-round points come from")
+contrib = owned[owned["id"].isin(xi["xi_ids"])].copy()
+contrib["pts"] = contrib["xp_next"] * contrib["id"].map(lambda i: 2 if i == xi["captain_id"] else 1)
+contrib = contrib.sort_values("pts")
+bar = go.Figure(go.Bar(
+    x=contrib["pts"], y=contrib["name"] + "  (" + contrib["team"] + ")", orientation="h",
+    marker_color=["#e17055" if i == xi["captain_id"] else "#00b894" for i in contrib["id"]],
+    text=[f"{p:.1f}" for p in contrib["pts"]], textposition="outside"))
+bar.update_layout(height=460, xaxis_title="Projected points (captain ×2 in red)",
+                  margin=dict(l=10, r=10, t=10, b=10))
+st.plotly_chart(bar, width="stretch")
 
 # ---------------------------------------------------------------- my squad
-st.subheader("My squad — next round outlook")
-xi = optimizer.best_xi(owned, "xp_next")
+st.subheader("Full squad — next round outlook")
 view = owned.copy()
 view["suggested XI"] = view["id"].isin(xi["xi_ids"])
 view["C"] = view["id"] == xi["captain_id"]

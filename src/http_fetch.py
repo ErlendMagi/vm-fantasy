@@ -22,6 +22,9 @@ def fetch_json(url: str, params: dict | None = None, timeout: int = 20,
             time.sleep(1.0 * attempt)
         try:
             r = requests.get(url, params=params, timeout=timeout, headers=headers)
+            if r.status_code == 429:        # rate limited - back off and retry
+                time.sleep(5.0 * (attempt + 1))
+                continue
             r.raise_for_status()
             return r.json(), dict(r.headers)
         except requests.RequestException:

@@ -90,6 +90,10 @@ def load_fixtures() -> list[dict]:
     return fixtures
 
 
+def load_league() -> dict | None:
+    return _read_json(config.TV2_DIR / "league.json")
+
+
 def load_meta() -> dict:
     meta = _read_json(config.TV2_DIR / "meta.json") or {}
     synced = meta.get("last_synced")

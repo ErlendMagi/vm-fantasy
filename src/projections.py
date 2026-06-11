@@ -123,7 +123,7 @@ def _distribute(df: pd.DataFrame, total: float, raw_market: dict,
 
 
 def _team_xp(df: pd.DataFrame, mu_team: float, mu_opp: float, multiplier: float,
-             player_odds: dict) -> pd.DataFrame:
+             player_odds: dict, duties: dict | None = None) -> pd.DataFrame:
     """Base per-player xP for one team in one match (everything except the
     Man-of-the-Match bonus, which needs both teams). Also returns the standout
     weight `w` used to allocate MotM."""
@@ -132,6 +132,7 @@ def _team_xp(df: pd.DataFrame, mu_team: float, mu_opp: float, multiplier: float,
     goal_w = df["position"].map(config.POSITION_GOAL_FACTOR) * involvement
     assist_w = df["position"].map(config.POSITION_ASSIST_FACTOR) * involvement
 
+    market_goal_idx = set(_market_lambdas(df, player_odds, "anytime_goal"))
     xg = _distribute(df, mu_team, _market_lambdas(df, player_odds, "anytime_goal"),
                      goal_w, MARKET_SCORER_SHARE)
     xa = _distribute(df, config.ASSISTED_GOAL_SHARE * mu_team,
@@ -156,7 +157,25 @@ def _team_xp(df: pd.DataFrame, mu_team: float, mu_opp: float, multiplier: float,
     pts_concede = -df["p_start"] * concede
     pts_saves = gk_saves
     pts_tax = pd.Series(-s["flat_negative_tax"], index=df.index)
-    xp_base = pts_appear + pts_goals + pts_assists + pts_cs + pts_concede + pts_saves + pts_tax
+
+    # duty bonuses: set-piece assists (not captured by any market we use) always;
+    # penalty duty only when xG is NOT market-quoted (bookies price pen duty in)
+    pts_duty = pd.Series(0.0, index=df.index)
+    team_duty = (duties or {}).get(df["team"].iloc[0] if len(df) else "", None)
+    if team_duty:
+        from src.data_access import _fold, duty_rank
+        for idx, row in df.iterrows():
+            folded = _fold(row["name"])
+            sp = duty_rank(folded, team_duty.get("sp", []))
+            if sp is not None and sp < len(config.DUTY_RANK_MULT):
+                pts_duty[idx] += config.DUTY_SP_BONUS * config.DUTY_RANK_MULT[sp] * row["p_start"] * multiplier
+            if idx not in market_goal_idx:
+                pen = duty_rank(folded, team_duty.get("pen", []))
+                if pen is not None and pen < len(config.DUTY_RANK_MULT):
+                    pts_duty[idx] += (config.DUTY_PEN_BONUS.get(row["position"], 0.6)
+                                      * config.DUTY_RANK_MULT[pen] * row["p_start"] * multiplier)
+
+    xp_base = pts_appear + pts_goals + pts_assists + pts_cs + pts_concede + pts_saves + pts_duty + pts_tax
 
     # standout weight ~ what wins a high match rating: dominated by attacking
     # output (goals/assists), small per-position prior, GK clean-sheet heroics
@@ -165,7 +184,7 @@ def _team_xp(df: pd.DataFrame, mu_team: float, mu_opp: float, multiplier: float,
     return pd.DataFrame({
         "xp_base": xp_base, "xg": xg, "xa": xa, "p_cs": p_cs, "heat_mult": multiplier, "w": w,
         "pts_appear": pts_appear, "pts_goals": pts_goals, "pts_assists": pts_assists,
-        "pts_cs": pts_cs, "pts_concede": pts_concede, "pts_saves": pts_saves,
+        "pts_cs": pts_cs, "pts_concede": pts_concede, "pts_saves": pts_saves, "pts_duty": pts_duty,
     })
 
 
@@ -176,7 +195,7 @@ def _win_probs(mu_h: float, mu_a: float) -> tuple[float, float]:
 
 def project_round(players: pd.DataFrame, fixtures_r: list[dict], mus: dict[str, dict],
                   stadiums: dict, climate: dict, player_odds: dict,
-                  temp_fn=weather.apparent_temp_at_kickoff) -> pd.DataFrame:
+                  temp_fn=weather.apparent_temp_at_kickoff, duties: dict | None = None) -> pd.DataFrame:
     """xP for one round, including the match-level MotM allocation."""
     parts, fixture_rows = [], []
     for fx in fixtures_r:
@@ -195,7 +214,7 @@ def project_round(players: pd.DataFrame, fixtures_r: list[dict], mus: dict[str, 
             if tp.empty:
                 continue
             mult = heat.heat_multiplier(temp, climate.get(fx[side], "temperate"), indoor)
-            part = _team_xp(tp, mu_t, mu_o, mult, player_odds)
+            part = _team_xp(tp, mu_t, mu_o, mult, player_odds, duties)
             part["opponent"] = fx[opp]
             part["venue"] = fx["venue_id"]
             part["apparent_temp"] = np.nan if temp is None else float(temp)
@@ -215,7 +234,8 @@ def project_round(players: pd.DataFrame, fixtures_r: list[dict], mus: dict[str, 
                              "p_home_win": p_home, "p_away_win": p_away})
 
     cols = ["xp", "xp_base", "pts_motm", "xg", "xa", "p_cs", "heat_mult", "opponent", "venue",
-            "apparent_temp", "pts_appear", "pts_goals", "pts_assists", "pts_cs", "pts_concede", "pts_saves"]
+            "apparent_temp", "pts_appear", "pts_goals", "pts_assists", "pts_cs", "pts_concede",
+            "pts_saves", "pts_duty"]
     if not parts:
         return pd.DataFrame(columns=cols)
     result = pd.concat(parts)
@@ -231,6 +251,7 @@ def project(players: pd.DataFrame, fixtures: list[dict], match_odds: dict | None
     """Adds xp_next, xp_after, xp_horizon, xp_tournament (+ detail columns)."""
     stadiums = data_access.load_stadiums()
     climate = data_access.load_climate()
+    duties = data_access.load_duties()
     if player_odds is None:
         player_odds = data_access.load_player_odds()
     strengths = team_strengths(outrights)
@@ -241,7 +262,7 @@ def project(players: pd.DataFrame, fixtures: list[dict], match_odds: dict | None
     p_plays = p_plays or {}
 
     component_cols = ["pts_appear", "pts_goals", "pts_assists", "pts_cs", "pts_concede",
-                      "pts_saves", "pts_motm"]
+                      "pts_saves", "pts_duty", "pts_motm"]
     out = df.copy()
     per_match, comps_next = {}, None
     for label, rnd in [("next", next_rnd), ("after", next_rnd + 1)]:
@@ -252,7 +273,7 @@ def project(players: pd.DataFrame, fixtures: list[dict], match_odds: dict | None
                 out["p_plays_after"] = 0.0
             continue
         fixtures_r = data_access.round_fixtures(fixtures, rnd)
-        proj = project_round(df, fixtures_r, mus, stadiums, climate, player_odds, temp_fn)
+        proj = project_round(df, fixtures_r, mus, stadiums, climate, player_odds, temp_fn, duties)
         raw = proj["xp"].reindex(out.index).astype(float).fillna(0.0)
         if label == "next":
             for col in ["xg", "xa", "heat_mult", "opponent", "venue", "apparent_temp"]:
@@ -264,7 +285,7 @@ def project(players: pd.DataFrame, fixtures: list[dict], match_odds: dict | None
             covered = {fx["home"] for fx in fixtures_r} | {fx["away"] for fx in fixtures_r}
             generic = ~out["team"].isin(covered)
             for _, tp in df[generic].groupby("team"):
-                g = _team_xp(tp, GENERIC_MU, GENERIC_MU, 1.0, player_odds)
+                g = _team_xp(tp, GENERIC_MU, GENERIC_MU, 1.0, player_odds, duties)
                 raw.loc[g.index] = g["xp_base"] + config.MOTM_POINTS_PER_MATCH * g["w"] / max(g["w"].sum(), 1e-9) / 2
         per_match[label] = raw
 

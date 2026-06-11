@@ -21,9 +21,11 @@ st.caption(
 
 # ---- where points come from, by position ----
 COMP = {"pts_appear": "Appearance/minutes", "pts_goals": "Goals", "pts_assists": "Assists",
-        "pts_cs": "Clean sheet", "pts_motm": "Man of the Match", "pts_saves": "Saves"}
+        "pts_cs": "Clean sheet", "pts_motm": "Man of the Match", "pts_saves": "Saves",
+        "pts_duty": "Set-piece/penalty duty"}
 COLORS = {"Appearance/minutes": "#b2bec3", "Goals": "#00b894", "Assists": "#0984e3",
-          "Clean sheet": "#fdcb6e", "Man of the Match": "#e17055", "Saves": "#6c5ce7"}
+          "Clean sheet": "#fdcb6e", "Man of the Match": "#e17055", "Saves": "#6c5ce7",
+          "Set-piece/penalty duty": "#fd79a8"}
 st.subheader("Where points come from, by position")
 st.caption("Different positions earn points very differently — defenders live on clean sheets, "
            "attackers on goals. The model values each player on their own full mix.")

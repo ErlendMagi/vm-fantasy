@@ -1,0 +1,18 @@
+{
+  "_comment": "Penalty and set-piece (corner/FK) takers per contender, ordered primary first. Names are folded-lowercase match keys (exact, last-name, or >=6-char substring vs the folded player name). Source: pre-tournament research (RotoWire et al), 2026-06-11. Demote/edit when a taker misses or loses duty.",
+  "duties": {
+    "Spain":       {"pen": ["oyarzabal", "yamal", "rodri"], "sp": ["yamal", "grimaldo", "baena"]},
+    "France":      {"pen": ["mbappe", "dembele"], "sp": ["olise", "digne"]},
+    "Brazil":      {"pen": ["raphinha", "paqueta"], "sp": ["raphinha", "guimaraes"]},
+    "Argentina":   {"pen": ["messi", "lautaro martinez", "julian alvarez"], "sp": ["messi", "mac allister"]},
+    "England":     {"pen": ["kane", "rashford"], "sp": ["rice", "saka", "eze"]},
+    "Portugal":    {"pen": ["bruno fernandes", "ronaldo"], "sp": ["bruno fernandes", "nuno mendes"]},
+    "Germany":     {"pen": ["havertz", "kimmich"], "sp": ["kimmich", "raum"]},
+    "Netherlands": {"pen": ["depay", "gakpo", "weghorst"], "sp": ["depay", "reijnders"]},
+    "Belgium":     {"pen": ["de bruyne"], "sp": ["de bruyne"]},
+    "Croatia":     {"pen": ["modric"], "sp": ["modric", "perisic"]},
+    "Uruguay":     {"pen": ["valverde"], "sp": ["valverde"]},
+    "USA":         {"pen": ["pulisic"], "sp": ["pulisic"]},
+    "Norway":      {"pen": ["haaland"], "sp": ["odegaard"]}
+  }
+}

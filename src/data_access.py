@@ -94,6 +94,21 @@ def load_league() -> dict | None:
     return _read_json(config.TV2_DIR / "league.json")
 
 
+def load_duties() -> dict[str, dict]:
+    data = _read_json(config.STATIC_DIR / "duties.json")
+    return (data or {}).get("duties", {})
+
+
+def duty_rank(folded_name: str, duty_list: list[str]) -> int | None:
+    """Rank of a player in a duty list. Match: exact folded name, exact last
+    name, or a distinctive (>=6 char) substring."""
+    last = folded_name.split()[-1] if folded_name else ""
+    for rank, key in enumerate(duty_list):
+        if key == folded_name or key == last or (len(key) >= 6 and key in folded_name):
+            return rank
+    return None
+
+
 def load_meta() -> dict:
     meta = _read_json(config.TV2_DIR / "meta.json") or {}
     synced = meta.get("last_synced")

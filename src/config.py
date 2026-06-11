@@ -69,6 +69,13 @@ ASSISTED_GOAL_SHARE = 0.75    # share of goals that yield an assist
 # tournament -> modest K so 1-2 strong games move the needle without dominating.
 FORM_SHRINKAGE_K = 2.5
 FORM_MULT_BOUNDS = (0.75, 1.35)  # form can't swing a projection more than this
+# Duty bonuses (xP/match, research-calibrated): set-piece takers earn ~0.25
+# set-piece assists/match (x3 pts) that no goal-odds market captures; penalty
+# duty is applied only when a player's xG is NOT market-quoted (the bookies
+# already price pen duty into anytime-scorer odds).
+DUTY_SP_BONUS = 0.75
+DUTY_PEN_BONUS = {"GK": 1.2, "DEF": 0.9, "MID": 0.7, "FWD": 0.6}
+DUTY_RANK_MULT = [1.0, 0.5, 0.35]   # primary, backup, third/shared
 POSITION_GOAL_FACTOR = {"FWD": 1.0, "MID": 0.5, "DEF": 0.15, "GK": 0.0}
 POSITION_ASSIST_FACTOR = {"FWD": 0.6, "MID": 1.0, "DEF": 0.35, "GK": 0.05}
 PRICE_INVOLVEMENT_EXP = 1.5   # weight ~ price^exp: stars take bigger attacking share

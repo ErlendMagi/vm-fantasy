@@ -101,8 +101,13 @@ class Tv2Client:
                 members = []
                 for e in lb.get("entries", []):
                     view = get(f"{base}/squad/view/{e.get('squadId')}") or {}
-                    squad_ids = [str(p.get("playerId")) for p in (view.get("players") or [])
-                                 if p.get("playerId")] if isinstance(view, dict) else []
+                    if not isinstance(view, dict):
+                        view = {}
+                    squad_ids = []
+                    for p in (view.get("players") or []):
+                        pid = p.get("playerId") or (p.get("player") or {}).get("id") or p.get("id")
+                        if pid:
+                            squad_ids.append(str(pid))
                     members.append({
                         "manager": e.get("managerName"), "squad_name": e.get("squadName"),
                         "squad_id": e.get("squadId"),

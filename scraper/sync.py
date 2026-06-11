@@ -137,7 +137,12 @@ def main() -> None:
 
     league = raw.get("_league") or {}
     if league.get("leagues"):
-        cur_round = (raw.get("transfer_info") or {}).get("targetRound", {}).get("number")
+        cur_round = ((raw.get("transfer_info") or {}).get("targetRound") or {}).get("number")
+        if cur_round is None:  # derive from the rounds payload: first not-yet-finished round
+            rounds = sorted(raw.get("fixtures") or [], key=lambda r: r.get("number", 0))
+            now_iso = now
+            cur_round = next((r["number"] for r in rounds if (r.get("endsAt") or "") > now_iso),
+                             rounds[-1]["number"] if rounds else None)
         (tv2 / "league.json").write_text(
             json.dumps({"synced_at": now, "current_round": cur_round, **league},
                        indent=1, ensure_ascii=False), encoding="utf-8")

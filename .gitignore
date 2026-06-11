@@ -1,0 +1,16 @@
+# secrets & local state
+.env
+.streamlit/secrets.toml
+playwright-profile/
+scrape_dumps/
+
+# python
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+venv/
+
+# editor/os
+.vscode/
+Thumbs.db

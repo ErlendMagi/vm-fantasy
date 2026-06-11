@@ -1,0 +1,9 @@
+{
+  "synced_at": "2026-06-11T10:30:00+00:00",
+  "squad": ["seed_001", "seed_002", "seed_003", "seed_004", "seed_005", "seed_006", "seed_007", "seed_008", "seed_009", "seed_010", "seed_011", "seed_012", "seed_013", "seed_014", "seed_015"],
+  "starting_xi": ["seed_001", "seed_003", "seed_004", "seed_006", "seed_008", "seed_009", "seed_010", "seed_011", "seed_013", "seed_014", "seed_015"],
+  "captain_id": "seed_014",
+  "bank": 5.9,
+  "free_transfers": 2,
+  "round_history": {}
+}

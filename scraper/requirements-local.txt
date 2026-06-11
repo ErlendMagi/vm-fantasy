@@ -1,0 +1,5 @@
+# Local sync pipeline deps (NOT installed on Streamlit Cloud).
+# Install:  pip install -r scraper/requirements-local.txt && playwright install chromium
+playwright>=1.44
+python-dotenv>=1.0
+requests>=2.31

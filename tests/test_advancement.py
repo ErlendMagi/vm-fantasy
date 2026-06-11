@@ -1,0 +1,50 @@
+import json
+from pathlib import Path
+
+import pytest
+
+from src import advancement
+
+FIXTURES = json.loads(
+    (Path(__file__).resolve().parents[1] / "data" / "static" / "fixtures_fallback.json")
+    .read_text(encoding="utf-8")
+)["matches"]
+
+OUTRIGHTS = {"prices": {
+    "Spain": 5.0, "France": 6.0, "England": 7.5, "Brazil": 8.0, "Argentina": 8.0,
+    "Portugal": 10.0, "Germany": 12.0, "Netherlands": 16.0, "Norway": 40.0,
+    "Mexico": 50.0, "USA": 50.0, "Belgium": 30.0, "Croatia": 40.0, "Japan": 60.0,
+}}
+
+
+@pytest.fixture(scope="module")
+def adv():
+    return advancement.advancement_table(FIXTURES, match_odds=None, outrights=OUTRIGHTS, n_sims=4000)
+
+
+def test_team_counts_per_round(adv):
+    assert adv["R32"].sum() == pytest.approx(32.0, abs=0.6)   # MC noise
+    assert adv["R16"].sum() == pytest.approx(16.0, abs=1e-6)  # normalized exactly
+    assert adv["QF"].sum() == pytest.approx(8.0, abs=1e-6)
+    assert adv["WIN"].sum() == pytest.approx(1.0, abs=1e-6)
+
+
+def test_probabilities_valid_and_monotone(adv):
+    assert ((adv >= 0) & (adv <= 1)).all().all()
+    for team in adv.index:
+        row = adv.loc[team]
+        assert row["R32"] >= row["R16"] >= row["QF"] >= row["SF"] >= row["F"] >= row["WIN"]
+
+
+def test_favorites_beat_minnows(adv):
+    assert adv.loc["Spain", "R32"] > 0.8
+    assert adv.loc["Spain", "R32"] > adv.loc["Haiti", "R32"]
+    assert adv.loc["Spain", "WIN"] > adv.loc["Norway", "WIN"]
+
+
+def test_p_plays_lookup_group_rounds_always_one(adv):
+    lookup = advancement.p_plays_lookup(adv)
+    assert lookup[("Norway", 1)] == 1.0
+    assert lookup[("Norway", 3)] == 1.0
+    assert lookup[("Norway", 4)] == pytest.approx(adv.loc["Norway", "R32"])
+    assert lookup[("Spain", 8)] == pytest.approx(adv.loc["Spain", "SF"])

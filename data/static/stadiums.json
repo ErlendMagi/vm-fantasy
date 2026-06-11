@@ -1,0 +1,21 @@
+{
+  "_comment": "venue_id matches the 'ground' strings in fixtures. indoor_ac=true means fully climate-controlled (heat multiplier always 1.0). Sources: footballgroundguide.com / sofascore venue guides, June 2026.",
+  "stadiums": [
+    {"venue_id": "Atlanta", "name": "Mercedes-Benz Stadium", "city": "Atlanta", "country": "USA", "lat": 33.7554, "lon": -84.4010, "indoor_ac": true, "tz": "America/New_York"},
+    {"venue_id": "Boston (Foxborough)", "name": "Gillette Stadium", "city": "Foxborough", "country": "USA", "lat": 42.0909, "lon": -71.2643, "indoor_ac": false, "tz": "America/New_York"},
+    {"venue_id": "Dallas (Arlington)", "name": "AT&T Stadium", "city": "Arlington", "country": "USA", "lat": 32.7473, "lon": -97.0945, "indoor_ac": true, "tz": "America/Chicago"},
+    {"venue_id": "Guadalajara (Zapopan)", "name": "Estadio Akron", "city": "Zapopan", "country": "Mexico", "lat": 20.6817, "lon": -103.4625, "indoor_ac": false, "tz": "America/Mexico_City"},
+    {"venue_id": "Houston", "name": "NRG Stadium", "city": "Houston", "country": "USA", "lat": 29.6847, "lon": -95.4107, "indoor_ac": true, "tz": "America/Chicago"},
+    {"venue_id": "Kansas City", "name": "Arrowhead Stadium", "city": "Kansas City", "country": "USA", "lat": 39.0489, "lon": -94.4839, "indoor_ac": false, "tz": "America/Chicago"},
+    {"venue_id": "Los Angeles (Inglewood)", "name": "SoFi Stadium", "city": "Inglewood", "country": "USA", "lat": 33.9535, "lon": -118.3392, "indoor_ac": false, "tz": "America/Los_Angeles", "_note": "canopy roof, open sides - not climate controlled, but mild coastal climate"},
+    {"venue_id": "Mexico City", "name": "Estadio Azteca", "city": "Mexico City", "country": "Mexico", "lat": 19.3029, "lon": -99.1505, "indoor_ac": false, "tz": "America/Mexico_City", "_note": "2240m altitude moderates heat"},
+    {"venue_id": "Miami (Miami Gardens)", "name": "Hard Rock Stadium", "city": "Miami Gardens", "country": "USA", "lat": 25.9580, "lon": -80.2389, "indoor_ac": false, "tz": "America/New_York"},
+    {"venue_id": "Monterrey (Guadalupe)", "name": "Estadio BBVA", "city": "Guadalupe", "country": "Mexico", "lat": 25.6692, "lon": -100.2444, "indoor_ac": false, "tz": "America/Monterrey"},
+    {"venue_id": "New York/New Jersey (East Rutherford)", "name": "MetLife Stadium", "city": "East Rutherford", "country": "USA", "lat": 40.8128, "lon": -74.0742, "indoor_ac": false, "tz": "America/New_York"},
+    {"venue_id": "Philadelphia", "name": "Lincoln Financial Field", "city": "Philadelphia", "country": "USA", "lat": 39.9008, "lon": -75.1675, "indoor_ac": false, "tz": "America/New_York"},
+    {"venue_id": "San Francisco Bay Area (Santa Clara)", "name": "Levi's Stadium", "city": "Santa Clara", "country": "USA", "lat": 37.4033, "lon": -121.9694, "indoor_ac": false, "tz": "America/Los_Angeles"},
+    {"venue_id": "Seattle", "name": "Lumen Field", "city": "Seattle", "country": "USA", "lat": 47.5952, "lon": -122.3316, "indoor_ac": false, "tz": "America/Los_Angeles", "_note": "roof covers stands only, pitch open-air"},
+    {"venue_id": "Toronto", "name": "BMO Field", "city": "Toronto", "country": "Canada", "lat": 43.6332, "lon": -79.4186, "indoor_ac": false, "tz": "America/Toronto"},
+    {"venue_id": "Vancouver", "name": "BC Place", "city": "Vancouver", "country": "Canada", "lat": 49.2768, "lon": -123.1120, "indoor_ac": false, "tz": "America/Vancouver", "_note": "retractable roof, no A/C - mild climate anyway"}
+  ]
+}

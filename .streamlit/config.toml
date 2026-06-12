@@ -4,3 +4,6 @@ primaryColor = "#00b894"
 
 [browser]
 gatherUsageStats = false
+
+[client]
+showErrorDetails = "full"

@@ -90,18 +90,20 @@ def _live_league(_token: str) -> dict | None:
     """Live private-league standings straight from the TV 2 API (scores update
     during matches). Light: leaderboard only, no per-member squad fetches —
     squads/formations come from the synced league.json."""
-    import requests
+    from src.http_fetch import fetch_json
     base = "https://vm-fantasyapi-production.up.railway.app"
     h = {"Authorization": f"Bearer {_token}", "Accept": "application/json"}
     try:
-        summary = requests.get(f"{base}/leagues/summary", params={"tournamentId": "vm-2026"},
-                               headers=h, timeout=10).json()
+        summary, _ = fetch_json(f"{base}/leagues/summary", {"tournamentId": "vm-2026"}, headers=h, timeout=10)
+        if not summary:
+            return None
         leagues = []
         for lg in summary:
             if lg.get("leagueType") == "MAIN":
                 continue
-            lb = requests.get(f"{base}/leagues/{lg['leagueId']}/leaderboard",
-                              params={"page": 1, "limit": 100}, headers=h, timeout=10).json()
+            lb, _ = fetch_json(f"{base}/leagues/{lg['leagueId']}/leaderboard",
+                               {"page": 1, "limit": 100}, headers=h, timeout=10)
+            lb = lb or {}
             members = [{
                 "manager": e.get("managerName"), "squad_name": e.get("squadName"),
                 "rank": e.get("rank"), "total_points": e.get("totalPoints", 0),

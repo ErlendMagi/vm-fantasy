@@ -77,44 +77,80 @@ st.dataframe(
                    "total_points": "Total", "latest_round_points": "Last round",
                    "is_me": st.column_config.CheckboxColumn("You")})
 
-# ---------------------------------------------------------------- the points race (living)
-st.subheader("📈 Points race — actual so far, then projected")
-st.caption("Solid lines = points already scored. Dashed = where the model expects each team to be after the "
-           "coming rounds, based on their current squads. Your line is the thick green one.")
+# ---------------------------------------------------------------- the points race (day by day)
+st.subheader("📈 Points race — day by day")
+st.caption("Solid = points actually scored. Dashed = expected cumulative points, day by day: the line "
+           "jumps on days a manager's players play (a Spain-heavy team jumps on Spain days) and stays "
+           "flat on rest days. Projections stop after the last round with a confirmed schedule — no "
+           "guessing about knockout pairings. Your line is the thick green one.")
 have_squads = members["squad"].apply(len).gt(0).any()
+
+from collections import defaultdict
+from datetime import datetime, timedelta, timezone
+
+OSLO = timezone(timedelta(hours=2))
+today = datetime.now(OSLO).date()
+
+
+def fixture_date(team, rnd):
+    for fx in d["fixtures"]:
+        if fx.get("fantasy_round") == rnd and team in (fx.get("home"), fx.get("away")):
+            return datetime.fromisoformat(fx["kickoff_utc"].replace("Z", "+00:00")).astimezone(OSLO).date()
+    return None
+
+
+def round_end_date(rnd):
+    dates = [datetime.fromisoformat(fx["kickoff_utc"].replace("Z", "+00:00")).astimezone(OSLO).date()
+             for fx in d["fixtures"] if fx.get("fantasy_round") == rnd]
+    return max(dates) if dates else None
+
+
 fig = go.Figure()
 for _, m in members.iterrows():
     sq = m["squad_name"]
-    actual = cum_actual(m)
-    start_round = len(actual)
-    # project forward with each round's OWN expected points (not a flat rate):
-    # R+1 = next-round XI, R+2 = round-after XI, then a survival-decayed taper
-    per_round = []
+    width = 5 if m["is_me"] else 2
+    # actual: cumulative per completed round, placed on each round's final matchday
+    actual_pts = cum_actual(m)
+    ax, ay = [], []
+    for r_idx, total in enumerate(actual_pts, start=1):
+        rd = round_end_date(r_idx)
+        if rd and rd <= today:
+            ax.append(rd)
+            ay.append(total)
+    base = ay[-1] if ay else (m.get("total_points") or 0)
+    if ax:
+        fig.add_scatter(x=ax, y=ay, mode="lines+markers", name=sq, legendgroup=sq,
+                        line=dict(width=width, color=colour[sq]))
+    # expected: per-DAY steps for every scheduled round the model can price
     if proj is not None and m["squad"]:
         owned = proj.loc[[i for i in m["squad"] if i in proj.index]]
         if len(owned) >= 11:
-            per_round = [optimizer.squad_xp(owned, "xp_next"), optimizer.squad_xp(owned, "xp_after")]
-            per_round.append(per_round[-1] * 0.9)  # one more round, decayed (knockouts tighten)
-    width = 5 if m["is_me"] else 2
-    if actual:
-        fig.add_scatter(x=list(range(1, start_round + 1)), y=actual, mode="lines+markers",
-                        name=sq, legendgroup=sq, line=dict(width=width, color=colour[sq]))
-    if per_round:
-        x0 = start_round if actual else 0
-        y0 = actual[-1] if actual else 0
-        xs, ys, run = [x0], [y0], y0
-        for k, p in enumerate(per_round, 1):
-            run += p
-            xs.append(x0 + k)
-            ys.append(run)
-        fig.add_scatter(x=xs, y=ys, mode="lines", name=sq, legendgroup=sq, showlegend=not actual,
-                        line=dict(width=width, color=colour[sq], dash="dash"), opacity=0.7)
-fig.update_layout(xaxis_title="Round", yaxis_title="Cumulative points", height=440,
-                  legend=dict(orientation="h", y=-0.2))
+            daily = defaultdict(float)
+            for rnd, xpcol in [(d["next_round"], "xp_next"), (d["next_round"] + 1, "xp_after")]:
+                if rnd > 3:          # knockout pairings not scheduled yet -> no projection
+                    continue
+                xi = optimizer.best_xi(owned, xpcol)
+                for pid in xi["xi_ids"]:
+                    fd = fixture_date(owned.loc[pid, "team"], rnd)
+                    if fd and fd >= today:
+                        daily[fd] += float(owned.loc[pid, xpcol]) * (2 if pid == xi["captain_id"] else 1)
+            if daily:
+                run = float(base)
+                xs, ys = [max(ax[-1] if ax else today, today)], [run]
+                for day in sorted(daily):
+                    run += daily[day]
+                    xs.append(day)
+                    ys.append(run)
+                fig.add_scatter(x=xs, y=ys, mode="lines+markers", name=sq, legendgroup=sq,
+                                showlegend=not ax, marker=dict(size=4),
+                                line=dict(width=width, color=colour[sq], dash="dash", shape="hv"),
+                                opacity=0.75)
+fig.update_layout(xaxis_title="Date", yaxis_title="Cumulative points", height=460,
+                  legend=dict(orientation="h", y=-0.25), hovermode="x unified")
 st.plotly_chart(fig, width="stretch")
 if not any(cum_actual(m) for _, m in members.iterrows()):
-    st.caption("No rounds scored yet — the solid lines start filling in after round 1 is played. "
-               "Dashed projections use each manager's current squad.")
+    st.caption("No rounds scored yet — solid lines fill in as TV 2 finalises each round. Dashed lines "
+               "show each manager's expected path through the scheduled group games.")
 
 # ---------------------------------------------------------------- rivals' squads, ranked by SPI
 if proj is not None and have_squads:
@@ -130,13 +166,53 @@ if proj is not None and have_squads:
     st.subheader("🏅 Squad Power Index — every manager's team, strongest first")
     st.caption("A 0–100 rating blending this round's projected XI (60%), whole-cup durability (25%) and "
                "value-per-million (15%), graded across your league.")
+    rev = spi.iloc[::-1]  # plotly draws horizontal bars bottom-up
     sbar = go.Figure(go.Bar(
-        x=spi["SPI"], y=[f"{'🟢 ' if me else ''}{sn}" for sn, me in zip(spi["squad_name"], spi["is_me"])][::-1],
-        orientation="h", marker_color=[colour.get(sn, viz.NEUTRAL) for sn in spi["squad_name"]][::-1],
-        text=[f"{v:.0f}" for v in spi["SPI"]][::-1], textposition="outside", cliponaxis=False))
+        x=rev["SPI"], y=[f"{'🟢 ' if me else ''}{sn}" for sn, me in zip(rev["squad_name"], rev["is_me"])],
+        orientation="h", marker_color=[colour.get(sn, viz.NEUTRAL) for sn in rev["squad_name"]],
+        text=[f"{v:.0f}" for v in rev["SPI"]], textposition="outside", cliponaxis=False))
     sbar.update_layout(height=90 + 34 * len(spi), xaxis=dict(title="Squad Power Index", range=[0, 108]),
                        margin=dict(l=10, r=10, t=10, b=10))
     st.plotly_chart(sbar, width="stretch", config={"displayModeBar": False})
+
+    # ---- overall player-quality + ROI, one number each, you vs rivals ----
+    a, b = st.columns(2)
+    qual_rows = []
+    for mgr in managers:
+        tr = analytics.team_rating(proj, mgr["squad"], ranks)
+        owned_m = proj.loc[[i for i in mgr["squad"] if i in proj.index]]
+        cost = max(float(owned_m["price"].sum()), 0.1)
+        qual_rows.append({"squad_name": mgr["squad_name"], "is_me": mgr["is_me"],
+                          "avg_rank": tr["avg_rank_overall"],
+                          "actual_roi": round(mgr["total_points"] / cost, 2),
+                          "proj_roi": round(float(spi.set_index("squad_name").loc[mgr["squad_name"], "proj_tour"]) / cost, 2)
+                          if mgr["squad_name"] in set(spi["squad_name"]) else 0.0})
+    qd = pd.DataFrame(qual_rows)
+    with a:
+        st.markdown("**🎖️ Overall player quality** — average rank of each XI across *all* positions "
+                    "(lower = better players)")
+        q = qd.sort_values("avg_rank", ascending=False)  # plotly bottom-up: best ends on top
+        qf = go.Figure(go.Bar(
+            x=q["avg_rank"], y=[f"{'🟢 ' if me else ''}{s}" for s, me in zip(q["squad_name"], q["is_me"])],
+            orientation="h", marker_color=[colour.get(s, viz.NEUTRAL) for s in q["squad_name"]],
+            text=[f"#{v:.0f}" for v in q["avg_rank"]], textposition="outside", cliponaxis=False))
+        qf.update_layout(height=70 + 32 * len(q), xaxis_title="Avg player rank in XI (lower = better)",
+                         margin=dict(l=10, r=10, t=6, b=10))
+        st.plotly_chart(qf, width="stretch", config={"displayModeBar": False})
+    with b:
+        st.markdown("**💸 Squad ROI** — points per million spent: actual so far (solid) and expected "
+                    "for the whole cup (faded)")
+        r = qd.sort_values("proj_roi")
+        labels = [f"{'🟢 ' if me else ''}{s}" for s, me in zip(r["squad_name"], r["is_me"])]
+        rf = go.Figure()
+        rf.add_bar(x=r["proj_roi"], y=labels, orientation="h", name="expected (cup)",
+                   marker_color=[colour.get(s, viz.NEUTRAL) for s in r["squad_name"]], opacity=0.35,
+                   text=[f"{v:.2f}" for v in r["proj_roi"]], textposition="outside", cliponaxis=False)
+        rf.add_bar(x=r["actual_roi"], y=labels, orientation="h", name="actual so far",
+                   marker_color=[colour.get(s, viz.NEUTRAL) for s in r["squad_name"]])
+        rf.update_layout(barmode="overlay", height=70 + 32 * len(r), xaxis_title="points per million",
+                         legend=dict(orientation="h", y=-0.3), margin=dict(l=10, r=10, t=6, b=10))
+        st.plotly_chart(rf, width="stretch", config={"displayModeBar": False})
 
     if not spi.empty and not spi.iloc[0]["is_me"]:
         with st.expander("🤔 Why isn't my team #1 on the projection?"):

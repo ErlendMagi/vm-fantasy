@@ -32,12 +32,13 @@ section[data-testid="stSidebar"]{display:none!important}
 .vmnav a .ic{font-size:17px;line-height:1}
 .vmnav a:hover{background:#1d2530;color:#fff}
 .vmnav a.act{background:#00b894;color:#06281f}
-/* phones: fixed bottom thumb bar; the floating Streamlit badge (host page,
-   untouchable from in here) gets a reserved 96px gutter on the right */
+/* phones: fixed bottom thumb bar. Streamlit Cloud's floating badge lives in
+   the HOST page (we can't move or restyle it), so the bar simply ENDS before
+   the badge's corner — no buttons ever sit under it. */
 @media (max-width:820px){
   .block-container{padding-bottom:96px!important}
-  .vmnav{position:fixed;left:6px;right:6px;bottom:6px;top:auto;margin:0;border-radius:16px;
-    justify-content:space-between;padding:7px 96px 7px 6px;gap:2px}
+  .vmnav{position:fixed;left:6px;right:108px;bottom:6px;top:auto;margin:0;border-radius:16px;
+    justify-content:space-between;padding:7px 6px;gap:2px}
   .vmnav a{font-size:10px;padding:5px 6px;gap:0}
   .vmnav a.lo{display:none}
   .vmnav a .lbl{max-width:56px;overflow:hidden;text-overflow:ellipsis}

@@ -40,8 +40,36 @@ st.caption("Marker size = expected points next round. Orange = captain (scores d
 bench = [p for p in my["squad"] if p not in xi["xi_ids"]]
 st.plotly_chart(viz.pitch_figure(owned, xi["xi_ids"], xi["captain_id"], "xp_next", bench),
                 width="stretch", config={"displayModeBar": False})
-st.caption(f"Formation **{xi['formation']}** — chosen because it maximises total expected points "
-           "across all 7 legal formations.")
+st.caption(f"Formation **{xi['formation']}** — re-chosen every round to maximise points across all 7 legal "
+           "formations, so it can change as the tournament goes on.")
+
+# ---------------------------------------------------------------- my upcoming matches
+st.subheader("📅 Your upcoming matches")
+from datetime import datetime, timedelta, timezone
+my_teams = set(owned["team"])
+fixtures = [fx for fx in d["fixtures"]
+            if (fx.get("home") in my_teams or fx.get("away") in my_teams)
+            and fx.get("status") != "finished"]
+fixtures.sort(key=lambda f: f["kickoff_utc"])
+if not fixtures:
+    st.caption("No upcoming fixtures for your players' teams yet.")
+else:
+    rows = []
+    for fx in fixtures[:12]:
+        ko = datetime.fromisoformat(fx["kickoff_utc"].replace("Z", "+00:00")).astimezone(
+            timezone(timedelta(hours=2)))  # Oslo (CEST)
+        for side, opp in (("home", "away"), ("away", "home")):
+            if fx[side] in my_teams:
+                mine_here = owned[owned["team"] == fx[side]]
+                rows.append({
+                    "When (Oslo)": ko.strftime("%a %d %b · %H:%M"),
+                    "Match": f"{viz.flag(fx['home'])} {fx['home']} – {fx['away']} {viz.flag(fx['away'])}",
+                    "Your players": ", ".join(viz.short_name(n) for n in mine_here["name"]),
+                    "Their xP": round(float(mine_here["xp_next"].sum()), 1),
+                    "Venue": fx.get("venue_id", ""),
+                })
+    st.dataframe(rows, hide_index=True, width="stretch")
+    st.caption("Times in Oslo time. 'Their xP' = combined expected points of your players in that match.")
 
 # ---------------------------------------------------------------- per-position + contributions
 a, b = st.columns(2)

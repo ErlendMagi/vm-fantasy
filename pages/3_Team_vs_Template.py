@@ -1,50 +1,106 @@
 import pandas as pd
+import plotly.graph_objects as go
 import streamlit as st
 
-st.set_page_config(page_title="Team vs Template", page_icon="⚔️", layout="wide")
+st.set_page_config(page_title="My Fund vs The Index", page_icon="📊", layout="wide")
 
-from src import services, template_team
+from src import optimizer, services, template_team, viz
 
 d = services.get_data()
-st.title("⚔️ My team vs the template")
+st.title("📊 My team vs the People's Index")
 services.render_banners(d)
 if d["proj"] is None or d["my_team"] is None:
     st.stop()
 
 proj, my, completed = d["proj"], d["my_team"], d["completed"]
-template = template_team.template_squad(proj)
-if template is None:
-    st.info("The template team is built from ownership percentages, which arrive with the first "
-            "real TV 2 sync. Run `python scraper/sync.py` once the scraper is configured.")
+owned = proj.loc[[i for i in my["squad"] if i in proj.index]]
+
+st.info("Think of your team as an **actively managed fund** and the **People's Index** as the market "
+        "it's measured against. The index isn't the most-owned dream team (nobody can afford that) — it's "
+        "the *ownership-weighted average* player at each position, i.e. what the average krone in the game "
+        "earns. Beating it round after round is your **alpha**.")
+
+if proj["ownership_pct"].isna().all():
+    st.warning("Ownership data isn't in yet — the index needs it. It appears after the next sync.")
     st.stop()
 
-st.caption("Template = most-owned squad right now, respecting the per-country cap (budget not "
-           "enforced; today's ownership snapshot applied to past rounds — a small bias, documented "
-           "on purpose). Captain = most-owned XI player.")
+# ---- projection for the next round ----
+my_next = optimizer.best_xi(owned, "xp_next")["total"]
+idx_next = template_team.index_next_projection(proj)
+history = {int(k): v for k, v in (my.get("round_history") or {}).items()}
 
+# ---- cumulative actual (and projected) series ----
+rows, mine_cum, idx_cum = [], 0.0, 0.0
+for r in completed:
+    mine_r = history.get(r)
+    if mine_r is None:  # estimate from my current XI's actual points that round
+        xi_ids = my.get("starting_xi") or my["squad"][:11]
+        cap = my.get("captain_id")
+        mine_r = sum(proj.loc[i, "round_points"].get(r, 0) for i in xi_ids if i in proj.index)
+        mine_r += proj.loc[cap, "round_points"].get(r, 0) if cap in proj.index else 0
+    idx_r = template_team.index_round_actual(proj, r)
+    mine_cum += mine_r
+    idx_cum += idx_r
+    rows.append({"round": r, "mine": mine_r, "index": idx_r,
+                 "mine_cum": mine_cum, "index_cum": idx_cum})
+df = pd.DataFrame(rows)
 
-def round_matrix(squad: pd.DataFrame) -> pd.DataFrame:
-    out = squad[["name", "team", "position", "ownership_pct", "total_points"]].copy()
-    for r in completed:
-        out[f"R{r}"] = squad["round_points"].apply(lambda rp: rp.get(r, 0))
-    return out
-
-
-a, b = st.columns(2)
-with a:
-    st.subheader("My squad, round by round")
-    mine = proj.loc[[i for i in my["squad"] if i in proj.index]]
-    st.dataframe(round_matrix(mine), hide_index=True, width="stretch")
-with b:
-    st.subheader("Template squad, round by round")
-    st.dataframe(round_matrix(template), hide_index=True, width="stretch")
-
-cmp = template_team.comparison_frame(proj, my, completed)
-if cmp is not None:
-    st.subheader("Round-by-round margin")
-    cmp["margin"] = cmp["mine"] - cmp["template"]
-    st.bar_chart(cmp.set_index("round")["margin"])
-    total = int(cmp["mine"].sum() - cmp["template"].sum())
-    st.metric("Total margin vs template", f"{total:+d} pts")
+c1, c2, c3 = st.columns(3)
+if not df.empty:
+    alpha = df["mine_cum"].iloc[-1] - df["index_cum"].iloc[-1]
+    c1.metric("Your points so far", f"{df['mine_cum'].iloc[-1]:.0f}")
+    c2.metric("The Index", f"{df['index_cum'].iloc[-1]:.0f}")
+    c3.metric("Your alpha", f"{alpha:+.1f}", help="Points above (or below) the market benchmark")
 else:
-    st.info("Charts appear once the first round completes.")
+    c1.metric("Projected next round (you)", f"{my_next:.0f}")
+    c2.metric("Projected next round (Index)", f"{idx_next:.0f}")
+    c3.metric("Projected edge", f"{my_next - idx_next:+.1f}")
+
+# ---- the fund-vs-index chart ----
+st.subheader("Cumulative return")
+fig = go.Figure()
+nxt = (completed[-1] + 1) if completed else 1
+if not df.empty:
+    fig.add_scatter(x=df["round"], y=df["mine_cum"], name="My team", mode="lines+markers",
+                    line=dict(width=5, color=viz.MINE_GREEN))
+    fig.add_scatter(x=df["round"], y=df["index_cum"], name="People's Index", mode="lines+markers",
+                    line=dict(width=3, color=viz.NEUTRAL))
+    # one projected step forward (dashed)
+    fig.add_scatter(x=[df["round"].iloc[-1], nxt], y=[df["mine_cum"].iloc[-1], df["mine_cum"].iloc[-1] + my_next],
+                    name="My team (proj)", mode="lines", line=dict(width=5, color=viz.MINE_GREEN, dash="dash"), showlegend=False)
+    fig.add_scatter(x=[df["round"].iloc[-1], nxt], y=[df["index_cum"].iloc[-1], df["index_cum"].iloc[-1] + idx_next],
+                    name="Index (proj)", mode="lines", line=dict(width=3, color=viz.NEUTRAL, dash="dash"), showlegend=False)
+else:
+    fig.add_scatter(x=[0, 1], y=[0, my_next], name="My team (proj)", mode="lines+markers",
+                    line=dict(width=5, color=viz.MINE_GREEN, dash="dash"))
+    fig.add_scatter(x=[0, 1], y=[0, idx_next], name="Index (proj)", mode="lines+markers",
+                    line=dict(width=3, color=viz.NEUTRAL, dash="dash"))
+fig.update_layout(xaxis_title="Round", yaxis_title="Cumulative points", height=420)
+st.plotly_chart(fig, width="stretch")
+
+# ---- where you're over/under-weight vs the market ----
+st.subheader("Your bets vs the market — expected points per position (next round)")
+st.caption("Green = your starting XI's expected points at each position; grey = the index. Taller-than-grey "
+           "means you're overweight there and expect to beat the market; shorter means you're underweight.")
+my_xi = owned.loc[[i for i in optimizer.best_xi(owned, 'xp_next')['xi_ids'] if i in owned.index]]
+cats, mine_v, idx_v = [], [], []
+for pos in viz.POS_ORDER:
+    mine_v.append(float(my_xi[my_xi["position"] == pos]["xp_next"].sum()))
+    sub = proj[proj["position"] == pos]
+    idx_avg = template_team._own_weighted_avg(sub, sub["xp_next"])
+    idx_v.append(idx_avg * template_team.INDEX_XI[pos])
+    cats.append(viz.POS_LABEL[pos])
+posfig = go.Figure()
+posfig.add_bar(name="My XI", x=cats, y=mine_v, marker_color=viz.MINE_GREEN)
+posfig.add_bar(name="People's Index", x=cats, y=idx_v, marker_color=viz.NEUTRAL)
+posfig.update_layout(barmode="group", height=340, yaxis_title="Expected points (next round)")
+st.plotly_chart(posfig, width="stretch")
+
+with st.expander("Round-by-round detail"):
+    if not df.empty:
+        st.dataframe(df.assign(alpha=df["mine_cum"] - df["index_cum"]),
+                     hide_index=True, width="stretch",
+                     column_config={"mine": "You", "index": "Index", "mine_cum": "You (cum)",
+                                    "index_cum": "Index (cum)", "alpha": "Alpha"})
+    else:
+        st.caption("Fills in once round 1 is scored.")

@@ -10,6 +10,40 @@ import pandas as pd
 
 from src import config, optimizer
 
+# representative starting XI for the "People's Index" (a neutral 4-4-2)
+INDEX_XI = {"GK": 1, "DEF": 4, "MID": 4, "FWD": 2}
+
+
+def _own_weighted_avg(df: pd.DataFrame, values: pd.Series) -> float:
+    """Ownership-weighted average (the 'market-cap' average of the player pool)."""
+    w = df["ownership_pct"].fillna(0).clip(lower=0)
+    if float(w.sum()) <= 0:
+        return float(values.mean()) if len(values) else 0.0
+    return float((values * w).sum() / w.sum())
+
+
+def people_index_value(proj: pd.DataFrame, values: pd.Series) -> float:
+    """The People's Index points for one round: an ownership-weighted-average
+    player at each XI slot (1 GK / 4 DEF / 4 MID / 2 FWD) + a captain bonus
+    (the strongest position's average, doubled). This is the affordable,
+    market-cap-weighted benchmark - what the average krone in the game scores."""
+    total, best = 0.0, 0.0
+    for pos, n in INDEX_XI.items():
+        sub = proj[proj["position"] == pos]
+        avg = _own_weighted_avg(sub, values.reindex(sub.index)) if len(sub) else 0.0
+        total += avg * n
+        best = max(best, avg)
+    return total + best
+
+
+def index_round_actual(proj: pd.DataFrame, round_no: int) -> float:
+    vals = proj["round_points"].apply(lambda rp: rp.get(round_no, 0))
+    return people_index_value(proj, vals)
+
+
+def index_next_projection(proj: pd.DataFrame) -> float:
+    return people_index_value(proj, proj["xp_next"])
+
 
 def template_squad(players: pd.DataFrame) -> pd.DataFrame | None:
     if players["ownership_pct"].isna().all():

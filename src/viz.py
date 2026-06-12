@@ -17,6 +17,33 @@ POS_LABEL = {"GK": "Keepers", "DEF": "Defenders", "MID": "Midfielders", "FWD": "
 POS_COLOR = {"GK": "#6c5ce7", "DEF": "#fdcb6e", "MID": "#74b9ff", "FWD": "#55efc4"}
 ROW_Y = {"GK": 0.7, "DEF": 2.1, "MID": 3.7, "FWD": 5.2}
 
+# national-team flag emoji (by canonical team name; FIFA code as fallback)
+FLAGS = {
+    "Mexico": "🇲🇽", "South Africa": "🇿🇦", "Czech Republic": "🇨🇿", "South Korea": "🇰🇷",
+    "Canada": "🇨🇦", "Switzerland": "🇨🇭", "Qatar": "🇶🇦", "Bosnia & Herzegovina": "🇧🇦",
+    "Brazil": "🇧🇷", "Morocco": "🇲🇦", "Scotland": "🏴󠁧󠁢󠁳󠁣󠁴󠁿", "Haiti": "🇭🇹", "USA": "🇺🇸",
+    "Turkey": "🇹🇷", "Australia": "🇦🇺", "Paraguay": "🇵🇾", "Germany": "🇩🇪", "Ecuador": "🇪🇨",
+    "Ivory Coast": "🇨🇮", "Curacao": "🇨🇼", "Netherlands": "🇳🇱", "Japan": "🇯🇵", "Sweden": "🇸🇪",
+    "Tunisia": "🇹🇳", "Belgium": "🇧🇪", "Egypt": "🇪🇬", "Iran": "🇮🇷", "New Zealand": "🇳🇿",
+    "Spain": "🇪🇸", "Uruguay": "🇺🇾", "Saudi Arabia": "🇸🇦", "Cape Verde": "🇨🇻", "France": "🇫🇷",
+    "Norway": "🇳🇴", "Senegal": "🇸🇳", "Iraq": "🇮🇶", "Argentina": "🇦🇷", "Austria": "🇦🇹",
+    "Algeria": "🇩🇿", "Jordan": "🇯🇴", "Portugal": "🇵🇹", "Colombia": "🇨🇴", "Uzbekistan": "🇺🇿",
+    "DR Congo": "🇨🇩", "England": "🏴󠁧󠁢󠁥󠁮󠁧󠁿", "Croatia": "🇭🇷", "Ghana": "🇬🇭", "Panama": "🇵🇦",
+}
+_CODE_FLAGS = {  # FIFA 3-letter code -> flag, for the rival feed which gives codes
+    "SUI": "🇨🇭", "GER": "🇩🇪", "ESP": "🇪🇸", "FRA": "🇫🇷", "BRA": "🇧🇷", "POR": "🇵🇹", "ARG": "🇦🇷",
+    "ENG": "🏴󠁧󠁢󠁥󠁮󠁧󠁿", "NED": "🇳🇱", "BEL": "🇧🇪", "CRO": "🇭🇷", "URU": "🇺🇾", "COL": "🇨🇴", "MEX": "🇲🇽",
+    "USA": "🇺🇸", "CAN": "🇨🇦", "NOR": "🇳🇴", "MAR": "🇲🇦", "SEN": "🇸🇳", "JPN": "🇯🇵", "AUT": "🇦🇹",
+    "SWE": "🇸🇪", "RSA": "🇿🇦", "CZE": "🇨🇿", "KOR": "🇰🇷", "QAT": "🇶🇦", "BIH": "🇧🇦", "SCO": "🏴󠁧󠁢󠁳󠁣󠁴󠁿",
+    "HAI": "🇭🇹", "TUR": "🇹🇷", "AUS": "🇦🇺", "PAR": "🇵🇾", "ECU": "🇪🇨", "CIV": "🇨🇮", "CUW": "🇨🇼",
+    "TUN": "🇹🇳", "EGY": "🇪🇬", "IRN": "🇮🇷", "NZL": "🇳🇿", "KSA": "🇸🇦", "CPV": "🇨🇻", "IRQ": "🇮🇶",
+    "ALG": "🇩🇿", "JOR": "🇯🇴", "UZB": "🇺🇿", "COD": "🇨🇩", "GHA": "🇬🇭", "PAN": "🇵🇦",
+}
+
+
+def flag(team: str = "", code: str = "") -> str:
+    return FLAGS.get(team) or _CODE_FLAGS.get(code, "🏳️")
+
 
 def short_name(full: str) -> str:
     parts = str(full).split()
@@ -47,15 +74,18 @@ def pitch_figure(squad: pd.DataFrame, xi_ids: list, captain_id, value_col: str =
         xs = [8 * (k + 1) / (n + 1) for k in range(n)]
         for x, (idx, r) in zip(xs, row.iterrows()):
             cap = idx == captain_id
+            fl = flag(r["team"])
+            price = f"{r['price']:.1f}M" if "price" in r and r["price"] == r["price"] else ""
             fig.add_scatter(
                 x=[x], y=[y], mode="markers+text", cliponaxis=False,
                 marker=dict(size=30 + 26 * float(r[value_col]) / vmax,
                             color="#e17055" if cap else "#ffffff",
                             line=dict(color="#2d3436", width=2)),
-                text=f"<b>{short_name(r['name'])}{' (C)' if cap else ''}</b><br>{r[value_col]:.1f} pts",
+                text=f"{fl} <b>{short_name(r['name'])}{' (C)' if cap else ''}</b><br>"
+                     f"{price} · {r[value_col]:.1f} pts",
                 textposition="bottom center", textfont=dict(color="white", size=12),
-                hovertemplate=(f"<b>{r['name']}</b> ({r['team']})<br>"
-                               f"vs {r.get('opponent', '?')}<br>"
+                hovertemplate=(f"{fl} <b>{r['name']}</b> ({r['team']})<br>"
+                               f"Price: {price}<br>vs {r.get('opponent', '?')}<br>"
                                f"Expected points: {r[value_col]:.2f}<extra></extra>"),
                 showlegend=False)
     # bench strip
@@ -64,12 +94,14 @@ def pitch_figure(squad: pd.DataFrame, xi_ids: list, captain_id, value_col: str =
     n = max(len(bench), 1)
     for k, (idx, r) in enumerate(bench.iterrows()):
         x = 8 * (k + 1) / (n + 1)
+        fl = flag(r["team"])
+        price = f"{r['price']:.1f}M" if "price" in r and r["price"] == r["price"] else ""
         fig.add_scatter(
             x=[x], y=[-0.9], mode="markers+text", cliponaxis=False,
             marker=dict(size=22, color="#636e72", line=dict(color="#2d3436", width=1)),
-            text=f"{short_name(r['name'])}<br>{r[value_col]:.1f}",
+            text=f"{fl} {short_name(r['name'])}<br>{price} · {r[value_col]:.1f}",
             textposition="bottom center", textfont=dict(color="#b2bec3", size=10),
-            hovertemplate=f"<b>{r['name']}</b> (bench)<br>xP {r[value_col]:.2f}<extra></extra>",
+            hovertemplate=f"{fl} <b>{r['name']}</b> (bench)<br>{price} · xP {r[value_col]:.2f}<extra></extra>",
             showlegend=False)
     fig.add_annotation(x=0.1, y=-0.9, text="BENCH", showarrow=False,
                        font=dict(color="#b2bec3", size=11), xanchor="left")
@@ -90,14 +122,15 @@ def position_ranking_figure(proj: pd.DataFrame, pos: str, value_col: str,
     best = max(float(sub[value_col].max()), 0.01)
     pct = sub[value_col] / best * 100
     mine = sub["id"].isin(my_ids)
-    labels = [f"#{n_rows - k}  {n} ({t})" for k, (n, t) in enumerate(zip(sub["name"], sub["team"]))]
+    labels = [f"#{n_rows - k}  {flag(t)} {n}" for k, (n, t) in enumerate(zip(sub["name"], sub["team"]))]
     own = ["unknown" if o != o else f"{o:.1f}%" for o in sub["ownership_pct"]]  # o!=o -> NaN
     fig = go.Figure(go.Bar(
         x=pct, y=labels, orientation="h",
         marker_color=[MINE_GREEN if m else NEUTRAL for m in mine],
-        text=[f"{v:.1f} pts" + ("  ✓ yours" if m else "") for v, m in zip(sub[value_col], mine)],
+        text=[f"{pr:.1f}M · {v:.1f} pts" + ("  ✓ yours" if m else "")
+              for v, pr, m in zip(sub[value_col], sub["price"], mine)],
         textposition="outside", cliponaxis=False, customdata=own,
-        hovertemplate="%{y}<br>Rating: %{text}<br>Ownership: %{customdata}<extra></extra>"))
+        hovertemplate="%{y}<br>%{text}<br>Ownership: %{customdata}<extra></extra>"))
     fig.update_layout(
         xaxis=dict(title="% of the position's best player", range=[0, 118]),
         height=80 + 30 * len(sub), margin=dict(l=10, r=10, t=10, b=10),

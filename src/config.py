@@ -111,5 +111,10 @@ ODDS_CREDIT_FLOOR = 60        # refuse to spend below this many remaining credit
 # assist heuristic is a fine fallback - keeps tournament-long credit use ~halved.
 PLAYER_PROPS_MARKETS = "player_goal_scorer_anytime"
 
+# ---------------------------------------------------------------- league
+# Only pull each rival's full squad (one API call per member) for friend-sized
+# leagues; big public leagues keep standings only.
+LEAGUE_SQUAD_FETCH_MAX = 16
+
 # ---------------------------------------------------------------- staleness
 STALE_AFTER_HOURS = 36

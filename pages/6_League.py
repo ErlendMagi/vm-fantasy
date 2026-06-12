@@ -38,7 +38,8 @@ if is_live and league and league.get("leagues"):
     synced = next((l for l in league["leagues"] if l.get("league_id") == lg.get("league_id")),
                   league["leagues"][0])
     extra = {m["squad_name"]: m for m in synced["members"]}
-    for col, default in [("squad", []), ("starter_ids", []), ("captain_id", None), ("formation", None)]:
+    for col, default in [("squad", []), ("starter_ids", []), ("bench_ids", []),
+                         ("captain_id", None), ("formation", None)]:
         members[col] = members["squad_name"].map(
             lambda sq, c=col, dft=default: (extra.get(sq) or {}).get(c, dft))
 elif "squad" not in members.columns:
@@ -109,44 +110,74 @@ if not any(cum_actual(m) for _, m in members.iterrows()):
     st.caption("No rounds scored yet — the solid lines start filling in after round 1 is played. "
                "Dashed projections use each manager's current squad.")
 
-# ---------------------------------------------------------------- rivals' squads + changes
+# ---------------------------------------------------------------- rivals' squads, ranked by projected pts
+def squad_xp_safe(ids, col):
+    owned = proj.loc[[i for i in ids if i in proj.index]]
+    return optimizer.squad_xp(owned, col) if len(owned) >= 11 else float(owned[col].sum())
+
 if proj is not None and have_squads:
-    st.subheader("🔍 Your rivals' teams")
+    st.subheader("🔮 Projected this round — every manager's team, strongest first")
+    st.caption("Each manager's starting XI projected for the coming round (captain doubled). "
+               "Whoever the model expects to score most is on top.")
+    rankrows = []
+    for _, m in members.iterrows():
+        if not m["squad"]:
+            continue
+        rankrows.append({"squad_name": m["squad_name"], "manager": m["manager"],
+                         "is_me": m["is_me"], "proj_next": squad_xp_safe(m["squad"], "xp_next"),
+                         "proj_tour": squad_xp_safe(m["squad"], "xp_tournament")})
+    rk = pd.DataFrame(rankrows).sort_values("proj_next", ascending=False).reset_index(drop=True)
+    rbar = go.Figure(go.Bar(
+        x=rk["proj_next"], y=[f"{'🟢 ' if me else ''}{sn}" for sn, me in zip(rk["squad_name"], rk["is_me"])][::-1],
+        orientation="h", marker_color=[colour.get(sn, viz.NEUTRAL) for sn in rk["squad_name"]][::-1],
+        text=[f"{v:.1f}" for v in rk["proj_next"]][::-1], textposition="outside", cliponaxis=False))
+    rbar.update_layout(height=90 + 34 * len(rk), xaxis_title="Projected points, next round (XI, captain ×2)",
+                       margin=dict(l=10, r=10, t=10, b=10))
+    st.plotly_chart(rbar, width="stretch", config={"displayModeBar": False})
+
+    st.subheader("🔍 Open any manager's team")
     history = data_access.load_league_history().get("rounds", {})
     prev_round = str((league.get("current_round") or 2) - 1)
     prev_members = (history.get(prev_round) or {}).get("members", {})
-
-    for _, m in members[~members["is_me"]].iterrows():
+    ordered = rk.merge(members, on=["squad_name", "manager", "is_me"])
+    for _, m in ordered.iterrows():
         owned = proj.loc[[i for i in m["squad"] if i in proj.index]]
         xi = optimizer.best_xi(owned, "xp_next") if len(owned) >= 11 else None
         formation = m.get("formation") or (xi["formation"] if xi else "?")
-        with st.expander(f"**{m['manager']}** · {m['squad_name']} — formation {formation} · "
-                         f"{m['total_points']} pts"):
-            # what changed since last round
+        squad_cost = float(owned["price"].sum())
+        title = f"{'🟢 ' if m['is_me'] else ''}**{m['manager']}** · {m['squad_name']} — {formation} · " \
+                f"{m['proj_next']:.1f} proj pts · {m['total_points']} actual · {squad_cost:.0f}M"
+        with st.expander(title):
             prev = prev_members.get(m["squad_name"])
             if prev:
-                came_in = set(m["squad"]) - set(prev["squad"])
-                went_out = set(prev["squad"]) - set(m["squad"])
-                if came_in or went_out:
-                    ins = ", ".join(proj.loc[i, "name"] for i in came_in if i in proj.index) or "—"
-                    outs = ", ".join(proj.loc[i, "name"] for i in went_out if i in proj.index) or "—"
+                came, went = set(m["squad"]) - set(prev["squad"]), set(prev["squad"]) - set(m["squad"])
+                if came or went:
+                    ins = ", ".join(proj.loc[i, "name"] for i in came if i in proj.index) or "—"
+                    outs = ", ".join(proj.loc[i, "name"] for i in went if i in proj.index) or "—"
                     st.markdown(f"**Changes since round {prev_round}:** OUT {outs} → IN {ins}"
-                                + (f"  ·  formation {prev.get('formation')} → {formation}"
+                                + (f"  ·  {prev.get('formation')} → {formation}"
                                    if prev.get("formation") and prev.get("formation") != formation else ""))
-                else:
-                    st.caption(f"No changes since round {prev_round}.")
-            # their pitch
+            cap_id = m.get("captain_id") if m.get("captain_id") in owned.index else (xi["captain_id"] if xi else None)
             if xi:
-                cap = m.get("captain_id") if m.get("captain_id") in owned.index else xi["captain_id"]
-                bench = [i for i in m["squad"] if i not in xi["xi_ids"]]
-                st.plotly_chart(viz.pitch_figure(owned, xi["xi_ids"], cap, "xp_next", bench),
+                bench = m.get("bench_ids") or [i for i in m["squad"] if i not in xi["xi_ids"]]
+                st.plotly_chart(viz.pitch_figure(owned, xi["xi_ids"], cap_id, "xp_next", bench),
                                 width="stretch", config={"displayModeBar": False})
+            tbl = owned.assign(
+                flag=owned["team"].map(viz.flag),
+                C=[("🅒" if i == cap_id else "") for i in owned.index],
+                start=[("XI" if xi and i in xi["xi_ids"] else "bench") for i in owned.index])
+            st.dataframe(
+                tbl.sort_values(["start", "xp_next"], ascending=[True, False])[
+                    ["flag", "name", "team", "position", "price", "xp_next", "xp_tournament", "C", "start"]],
+                hide_index=True, width="stretch",
+                column_config={"flag": "", "price": st.column_config.NumberColumn("price", format="%.1fM"),
+                               "xp_next": st.column_config.NumberColumn("xP this round", format="%.2f"),
+                               "xp_tournament": st.column_config.NumberColumn("xP cup", format="%.1f")})
 
-    # head-to-head: what you win and lose on
     st.subheader("⚔️ What you win & lose on (vs each rival)")
     mine = set((d["my_team"] or {}).get("squad", []))
-    cols = ["name", "team", "position", "xp_next", "xp_tournament"]
-    for _, m in members[~members["is_me"]].iterrows():
+    cols = ["name", "team", "position", "price", "xp_next", "xp_tournament"]
+    for _, m in ordered[~ordered["is_me"]].iterrows():
         theirs = set(m["squad"])
         only_me = [i for i in mine - theirs if i in proj.index]
         only_them = [i for i in theirs - mine if i in proj.index]
@@ -161,5 +192,6 @@ if proj is not None and have_squads:
                 st.dataframe(proj.loc[only_them].sort_values("xp_tournament", ascending=False)[cols]
                              if only_them else proj.head(0)[cols], hide_index=True, width="stretch")
 else:
-    st.caption("🔒 Rival squads are hidden by TV 2 until each round's deadline. Once round 1 locks they "
-               "appear here — their teams, formations, what changed each round, and your differentials.")
+    st.caption("🔒 Rival squads are hidden by TV 2 until each round's deadline passes. Once they unlock "
+               "they appear here — every manager's team on a pitch, their prices, projected points, "
+               "formation, and what they changed each round.")

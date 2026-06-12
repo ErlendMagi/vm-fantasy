@@ -98,25 +98,20 @@ class Tv2Client:
                 lb = get(f"{base}/leagues/{lid}/leaderboard?page=1&limit=100")
                 if not lb:
                     continue
+                entries = lb.get("entries", [])
+                # only pull each rival's full squad for small friend leagues -
+                # fetching a squad-view per member of a 100-strong league is costly
+                fetch_squads = len(entries) <= config.LEAGUE_SQUAD_FETCH_MAX
                 members = []
-                for e in lb.get("entries", []):
-                    view = get(f"{base}/squad/view/{e.get('squadId')}") or {}
-                    if not isinstance(view, dict):
-                        view = {}
-                    squad_ids = []
-                    for p in (view.get("players") or []):
-                        pid = p.get("playerId") or (p.get("player") or {}).get("id") or p.get("id")
-                        if pid:
-                            squad_ids.append(str(pid))
+                for e in entries:
+                    view = get(f"{base}/squad/view/{e.get('squadId')}") if fetch_squads else {}
                     members.append({
                         "manager": e.get("managerName"), "squad_name": e.get("squadName"),
                         "squad_id": e.get("squadId"),
                         "rank": e.get("rank"), "total_points": e.get("totalPoints", 0),
                         "latest_round_points": e.get("latestRoundPoints", 0),
-                        "round_scores": e.get("roundScores", []), "squad": squad_ids,
-                        "starter_ids": [str(i) for i in (view.get("starterIds") or [])],
-                        "captain_id": str(view["captainId"]) if view.get("captainId") else None,
-                        "formation": view.get("formation"),
+                        "round_scores": e.get("roundScores", []),
+                        **self._parse_rival_view(view or {}),
                     })
                 leagues.append({"name": lg.get("leagueName"), "league_id": lid,
                                 "my_rank": (lb.get("myRank") or {}).get("rank"), "members": members})
@@ -124,6 +119,35 @@ class Tv2Client:
         except Exception as exc:  # never let league fetching break the core sync
             print(f"league fetch skipped: {exc}", file=sys.stderr)
             return {}
+
+    @staticmethod
+    def _parse_rival_view(view: dict) -> dict:
+        """squad/view returns {rounds:[{number,formation,starters,bench,...}]}.
+        Use the latest round for the current squad/lineup/captain, and keep a
+        per-round history of formation + points."""
+        if not isinstance(view, dict):
+            return {"squad": [], "starter_ids": [], "bench_ids": [], "captain_id": None,
+                    "formation": None, "rounds": []}
+        rounds = view.get("rounds") or []
+        latest = rounds[-1] if rounds else {}
+        starters = latest.get("starters") or []
+        bench = latest.get("bench") or []
+
+        def pid(p):
+            return str(p.get("playerId") or p.get("id") or "")
+
+        starter_ids = [pid(p) for p in starters if pid(p)]
+        bench_ids = [pid(p) for p in bench if pid(p)]
+        captain = next((pid(p) for p in starters if p.get("isCaptain")), None)
+        hist = [{"number": r.get("number"), "formation": r.get("formation"),
+                 "points": r.get("roundTotal"), "transfer_hit": r.get("transferHit", 0)}
+                for r in rounds]
+        return {
+            "squad": starter_ids + bench_ids,
+            "starter_ids": starter_ids, "bench_ids": bench_ids,
+            "captain_id": captain, "formation": latest.get("formation"),
+            "rounds": hist,
+        }
 
     # ------------------------------------------------------------ players
 

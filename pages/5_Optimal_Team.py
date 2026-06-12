@@ -6,12 +6,18 @@ st.set_page_config(page_title="Optimal Team", page_icon="⭐", layout="wide")
 from src import config, optimizer, services, viz
 
 d = services.get_data()
-st.title("⭐ The model's optimal team")
+st.title("⭐ Dream team (unlimited transfers)")
 services.render_banners(d)
 if d["proj"] is None:
     st.stop()
 
 proj = d["proj"]
+my_squad = set((d["my_team"] or {}).get("squad", []))
+st.info("**Why isn't this just my team?** Before the tournament started you had unlimited transfers, so the "
+        "autopilot built your team to match this exactly. But once a round locks you only get **2 free "
+        "transfers per round** (extra ones cost −4). This page shows the team you'd pick if you could "
+        "rebuild from scratch today — the target your real team moves *toward* a couple of transfers at a "
+        "time, not something you can jump to in one round without burning points.")
 horizon = st.toggle("Optimise for the whole tournament (off = just the next round)", value=True)
 res = services.get_optimal_squad("xp_tournament" if horizon else "xp_next")
 if not res:
@@ -84,7 +90,10 @@ if d["my_team"] is not None:
     out_ids = [i for i in (mine - target) if i in proj.index]
     in_ids = [i for i in (target - mine) if i in proj.index]
     cols = ["name", "team", "position", "price", "xp_tournament"]
-    st.subheader(f"To move from your team to this one: {len(out_ids)} changes")
+    n = len(out_ids)
+    rounds_needed = (n + 1) // 2  # ~2 free transfers per round
+    st.subheader(f"Your team is {n} change{'s' if n != 1 else ''} away "
+                 f"(~{rounds_needed} round{'s' if rounds_needed != 1 else ''} of free transfers)")
     a, b = st.columns(2)
     with a:
         st.caption("OUT")

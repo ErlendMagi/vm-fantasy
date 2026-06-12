@@ -1,6 +1,6 @@
 {
- "fetched_at": "2026-06-12T00:01:16.168553+00:00",
- "credits_remaining": "439",
+ "fetched_at": "2026-06-12T00:14:37.042989+00:00",
+ "credits_remaining": "436",
  "sport_key": "soccer_fifa_world_cup_winner",
  "prices": {
   "France": 5.9,
@@ -24,8 +24,8 @@
   "Turkey": 100.0,
   "Senegal": 130.0,
   "Croatia": 140.0,
-  "Austria": 230.0,
-  "Sweden": 270.0,
+  "Austria": 240.0,
+  "Sweden": 260.0,
   "Ivory Coast": 300.0,
   "Scotland": 350.0,
   "Canada": 400.0,
@@ -36,7 +36,7 @@
   "Egypt": 670.0,
   "Paraguay": 670.0,
   "Ghana": 810.0,
-  "Bosnia & Herzegovina": 850.0,
+  "Bosnia & Herzegovina": 810.0,
   "Tunisia": 1000.0,
   "Iran": 1000.0,
   "Jordan": 2001.0,

@@ -30,13 +30,14 @@ section[data-testid="stSidebar"]{display:none!important}
 .vmnav a .ic{font-size:17px;line-height:1}
 .vmnav a:hover{background:#1d2530;color:#fff}
 .vmnav a.act{background:#00b894;color:#06281f}
+/* keep the floating Streamlit badge clear of the bottom bar on phones */
 @media (max-width:820px){
-  .block-container{padding-bottom:84px!important}
-  .vmnav{position:fixed;left:8px;right:8px;bottom:8px;top:auto;margin:0;border-radius:16px;
-    justify-content:space-between;padding:8px 6px}
-  .vmnav a{font-size:11px;padding:5px 8px}
-  .vmnav a .lbl{max-width:62px;overflow:hidden;text-overflow:ellipsis}
-  .vmnav a .ic{font-size:20px}
+  .block-container{padding-bottom:96px!important}
+  .vmnav{position:fixed;left:6px;right:6px;bottom:6px;top:auto;margin:0;border-radius:16px;
+    justify-content:space-between;padding:7px 60px 7px 6px;gap:2px}
+  .vmnav a{font-size:10px;padding:5px 6px;gap:0}
+  .vmnav a .lbl{max-width:54px;overflow:hidden;text-overflow:ellipsis}
+  .vmnav a .ic{font-size:19px}
 }
 </style>
 """

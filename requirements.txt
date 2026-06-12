@@ -1,6 +1,7 @@
 # Cloud (Streamlit Community Cloud) dependencies only.
 # Scraper-only deps live in scraper/requirements-local.txt.
 streamlit>=1.35
+streamlit-autorefresh>=1.0
 pandas>=2.0
 numpy>=1.26
 plotly>=5.20

@@ -80,6 +80,49 @@ def get_optimal_squad(value_col: str = "xp_tournament") -> dict:
     return _optimal(_data_sig(), _weather_bucket(), value_col)
 
 
+@st.cache_data(ttl=120, show_spinner=False)
+def _live_league(_token: str) -> dict | None:
+    """Live private-league standings straight from the TV 2 API (scores update
+    during matches). Light: leaderboard only, no per-member squad fetches —
+    squads/formations come from the synced league.json."""
+    import requests
+    base = "https://vm-fantasyapi-production.up.railway.app"
+    h = {"Authorization": f"Bearer {_token}", "Accept": "application/json"}
+    try:
+        summary = requests.get(f"{base}/leagues/summary", params={"tournamentId": "vm-2026"},
+                               headers=h, timeout=10).json()
+        leagues = []
+        for lg in summary:
+            if lg.get("leagueType") == "MAIN":
+                continue
+            lb = requests.get(f"{base}/leagues/{lg['leagueId']}/leaderboard",
+                              params={"page": 1, "limit": 100}, headers=h, timeout=10).json()
+            members = [{
+                "manager": e.get("managerName"), "squad_name": e.get("squadName"),
+                "rank": e.get("rank"), "total_points": e.get("totalPoints", 0),
+                "latest_round_points": e.get("latestRoundPoints", 0),
+                "round_scores": e.get("roundScores", []),
+            } for e in lb.get("entries", [])]
+            leagues.append({"name": lg.get("leagueName"), "league_id": lg.get("leagueId"),
+                            "my_rank": (lb.get("myRank") or {}).get("rank"), "members": members})
+        return {"leagues": leagues} if leagues else None
+    except Exception:
+        return None
+
+
+def get_live_league() -> dict | None:
+    """Returns live standings when a TV2_TOKEN is available (Streamlit secret
+    or env), else None (the page falls back to the synced snapshot)."""
+    import os
+    token = None
+    try:
+        token = st.secrets.get("TV2_TOKEN")
+    except Exception:
+        token = None
+    token = token or os.environ.get("TV2_TOKEN")
+    return _live_league(token) if token else None
+
+
 def render_banners(d: dict) -> None:
     """Shared warning banners: stale sync, seed data, unverified scoring."""
     meta, players = d["meta"], d["players"]

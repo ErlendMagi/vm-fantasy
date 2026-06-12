@@ -11,17 +11,44 @@ st.title("🏆 My league — BPG")
 services.render_banners(d)
 
 league = data_access.load_league()
-if not league or not league.get("leagues"):
+live = services.get_live_league()
+is_live = live is not None
+if is_live:
+    try:
+        from streamlit_autorefresh import st_autorefresh
+        st_autorefresh(interval=120_000, key="league_live_refresh")
+    except ImportError:
+        pass
+
+if not is_live and (not league or not league.get("leagues")):
     st.info("League standings appear after the next data sync. Rival squads are hidden by TV 2 until "
             "each round's deadline passes, then they fill in here automatically.")
     st.stop()
 
 proj = d["proj"]
-lg = league["leagues"][0]
-if len(league["leagues"]) > 1:
-    lg = next(l for l in league["leagues"] if l["name"] == st.selectbox("League", [l["name"] for l in league["leagues"]]))
+source = live if is_live else league
+lg = source["leagues"][0]
+if len(source["leagues"]) > 1:
+    lg = next(l for l in source["leagues"]
+              if l["name"] == st.selectbox("League", [l["name"] for l in source["leagues"]]))
 
 members = pd.DataFrame(lg["members"])
+# live mode carries fresh scores but no rosters - merge squads/formation from the synced file
+if is_live and league and league.get("leagues"):
+    synced = next((l for l in league["leagues"] if l.get("league_id") == lg.get("league_id")),
+                  league["leagues"][0])
+    extra = {m["squad_name"]: m for m in synced["members"]}
+    for col, default in [("squad", []), ("starter_ids", []), ("captain_id", None), ("formation", None)]:
+        members[col] = members["squad_name"].map(
+            lambda sq, c=col, dft=default: (extra.get(sq) or {}).get(c, dft))
+elif "squad" not in members.columns:
+    members["squad"] = [[] for _ in range(len(members))]
+
+if is_live:
+    st.success("🔴 **LIVE** — scores update during matches (refreshes every 2 minutes).")
+else:
+    st.caption("Showing the last synced snapshot. For live in-match scores, add your TV2_TOKEN to the "
+               "Streamlit app's Secrets (see README).")
 me_name = (d["my_team"] or {}).get("squad_name")
 members["is_me"] = members["squad_name"] == me_name
 PALETTE = ["#00b894", "#0984e3", "#e17055", "#fdcb6e", "#a29bfe", "#fd79a8", "#55efc4", "#ff7675"]

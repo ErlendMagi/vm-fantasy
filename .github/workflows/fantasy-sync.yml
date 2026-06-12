@@ -1,12 +1,19 @@
 name: sync-fantasy-data
 
 # Runs entirely on GitHub's servers — your computer can be off.
-# Pulls TV 2 squad/players + betting odds, commits them; Streamlit Cloud
+# Pulls TV 2 squad/players/league + betting odds, commits them; Streamlit Cloud
 # redeploys automatically and recomputes projections from the new data.
+# The site ALSO fetches live league scores directly (every 2 min) when the
+# TV2_TOKEN secret is set in Streamlit — this workflow is the durable record
+# plus the autopilot's data source.
 
 on:
   schedule:
-    - cron: "0 0,6,12,15,18 * * *"  # every 6h + extra runs at 15/18 UTC so the autopilot always fires inside its pre-deadline window (TV 2 deadlines are typically 19-22 UTC)
+    # baseline every 6h; hourly during the match window (matches run ~15:00-05:00 UTC
+    # in North America) so league scores, player points and live results stay fresh
+    - cron: "0 6,12 * * *"
+    - cron: "0 15-23 * * *"
+    - cron: "0 0-5 * * *"
   workflow_dispatch:          # lets you run it on demand from the Actions tab
 
 permissions:
@@ -52,3 +59,10 @@ jobs:
         env:
           TV2_TOKEN: ${{ secrets.TV2_TOKEN }}
         run: python scraper/autopilot.py --confirm
+
+      # If the autopilot changed the team, immediately re-sync so the website
+      # shows the squad that is actually on TV 2 — site and actions move together.
+      - name: Re-sync after autopilot so the site matches the applied team
+        env:
+          TV2_TOKEN: ${{ secrets.TV2_TOKEN }}
+        run: python scraper/sync.py --skip-odds

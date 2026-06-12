@@ -62,6 +62,16 @@ python scraper/discover_endpoints.py   # log in, then close the window
 2. Go to https://share.streamlit.io → New app → pick the repo, main file
    `Home.py` → Deploy. Open the app URL on your phone and bookmark it.
 
+### 4b. Live league scores on the site (1 minute)
+The League page shows live in-match scores when the app can reach TV 2 itself:
+share.streamlit.io → your app → ⋮ → **Settings → Secrets** → paste:
+```toml
+TV2_TOKEN = "<your token - run: python scraper/print_token.py>"
+```
+Save; the app reboots and the League page goes 🔴 LIVE (auto-refreshes every
+2 minutes during matches). Without the secret it falls back to the synced
+snapshot (hourly during match windows).
+
 ### 5. Hands-off automation (runs with your computer OFF)
 The sync can run entirely on GitHub's servers (`.github/workflows/sync.yml`,
 every 6 hours). Add two repository secrets so it can log in to TV 2 and the

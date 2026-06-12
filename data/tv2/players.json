@@ -1,5 +1,5 @@
 {
- "synced_at": "2026-06-11T23:40:14.534641+00:00",
+ "synced_at": "2026-06-12T00:01:09.077656+00:00",
  "source": "xhr",
  "players": [
   {
@@ -294,7 +294,7 @@
    "team": "Argentina",
    "position": "MID",
    "price": 8.5,
-   "ownership_pct": 1.005,
+   "ownership_pct": 1.004,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -316,7 +316,7 @@
    "team": "Argentina",
    "position": "GK",
    "price": 6.0,
-   "ownership_pct": 15.26,
+   "ownership_pct": 15.261,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -327,7 +327,7 @@
    "team": "Argentina",
    "position": "MID",
    "price": 8.5,
-   "ownership_pct": 1.613,
+   "ownership_pct": 1.612,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -426,7 +426,7 @@
    "team": "Argentina",
    "position": "FWD",
    "price": 10.0,
-   "ownership_pct": 7.659,
+   "ownership_pct": 7.657,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -470,7 +470,7 @@
    "team": "Argentina",
    "position": "FWD",
    "price": 11.0,
-   "ownership_pct": 6.234,
+   "ownership_pct": 6.233,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -932,7 +932,7 @@
    "team": "Austria",
    "position": "DEF",
    "price": 5.5,
-   "ownership_pct": 1.289,
+   "ownership_pct": 1.288,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -954,7 +954,7 @@
    "team": "Austria",
    "position": "GK",
    "price": 3.5,
-   "ownership_pct": 30.02,
+   "ownership_pct": 30.024,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -976,7 +976,7 @@
    "team": "Austria",
    "position": "MID",
    "price": 6.5,
-   "ownership_pct": 0.315,
+   "ownership_pct": 0.317,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -987,7 +987,7 @@
    "team": "Austria",
    "position": "MID",
    "price": 7.0,
-   "ownership_pct": 4.088,
+   "ownership_pct": 4.087,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -1086,7 +1086,7 @@
    "team": "Austria",
    "position": "DEF",
    "price": 5.0,
-   "ownership_pct": 0.129,
+   "ownership_pct": 0.127,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -1207,7 +1207,7 @@
    "team": "Belgium",
    "position": "MID",
    "price": 7.5,
-   "ownership_pct": 1.003,
+   "ownership_pct": 1.002,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -1273,7 +1273,7 @@
    "team": "Belgium",
    "position": "MID",
    "price": 9.0,
-   "ownership_pct": 2.354,
+   "ownership_pct": 2.355,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -1317,7 +1317,7 @@
    "team": "Belgium",
    "position": "DEF",
    "price": 6.0,
-   "ownership_pct": 1.198,
+   "ownership_pct": 1.197,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -1328,7 +1328,7 @@
    "team": "Belgium",
    "position": "GK",
    "price": 4.0,
-   "ownership_pct": 0.33,
+   "ownership_pct": 0.331,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -1372,7 +1372,7 @@
    "team": "Belgium",
    "position": "GK",
    "price": 5.0,
-   "ownership_pct": 2.095,
+   "ownership_pct": 2.096,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -1383,7 +1383,7 @@
    "team": "Belgium",
    "position": "GK",
    "price": 6.5,
-   "ownership_pct": 2.448,
+   "ownership_pct": 2.449,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -1812,7 +1812,7 @@
    "team": "Brazil",
    "position": "GK",
    "price": 6.5,
-   "ownership_pct": 3.271,
+   "ownership_pct": 3.269,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -1845,7 +1845,7 @@
    "team": "Brazil",
    "position": "DEF",
    "price": 7.0,
-   "ownership_pct": 14.417,
+   "ownership_pct": 14.416,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -1867,7 +1867,7 @@
    "team": "Brazil",
    "position": "FWD",
    "price": 7.0,
-   "ownership_pct": 5.625,
+   "ownership_pct": 5.627,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -1911,7 +1911,7 @@
    "team": "Brazil",
    "position": "DEF",
    "price": 7.0,
-   "ownership_pct": 7.159,
+   "ownership_pct": 7.158,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -1922,7 +1922,7 @@
    "team": "Brazil",
    "position": "FWD",
    "price": 9.0,
-   "ownership_pct": 2.214,
+   "ownership_pct": 2.215,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -1933,7 +1933,7 @@
    "team": "Brazil",
    "position": "MID",
    "price": 8.5,
-   "ownership_pct": 1.583,
+   "ownership_pct": 1.584,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -1944,7 +1944,7 @@
    "team": "Brazil",
    "position": "MID",
    "price": 10.5,
-   "ownership_pct": 6.321,
+   "ownership_pct": 6.322,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -1977,7 +1977,7 @@
    "team": "Brazil",
    "position": "MID",
    "price": 12.0,
-   "ownership_pct": 3.001,
+   "ownership_pct": 3.0,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -2010,7 +2010,7 @@
    "team": "Cabo Verde",
    "position": "GK",
    "price": 3.5,
-   "ownership_pct": 3.053,
+   "ownership_pct": 3.052,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -2483,7 +2483,7 @@
    "team": "Canada",
    "position": "GK",
    "price": 4.0,
-   "ownership_pct": 5.288,
+   "ownership_pct": 5.287,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -2527,7 +2527,7 @@
    "team": "Canada",
    "position": "GK",
    "price": 3.5,
-   "ownership_pct": 2.788,
+   "ownership_pct": 2.789,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -2637,7 +2637,7 @@
    "team": "Colombia",
    "position": "DEF",
    "price": 5.0,
-   "ownership_pct": 30.396,
+   "ownership_pct": 30.398,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -2648,7 +2648,7 @@
    "team": "Colombia",
    "position": "GK",
    "price": 4.5,
-   "ownership_pct": 0.356,
+   "ownership_pct": 0.355,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -2692,7 +2692,7 @@
    "team": "Colombia",
    "position": "MID",
    "price": 7.5,
-   "ownership_pct": 3.327,
+   "ownership_pct": 3.326,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -2813,7 +2813,7 @@
    "team": "Colombia",
    "position": "MID",
    "price": 10.0,
-   "ownership_pct": 5.051,
+   "ownership_pct": 5.05,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -2890,7 +2890,7 @@
    "team": "Côte d'Ivoire",
    "position": "MID",
    "price": 6.5,
-   "ownership_pct": 6.279,
+   "ownership_pct": 6.28,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -2912,7 +2912,7 @@
    "team": "Côte d'Ivoire",
    "position": "FWD",
    "price": 4.5,
-   "ownership_pct": 2.031,
+   "ownership_pct": 2.032,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -2978,7 +2978,7 @@
    "team": "Côte d'Ivoire",
    "position": "FWD",
    "price": 5.5,
-   "ownership_pct": 0.22,
+   "ownership_pct": 0.221,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -3011,7 +3011,7 @@
    "team": "Côte d'Ivoire",
    "position": "DEF",
    "price": 4.5,
-   "ownership_pct": 1.699,
+   "ownership_pct": 1.698,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -3132,7 +3132,7 @@
    "team": "Côte d'Ivoire",
    "position": "DEF",
    "price": 4.0,
-   "ownership_pct": 4.215,
+   "ownership_pct": 4.216,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -3198,7 +3198,7 @@
    "team": "Croatia",
    "position": "GK",
    "price": 5.0,
-   "ownership_pct": 0.84,
+   "ownership_pct": 0.841,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -3209,7 +3209,7 @@
    "team": "Croatia",
    "position": "DEF",
    "price": 5.0,
-   "ownership_pct": 0.083,
+   "ownership_pct": 0.082,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -3319,7 +3319,7 @@
    "team": "Croatia",
    "position": "DEF",
    "price": 4.5,
-   "ownership_pct": 1.397,
+   "ownership_pct": 1.398,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -3352,7 +3352,7 @@
    "team": "Croatia",
    "position": "MID",
    "price": 7.0,
-   "ownership_pct": 0.083,
+   "ownership_pct": 0.082,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -3484,7 +3484,7 @@
    "team": "Curaçao",
    "position": "DEF",
    "price": 3.5,
-   "ownership_pct": 25.064,
+   "ownership_pct": 25.066,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -3539,7 +3539,7 @@
    "team": "Curaçao",
    "position": "FWD",
    "price": 4.0,
-   "ownership_pct": 5.809,
+   "ownership_pct": 5.811,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -3638,7 +3638,7 @@
    "team": "Curaçao",
    "position": "DEF",
    "price": 3.5,
-   "ownership_pct": 0.565,
+   "ownership_pct": 0.567,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -3990,7 +3990,7 @@
    "team": "Czech Republic",
    "position": "MID",
    "price": 5.5,
-   "ownership_pct": 3.4,
+   "ownership_pct": 3.399,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -4364,7 +4364,7 @@
    "team": "Ecuador",
    "position": "FWD",
    "price": 6.0,
-   "ownership_pct": 1.335,
+   "ownership_pct": 1.334,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -4408,7 +4408,7 @@
    "team": "Ecuador",
    "position": "GK",
    "price": 5.0,
-   "ownership_pct": 1.938,
+   "ownership_pct": 1.937,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -4474,7 +4474,7 @@
    "team": "Ecuador",
    "position": "FWD",
    "price": 5.0,
-   "ownership_pct": 0.268,
+   "ownership_pct": 0.269,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -4485,7 +4485,7 @@
    "team": "Ecuador",
    "position": "MID",
    "price": 5.5,
-   "ownership_pct": 0.248,
+   "ownership_pct": 0.247,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -4551,7 +4551,7 @@
    "team": "Ecuador",
    "position": "DEF",
    "price": 5.0,
-   "ownership_pct": 7.456,
+   "ownership_pct": 7.454,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -4573,7 +4573,7 @@
    "team": "Ecuador",
    "position": "DEF",
    "price": 5.5,
-   "ownership_pct": 2.746,
+   "ownership_pct": 2.745,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -4606,7 +4606,7 @@
    "team": "Egypt",
    "position": "MID",
    "price": 4.5,
-   "ownership_pct": 0.994,
+   "ownership_pct": 0.995,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -4782,7 +4782,7 @@
    "team": "Egypt",
    "position": "MID",
    "price": 10.5,
-   "ownership_pct": 0.671,
+   "ownership_pct": 0.672,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -4837,7 +4837,7 @@
    "team": "Egypt",
    "position": "FWD",
    "price": 8.0,
-   "ownership_pct": 1.359,
+   "ownership_pct": 1.36,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -4925,7 +4925,7 @@
    "team": "England",
    "position": "MID",
    "price": 7.5,
-   "ownership_pct": 5.221,
+   "ownership_pct": 5.22,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -4980,7 +4980,7 @@
    "team": "England",
    "position": "FWD",
    "price": 12.5,
-   "ownership_pct": 14.032,
+   "ownership_pct": 14.033,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -5079,7 +5079,7 @@
    "team": "England",
    "position": "DEF",
    "price": 6.5,
-   "ownership_pct": 2.742,
+   "ownership_pct": 2.743,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -5112,7 +5112,7 @@
    "team": "England",
    "position": "DEF",
    "price": 6.0,
-   "ownership_pct": 9.173,
+   "ownership_pct": 9.174,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -5145,7 +5145,7 @@
    "team": "England",
    "position": "DEF",
    "price": 6.0,
-   "ownership_pct": 1.901,
+   "ownership_pct": 1.902,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -5178,7 +5178,7 @@
    "team": "France",
    "position": "MID",
    "price": 7.5,
-   "ownership_pct": 0.413,
+   "ownership_pct": 0.412,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -5211,7 +5211,7 @@
    "team": "France",
    "position": "DEF",
    "price": 7.0,
-   "ownership_pct": 6.058,
+   "ownership_pct": 6.057,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -5222,7 +5222,7 @@
    "team": "France",
    "position": "MID",
    "price": 9.0,
-   "ownership_pct": 1.613,
+   "ownership_pct": 1.612,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -5255,7 +5255,7 @@
    "team": "France",
    "position": "DEF",
    "price": 6.5,
-   "ownership_pct": 2.309,
+   "ownership_pct": 2.311,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -5266,7 +5266,7 @@
    "team": "France",
    "position": "FWD",
    "price": 12.5,
-   "ownership_pct": 15.173,
+   "ownership_pct": 15.174,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -5332,7 +5332,7 @@
    "team": "France",
    "position": "FWD",
    "price": 8.0,
-   "ownership_pct": 0.461,
+   "ownership_pct": 0.462,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -5343,7 +5343,7 @@
    "team": "France",
    "position": "DEF",
    "price": 5.5,
-   "ownership_pct": 0.427,
+   "ownership_pct": 0.428,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -5354,7 +5354,7 @@
    "team": "France",
    "position": "MID",
    "price": 10.5,
-   "ownership_pct": 22.929,
+   "ownership_pct": 22.931,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -5365,7 +5365,7 @@
    "team": "France",
    "position": "GK",
    "price": 6.5,
-   "ownership_pct": 5.17,
+   "ownership_pct": 5.169,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -5376,7 +5376,7 @@
    "team": "France",
    "position": "MID",
    "price": 6.5,
-   "ownership_pct": 1.022,
+   "ownership_pct": 1.021,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -5387,7 +5387,7 @@
    "team": "France",
    "position": "MID",
    "price": 11.5,
-   "ownership_pct": 5.903,
+   "ownership_pct": 5.902,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -5398,7 +5398,7 @@
    "team": "France",
    "position": "MID",
    "price": 9.0,
-   "ownership_pct": 2.803,
+   "ownership_pct": 2.804,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -5420,7 +5420,7 @@
    "team": "France",
    "position": "DEF",
    "price": 6.5,
-   "ownership_pct": 2.945,
+   "ownership_pct": 2.944,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -5442,7 +5442,7 @@
    "team": "France",
    "position": "DEF",
    "price": 6.5,
-   "ownership_pct": 8.968,
+   "ownership_pct": 8.966,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -5486,7 +5486,7 @@
    "team": "Germany",
    "position": "DEF",
    "price": 6.5,
-   "ownership_pct": 5.653,
+   "ownership_pct": 5.652,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -5497,7 +5497,7 @@
    "team": "Germany",
    "position": "DEF",
    "price": 6.5,
-   "ownership_pct": 2.675,
+   "ownership_pct": 2.674,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -5574,7 +5574,7 @@
    "team": "Germany",
    "position": "DEF",
    "price": 7.5,
-   "ownership_pct": 24.703,
+   "ownership_pct": 24.701,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -5585,7 +5585,7 @@
    "team": "Germany",
    "position": "FWD",
    "price": 8.5,
-   "ownership_pct": 23.554,
+   "ownership_pct": 23.553,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -5640,7 +5640,7 @@
    "team": "Germany",
    "position": "GK",
    "price": 6.5,
-   "ownership_pct": 8.826,
+   "ownership_pct": 8.827,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -5651,7 +5651,7 @@
    "team": "Germany",
    "position": "FWD",
    "price": 7.0,
-   "ownership_pct": 0.174,
+   "ownership_pct": 0.173,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -5684,7 +5684,7 @@
    "team": "Germany",
    "position": "FWD",
    "price": 8.0,
-   "ownership_pct": 0.607,
+   "ownership_pct": 0.608,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -6102,7 +6102,7 @@
    "team": "Haiti",
    "position": "DEF",
    "price": 3.5,
-   "ownership_pct": 11.858,
+   "ownership_pct": 11.856,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -6289,7 +6289,7 @@
    "team": "Haiti",
    "position": "MID",
    "price": 4.0,
-   "ownership_pct": 41.199,
+   "ownership_pct": 41.2,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -6300,7 +6300,7 @@
    "team": "Haiti",
    "position": "FWD",
    "price": 4.0,
-   "ownership_pct": 6.445,
+   "ownership_pct": 6.444,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -6861,7 +6861,7 @@
    "team": "Iraq",
    "position": "DEF",
    "price": 3.5,
-   "ownership_pct": 0.413,
+   "ownership_pct": 0.412,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -6916,7 +6916,7 @@
    "team": "Japan",
    "position": "MID",
    "price": 7.5,
-   "ownership_pct": 0.157,
+   "ownership_pct": 0.156,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -7158,7 +7158,7 @@
    "team": "Japan",
    "position": "GK",
    "price": 4.5,
-   "ownership_pct": 2.25,
+   "ownership_pct": 2.249,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -7279,7 +7279,7 @@
    "team": "Jordan",
    "position": "DEF",
    "price": 3.5,
-   "ownership_pct": 0.648,
+   "ownership_pct": 0.649,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -7323,7 +7323,7 @@
    "team": "Jordan",
    "position": "DEF",
    "price": 3.5,
-   "ownership_pct": 2.266,
+   "ownership_pct": 2.267,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -7587,7 +7587,7 @@
    "team": "Korea Republic",
    "position": "DEF",
    "price": 4.5,
-   "ownership_pct": 0.052,
+   "ownership_pct": 0.053,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -7708,7 +7708,7 @@
    "team": "Korea Republic",
    "position": "FWD",
    "price": 8.0,
-   "ownership_pct": 1.884,
+   "ownership_pct": 1.885,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -7785,7 +7785,7 @@
    "team": "Mexico",
    "position": "GK",
    "price": 5.0,
-   "ownership_pct": 0.186,
+   "ownership_pct": 0.184,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -7906,7 +7906,7 @@
    "team": "Mexico",
    "position": "DEF",
    "price": 4.5,
-   "ownership_pct": 0.343,
+   "ownership_pct": 0.342,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -7917,7 +7917,7 @@
    "team": "Mexico",
    "position": "FWD",
    "price": 6.5,
-   "ownership_pct": 0.753,
+   "ownership_pct": 0.755,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -7983,7 +7983,7 @@
    "team": "Mexico",
    "position": "FWD",
    "price": 7.0,
-   "ownership_pct": 4.975,
+   "ownership_pct": 4.974,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -7994,7 +7994,7 @@
    "team": "Mexico",
    "position": "GK",
    "price": 4.5,
-   "ownership_pct": 3.36,
+   "ownership_pct": 3.359,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -8016,7 +8016,7 @@
    "team": "Mexico",
    "position": "FWD",
    "price": 7.5,
-   "ownership_pct": 0.546,
+   "ownership_pct": 0.545,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -8038,7 +8038,7 @@
    "team": "Morocco",
    "position": "DEF",
    "price": 6.5,
-   "ownership_pct": 11.864,
+   "ownership_pct": 11.862,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -8126,7 +8126,7 @@
    "team": "Morocco",
    "position": "MID",
    "price": 7.5,
-   "ownership_pct": 4.981,
+   "ownership_pct": 4.98,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -8192,7 +8192,7 @@
    "team": "Morocco",
    "position": "GK",
    "price": 3.5,
-   "ownership_pct": 1.204,
+   "ownership_pct": 1.203,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -8280,7 +8280,7 @@
    "team": "Morocco",
    "position": "GK",
    "price": 5.5,
-   "ownership_pct": 2.626,
+   "ownership_pct": 2.625,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -8335,7 +8335,7 @@
    "team": "Netherlands",
    "position": "MID",
    "price": 9.0,
-   "ownership_pct": 2.445,
+   "ownership_pct": 2.444,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -8423,7 +8423,7 @@
    "team": "Netherlands",
    "position": "DEF",
    "price": 6.0,
-   "ownership_pct": 1.24,
+   "ownership_pct": 1.241,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -8467,7 +8467,7 @@
    "team": "Netherlands",
    "position": "DEF",
    "price": 5.0,
-   "ownership_pct": 0.113,
+   "ownership_pct": 0.114,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -8478,7 +8478,7 @@
    "team": "Netherlands",
    "position": "FWD",
    "price": 7.5,
-   "ownership_pct": 3.042,
+   "ownership_pct": 3.041,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -8489,7 +8489,7 @@
    "team": "Netherlands",
    "position": "DEF",
    "price": 5.5,
-   "ownership_pct": 11.797,
+   "ownership_pct": 11.795,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -8577,7 +8577,7 @@
    "team": "Netherlands",
    "position": "DEF",
    "price": 6.5,
-   "ownership_pct": 10.879,
+   "ownership_pct": 10.88,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -8643,7 +8643,7 @@
    "team": "New Zealand",
    "position": "DEF",
    "price": 3.5,
-   "ownership_pct": 5.809,
+   "ownership_pct": 5.81,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -8665,7 +8665,7 @@
    "team": "New Zealand",
    "position": "FWD",
    "price": 6.0,
-   "ownership_pct": 2.438,
+   "ownership_pct": 2.437,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -8687,7 +8687,7 @@
    "team": "New Zealand",
    "position": "DEF",
    "price": 3.5,
-   "ownership_pct": 2.535,
+   "ownership_pct": 2.534,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -8709,7 +8709,7 @@
    "team": "New Zealand",
    "position": "FWD",
    "price": 4.0,
-   "ownership_pct": 12.64,
+   "ownership_pct": 12.642,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -8819,7 +8819,7 @@
    "team": "New Zealand",
    "position": "DEF",
    "price": 3.5,
-   "ownership_pct": 1.113,
+   "ownership_pct": 1.114,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -8863,7 +8863,7 @@
    "team": "New Zealand",
    "position": "DEF",
    "price": 3.5,
-   "ownership_pct": 1.44,
+   "ownership_pct": 1.441,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -8918,7 +8918,7 @@
    "team": "Norway",
    "position": "DEF",
    "price": 5.0,
-   "ownership_pct": 3.742,
+   "ownership_pct": 3.743,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -8940,7 +8940,7 @@
    "team": "Norway",
    "position": "FWD",
    "price": 12.5,
-   "ownership_pct": 45.518,
+   "ownership_pct": 45.519,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -8973,7 +8973,7 @@
    "team": "Norway",
    "position": "DEF",
    "price": 4.0,
-   "ownership_pct": 0.544,
+   "ownership_pct": 0.543,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -9006,7 +9006,7 @@
    "team": "Norway",
    "position": "DEF",
    "price": 6.0,
-   "ownership_pct": 40.917,
+   "ownership_pct": 40.916,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -9028,7 +9028,7 @@
    "team": "Norway",
    "position": "DEF",
    "price": 5.0,
-   "ownership_pct": 5.057,
+   "ownership_pct": 5.056,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -9061,7 +9061,7 @@
    "team": "Norway",
    "position": "MID",
    "price": 8.5,
-   "ownership_pct": 9.013,
+   "ownership_pct": 9.015,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -9083,7 +9083,7 @@
    "team": "Norway",
    "position": "GK",
    "price": 4.5,
-   "ownership_pct": 11.984,
+   "ownership_pct": 11.985,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -9094,7 +9094,7 @@
    "team": "Norway",
    "position": "MID",
    "price": 6.0,
-   "ownership_pct": 2.707,
+   "ownership_pct": 2.709,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -9259,7 +9259,7 @@
    "team": "Panama",
    "position": "DEF",
    "price": 3.5,
-   "ownership_pct": 1.278,
+   "ownership_pct": 1.277,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -9699,7 +9699,7 @@
    "team": "Paraguay",
    "position": "MID",
    "price": 6.5,
-   "ownership_pct": 0.157,
+   "ownership_pct": 0.156,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -9754,7 +9754,7 @@
    "team": "Portugal",
    "position": "MID",
    "price": 10.0,
-   "ownership_pct": 39.232,
+   "ownership_pct": 39.236,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -9765,7 +9765,7 @@
    "team": "Portugal",
    "position": "FWD",
    "price": 11.0,
-   "ownership_pct": 3.055,
+   "ownership_pct": 3.053,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -9776,7 +9776,7 @@
    "team": "Portugal",
    "position": "GK",
    "price": 6.0,
-   "ownership_pct": 6.849,
+   "ownership_pct": 6.851,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -9875,7 +9875,7 @@
    "team": "Portugal",
    "position": "MID",
    "price": 7.5,
-   "ownership_pct": 2.137,
+   "ownership_pct": 2.136,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -9919,7 +9919,7 @@
    "team": "Portugal",
    "position": "DEF",
    "price": 6.5,
-   "ownership_pct": 31.215,
+   "ownership_pct": 31.219,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -9941,7 +9941,7 @@
    "team": "Portugal",
    "position": "MID",
    "price": 8.5,
-   "ownership_pct": 0.894,
+   "ownership_pct": 0.895,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -10029,7 +10029,7 @@
    "team": "Portugal",
    "position": "MID",
    "price": 7.5,
-   "ownership_pct": 12.621,
+   "ownership_pct": 12.619,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -10623,7 +10623,7 @@
    "team": "Scotland",
    "position": "DEF",
    "price": 5.5,
-   "ownership_pct": 2.876,
+   "ownership_pct": 2.875,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -10645,7 +10645,7 @@
    "team": "Scotland",
    "position": "DEF",
    "price": 4.5,
-   "ownership_pct": 0.11,
+   "ownership_pct": 0.112,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -10711,7 +10711,7 @@
    "team": "Scotland",
    "position": "MID",
    "price": 4.5,
-   "ownership_pct": 0.885,
+   "ownership_pct": 0.884,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -10788,7 +10788,7 @@
    "team": "Scotland",
    "position": "DEF",
    "price": 5.0,
-   "ownership_pct": 1.916,
+   "ownership_pct": 1.917,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -10887,7 +10887,7 @@
    "team": "Scotland",
    "position": "MID",
    "price": 7.0,
-   "ownership_pct": 13.214,
+   "ownership_pct": 13.217,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -11096,7 +11096,7 @@
    "team": "Senegal",
    "position": "GK",
    "price": 4.5,
-   "ownership_pct": 0.083,
+   "ownership_pct": 0.082,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -11162,7 +11162,7 @@
    "team": "Senegal",
    "position": "MID",
    "price": 8.5,
-   "ownership_pct": 1.057,
+   "ownership_pct": 1.058,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -11294,7 +11294,7 @@
    "team": "South Africa",
    "position": "DEF",
    "price": 4.5,
-   "ownership_pct": 0.063,
+   "ownership_pct": 0.064,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -11360,7 +11360,7 @@
    "team": "South Africa",
    "position": "GK",
    "price": 4.5,
-   "ownership_pct": 0.244,
+   "ownership_pct": 0.245,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -11536,7 +11536,7 @@
    "team": "Spain",
    "position": "DEF",
    "price": 6.0,
-   "ownership_pct": 0.544,
+   "ownership_pct": 0.543,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -11547,7 +11547,7 @@
    "team": "Spain",
    "position": "MID",
    "price": 7.5,
-   "ownership_pct": 0.885,
+   "ownership_pct": 0.884,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -11558,7 +11558,7 @@
    "team": "Spain",
    "position": "FWD",
    "price": 8.5,
-   "ownership_pct": 5.414,
+   "ownership_pct": 5.416,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -11591,7 +11591,7 @@
    "team": "Spain",
    "position": "MID",
    "price": 12.0,
-   "ownership_pct": 21.581,
+   "ownership_pct": 21.582,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -11602,7 +11602,7 @@
    "team": "Spain",
    "position": "DEF",
    "price": 6.5,
-   "ownership_pct": 17.385,
+   "ownership_pct": 17.388,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -11613,7 +11613,7 @@
    "team": "Spain",
    "position": "DEF",
    "price": 5.0,
-   "ownership_pct": 0.311,
+   "ownership_pct": 0.309,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -11624,7 +11624,7 @@
    "team": "Spain",
    "position": "DEF",
    "price": 6.5,
-   "ownership_pct": 2.08,
+   "ownership_pct": 2.079,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -11657,7 +11657,7 @@
    "team": "Spain",
    "position": "FWD",
    "price": 9.0,
-   "ownership_pct": 19.509,
+   "ownership_pct": 19.506,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -11668,7 +11668,7 @@
    "team": "Spain",
    "position": "MID",
    "price": 9.0,
-   "ownership_pct": 3.173,
+   "ownership_pct": 3.172,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -11679,7 +11679,7 @@
    "team": "Spain",
    "position": "DEF",
    "price": 6.0,
-   "ownership_pct": 2.856,
+   "ownership_pct": 2.857,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -11690,7 +11690,7 @@
    "team": "Spain",
    "position": "MID",
    "price": 8.5,
-   "ownership_pct": 5.637,
+   "ownership_pct": 5.638,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -11767,7 +11767,7 @@
    "team": "Sverige",
    "position": "FWD",
    "price": 9.0,
-   "ownership_pct": 0.897,
+   "ownership_pct": 0.899,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -11921,7 +11921,7 @@
    "team": "Sverige",
    "position": "GK",
    "price": 4.0,
-   "ownership_pct": 0.231,
+   "ownership_pct": 0.23,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -11998,7 +11998,7 @@
    "team": "Sverige",
    "position": "DEF",
    "price": 5.0,
-   "ownership_pct": 2.444,
+   "ownership_pct": 2.443,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -12163,7 +12163,7 @@
    "team": "Switzerland",
    "position": "GK",
    "price": 5.0,
-   "ownership_pct": 18.566,
+   "ownership_pct": 18.565,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -12196,7 +12196,7 @@
    "team": "Switzerland",
    "position": "DEF",
    "price": 5.5,
-   "ownership_pct": 6.448,
+   "ownership_pct": 6.447,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -12350,7 +12350,7 @@
    "team": "Tunisia",
    "position": "DEF",
    "price": 4.5,
-   "ownership_pct": 0.181,
+   "ownership_pct": 0.182,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -12636,7 +12636,7 @@
    "team": "Turkey",
    "position": "MID",
    "price": 8.0,
-   "ownership_pct": 9.158,
+   "ownership_pct": 9.157,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -12735,7 +12735,7 @@
    "team": "Turkey",
    "position": "MID",
    "price": 5.0,
-   "ownership_pct": 0.339,
+   "ownership_pct": 0.34,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -12757,7 +12757,7 @@
    "team": "Turkey",
    "position": "MID",
    "price": 7.5,
-   "ownership_pct": 2.254,
+   "ownership_pct": 2.255,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -12955,7 +12955,7 @@
    "team": "Uruguay",
    "position": "MID",
    "price": 8.5,
-   "ownership_pct": 2.285,
+   "ownership_pct": 2.284,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -13131,7 +13131,7 @@
    "team": "Uruguay",
    "position": "DEF",
    "price": 5.5,
-   "ownership_pct": 1.611,
+   "ownership_pct": 1.613,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -13208,7 +13208,7 @@
    "team": "USA",
    "position": "DEF",
    "price": 4.5,
-   "ownership_pct": 21.227,
+   "ownership_pct": 21.228,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -13252,7 +13252,7 @@
    "team": "USA",
    "position": "DEF",
    "price": 4.5,
-   "ownership_pct": 0.473,
+   "ownership_pct": 0.474,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -13263,7 +13263,7 @@
    "team": "USA",
    "position": "MID",
    "price": 8.0,
-   "ownership_pct": 3.752,
+   "ownership_pct": 3.751,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -13285,7 +13285,7 @@
    "team": "USA",
    "position": "FWD",
    "price": 7.0,
-   "ownership_pct": 0.969,
+   "ownership_pct": 0.968,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -13362,7 +13362,7 @@
    "team": "USA",
    "position": "GK",
    "price": 4.0,
-   "ownership_pct": 5.614,
+   "ownership_pct": 5.613,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -13384,7 +13384,7 @@
    "team": "USA",
    "position": "DEF",
    "price": 4.5,
-   "ownership_pct": 0.252,
+   "ownership_pct": 0.254,
    "total_points": 0,
    "round_points": {},
    "status": "available"
@@ -13450,7 +13450,7 @@
    "team": "USA",
    "position": "MID",
    "price": 5.5,
-   "ownership_pct": 0.595,
+   "ownership_pct": 0.594,
    "total_points": 0,
    "round_points": {},
    "status": "available"

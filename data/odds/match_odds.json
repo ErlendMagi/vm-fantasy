@@ -1,6 +1,6 @@
 {
- "fetched_at": "2026-06-11T23:40:22.283356+00:00",
- "credits_remaining": "443",
+ "fetched_at": "2026-06-12T00:01:15.984010+00:00",
+ "credits_remaining": "440",
  "sport_key": "soccer_fifa_world_cup",
  "matches": [
   {
@@ -15,7 +15,7 @@
    "totals": {
     "line": 2.5,
     "over": 2.25,
-    "under": 1.67
+    "under": 1.65
    }
   },
   {
@@ -23,7 +23,7 @@
    "away": "Bosnia & Herzegovina",
    "kickoff_utc": "2026-06-12T19:00:00Z",
    "h2h": {
-    "home": 1.83,
+    "home": 1.84,
     "draw": 3.55,
     "away": 4.62
    },
@@ -59,7 +59,7 @@
    },
    "totals": {
     "line": 2.5,
-    "over": 1.68,
+    "over": 1.7,
     "under": 2.17
    }
   },
@@ -119,7 +119,7 @@
    },
    "totals": {
     "line": 4.5,
-    "over": 2.17,
+    "over": 2.16,
     "under": 1.73
    }
   },
@@ -340,7 +340,7 @@
    "h2h": {
     "home": 8.8,
     "draw": 4.7,
-    "away": 1.39
+    "away": 1.38
    },
    "totals": {
     "line": 2.5,
@@ -490,7 +490,7 @@
    "h2h": {
     "home": 1.54,
     "draw": 4.3,
-    "away": 5.6
+    "away": 5.7
    },
    "totals": {
     "line": 2.5,
@@ -610,11 +610,11 @@
    "h2h": {
     "home": 1.12,
     "draw": 8.5,
-    "away": 25.0
+    "away": 24.06
    },
    "totals": {
     "line": 3.5,
-    "over": 2.21,
+    "over": 2.23,
     "under": 1.64
    }
   },

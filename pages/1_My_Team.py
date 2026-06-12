@@ -48,6 +48,42 @@ st.caption(f"Formation **{xi['formation']}** — re-chosen every round to maximi
            f"DEF #{rating['avg_pos_rank']['DEF']}, MID #{rating['avg_pos_rank']['MID']}, "
            f"FWD #{rating['avg_pos_rank']['FWD']}.")
 
+# ---------------------------------------------------------------- rating over time
+st.subheader("📈 Your ratings, day by day")
+st.caption("Ratings move daily with odds, form and survival outlooks — the staff you want at the end of "
+           "the cup is the highest-rated squad money can hold. Squad = all 15, XI = your starters, "
+           "plus each position's strength (100 = best possible).")
+import json as _json
+
+from src import config as _cfg
+
+_hist_file = _cfg.TV2_DIR / "rating_history.json"
+if _hist_file.exists():
+    _days = _json.loads(_hist_file.read_text(encoding="utf-8")).get("days", {})
+else:
+    _days = {}
+if _days:
+    hx = sorted(_days)
+    rfig = go.Figure()
+    series = [("Squad (all 15)", [_days[k]["squad_rating"] for k in hx], "#00b894", 5),
+              ("Starting XI", [_days[k]["xi_rating"] for k in hx], "#0984e3", 3)]
+    for pos, colr in [("GK", "#6c5ce7"), ("DEF", "#fdcb6e"), ("MID", "#74b9ff"), ("FWD", "#55efc4")]:
+        vals = [(_days[k]["pos_rating"] or {}).get(pos) for k in hx]
+        series.append((pos, vals, colr, 1.5))
+    for nm, vals, colr, w in series:
+        rfig.add_scatter(x=hx, y=vals, name=nm, mode="lines+markers",
+                         line=dict(color=colr, width=w, shape="spline", smoothing=0.9),
+                         marker=dict(size=5))
+    rfig.update_layout(height=380, yaxis=dict(title="Rating (0–100)", range=[0, 102]),
+                       legend=dict(orientation="h", y=-0.25), hovermode="x unified",
+                       margin=dict(l=10, r=10, t=10, b=10))
+    st.plotly_chart(rfig, width="stretch", config={"displayModeBar": False})
+    if len(hx) < 3:
+        st.caption(f"⏳ History started {hx[0]} — the lines get interesting as days accumulate "
+                   "(one snapshot per day, recorded automatically in the cloud).")
+else:
+    st.info("Rating history starts recording today — the chart appears after the first daily snapshot.")
+
 # ---------------------------------------------------------------- my upcoming matches
 st.subheader("📅 Your upcoming matches")
 my_teams = set(owned["team"])

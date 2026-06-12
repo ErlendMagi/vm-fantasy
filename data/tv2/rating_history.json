@@ -1,0 +1,17 @@
+{
+ "days": {
+  "2026-06-12": {
+   "squad_rating": 84.0,
+   "xi_rating": 95.3,
+   "pos_rating": {
+    "GK": 93.8,
+    "DEF": 94.9,
+    "MID": 98.3,
+    "FWD": 86.9
+   },
+   "exp_next": 53.8,
+   "points_so_far": 0,
+   "recorded_at": "2026-06-12T09:32:43.671706+00:00"
+  }
+ }
+}

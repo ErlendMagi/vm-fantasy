@@ -52,6 +52,14 @@ jobs:
           ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
         run: python scraper/sync.py --outrights --props
 
+      # Daily rating snapshot for the My Team history chart (one entry/day,
+      # freshest run wins). Committed separately so a failure never blocks sync.
+      - name: Record daily team-rating history
+        run: |
+          python scraper/record_rating.py || echo "rating snapshot failed - skipping"
+          git add data/tv2/rating_history.json
+          git diff --cached --quiet || (git commit -m "rating snapshot $(date -u +%F)" && git push)
+
       # Autopilot: when a transfer deadline is within 8 hours, applies the
       # optimizer's best transfers + lineup + captain directly to the TV 2
       # team (verified after writing). Outside that window it does nothing.

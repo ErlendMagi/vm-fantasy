@@ -132,5 +132,7 @@ def team_rating(proj: pd.DataFrame, squad_ids: list, ranks: dict, n_pool: dict |
         pos_ranks[pos].append(r)
     rating = sum(pct) / len(pct) if pct else 0.0
     avg_pos_rank = {p: (round(sum(v) / len(v), 1) if v else None) for p, v in pos_ranks.items()}
-    return {"rating": round(rating, 1), "avg_pos_rank": avg_pos_rank,
+    pos_rating = {p: (round(100 * (1 - (sum(v) / len(v) - 1) / n_pool[p]), 1) if v else None)
+                  for p, v in pos_ranks.items()}
+    return {"rating": round(rating, 1), "avg_pos_rank": avg_pos_rank, "pos_rating": pos_rating,
             "avg_rank_overall": round(sum(ranks.get(i, 50) for i in xi_ids) / max(len(xi_ids), 1), 1)}

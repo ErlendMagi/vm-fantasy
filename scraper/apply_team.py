@@ -81,6 +81,20 @@ def _payload(t: dict, round_id: str) -> dict:
     }
 
 
+def _lineup_body(t: dict, round_id: str) -> dict:
+    # POST /squad/lineup is the ONLY call that reliably moves the captain/vice;
+    # PUT /squad/update no-ops the armband when the 15 players are unchanged.
+    return {
+        "roundId": round_id, "starterIds": t["starterIds"], "benchIds": t["benchIds"],
+        "captainId": t["captainId"], "viceCaptainId": t["viceCaptainId"], "formation": t["formation"],
+    }
+
+
+def _live_captain(full: dict) -> str | None:
+    snaps = sorted(full.get("lineupSnapshots", []), key=lambda s: s.get("createdAt", ""))
+    return snaps[-1].get("captainPlayerId") if snaps else None
+
+
 def apply_and_verify(t: dict, round_id: str | None = None) -> None:
     """PUT the squad to TV 2 and verify. round_id defaults to the active round
     (pre-lock); autopilot passes transfer-info's targetRound for correctness
@@ -92,10 +106,13 @@ def apply_and_verify(t: dict, round_id: str | None = None) -> None:
         _apply_with_browser(t, round_id)
 
 
-def _verify(applied_ids, target_ids) -> None:
+def _verify(applied_ids, target_ids, full, target_cap) -> None:
     if set(applied_ids) != set(target_ids):
         sys.exit(f"VERIFY FAILED: applied squad {sorted(applied_ids)} != target — check the app!")
-    print(f"\nVERIFIED: all {len(target_ids)} players set correctly on TV 2.")
+    live_cap = _live_captain(full)
+    if live_cap != target_cap:
+        sys.exit(f"VERIFY FAILED: captain is {live_cap}, expected {target_cap} — check the app!")
+    print(f"\nVERIFIED: all {len(target_ids)} players + captain/vice set correctly on TV 2.")
 
 
 def _apply_with_requests(t: dict, token: str, round_id: str | None = None) -> None:
@@ -107,8 +124,13 @@ def _apply_with_requests(t: dict, token: str, round_id: str | None = None) -> No
                      json=_payload(t, rid), headers=h, timeout=30)
     if not r.ok:
         sys.exit(f"PUT /squad/update failed: HTTP {r.status_code} {r.text[:300]}")
+    # PUT sets players; POST /squad/lineup guarantees captain/vice/formation stick
+    lr = requests.post(f"{API}/squad/lineup", params={"tournamentId": TID},
+                       json=_lineup_body(t, rid), headers=h, timeout=30)
+    if not lr.ok:
+        sys.exit(f"POST /squad/lineup failed: HTTP {lr.status_code} {lr.text[:300]}")
     full = requests.get(f"{API}/squad/full", params={"tournamentId": TID}, headers=h, timeout=30).json()
-    _verify([p["playerId"] for p in full["players"]], t["playerIds"])
+    _verify([p["playerId"] for p in full["players"]], t["playerIds"], full, t["captainId"])
 
 
 def _apply_with_browser(t: dict, round_id: str | None = None) -> None:
@@ -129,9 +151,14 @@ def _apply_with_browser(t: dict, round_id: str | None = None) -> None:
         if not resp.ok:
             ctx.close()
             sys.exit(f"PUT /squad/update failed: HTTP {resp.status} {resp.text()[:300]}")
+        lr = ctx.request.post(f"{API}/squad/lineup?tournamentId={TID}",
+                              data=json.dumps(_lineup_body(t, rid)), headers=auth)
+        if not lr.ok:
+            ctx.close()
+            sys.exit(f"POST /squad/lineup failed: HTTP {lr.status} {lr.text()[:300]}")
         full = ctx.request.get(f"{API}/squad/full?tournamentId={TID}", headers=auth).json()
         ctx.close()
-        _verify([p["playerId"] for p in full["players"]], t["playerIds"])
+        _verify([p["playerId"] for p in full["players"]], t["playerIds"], full, t["captainId"])
 
 
 def main() -> None:

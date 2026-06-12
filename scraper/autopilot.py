@@ -64,6 +64,15 @@ def main() -> None:
         print(f"{hours_left:.1f}h until deadline - acting on round "
               f"{target_round.get('number')} ({target_round.get('name')})")
 
+    # decision time: force-refresh odds (match + outrights + player props) so the
+    # model never decides on stale markets; best-effort - the credit floor and a
+    # network hiccup degrade to the last snapshot rather than blocking the move
+    import subprocess
+    res = subprocess.run([sys.executable, str(ROOT / "scraper" / "refresh_odds.py"),
+                          "--force", "--outrights", "--props"])
+    if res.returncode != 0:
+        print("WARNING: forced odds refresh failed - deciding on the last odds snapshot", file=sys.stderr)
+
     players = players_frame(client.normalize_players(raw["players"]))
     my_team = client.normalize_my_team(raw["my_team"], ti)
     fixtures = client.normalize_fixtures(raw["fixtures"]) if raw.get("fixtures") else data_access.load_fixtures()

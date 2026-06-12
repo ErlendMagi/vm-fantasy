@@ -61,8 +61,11 @@ jobs:
         run: python scraper/autopilot.py --confirm
 
       # If the autopilot changed the team, immediately re-sync so the website
-      # shows the squad that is actually on TV 2 — site and actions move together.
+      # shows the squad that is actually on TV 2 — site and actions move
+      # together. Not --skip-odds: this also stages any odds the autopilot
+      # force-refreshed for its decision (refresh_odds self-throttles).
       - name: Re-sync after autopilot so the site matches the applied team
         env:
           TV2_TOKEN: ${{ secrets.TV2_TOKEN }}
-        run: python scraper/sync.py --skip-odds
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+        run: python scraper/sync.py

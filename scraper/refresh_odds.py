@@ -237,9 +237,14 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--outrights", action="store_true", help="also fetch tournament winner odds (1 credit)")
     parser.add_argument("--props", action="store_true", help="also fetch player goalscorer/assist props")
-    parser.add_argument("--props-min-age", type=float, default=36.0,
+    parser.add_argument("--props-min-age", type=float, default=48.0,
                         help="skip props if player_odds.json is younger than this many hours")
+    parser.add_argument("--force", action="store_true",
+                        help="ignore freshness throttles (used right before transfer decisions); "
+                             "the credit floor still applies")
     args = parser.parse_args()
+    if args.force:
+        args.props_min_age = 0.0
 
     key = _key()
     balance = _credits_remaining(key)
@@ -255,8 +260,8 @@ def main() -> None:
     odds_dir = ROOT / "data" / "odds"
     odds_dir.mkdir(parents=True, exist_ok=True)
 
-    # throttle by file age so the 5x/day sync doesn't burn the monthly budget
-    if _fresh(odds_dir / "match_odds.json", 8.0):
+    # throttle by file age so the frequent sync doesn't burn the monthly budget
+    if not args.force and _fresh(odds_dir / "match_odds.json", 8.0):
         print("match odds still fresh (<8h) - skipping")
     else:
         data = fetch_match_odds(key, match_key)
@@ -265,7 +270,7 @@ def main() -> None:
         (odds_dir / "match_odds.json").write_text(json.dumps(data, indent=1), encoding="utf-8")
         print(f"match odds: {len(data['matches'])} matches, credits remaining: {data['credits_remaining']}")
 
-    if args.outrights and outright_key and not _fresh(odds_dir / "outrights.json", 48.0):
+    if args.outrights and outright_key and (args.force or not _fresh(odds_dir / "outrights.json", 48.0)):
         data = fetch_outrights(key, outright_key)
         if data["prices"]:
             (odds_dir / "outrights.json").write_text(json.dumps(data, indent=1), encoding="utf-8")

@@ -18,6 +18,7 @@ Valuations exposed:
   xp_tournament expected points over ALL remaining rounds (x survival)  -> squad build
 """
 import math
+from datetime import datetime, timedelta, timezone
 
 import numpy as np
 import pandas as pd
@@ -277,6 +278,22 @@ def project(players: pd.DataFrame, fixtures: list[dict], match_odds: dict | None
     df = start_probabilities(players, completed)
     df["ppg"] = df["total_points"] / max(1, len(completed))
     p_plays = p_plays or {}
+
+    # one bulk weather call for every outdoor venue across the projected rounds
+    if temp_fn is weather.apparent_temp_at_kickoff:
+        upcoming = [fx for r in (next_rnd, next_rnd + 1)
+                    for fx in data_access.round_fixtures(fixtures, r) if r <= 8]
+        coords, dates = [], []
+        now = datetime.now(timezone.utc)
+        for fx in upcoming:
+            s = stadiums.get(fx["venue_id"])
+            ko = datetime.fromisoformat(fx["kickoff_utc"].replace("Z", "+00:00"))
+            if s and not s["indoor_ac"] and now - timedelta(days=2) < ko < now + timedelta(days=15):
+                coords.append((s["lat"], s["lon"]))
+                dates.append(ko.date())
+        if coords:
+            weather.prefetch(coords, min(dates).isoformat(),
+                             (max(dates) + timedelta(days=1)).isoformat())
 
     component_cols = ["pts_appear", "pts_goals", "pts_assists", "pts_cs", "pts_concede",
                       "pts_saves", "pts_duty", "pts_motm"]

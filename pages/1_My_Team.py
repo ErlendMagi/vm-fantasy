@@ -132,3 +132,81 @@ barf = go.Figure(go.Bar(
 barf.update_layout(height=320, margin=dict(l=10, r=10, t=10, b=10),
                    xaxis_title="Expected points (captain ×2 in orange)")
 st.plotly_chart(barf, width="stretch", config={"displayModeBar": False})
+
+# ---------------------------------------------------------------- vs the People's Index (the fund analogy)
+st.divider()
+st.header("📊 You vs the People's Index")
+st.caption("Think of your team as an **actively managed fund** and the **People's Index** as the market: "
+           "the ownership-weighted average player at each position — what the average krone in the game earns. "
+           "Beating it round after round is your **alpha**.")
+completed = d["completed"]
+if proj["ownership_pct"].isna().all():
+    st.warning("Ownership data isn't in yet — the index needs it. It appears after the next sync.")
+else:
+    my_next_idx = optimizer.best_xi(owned, "xp_next")["total"]
+    idx_next = template_team.index_next_projection(proj)
+    histr = {int(k): v for k, v in (my.get("round_history") or {}).items()}
+    rows, mine_cum, idx_cum = [], 0.0, 0.0
+    for r in completed:
+        mine_r = histr.get(r)
+        if mine_r is None:
+            xi_ids = my.get("starting_xi") or my["squad"][:11]
+            cap = my.get("captain_id")
+            mine_r = sum(proj.loc[i, "round_points"].get(r, 0) for i in xi_ids if i in proj.index)
+            mine_r += proj.loc[cap, "round_points"].get(r, 0) if cap in proj.index else 0
+        idx_r = template_team.index_round_actual(proj, r)
+        mine_cum += mine_r
+        idx_cum += idx_r
+        rows.append({"round": r, "mine": mine_r, "index": idx_r, "mine_cum": mine_cum, "index_cum": idx_cum})
+    idf = pd.DataFrame(rows)
+
+    k1, k2, k3 = st.columns(3)
+    if not idf.empty:
+        alpha = idf["mine_cum"].iloc[-1] - idf["index_cum"].iloc[-1]
+        k1.metric("Your points", f"{idf['mine_cum'].iloc[-1]:.0f}")
+        k2.metric("The Index", f"{idf['index_cum'].iloc[-1]:.0f}")
+        k3.metric("Your alpha", f"{alpha:+.1f}", help="Points above/below the market benchmark")
+    else:
+        k1.metric("Projected next (you)", f"{my_next_idx:.0f}")
+        k2.metric("Projected next (Index)", f"{idx_next:.0f}")
+        k3.metric("Projected edge", f"{my_next_idx - idx_next:+.1f}")
+
+    nxt = (completed[-1] + 1) if completed else 1
+    ifig = go.Figure()
+    if not idf.empty:
+        ifig.add_scatter(x=idf["round"], y=idf["mine_cum"], name="My team", mode="lines+markers",
+                         line=dict(width=5, color=viz.MINE_GREEN, shape="spline", smoothing=0.8))
+        ifig.add_scatter(x=idf["round"], y=idf["index_cum"], name="People's Index", mode="lines+markers",
+                         line=dict(width=3, color=viz.NEUTRAL, shape="spline", smoothing=0.8))
+        ifig.add_scatter(x=[idf["round"].iloc[-1], nxt],
+                         y=[idf["mine_cum"].iloc[-1], idf["mine_cum"].iloc[-1] + my_next_idx],
+                         mode="lines", line=dict(width=5, color=viz.MINE_GREEN, dash="dash", shape="spline"),
+                         showlegend=False)
+        ifig.add_scatter(x=[idf["round"].iloc[-1], nxt],
+                         y=[idf["index_cum"].iloc[-1], idf["index_cum"].iloc[-1] + idx_next],
+                         mode="lines", line=dict(width=3, color=viz.NEUTRAL, dash="dash", shape="spline"),
+                         showlegend=False)
+    else:
+        ifig.add_scatter(x=[0, 1], y=[0, my_next_idx], name="My team (proj)", mode="lines+markers",
+                         line=dict(width=5, color=viz.MINE_GREEN, dash="dash", shape="spline", smoothing=0.8))
+        ifig.add_scatter(x=[0, 1], y=[0, idx_next], name="Index (proj)", mode="lines+markers",
+                         line=dict(width=3, color=viz.NEUTRAL, dash="dash", shape="spline", smoothing=0.8))
+    ifig.update_layout(xaxis_title="Round", yaxis_title="Cumulative points", height=400,
+                       legend=dict(orientation="h", y=-0.25))
+    st.plotly_chart(ifig, width="stretch", config={"displayModeBar": False})
+
+    st.markdown("**Your bets vs the market** — expected points per position (next round). Taller-than-grey = "
+                "overweight, expecting to beat the market there.")
+    my_xi = owned.loc[[i for i in xi["xi_ids"] if i in owned.index]]
+    cats, mine_v, idx_v = [], [], []
+    for pos in viz.POS_ORDER:
+        mine_v.append(float(my_xi[my_xi["position"] == pos]["xp_next"].sum()))
+        sub = proj[proj["position"] == pos]
+        idx_v.append(template_team._own_weighted_avg(sub, sub["xp_next"]) * template_team.INDEX_XI[pos])
+        cats.append(viz.POS_LABEL[pos])
+    posfig = go.Figure()
+    posfig.add_bar(name="My XI", x=cats, y=mine_v, marker_color=viz.MINE_GREEN)
+    posfig.add_bar(name="People's Index", x=cats, y=idx_v, marker_color=viz.NEUTRAL)
+    posfig.update_layout(barmode="group", height=320, yaxis_title="Expected points (next round)",
+                         legend=dict(orientation="h", y=-0.25), margin=dict(l=10, r=10, t=10, b=10))
+    st.plotly_chart(posfig, width="stretch", config={"displayModeBar": False})

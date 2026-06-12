@@ -1,4 +1,4 @@
-"""Manual smoke test (not part of pytest - hits the live Open-Meteo API):
+﻿"""Manual smoke test (not part of pytest - hits the live Open-Meteo API):
     python tests/smoke_pages.py
 Renders every Streamlit page headlessly and fails on any exception.
 """
@@ -13,7 +13,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 PAGES = ["Home.py", "pages/1_My_Team.py", "pages/2_Projections.py", "pages/3_Transfers.py",
-         "pages/4_Team_vs_Template.py", "pages/5_Data_Status.py", "pages/6_Match_Center.py"]
+         "pages/5_Data_Status.py", "pages/6_Match_Center.py"]
 
 failed = False
 for page in PAGES:
@@ -30,3 +30,4 @@ for page in PAGES:
         print(f"OK   {page}  (dataframes={len(at.dataframe)}, warnings={len(at.warning)}, errors={n_err})")
 
 sys.exit(1 if failed else 0)
+

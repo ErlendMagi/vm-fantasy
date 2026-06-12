@@ -15,7 +15,6 @@ PAGES = [
     ("Transfers", "/Transfers", "🔁", False),
     ("Match Center", "/Match_Center", "📰", False),
     ("Players", "/Projections", "📈", True),
-    ("vs Index", "/Team_vs_Template", "⚔️", True),
     ("Data", "/Data_Status", "🧰", True),
 ]
 

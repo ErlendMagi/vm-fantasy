@@ -78,7 +78,10 @@ def main() -> None:
     fixtures = client.normalize_fixtures(raw["fixtures"]) if raw.get("fixtures") else data_access.load_fixtures()
     match_odds, outrights = data_access.load_match_odds(), data_access.load_outrights()
     completed = data_access.completed_rounds(fixtures)
-    next_rnd = data_access.next_round(fixtures)
+    # decide for the round TV 2 is actually editing (its targetRound), not the
+    # model's fixture-derived next_round, which lags until every match is marked
+    # finished — otherwise we'd captain/transfer against the wrong fixtures
+    next_rnd = target_round.get("number") or data_access.next_round(fixtures)
     adv = advancement.advancement_table(fixtures, match_odds, outrights)
     p_plays = advancement.p_plays_lookup(adv)
     proj = projections.project(players, fixtures, match_odds, outrights, completed, next_rnd, p_plays)

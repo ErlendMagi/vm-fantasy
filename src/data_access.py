@@ -167,9 +167,27 @@ def completed_rounds(fixtures: list[dict]) -> list[int]:
 
 
 def next_round(fixtures: list[dict]) -> int:
+    """The round you can still set a team for = the earliest fantasy round whose
+    FIRST kickoff is still in the future (a round locks at its first match, like
+    TV 2's deadline). This is the round to project/captain/transfer for, and it
+    can be ahead of the round still being scored."""
+    from datetime import datetime, timezone
+    now = datetime.now(timezone.utc)
+    first_ko: dict[int, datetime] = {}
+    for m in fixtures:
+        r = m.get("fantasy_round")
+        if not r or not m.get("kickoff_utc"):
+            continue
+        ko = datetime.fromisoformat(m["kickoff_utc"].replace("Z", "+00:00"))
+        if r not in first_ko or ko < first_ko[r]:
+            first_ko[r] = ko
+    upcoming = [r for r, ko in first_ko.items() if ko > now]
+    if upcoming:
+        return min(upcoming)
+    # all rounds kicked off -> fall back to the earliest unfinished round
     unfinished = [m["fantasy_round"] for m in fixtures
                   if m.get("fantasy_round") and m.get("status") != "finished"]
-    return min(unfinished) if unfinished else max(m.get("fantasy_round") or 0 for m in fixtures)
+    return min(unfinished) if unfinished else max((m.get("fantasy_round") or 0 for m in fixtures), default=1)
 
 
 def round_fixtures(fixtures: list[dict], round_no: int) -> list[dict]:

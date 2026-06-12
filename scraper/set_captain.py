@@ -35,7 +35,9 @@ def main() -> None:
     fixtures = data_access.load_fixtures()
     mo, ou = data_access.load_match_odds(), data_access.load_outrights()
     completed = data_access.completed_rounds(fixtures)
-    nxt = data_access.next_round(fixtures)
+    # project the round TV 2 is actually editing (its target round), not the
+    # model's fixture-derived next_round which can lag behind real deadlines
+    nxt = (ti.get("targetRound") or {}).get("number") or data_access.next_round(fixtures)
     adv = advancement.advancement_table(fixtures, mo, ou)
     pp = advancement.p_plays_lookup(adv)
     proj = projections.project(players, fixtures, mo, ou, completed, nxt, pp)

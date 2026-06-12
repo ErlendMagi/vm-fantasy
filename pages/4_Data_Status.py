@@ -5,8 +5,9 @@ import streamlit as st
 
 st.set_page_config(page_title="Data Status", page_icon="🧰", layout="wide")
 
-from src import config, services
+from src import config, nav, services
 
+nav.render("Data Status")
 d = services.get_data()
 st.title("🧰 Data status")
 services.render_banners(d)

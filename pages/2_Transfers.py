@@ -2,11 +2,12 @@ import streamlit as st
 
 st.set_page_config(page_title="Transfers", page_icon="🔁", layout="wide")
 
-from src import config, optimizer, services
+from src import config, nav, optimizer, services
 from src.viz import GAIN_BLUE as viz_gain
 from src.viz import NEUTRAL as viz_neutral
 from src.viz import short_name as viz_short
 
+nav.render("Transfers")
 d = services.get_data()
 st.title("🔁 Transfer suggestions")
 services.render_banners(d)

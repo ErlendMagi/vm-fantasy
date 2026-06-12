@@ -6,8 +6,9 @@ import streamlit as st
 
 st.set_page_config(page_title="VM Fantasy Companion", page_icon="⚽", layout="wide")
 
-from src import analytics, optimizer, services, template_team, viz
+from src import analytics, nav, optimizer, services, template_team, viz
 
+nav.render("Home")
 d = services.get_data()
 st.title("⚽ VM Fantasy Companion")
 services.render_banners(d)

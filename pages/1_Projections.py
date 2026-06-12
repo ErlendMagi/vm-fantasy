@@ -4,8 +4,9 @@ import streamlit as st
 
 st.set_page_config(page_title="Player Ratings", page_icon="📈", layout="wide")
 
-from src import optimizer, services, viz
+from src import nav, optimizer, services, viz
 
+nav.render("Projections")
 d = services.get_data()
 st.title("📈 Player ratings & rankings")
 services.render_banners(d)

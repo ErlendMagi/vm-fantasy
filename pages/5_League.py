@@ -4,8 +4,9 @@ import streamlit as st
 
 st.set_page_config(page_title="My League", page_icon="🏆", layout="wide")
 
-from src import data_access, optimizer, services, viz
+from src import data_access, nav, optimizer, services, viz
 
+nav.render("League")
 d = services.get_data()
 st.title("🏆 My league — BPG")
 services.render_banners(d)

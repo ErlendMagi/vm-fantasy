@@ -6,7 +6,7 @@ st.set_page_config(page_title="Player Ratings", page_icon="📈", layout="wide")
 
 from src import nav, optimizer, services, viz
 
-nav.render("Projections")
+nav.render("Players")
 d = services.get_data()
 st.title("📈 Player ratings & rankings")
 services.render_banners(d)

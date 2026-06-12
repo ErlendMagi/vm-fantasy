@@ -52,16 +52,44 @@ if len(my["squad"]) - len(missing) < config.SQUAD_SIZE:
 plans = services.get_transfer_plans(my["squad"], bank, free)
 is_live = (free == default_free) and abs(bank - float(my.get("bank", 0.0))) < 1e-6
 best = plans[0] if plans else None
-auto_note = (" The autopilot runs this same search with your live transfers and bank before the deadline."
-             if is_live else " (Showing a what-if with your edited inputs — the autopilot uses your real values.)")
+auto_note = ("The autopilot runs this exact search with your live transfers and bank before the deadline."
+             if is_live else "What-if with your edited inputs — the autopilot uses your real values.")
+
+st.subheader("💡 The move the model would make")
+from src import analytics, viz
+id_by_name = {(proj.loc[i, "name"], proj.loc[i, "team"]): i for i in proj.index}
+
+
+def row_of(name, team):
+    return proj.loc[id_by_name[(name, team)]]
+
+
 if best and best["n_transfers"] > 0:
-    moves = "  +  ".join(f"**{on} → {inn}**" for (on, _), (inn, _) in zip(best["outs"], best["ins"]))
-    hit_txt = f" (paying a −{best['hit_cost']} hit)" if best["hit_cost"] else ""
-    st.success(f"💡 Best move now: {moves}{hit_txt} — worth **+{best['net_gain']:.1f}** points over the cup.{auto_note}")
-elif best:
-    st.success(f"💡 Best move now: **keep the squad** — no transfer clears the bar this round.{auto_note}")
+    st.caption(f"Best plan: **+{best['net_gain']:.1f}** points over the rest of the cup"
+               + (f" after a −{best['hit_cost']} hit." if best["hit_cost"] else ".") + f" {auto_note}")
+    per = best["net_gain"] / best["n_transfers"]
+    for (on, ot), (inn, it) in zip(best["outs"], best["ins"]):
+        o_row, i_row = row_of(on, ot), row_of(inn, it)
+        reasons = analytics.transfer_reasons(o_row, i_row)
+        st.markdown(viz.transfer_card_html(o_row, i_row, per, reasons, hit=0), unsafe_allow_html=True)
+        with st.expander(f"Why {viz_short(inn)} over {viz_short(on)}? — the breakdown"):
+            comp = ["pts_appear", "pts_goals", "pts_assists", "pts_cs", "pts_duty", "pts_motm"]
+            labels = ["Minutes", "Goals", "Assists", "Clean sheet", "Set-piece/pen", "Man of Match"]
+            import plotly.graph_objects as go
+            f = go.Figure()
+            f.add_bar(name=on, x=labels, y=[o_row[c] for c in comp], marker_color=viz_neutral)
+            f.add_bar(name=inn, x=labels, y=[i_row[c] for c in comp], marker_color="#00b894")
+            f.update_layout(barmode="group", height=300, yaxis_title="Expected pts (next round)",
+                            legend=dict(orientation="h", y=-0.25), margin=dict(l=10, r=10, t=10, b=10))
+            st.plotly_chart(f, width="stretch", config={"displayModeBar": False})
+            st.caption(f"{inn} ({it}) survives to {i_row.get('p_plays_after', 1):.0%} vs {on}'s "
+                       f"{o_row.get('p_plays_after', 1):.0%}; whole-cup value "
+                       f"{i_row['xp_tournament']:.1f} vs {o_row['xp_tournament']:.1f}.")
+else:
+    st.success(f"**Keep the squad** — no transfer clears the bar this round. {auto_note}")
 
 import plotly.graph_objects as go
+st.subheader("All plans, ranked")
 labels, gains = [], []
 for p in plans[:8]:
     if p["n_transfers"] == 0:

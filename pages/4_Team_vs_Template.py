@@ -6,7 +6,7 @@ st.set_page_config(page_title="My Fund vs The Index", page_icon="📊", layout="
 
 from src import nav, optimizer, services, template_team, viz
 
-nav.render("Team vs Template")
+nav.render("vs Index")
 d = services.get_data()
 st.title("📊 My team vs the People's Index")
 services.render_banners(d)

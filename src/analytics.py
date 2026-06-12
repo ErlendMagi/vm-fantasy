@@ -76,6 +76,41 @@ def roi_label(roi: float, total_points: float) -> str:
     return "🔴 poor return"
 
 
+def transfer_reasons(out_row, in_row) -> list[tuple[str, bool]]:
+    """Human-readable (reason, is_upgrade) chips explaining a swap, from the
+    component deltas. Sorted by impact."""
+    out = []
+
+    def add(delta, label_pos, label_neg, thresh=0.25):
+        if abs(delta) >= thresh:
+            out.append((abs(delta), f"{'+' if delta > 0 else '−'}{abs(delta):.1f} {label_pos if delta > 0 else label_neg}",
+                        delta > 0))
+
+    add(in_row["pts_goals"] - out_row["pts_goals"], "goal threat", "goal threat")
+    add(in_row["pts_assists"] - out_row["pts_assists"], "assist threat", "assist threat", 0.15)
+    add(in_row["pts_cs"] - out_row["pts_cs"], "clean-sheet pts", "clean-sheet pts", 0.2)
+    add(in_row["pts_duty"] - out_row["pts_duty"], "set-piece/pen value", "set-piece/pen value", 0.15)
+    add(in_row["pts_appear"] - out_row["pts_appear"], "minutes security", "minutes security", 0.3)
+    dsurv = (in_row.get("p_plays_after", 1) or 1) - (out_row.get("p_plays_after", 1) or 1)
+    if abs(dsurv) >= 0.1:
+        out.append((abs(dsurv) * 5, f"{'+' if dsurv > 0 else '−'}{abs(dsurv):.0%} survival odds", dsurv > 0))
+    dprice = out_row["price"] - in_row["price"]
+    if abs(dprice) >= 0.5:
+        out.append((abs(dprice) * 0.3, f"{'frees' if dprice > 0 else 'costs'} {abs(dprice):.1f}M", dprice > 0))
+    out.sort(reverse=True)
+    return [(txt, up) for _, txt, up in out]
+
+
+def squad_quality(proj: pd.DataFrame, squad_ids: list) -> dict:
+    """Average quality percentile across ALL squad players (not just the XI).
+    A player ranked r of N in his position scores 100*(1-(r-1)/N)."""
+    n_pool = {p: max(1, int((proj["position"] == p).sum())) for p in POS}
+    owned = proj.loc[[i for i in squad_ids if i in proj.index]]
+    pct = [100 * (1 - (int(r["pos_rank"]) - 1) / n_pool[r["position"]]) for _, r in owned.iterrows()]
+    return {"rating": round(sum(pct) / len(pct), 1) if pct else 0.0,
+            "avg_rank": round(float(owned["pos_rank"].mean()), 1) if len(owned) else None}
+
+
 def team_rating(proj: pd.DataFrame, squad_ids: list, ranks: dict, n_pool: dict | None = None) -> dict:
     """A headline 0-100 team rating + per-position average rank.
 

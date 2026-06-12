@@ -7,15 +7,16 @@ Call nav.render("<Active Label>") as the first line of every page body.
 import streamlit as st
 
 # (label, url-slug, emoji, low_priority). Slugs match Streamlit's page URLs.
-# Home and League lead the row; low-priority pages hide on phones to keep the
+# League is the landing page (/); low-priority pages hide on phones to keep the
 # thumb bar uncluttered (they remain reachable on desktop).
 PAGES = [
-    ("Home", "/", "⚽", False),
-    ("League", "/League", "🏆", False),
-    ("Projections", "/Projections", "📈", False),
+    ("League", "/", "🏆", False),
+    ("My Team", "/My_Team", "⚽", False),
     ("Transfers", "/Transfers", "🔁", False),
-    ("Team vs Template", "/Team_vs_Template", "⚔️", True),
-    ("Data Status", "/Data_Status", "🧰", True),
+    ("Match Center", "/Match_Center", "📰", False),
+    ("Players", "/Projections", "📈", True),
+    ("vs Index", "/Team_vs_Template", "⚔️", True),
+    ("Data", "/Data_Status", "🧰", True),
 ]
 
 _CSS = """

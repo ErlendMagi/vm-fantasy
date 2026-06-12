@@ -217,6 +217,47 @@ def pitch_html(squad: pd.DataFrame, xi_ids: list, captain_id, value_col: str = "
     return PITCH_CSS + f'<div class="vmpitch">{"".join(rows_html)}{bench_block}</div>'
 
 
+def _mini_player(r, tone):
+    photo = r.get("photo")
+    face = (f'<img class="face" src="{photo}" referrerpolicy="no-referrer" onerror="this.style.opacity=0">'
+            if isinstance(photo, str) and photo else _initials_face(r["name"]))
+    fl = flag_img(r.get("team", ""), r.get("team_code", ""), h=12)
+    return (f'<div class="tcp {tone}"><div class="vmpic" style="width:42px;height:42px">{face}'
+            f'<span class="fl">{fl}</span></div>'
+            f'<div class="tnm">{short_name(r["name"])}</div>'
+            f'<div class="tmeta">{r["position"]} · {r["price"]:.1f}M</div>'
+            f'<div class="tmeta"><b>{r["xp_next"]:.1f}</b> xP · #{int(r.get("pos_rank", 0))}</div></div>')
+
+
+def transfer_card_html(out_row, in_row, gain, reasons, hit=0) -> str:
+    chips = "".join(f'<span class="chip {"up" if up else "dn"}">{txt}</span>' for txt, up in reasons[:5]) \
+        or '<span class="chip neutral">marginal upgrade</span>'
+    hit_txt = f' · <span style="color:#e17055">−{hit} hit</span>' if hit else ""
+    css = """
+<style>
+.tcard{background:#11161c;border:1px solid #2b333d;border-radius:14px;padding:12px 14px;margin-bottom:10px}
+.trow{display:flex;align-items:center;gap:10px}
+.tcp{flex:1;text-align:center;color:#e6edf3;font-size:11px}
+.tcp.face img.face,.tcp .face{width:42px;height:42px;border-radius:50%;object-fit:cover;border:2px solid #3a4450;background:#222;margin:0 auto}
+.tcp.out{opacity:.75}.tcp.in .vmpic .face,.tcp.in img.face{border-color:#00b894}
+.tcp .tnm{font-weight:700;margin-top:3px}.tcp .tmeta{font-size:10px;opacity:.85}
+.tarrow{font-size:22px;color:#00b894;flex:0 0 auto}
+.tgain{margin-left:auto;text-align:right;flex:0 0 auto}
+.tgain b{font-size:20px;color:#00b894}
+.tchips{margin-top:8px;display:flex;flex-wrap:wrap;gap:5px}
+.chip{font-size:10.5px;padding:2px 8px;border-radius:20px;font-weight:600}
+.chip.up{background:rgba(0,184,148,.18);color:#3ddc97;border:1px solid #145c45}
+.chip.dn{background:rgba(214,48,49,.16);color:#ff8a8a;border:1px solid #5c1d1d}
+.chip.neutral{background:#222a33;color:#9aa7b4}
+.vmpic{position:relative}.vmpic .fl{position:absolute;bottom:-2px;right:-4px}
+</style>"""
+    return css + (f'<div class="tcard"><div class="trow">'
+                  f'{_mini_player(out_row, "out")}<div class="tarrow">➜</div>{_mini_player(in_row, "in")}'
+                  f'<div class="tgain"><b>+{gain:.1f}</b><br><span style="font-size:10px;color:#9aa7b4">'
+                  f'pts/cup{hit_txt}</span></div></div>'
+                  f'<div class="tchips">{chips}</div></div>')
+
+
 def position_ranking_figure(proj: pd.DataFrame, pos: str, value_col: str,
                             my_ids: set, top_n: int = 15) -> go.Figure:
     """Top players of a position as horizontal bars on a 0-100% scale

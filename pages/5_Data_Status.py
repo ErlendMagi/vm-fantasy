@@ -7,7 +7,7 @@ st.set_page_config(page_title="Data Status", page_icon="🧰", layout="wide")
 
 from src import config, nav, services
 
-nav.render("Data Status")
+nav.render("Data")
 d = services.get_data()
 st.title("🧰 Data status")
 services.render_banners(d)

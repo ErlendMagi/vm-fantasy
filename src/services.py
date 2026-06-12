@@ -42,13 +42,18 @@ def _computed(sig: tuple, weather_bucket: str) -> dict:
     b = _bundle(sig)
     if b["players"] is None:
         return {"proj": None, "adv": None, "fixtures_next": []}
+    from src import analytics
     adv = advancement.advancement_table(b["fixtures"], b["match_odds"], b["outrights"])
     p_plays = advancement.p_plays_lookup(adv)
     proj = projections.project(
         b["players"], b["fixtures"], b["match_odds"], b["outrights"],
         b["completed"], b["next_round"], p_plays,
     )
-    return {"proj": proj, "adv": adv, "fixtures_next": proj.attrs.get("fixtures_next", [])}
+    fixtures_next = proj.attrs.get("fixtures_next", [])
+    proj = analytics.add_kpis(proj)
+    proj.attrs["fixtures_next"] = fixtures_next
+    ranks = analytics.position_ranks(proj, "xp_tournament")
+    return {"proj": proj, "adv": adv, "fixtures_next": fixtures_next, "ranks": ranks}
 
 
 def get_data() -> dict:

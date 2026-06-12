@@ -176,16 +176,19 @@ class Tv2Client:
             price = (prices[-1]["priceCents"] / PRICE_DIVISOR) if prices else 0.0
             ownership = r.get("ownershipPercent")
             by_round, total = self._round_points_from_scores(r.get("playerMatchScores"))
+            team = r.get("team") or {}
             out.append({
                 "id": str(r["id"]),
                 "name": r.get("name"),
-                "team": (r.get("team") or {}).get("name", ""),
+                "team": team.get("name", ""),
+                "team_code": team.get("code", ""),
                 "position": r.get("position", ""),
                 "price": round(float(price), 2),
                 "ownership_pct": round(float(ownership), 3) if ownership is not None else None,
                 "total_points": total,
                 "round_points": by_round,
                 "status": "available" if r.get("isAvailable", True) else "out",
+                "photo": r.get("photoUrl"),
             })
         return out
 

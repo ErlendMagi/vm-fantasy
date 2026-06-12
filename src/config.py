@@ -69,6 +69,7 @@ ASSISTED_GOAL_SHARE = 0.75    # share of goals that yield an assist
 # tournament -> modest K so 1-2 strong games move the needle without dominating.
 FORM_SHRINKAGE_K = 2.5
 FORM_MULT_BOUNDS = (0.75, 1.35)  # form can't swing a projection more than this
+MINUTES_SHRINKAGE_K = 1.0  # observed minutes confirm a starter fast (k=1 -> 50% weight after 1 game)
 # Duty bonuses (xP/match, research-calibrated): set-piece takers earn ~0.25
 # set-piece assists/match (x3 pts) that no goal-odds market captures; penalty
 # duty is applied only when a player's xG is NOT market-quoted (the bookies

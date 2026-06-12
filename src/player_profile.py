@@ -38,6 +38,33 @@ def observed_stats(players: pd.DataFrame, completed: list[int]) -> pd.DataFrame:
     return out
 
 
+def minutes_start_prob(players: pd.DataFrame, completed: list[int]) -> pd.Series | None:
+    """Observed start probability from FotMob minutes over completed rounds:
+    a player averaging ~90' is a nailed starter, ~0' is benched. Returns None
+    when no enriched stats are available yet (graceful no-op).
+
+    Minutes are the single most predictive fantasy signal — far better than 'did
+    they score fantasy points', which misses a 90-minute blank from a starter.
+    """
+    from src import data_access
+    store = data_access.load_player_stats().get("rounds", {})
+    if not completed or not store:
+        return None
+    obs = pd.Series(np.nan, index=players.index)
+    for idx in players.index:
+        mins = []
+        for r in completed:
+            rec = (store.get(str(r), {}).get("players", {}) or {}).get(idx)
+            if rec and rec.get("minutes") is not None:
+                mins.append(min(float(rec["minutes"]), 95.0))
+        if mins:
+            # recent-weighted mean minutes / 90, with a soft cap
+            w = np.linspace(1.0, 1.6, len(mins))
+            avg = float(np.average(mins, weights=w))
+            obs[idx] = min(0.97, max(0.05, avg / 90.0))
+    return obs if obs.notna().any() else None
+
+
 def form_multiplier(players: pd.DataFrame, completed: list[int], prior_ppm: pd.Series) -> pd.Series:
     """Blend each player's observed points-per-appearance with their model
     prior (per-match xP) via shrinkage; return a bounded multiplier on the

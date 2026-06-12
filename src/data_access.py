@@ -98,6 +98,11 @@ def load_league_history() -> dict:
     return _read_json(config.TV2_DIR / "league_history.json") or {}
 
 
+def load_player_stats() -> dict:
+    """FotMob-enriched per-round per-player stats (minutes/rating/xg/xa), or {}."""
+    return _read_json(config.TV2_DIR / "player_stats.json") or {}
+
+
 def load_duties() -> dict[str, dict]:
     data = _read_json(config.STATIC_DIR / "duties.json")
     return (data or {}).get("duties", {})

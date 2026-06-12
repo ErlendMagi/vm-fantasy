@@ -71,16 +71,26 @@ def fixture_mus(fixtures: list[dict], match_odds: dict | None,
 
 
 def start_probabilities(players: pd.DataFrame, completed: list[int]) -> pd.DataFrame:
-    """Adds p_start / p_play. Price-rank prior before round 1; evidence from
-    the latest completed round afterwards."""
+    """Adds p_start / p_play. Price-rank prior before round 1; once games are
+    played, blend in observed minutes (FotMob enrichment, the strongest signal)
+    with a TV2-points fallback."""
     df = players.copy()
     rank = df.groupby(["team", "position"])["price"].rank(ascending=False, method="first")
     slots = df["position"].map(STARTER_SLOTS)
-    prior = np.where(rank <= slots, 0.78, np.where(rank <= slots + 2, 0.30, 0.10))
+    prior = pd.Series(np.where(rank <= slots, 0.78, np.where(rank <= slots + 2, 0.30, 0.10)), index=df.index)
     if completed:
+        # primary signal: observed minutes (nailed starter vs cameo vs benched)
+        obs_min = player_profile.minutes_start_prob(df, completed)
         last = max(completed)
         played = df["round_points"].apply(lambda rp: rp.get(last, 0) > 0)
-        df["p_start"] = np.where(played, 0.85, np.minimum(prior, 0.20))
+        tv2_based = pd.Series(np.where(played, 0.85, np.minimum(prior, 0.20)), index=df.index)
+        if obs_min is not None:
+            n_games = len(completed)
+            w = n_games / (n_games + config.MINUTES_SHRINKAGE_K)  # minutes confirm fast
+            blended = (1 - w) * prior + w * obs_min
+            df["p_start"] = blended.where(obs_min.notna(), tv2_based)
+        else:
+            df["p_start"] = tv2_based
     else:
         df["p_start"] = prior
     df["p_play"] = np.minimum(1.0, df["p_start"] + 0.15)

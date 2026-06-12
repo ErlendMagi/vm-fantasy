@@ -52,6 +52,14 @@ jobs:
           ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
         run: python scraper/sync.py --outrights --props
 
+      # Post-match enrichment: FotMob per-player minutes/rating/xG for finished
+      # games (free, keyless) -> sharper start-probability + form. Best-effort.
+      - name: Enrich finished matches with FotMob stats
+        run: |
+          python scraper/enrich_stats.py || echo "enrichment failed - skipping"
+          git add data/tv2/player_stats.json
+          git diff --cached --quiet || (git commit -m "stats enrichment $(date -u +%FT%H:%MZ)" && git push)
+
       # Daily rating snapshot for the My Team history chart (one entry/day,
       # freshest run wins). Committed separately so a failure never blocks sync.
       - name: Record daily team-rating history

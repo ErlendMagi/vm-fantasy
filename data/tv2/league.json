@@ -1,5 +1,5 @@
 {
- "synced_at": "2026-06-12T00:47:28.080081+00:00",
+ "synced_at": "2026-06-12T01:15:01.388326+00:00",
  "current_round": 2,
  "leagues": [
   {
@@ -21,10 +21,52 @@
        "points": 7
       }
      ],
-     "squad": [],
-     "starter_ids": [],
-     "captain_id": null,
-     "formation": null
+     "squad": [
+      "bbc5a321-66a2-4285-9fe4-822f064efec7",
+      "7a06da13-07bf-4c98-8b0d-d70889165c70",
+      "37083f32-812e-43de-ab1b-aa999648b146",
+      "02e74c9d-ccc0-4521-aa7b-dc3f490ae7a5",
+      "d204c4d5-8691-4019-9556-517f50f44bc5",
+      "21b15e87-3a84-4b47-9d94-7f808fe40e94",
+      "5f842533-aa68-4659-8f0c-6d3a68946a5f",
+      "b5e2ee3e-eb94-4460-827f-32f2f39db023",
+      "cd2b9e05-c249-4c21-9717-da200132d043",
+      "8bb75dec-6ccb-462f-b33c-6740e99567be",
+      "5fe056ca-5166-40e6-9f93-ae6f3471ff4d",
+      "21af8d29-db66-49ba-ac07-eea18b504e53",
+      "c859b383-0941-47e3-ba24-f61d8d2b8e35",
+      "c5426c55-9dee-4b81-a249-369c5afac644",
+      "c46375fa-4dfc-4e94-a590-5b61842477ae"
+     ],
+     "starter_ids": [
+      "bbc5a321-66a2-4285-9fe4-822f064efec7",
+      "7a06da13-07bf-4c98-8b0d-d70889165c70",
+      "37083f32-812e-43de-ab1b-aa999648b146",
+      "02e74c9d-ccc0-4521-aa7b-dc3f490ae7a5",
+      "d204c4d5-8691-4019-9556-517f50f44bc5",
+      "21b15e87-3a84-4b47-9d94-7f808fe40e94",
+      "5f842533-aa68-4659-8f0c-6d3a68946a5f",
+      "b5e2ee3e-eb94-4460-827f-32f2f39db023",
+      "cd2b9e05-c249-4c21-9717-da200132d043",
+      "8bb75dec-6ccb-462f-b33c-6740e99567be",
+      "5fe056ca-5166-40e6-9f93-ae6f3471ff4d"
+     ],
+     "bench_ids": [
+      "21af8d29-db66-49ba-ac07-eea18b504e53",
+      "c859b383-0941-47e3-ba24-f61d8d2b8e35",
+      "c5426c55-9dee-4b81-a249-369c5afac644",
+      "c46375fa-4dfc-4e94-a590-5b61842477ae"
+     ],
+     "captain_id": "cd2b9e05-c249-4c21-9717-da200132d043",
+     "formation": "3-4-3",
+     "rounds": [
+      {
+       "number": 1,
+       "formation": "3-4-3",
+       "points": 7,
+       "transfer_hit": 0
+      }
+     ]
     },
     {
      "manager": "Thomas",
@@ -40,10 +82,52 @@
        "points": 0
       }
      ],
-     "squad": [],
-     "starter_ids": [],
-     "captain_id": null,
-     "formation": null
+     "squad": [
+      "bbc5a321-66a2-4285-9fe4-822f064efec7",
+      "37083f32-812e-43de-ab1b-aa999648b146",
+      "3c1f2aaf-86af-4a0f-a712-9ea9f54fd5ef",
+      "b600fd34-61de-4acf-a70e-6d4e8b81f111",
+      "3aaa39f5-9908-454d-97d0-b5806a65e3ac",
+      "56896831-e471-495a-b9d2-e9d87606b0ab",
+      "4d5c484f-d059-41fa-bf5e-b7a5571830c7",
+      "69128071-724f-4e9f-ab0a-ab8eb937cbf8",
+      "1d8fbd81-3902-4363-ba31-900b5793de66",
+      "e03a7a83-d61e-405c-9a2e-718155701424",
+      "3fa8a2d2-9d57-4f9c-a712-99f9b097e414",
+      "635dd97c-987e-473c-9a7e-eba67ad2edef",
+      "c46375fa-4dfc-4e94-a590-5b61842477ae",
+      "537bbdcb-6ebf-412f-8dc6-c29f16420382",
+      "17319b7e-1394-4e2a-a492-41887f4c5237"
+     ],
+     "starter_ids": [
+      "bbc5a321-66a2-4285-9fe4-822f064efec7",
+      "37083f32-812e-43de-ab1b-aa999648b146",
+      "3c1f2aaf-86af-4a0f-a712-9ea9f54fd5ef",
+      "b600fd34-61de-4acf-a70e-6d4e8b81f111",
+      "3aaa39f5-9908-454d-97d0-b5806a65e3ac",
+      "56896831-e471-495a-b9d2-e9d87606b0ab",
+      "4d5c484f-d059-41fa-bf5e-b7a5571830c7",
+      "69128071-724f-4e9f-ab0a-ab8eb937cbf8",
+      "1d8fbd81-3902-4363-ba31-900b5793de66",
+      "e03a7a83-d61e-405c-9a2e-718155701424",
+      "3fa8a2d2-9d57-4f9c-a712-99f9b097e414"
+     ],
+     "bench_ids": [
+      "635dd97c-987e-473c-9a7e-eba67ad2edef",
+      "c46375fa-4dfc-4e94-a590-5b61842477ae",
+      "537bbdcb-6ebf-412f-8dc6-c29f16420382",
+      "17319b7e-1394-4e2a-a492-41887f4c5237"
+     ],
+     "captain_id": "3c1f2aaf-86af-4a0f-a712-9ea9f54fd5ef",
+     "formation": "3-4-3",
+     "rounds": [
+      {
+       "number": 1,
+       "formation": "3-4-3",
+       "points": 0,
+       "transfer_hit": 0
+      }
+     ]
     },
     {
      "manager": "Preben",
@@ -59,10 +143,52 @@
        "points": 0
       }
      ],
-     "squad": [],
-     "starter_ids": [],
-     "captain_id": null,
-     "formation": null
+     "squad": [
+      "3c1f2aaf-86af-4a0f-a712-9ea9f54fd5ef",
+      "e03a7a83-d61e-405c-9a2e-718155701424",
+      "64b3ec51-1cf4-449b-860f-d4a2cee93727",
+      "b5e2ee3e-eb94-4460-827f-32f2f39db023",
+      "066d88ff-5642-4acc-8878-5bba4efd2329",
+      "3aaa39f5-9908-454d-97d0-b5806a65e3ac",
+      "8bb75dec-6ccb-462f-b33c-6740e99567be",
+      "7a06da13-07bf-4c98-8b0d-d70889165c70",
+      "bbc5a321-66a2-4285-9fe4-822f064efec7",
+      "f4170747-2c28-4daa-b766-48cfcc6e3906",
+      "b19a765c-bdac-460e-a3c0-b588c5feedab",
+      "635dd97c-987e-473c-9a7e-eba67ad2edef",
+      "753caed2-2027-4cf4-af65-26f554b96263",
+      "cb6156b9-aa0c-4341-9e97-3785532cc888",
+      "c46375fa-4dfc-4e94-a590-5b61842477ae"
+     ],
+     "starter_ids": [
+      "3c1f2aaf-86af-4a0f-a712-9ea9f54fd5ef",
+      "e03a7a83-d61e-405c-9a2e-718155701424",
+      "64b3ec51-1cf4-449b-860f-d4a2cee93727",
+      "b5e2ee3e-eb94-4460-827f-32f2f39db023",
+      "066d88ff-5642-4acc-8878-5bba4efd2329",
+      "3aaa39f5-9908-454d-97d0-b5806a65e3ac",
+      "8bb75dec-6ccb-462f-b33c-6740e99567be",
+      "7a06da13-07bf-4c98-8b0d-d70889165c70",
+      "bbc5a321-66a2-4285-9fe4-822f064efec7",
+      "f4170747-2c28-4daa-b766-48cfcc6e3906",
+      "b19a765c-bdac-460e-a3c0-b588c5feedab"
+     ],
+     "bench_ids": [
+      "635dd97c-987e-473c-9a7e-eba67ad2edef",
+      "753caed2-2027-4cf4-af65-26f554b96263",
+      "cb6156b9-aa0c-4341-9e97-3785532cc888",
+      "c46375fa-4dfc-4e94-a590-5b61842477ae"
+     ],
+     "captain_id": "3c1f2aaf-86af-4a0f-a712-9ea9f54fd5ef",
+     "formation": "3-4-3",
+     "rounds": [
+      {
+       "number": 1,
+       "formation": "3-4-3",
+       "points": 0,
+       "transfer_hit": 0
+      }
+     ]
     },
     {
      "manager": "Jostein",
@@ -78,10 +204,52 @@
        "points": 0
       }
      ],
-     "squad": [],
-     "starter_ids": [],
-     "captain_id": null,
-     "formation": null
+     "squad": [
+      "1ac149aa-ce4a-45fe-a968-66e42d74c6d0",
+      "2ede12ab-22a0-42c3-88e0-0ee24466c034",
+      "6ad16f0f-56ff-4016-8bb6-cfd39954ab3c",
+      "c13962ec-25dd-4a3c-921a-e4e4398b8579",
+      "3aaa39f5-9908-454d-97d0-b5806a65e3ac",
+      "2fa400c3-ac42-494c-990e-b1cac5da48a2",
+      "93dc4bc4-cdba-4848-b641-a23d043f1612",
+      "13993950-3e6e-4572-bb03-916cdc1af3b9",
+      "0daf8375-dddd-4b10-9246-907d7b6b34bc",
+      "5f842533-aa68-4659-8f0c-6d3a68946a5f",
+      "7a06da13-07bf-4c98-8b0d-d70889165c70",
+      "bbc5a321-66a2-4285-9fe4-822f064efec7",
+      "21b15e87-3a84-4b47-9d94-7f808fe40e94",
+      "016c5cfb-9d26-4351-8512-6fa6a76117ba",
+      "5ff3c464-dbd2-41f6-8af9-bff123a9926f"
+     ],
+     "starter_ids": [
+      "1ac149aa-ce4a-45fe-a968-66e42d74c6d0",
+      "2ede12ab-22a0-42c3-88e0-0ee24466c034",
+      "6ad16f0f-56ff-4016-8bb6-cfd39954ab3c",
+      "c13962ec-25dd-4a3c-921a-e4e4398b8579",
+      "3aaa39f5-9908-454d-97d0-b5806a65e3ac",
+      "2fa400c3-ac42-494c-990e-b1cac5da48a2",
+      "93dc4bc4-cdba-4848-b641-a23d043f1612",
+      "13993950-3e6e-4572-bb03-916cdc1af3b9",
+      "0daf8375-dddd-4b10-9246-907d7b6b34bc",
+      "5f842533-aa68-4659-8f0c-6d3a68946a5f",
+      "7a06da13-07bf-4c98-8b0d-d70889165c70"
+     ],
+     "bench_ids": [
+      "bbc5a321-66a2-4285-9fe4-822f064efec7",
+      "21b15e87-3a84-4b47-9d94-7f808fe40e94",
+      "016c5cfb-9d26-4351-8512-6fa6a76117ba",
+      "5ff3c464-dbd2-41f6-8af9-bff123a9926f"
+     ],
+     "captain_id": "1ac149aa-ce4a-45fe-a968-66e42d74c6d0",
+     "formation": "4-4-2",
+     "rounds": [
+      {
+       "number": 1,
+       "formation": "4-4-2",
+       "points": 0,
+       "transfer_hit": 0
+      }
+     ]
     },
     {
      "manager": "julle",
@@ -97,10 +265,52 @@
        "points": 0
       }
      ],
-     "squad": [],
-     "starter_ids": [],
-     "captain_id": null,
-     "formation": null
+     "squad": [
+      "8a04907a-aebc-488a-b125-d4edc878a391",
+      "3aaa39f5-9908-454d-97d0-b5806a65e3ac",
+      "63e43337-c5a2-4ec8-851d-74ef245d345c",
+      "64b3ec51-1cf4-449b-860f-d4a2cee93727",
+      "0b0b4872-6395-4246-b1d8-8c0c6cdbbc03",
+      "bbc5a321-66a2-4285-9fe4-822f064efec7",
+      "3ab1b429-a4a7-411d-85a3-ec5acb922398",
+      "32b8a7d5-97b7-40f9-8385-88a091bfbdf6",
+      "7a06da13-07bf-4c98-8b0d-d70889165c70",
+      "37083f32-812e-43de-ab1b-aa999648b146",
+      "b19a765c-bdac-460e-a3c0-b588c5feedab",
+      "635dd97c-987e-473c-9a7e-eba67ad2edef",
+      "cb6156b9-aa0c-4341-9e97-3785532cc888",
+      "95b045af-510d-4f14-8e37-a054f738b223",
+      "c46375fa-4dfc-4e94-a590-5b61842477ae"
+     ],
+     "starter_ids": [
+      "8a04907a-aebc-488a-b125-d4edc878a391",
+      "3aaa39f5-9908-454d-97d0-b5806a65e3ac",
+      "63e43337-c5a2-4ec8-851d-74ef245d345c",
+      "64b3ec51-1cf4-449b-860f-d4a2cee93727",
+      "0b0b4872-6395-4246-b1d8-8c0c6cdbbc03",
+      "bbc5a321-66a2-4285-9fe4-822f064efec7",
+      "3ab1b429-a4a7-411d-85a3-ec5acb922398",
+      "32b8a7d5-97b7-40f9-8385-88a091bfbdf6",
+      "7a06da13-07bf-4c98-8b0d-d70889165c70",
+      "37083f32-812e-43de-ab1b-aa999648b146",
+      "b19a765c-bdac-460e-a3c0-b588c5feedab"
+     ],
+     "bench_ids": [
+      "635dd97c-987e-473c-9a7e-eba67ad2edef",
+      "cb6156b9-aa0c-4341-9e97-3785532cc888",
+      "95b045af-510d-4f14-8e37-a054f738b223",
+      "c46375fa-4dfc-4e94-a590-5b61842477ae"
+     ],
+     "captain_id": "3aaa39f5-9908-454d-97d0-b5806a65e3ac",
+     "formation": "4-3-3",
+     "rounds": [
+      {
+       "number": 1,
+       "formation": "4-3-3",
+       "points": 0,
+       "transfer_hit": 0
+      }
+     ]
     },
     {
      "manager": "Erlend",
@@ -116,10 +326,52 @@
        "points": 0
       }
      ],
-     "squad": [],
-     "starter_ids": [],
-     "captain_id": null,
-     "formation": null
+     "squad": [
+      "bbc5a321-66a2-4285-9fe4-822f064efec7",
+      "9ce12e14-eeb2-48fd-9117-e13d925510b1",
+      "a9672b57-68c4-4c39-94cf-a07ab48687a3",
+      "c13962ec-25dd-4a3c-921a-e4e4398b8579",
+      "1f6e3324-d962-435c-ad65-2e13f14e136a",
+      "ad7d4724-3c54-4108-8651-936010a75c2f",
+      "8984e3ae-fd88-484b-8fb4-470f2bcb2f6c",
+      "1d8fbd81-3902-4363-ba31-900b5793de66",
+      "5f842533-aa68-4659-8f0c-6d3a68946a5f",
+      "79765177-f1e1-4230-8f2c-922e3d5cde76",
+      "4b73aa01-6b88-487f-85ca-fb2e4668618c",
+      "9a6d69d5-2ae2-4349-92e8-9715f997b343",
+      "9f5dbc2e-747a-4b53-a1f7-bc058a747a7f",
+      "15ba05b3-cc28-4e37-8d7f-07a1e277a955",
+      "84793022-3c89-47bd-8d1e-b8b7434cab66"
+     ],
+     "starter_ids": [
+      "bbc5a321-66a2-4285-9fe4-822f064efec7",
+      "9ce12e14-eeb2-48fd-9117-e13d925510b1",
+      "a9672b57-68c4-4c39-94cf-a07ab48687a3",
+      "c13962ec-25dd-4a3c-921a-e4e4398b8579",
+      "1f6e3324-d962-435c-ad65-2e13f14e136a",
+      "ad7d4724-3c54-4108-8651-936010a75c2f",
+      "8984e3ae-fd88-484b-8fb4-470f2bcb2f6c",
+      "1d8fbd81-3902-4363-ba31-900b5793de66",
+      "5f842533-aa68-4659-8f0c-6d3a68946a5f",
+      "79765177-f1e1-4230-8f2c-922e3d5cde76",
+      "4b73aa01-6b88-487f-85ca-fb2e4668618c"
+     ],
+     "bench_ids": [
+      "9a6d69d5-2ae2-4349-92e8-9715f997b343",
+      "9f5dbc2e-747a-4b53-a1f7-bc058a747a7f",
+      "15ba05b3-cc28-4e37-8d7f-07a1e277a955",
+      "84793022-3c89-47bd-8d1e-b8b7434cab66"
+     ],
+     "captain_id": "8984e3ae-fd88-484b-8fb4-470f2bcb2f6c",
+     "formation": "5-4-1",
+     "rounds": [
+      {
+       "number": 1,
+       "formation": "5-4-1",
+       "points": 0,
+       "transfer_hit": 0
+      }
+     ]
     }
    ]
   },
@@ -144,8 +396,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Lara",
@@ -163,8 +417,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": " Bjørn Gohn",
@@ -182,8 +438,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Nita",
@@ -201,8 +459,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Emilie",
@@ -220,8 +480,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Harald",
@@ -239,8 +501,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Martin",
@@ -258,8 +522,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Sjur",
@@ -277,8 +543,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Thomas",
@@ -296,8 +564,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Ahmed",
@@ -315,8 +585,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Christian",
@@ -334,8 +606,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Ole Petter",
@@ -353,8 +627,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Robert",
@@ -372,8 +648,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Morten",
@@ -391,8 +669,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Carl",
@@ -410,8 +690,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Gard",
@@ -429,8 +711,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Fridtjof",
@@ -448,8 +732,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Martine",
@@ -467,8 +753,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Egil",
@@ -486,8 +774,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Ivar",
@@ -505,8 +795,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Stig",
@@ -524,8 +816,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "BRAGE",
@@ -543,8 +837,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Simen",
@@ -562,8 +858,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Johannes",
@@ -581,8 +879,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Hans",
@@ -600,8 +900,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Christoffer",
@@ -619,8 +921,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Adrian ",
@@ -638,8 +942,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Sam",
@@ -657,8 +963,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Sohel",
@@ -676,8 +984,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Mohammed",
@@ -695,8 +1005,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Herman",
@@ -714,8 +1026,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Christer",
@@ -733,8 +1047,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Henning",
@@ -752,8 +1068,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Lars",
@@ -771,8 +1089,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Terje",
@@ -790,8 +1110,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "geir",
@@ -809,8 +1131,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "MIKA",
@@ -828,8 +1152,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Tommy",
@@ -847,8 +1173,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Johnny",
@@ -866,8 +1194,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Fanny elisabeth martine",
@@ -885,8 +1215,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "TRULS",
@@ -904,8 +1236,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Håkon",
@@ -923,8 +1257,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Sebastian",
@@ -942,8 +1278,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Thomas",
@@ -961,8 +1299,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Bjørn Ole ",
@@ -980,8 +1320,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Anders",
@@ -999,8 +1341,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Lasse Samuelsen",
@@ -1018,8 +1362,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "tone",
@@ -1037,8 +1383,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Tord",
@@ -1056,8 +1404,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Emil",
@@ -1075,8 +1425,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "marius",
@@ -1094,8 +1446,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Trine",
@@ -1113,8 +1467,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Andreas",
@@ -1132,8 +1488,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Simen",
@@ -1151,8 +1509,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Ingeborg",
@@ -1170,8 +1530,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "siri",
@@ -1189,8 +1551,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Svenn",
@@ -1208,8 +1572,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Vetle",
@@ -1227,8 +1593,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Birk",
@@ -1246,8 +1614,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Sebastian",
@@ -1265,8 +1635,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Magnus",
@@ -1284,8 +1656,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Jostein",
@@ -1303,8 +1677,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Stian",
@@ -1322,8 +1698,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Bjørn",
@@ -1341,8 +1719,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Timothy",
@@ -1360,8 +1740,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Shandiz ",
@@ -1379,8 +1761,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Magnus",
@@ -1398,8 +1782,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Tomas",
@@ -1417,8 +1803,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Stian",
@@ -1436,8 +1824,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Simon",
@@ -1455,8 +1845,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Øistein",
@@ -1474,8 +1866,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Fredrik",
@@ -1493,8 +1887,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Kjetil",
@@ -1512,8 +1908,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Mads",
@@ -1531,8 +1929,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Magnus",
@@ -1550,8 +1950,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Magnus",
@@ -1569,8 +1971,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Espen",
@@ -1588,8 +1992,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Martin",
@@ -1607,8 +2013,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Helene",
@@ -1626,8 +2034,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Fredrik",
@@ -1645,8 +2055,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Anonym",
@@ -1664,8 +2076,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Asim",
@@ -1683,8 +2097,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Eivind ",
@@ -1702,8 +2118,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Trym",
@@ -1721,8 +2139,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Rikard",
@@ -1740,8 +2160,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Per Christian",
@@ -1759,8 +2181,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Christian",
@@ -1778,8 +2202,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Ove ",
@@ -1797,8 +2223,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Morten",
@@ -1816,8 +2244,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "alexander",
@@ -1835,8 +2265,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Kamilla",
@@ -1854,8 +2286,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Geir H. ",
@@ -1873,8 +2307,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "ELINE",
@@ -1892,8 +2328,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Sondre",
@@ -1911,8 +2349,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Andreas",
@@ -1930,8 +2370,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Jon Andreas",
@@ -1949,8 +2391,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Anonym",
@@ -1968,8 +2412,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Tarjei ",
@@ -1987,8 +2433,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "Mathias",
@@ -2006,8 +2454,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     },
     {
      "manager": "FREDRIK",
@@ -2025,8 +2475,10 @@
      ],
      "squad": [],
      "starter_ids": [],
+     "bench_ids": [],
      "captain_id": null,
-     "formation": null
+     "formation": null,
+     "rounds": []
     }
    ]
   }

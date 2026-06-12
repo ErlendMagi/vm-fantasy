@@ -6,14 +6,16 @@ Call nav.render("<Active Label>") as the first line of every page body.
 """
 import streamlit as st
 
-# (label, url-slug, emoji). Slugs match Streamlit's page URLs.
+# (label, url-slug, emoji, low_priority). Slugs match Streamlit's page URLs.
+# Home and League lead the row; low-priority pages hide on phones to keep the
+# thumb bar uncluttered (they remain reachable on desktop).
 PAGES = [
-    ("Home", "/", "⚽"),
-    ("Projections", "/Projections", "📈"),
-    ("Transfers", "/Transfers", "🔁"),
-    ("Team vs Template", "/Team_vs_Template", "⚔️"),
-    ("Data Status", "/Data_Status", "🧰"),
-    ("League", "/League", "🏆"),
+    ("Home", "/", "⚽", False),
+    ("League", "/League", "🏆", False),
+    ("Projections", "/Projections", "📈", False),
+    ("Transfers", "/Transfers", "🔁", False),
+    ("Team vs Template", "/Team_vs_Template", "⚔️", True),
+    ("Data Status", "/Data_Status", "🧰", True),
 ]
 
 _CSS = """
@@ -30,13 +32,15 @@ section[data-testid="stSidebar"]{display:none!important}
 .vmnav a .ic{font-size:17px;line-height:1}
 .vmnav a:hover{background:#1d2530;color:#fff}
 .vmnav a.act{background:#00b894;color:#06281f}
-/* keep the floating Streamlit badge clear of the bottom bar on phones */
+/* phones: fixed bottom thumb bar; the floating Streamlit badge (host page,
+   untouchable from in here) gets a reserved 96px gutter on the right */
 @media (max-width:820px){
   .block-container{padding-bottom:96px!important}
   .vmnav{position:fixed;left:6px;right:6px;bottom:6px;top:auto;margin:0;border-radius:16px;
-    justify-content:space-between;padding:7px 60px 7px 6px;gap:2px}
+    justify-content:space-between;padding:7px 96px 7px 6px;gap:2px}
   .vmnav a{font-size:10px;padding:5px 6px;gap:0}
-  .vmnav a .lbl{max-width:54px;overflow:hidden;text-overflow:ellipsis}
+  .vmnav a.lo{display:none}
+  .vmnav a .lbl{max-width:56px;overflow:hidden;text-overflow:ellipsis}
   .vmnav a .ic{font-size:19px}
 }
 </style>
@@ -45,7 +49,7 @@ section[data-testid="stSidebar"]{display:none!important}
 
 def render(active: str = "") -> None:
     links = "".join(
-        f'<a class="{"act" if label == active else ""}" target="_self" href="{url}">'
+        f'<a class="{"act" if label == active else ""}{" lo" if lo else ""}" target="_self" href="{url}">'
         f'<span class="ic">{icon}</span><span class="lbl">{label}</span></a>'
-        for label, url, icon in PAGES)
+        for label, url, icon, lo in PAGES)
     st.markdown(_CSS + f'<div class="vmnav">{links}</div>', unsafe_allow_html=True)

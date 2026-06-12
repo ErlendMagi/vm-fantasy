@@ -29,11 +29,17 @@ if src and src.get("leagues"):
         if sq and m["squad_name"] != (my.get("squad_name")):
             rivals.append((m["squad_name"], proj.loc[[i for i in sq if i in proj.index]]))
 
-fixtures = sorted(d["fixtures_next"], key=lambda f: f["kickoff_utc"])
-st.caption(f"Auto-written analysis for all {len(fixtures)} matches in round {d['next_round']} — "
+# the live round's games still to be played — the ones actually worth watching
+fixtures = sorted([f for f in d["fixtures_next"] if f.get("status") != "finished"],
+                  key=lambda f: f["kickoff_utc"])
+st.caption(f"Auto-written analysis for the {len(fixtures)} upcoming round-{d['next_round']} matches — "
            "implied probabilities, expected goals, heat, key men, your exposure and rival threats. "
            "Refreshes with the odds.")
 OSLO = timezone(timedelta(hours=2))
+if not fixtures:
+    st.info(f"All round-{d['next_round']} matches have kicked off. The next round's previews appear once "
+            "its fixtures are scheduled.")
+    st.stop()
 
 # quick filter
 only_mine = st.toggle("Only games my players feature in", value=False)

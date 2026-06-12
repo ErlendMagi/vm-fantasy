@@ -167,27 +167,30 @@ def completed_rounds(fixtures: list[dict]) -> list[int]:
 
 
 def next_round(fixtures: list[dict]) -> int:
-    """The round you can still set a team for = the earliest fantasy round whose
-    FIRST kickoff is still in the future (a round locks at its first match, like
-    TV 2's deadline). This is the round to project/captain/transfer for, and it
-    can be ahead of the round still being scored."""
+    """The LIVE round = the earliest round still being played (has a match not
+    yet finished). This is what 'happening now' refers to: live points race,
+    games to watch, importance. While round 1's matches run, this stays 1."""
+    unfinished = [m["fantasy_round"] for m in fixtures
+                  if m.get("fantasy_round") and m.get("status") != "finished"]
+    return min(unfinished) if unfinished else max((m.get("fantasy_round") or 0 for m in fixtures), default=1)
+
+
+def target_round(fixtures: list[dict]) -> int:
+    """The EDITABLE round = the earliest round whose first kickoff is still in
+    the future (it locks at its first match, like TV 2's deadline). This is the
+    round to plan/captain/transfer for; while round 1 plays, this is round 2."""
     from datetime import datetime, timezone
     now = datetime.now(timezone.utc)
     first_ko: dict[int, datetime] = {}
     for m in fixtures:
-        r = m.get("fantasy_round")
-        if not r or not m.get("kickoff_utc"):
+        r, ko_s = m.get("fantasy_round"), m.get("kickoff_utc")
+        if not r or not ko_s:
             continue
-        ko = datetime.fromisoformat(m["kickoff_utc"].replace("Z", "+00:00"))
+        ko = datetime.fromisoformat(ko_s.replace("Z", "+00:00"))
         if r not in first_ko or ko < first_ko[r]:
             first_ko[r] = ko
     upcoming = [r for r, ko in first_ko.items() if ko > now]
-    if upcoming:
-        return min(upcoming)
-    # all rounds kicked off -> fall back to the earliest unfinished round
-    unfinished = [m["fantasy_round"] for m in fixtures
-                  if m.get("fantasy_round") and m.get("status") != "finished"]
-    return min(unfinished) if unfinished else max((m.get("fantasy_round") or 0 for m in fixtures), default=1)
+    return min(upcoming) if upcoming else next_round(fixtures)
 
 
 def round_fixtures(fixtures: list[dict], round_no: int) -> list[dict]:

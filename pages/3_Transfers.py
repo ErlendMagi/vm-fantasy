@@ -14,7 +14,10 @@ services.render_banners(d)
 if d["proj"] is None or d["my_team"] is None:
     st.stop()
 
-proj, my = d["proj"], d["my_team"]
+proj, my = d["proj_plan"], d["my_team"]
+if d["target_round"] != d["next_round"]:
+    st.caption(f"Planning **round {d['target_round']}** (the next editable round). "
+               f"Round {d['next_round']} is locked and scoring live.")
 owned = proj.loc[[i for i in my["squad"] if i in proj.index]]
 
 st.subheader("Current squad health")

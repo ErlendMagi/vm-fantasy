@@ -15,7 +15,12 @@ services.render_banners(d)
 if d["players"] is None or d["proj"] is None or d["my_team"] is None:
     st.stop()
 
-proj, my, ranks = d["proj"], d["my_team"], d["ranks"]
+proj, my, ranks = d["proj_plan"], d["my_team"], d["ranks"]
+target, live = d["target_round"], d["next_round"]
+if target != live:
+    st.info(f"**Round {live} is live & locked** — your team is scoring now (captain can't change). "
+            f"Everything below is your plan for **round {target}**, the next editable round, which the "
+            f"autopilot finalises before its deadline.")
 owned = proj.loc[[i for i in my["squad"] if i in proj.index]]
 xi = optimizer.best_xi(owned, "xp_next")
 cap_name = proj.loc[xi["captain_id"], "name"] if xi["captain_id"] else "-"

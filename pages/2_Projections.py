@@ -13,7 +13,7 @@ services.render_banners(d)
 if d["proj"] is None:
     st.stop()
 
-proj = d["proj"]
+proj = d["proj_plan"]  # rate players for the round you're planning (editable)
 my = d["my_team"] or {}
 my_ids = set(my.get("squad", []))
 
@@ -111,8 +111,8 @@ if who:
             st.caption("No squad loaded yet.")
 
 # ---------------------------------------------------------------- fixtures + nerd table
-st.subheader(f"Round {d['next_round']} fixtures the model sees")
-for fx in d["fixtures_next"]:
+st.subheader(f"Round {d['target_round']} fixtures the model sees")
+for fx in d["fixtures_plan"]:
     heat_note = "🏟️ indoor (A/C)" if fx.get("indoor_ac") else (
         f"🌡️ {fx['apparent_temp']:.0f}°C feels-like" if fx.get("apparent_temp") is not None else "no forecast yet")
     p_h = fx.get("p_home_win")

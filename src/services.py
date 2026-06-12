@@ -33,27 +33,39 @@ def _bundle(sig: tuple) -> dict:
         "match_odds": data_access.load_match_odds(),
         "outrights": data_access.load_outrights(),
         "completed": data_access.completed_rounds(fixtures),
-        "next_round": data_access.next_round(fixtures),
+        "next_round": data_access.next_round(fixtures),     # live round (being played)
+        "target_round": data_access.target_round(fixtures),  # editable round (planning)
     }
+
+
+def _project_round(b, p_plays, rnd):
+    from src import analytics
+    proj = projections.project(b["players"], b["fixtures"], b["match_odds"], b["outrights"],
+                               b["completed"], rnd, p_plays)
+    fixtures_next = proj.attrs.get("fixtures_next", [])
+    proj = analytics.add_kpis(proj)
+    proj.attrs["fixtures_next"] = fixtures_next
+    return proj, fixtures_next
 
 
 @st.cache_data(show_spinner="Crunching odds, weather and simulations...")
 def _computed(sig: tuple, weather_bucket: str) -> dict:
     b = _bundle(sig)
     if b["players"] is None:
-        return {"proj": None, "adv": None, "fixtures_next": []}
+        return {"proj": None, "proj_plan": None, "adv": None, "fixtures_next": [], "fixtures_plan": []}
     from src import analytics
     adv = advancement.advancement_table(b["fixtures"], b["match_odds"], b["outrights"])
     p_plays = advancement.p_plays_lookup(adv)
-    proj = projections.project(
-        b["players"], b["fixtures"], b["match_odds"], b["outrights"],
-        b["completed"], b["next_round"], p_plays,
-    )
-    fixtures_next = proj.attrs.get("fixtures_next", [])
-    proj = analytics.add_kpis(proj)
-    proj.attrs["fixtures_next"] = fixtures_next
-    ranks = analytics.position_ranks(proj, "xp_tournament")
-    return {"proj": proj, "adv": adv, "fixtures_next": fixtures_next, "ranks": ranks}
+    # live round: 'what's happening now' (race, games to watch, importance)
+    proj, fixtures_next = _project_round(b, p_plays, b["next_round"])
+    # editable round: planning your next team (My Team, Transfers, captain)
+    if b["target_round"] == b["next_round"]:
+        proj_plan, fixtures_plan = proj, fixtures_next
+    else:
+        proj_plan, fixtures_plan = _project_round(b, p_plays, b["target_round"])
+    ranks = analytics.position_ranks(proj_plan, "xp_tournament")
+    return {"proj": proj, "proj_plan": proj_plan, "adv": adv,
+            "fixtures_next": fixtures_next, "fixtures_plan": fixtures_plan, "ranks": ranks}
 
 
 def get_data() -> dict:

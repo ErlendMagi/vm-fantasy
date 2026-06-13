@@ -103,6 +103,12 @@ def load_player_stats() -> dict:
     return _read_json(config.TV2_DIR / "player_stats.json") or {}
 
 
+def load_model_accuracy() -> dict:
+    """Per-round {expected, actual} for my XI, so we can chart how well the
+    model's projections track reality. Written by record_rating.py."""
+    return _read_json(config.TV2_DIR / "model_accuracy.json") or {"rounds": {}}
+
+
 def load_duties() -> dict[str, dict]:
     data = _read_json(config.STATIC_DIR / "duties.json")
     return (data or {}).get("duties", {})

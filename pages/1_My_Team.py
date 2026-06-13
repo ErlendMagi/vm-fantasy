@@ -89,6 +89,107 @@ if _days:
 else:
     st.info("Rating history starts recording today — the chart appears after the first daily snapshot.")
 
+# ---------------------------------------------------------------- model check: expected vs actual
+st.subheader("🔬 Is the model working? Expected vs actual")
+st.caption("The honest scoreboard for the projections. For every player who's *already played* this round, "
+           "this compares what the model expected them to score against what they really scored — so you "
+           "can see if the projections are calibrated or just optimistic.")
+
+from src import data_access as _da
+
+_league = _da.load_league()
+proj_live = d["proj"]
+_me = None
+for _L in (_league or {}).get("leagues", []):
+    for _mm in _L.get("members", []):
+        if _mm.get("squad_name") == my.get("squad_name"):
+            _me = _mm
+_rd = next((r for r in (_me.get("rounds") or []) if r.get("number") == live), {}) if _me else {}
+_starters = _rd.get("starter_ids") or []
+_capid = _rd.get("captain_id")
+_scores = _rd.get("scores") or {}
+
+
+def _xp_live(pid):
+    return float(proj_live.loc[pid, "xp_next"]) if pid in proj_live.index else 0.0
+
+
+if not _starters:
+    st.info("Your fielded XI for the live round isn't available yet — this fills in once the round locks "
+            "and your players start playing.")
+else:
+    rows = []
+    for pid in _starters:
+        nm = (proj_live.loc[pid, "name"] if pid in proj_live.index else pid)
+        exp = round(_xp_live(pid) * (2 if pid == _capid else 1), 1)   # points-as-they-count (capt doubled)
+        played = pid in _scores
+        act = _scores.get(pid) if played else None
+        rows.append({"Player": nm + (" (C)" if pid == _capid else ""),
+                     "Pos": (proj_live.loc[pid, "position"] if pid in proj_live.index else ""),
+                     "Expected": exp, "Actual": act, "played": played,
+                     "Δ": (round((act or 0) - exp, 1) if played else None)})
+    played_rows = [r for r in rows if r["played"]]
+    exp_played = sum(r["Expected"] for r in played_rows)
+    act_played = sum((r["Actual"] or 0) for r in played_rows)
+    exp_full = sum(r["Expected"] for r in rows)
+    projected_final = act_played + (exp_full - exp_played)   # real so far + model for the rest
+
+    m1, m2, m3 = st.columns(3)
+    m1.metric(f"Actual so far ({len(played_rows)}/{len(rows)} played)", f"{act_played:.0f}",
+              delta=(f"{act_played - exp_played:+.1f} vs model" if played_rows else None),
+              help="Real points from your players whose match has finished this round.")
+    m2.metric("Model expected (same players)", f"{exp_played:.1f}",
+              help="What the model projected for exactly those finished players — the apples-to-apples test.")
+    m3.metric("On pace for", f"{projected_final:.0f}",
+              help=f"Real points so far + the model's projection for your {len(rows) - len(played_rows)} "
+                   "players still to play. Model expected the full XI to score "
+                   f"{exp_full:.0f}.")
+
+    if len(played_rows) < 3:
+        st.caption(f"⏳ Only {len(played_rows)} of your players have played round {live} so far — too small "
+                   "a sample to judge the model yet. The verdict sharpens as the round fills out.")
+    else:
+        ratio = act_played / exp_played if exp_played else 1.0
+        if ratio >= 1.10:
+            st.success(f"✅ **Your XI is over-performing the model** — {act_played:.0f} actual vs "
+                       f"{exp_played:.1f} expected ({(ratio - 1) * 100:+.0f}%). Either variance is in your "
+                       "favour or the projections are a touch conservative.")
+        elif ratio <= 0.90:
+            st.warning(f"⚠️ **Your XI is under the model** — {act_played:.0f} actual vs {exp_played:.1f} "
+                       f"expected ({(ratio - 1) * 100:+.0f}%). Early bad luck, or the model is optimistic "
+                       "for these picks.")
+        else:
+            st.info(f"🎯 **The model is tracking reality well** — {act_played:.0f} actual vs "
+                    f"{exp_played:.1f} expected ({(ratio - 1) * 100:+.0f}%). Projections look calibrated.")
+
+    _df = pd.DataFrame(
+        sorted([r for r in rows if r["played"]], key=lambda r: r["Δ"], reverse=True)
+        + sorted([r for r in rows if not r["played"]], key=lambda r: r["Expected"], reverse=True)
+    )
+    _df["Actual"] = _df.apply(lambda r: f"{r['Actual']:.0f}" if r["played"] else "— to play", axis=1)
+    _df["Δ"] = _df["Δ"].apply(lambda v: (f"{v:+.1f}" if v is not None else ""))
+    st.dataframe(_df[["Player", "Pos", "Expected", "Actual", "Δ"]], hide_index=True, width="stretch")
+
+    # round-by-round trend - only completed rounds are a fair test
+    _acc = _da.load_model_accuracy().get("rounds", {})
+    done = {int(k): v for k, v in _acc.items()
+            if v.get("starters") and v.get("played", 0) >= v["starters"]}
+    if done:
+        ks = sorted(done)
+        tfig = go.Figure()
+        tfig.add_bar(x=[f"R{k}" for k in ks], y=[done[k]["expected"] for k in ks],
+                     name="Model expected", marker_color="#0984e3")
+        tfig.add_bar(x=[f"R{k}" for k in ks], y=[done[k]["actual"] for k in ks],
+                     name="Actually scored", marker_color="#00b894")
+        tfig.update_layout(barmode="group", height=300, yaxis_title="Round points",
+                           legend=dict(orientation="h", y=-0.2), margin=dict(l=10, r=10, t=10, b=10))
+        st.markdown("**Round-by-round: expected vs actual** (completed rounds only)")
+        st.plotly_chart(tfig, width="stretch", config={"displayModeBar": False})
+    else:
+        st.caption("📊 A round-by-round expected-vs-actual chart appears here once round "
+                   f"{live} finishes — then every round adds a bar so you can watch the model's accuracy "
+                   "over the whole tournament.")
+
 # ---------------------------------------------------------------- my upcoming matches
 st.subheader("📅 Your upcoming matches")
 my_teams = set(owned["team"])

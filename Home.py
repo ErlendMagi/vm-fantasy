@@ -68,9 +68,10 @@ def cum_actual(m):
 
 # ---------------------------------------------------------------- the points race (match by match)
 st.subheader("📈 Points race — match by match")
-st.caption("Every step is a match. Solid lines use the points your players **actually** scored in "
-           "finished matches; dashed lines project the upcoming ones. A manager's line only rises on a "
-           "match their players feature in. Your line is the thick green one.")
+st.caption("Every step is a match — and only matches where **someone in the league owns a player** "
+           "appear (the only games any of us can score in). Solid lines use the points your players "
+           "**actually** scored in finished matches; dashed lines project the upcoming ones. A manager's "
+           "line only rises on a match their players feature in. Your line is the thick green one.")
 have_squads = members["squad"].apply(len).gt(0).any()
 
 from datetime import datetime, timedelta, timezone
@@ -89,6 +90,14 @@ for _L in (league or {}).get("leagues", []):
 
 race_matches = sorted([fx for fx in d["fixtures"] if fx.get("fantasy_round") and fx["fantasy_round"] <= target],
                       key=lambda f: f["kickoff_utc"])
+
+# only keep matches some manager actually has players in - those are the only
+# games where any of us can score. (union of every squad's teams; if rosters
+# aren't available yet, fall back to showing all matches)
+owned_teams = {team_of.get(pid) for _, _m in members.iterrows()
+               for pid in (_m.get("squad") or [])} - {None}
+if owned_teams:
+    race_matches = [fx for fx in race_matches if {fx["home"], fx["away"]} & owned_teams]
 
 
 def _mlbl(fx):

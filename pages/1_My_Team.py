@@ -210,7 +210,9 @@ else:
             gfig.add_annotation(x=(idxs[0] + idxs[-1]) / 2, y=1.0, yref="paper", text=f"Round {r}",
                                 showarrow=False, font=dict(size=12, color="#aaa"), yshift=8)
     if last_played >= 0:
-        gfig.add_vline(x=last_played + 0.5, line=dict(color="#00b894", dash="dot", width=1))
+        gfig.add_vline(x=last_played + 0.5, line=dict(color="#d63031", width=2),
+                       annotation_text="▲ now", annotation_position="top right",
+                       annotation_font=dict(color="#d63031", size=11))
     _step = max(1, len(mymatches) // 10)
     gfig.update_layout(height=420, yaxis_title="Cumulative points",
                        xaxis=dict(title="Your matches (chronological →)", tickmode="array",

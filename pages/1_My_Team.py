@@ -91,14 +91,14 @@ else:
 
 # ---------------------------------------------------------------- model check: expected vs actual
 st.subheader("🔬 Is the model working? Expected vs actual")
-st.caption("The honest scoreboard for the projections. For every player who's *already played* this round, "
-           "this compares what the model expected them to score against what they really scored — so you "
-           "can see if the projections are calibrated or just optimistic.")
+st.caption("The honest scoreboard for the projections: your **actual** cumulative points (real results) "
+           "against what the **model expected**, match by match. When green sits below blue the model was "
+           "optimistic; above, it was conservative. Calibrated projections make the two lines hug.")
 
 from src import data_access as _da
 
 _league = _da.load_league()
-proj_live = d["proj"]
+proj_live, proj_plan = d["proj"], d["proj_plan"]
 _me = None
 for _L in (_league or {}).get("leagues", []):
     for _mm in _L.get("members", []):
@@ -109,86 +109,122 @@ _starters = _rd.get("starter_ids") or []
 _capid = _rd.get("captain_id")
 _scores = _rd.get("scores") or {}
 
-
-def _xp_live(pid):
-    return float(proj_live.loc[pid, "xp_next"]) if pid in proj_live.index else 0.0
-
-
 if not _starters:
     st.info("Your fielded XI for the live round isn't available yet — this fills in once the round locks "
             "and your players start playing.")
 else:
-    rows = []
-    for pid in _starters:
-        nm = (proj_live.loc[pid, "name"] if pid in proj_live.index else pid)
-        exp = round(_xp_live(pid) * (2 if pid == _capid else 1), 1)   # points-as-they-count (capt doubled)
-        played = pid in _scores
-        act = _scores.get(pid) if played else None
-        rows.append({"Player": nm + (" (C)" if pid == _capid else ""),
-                     "Pos": (proj_live.loc[pid, "position"] if pid in proj_live.index else ""),
-                     "Expected": exp, "Actual": act, "played": played,
-                     "Δ": (round((act or 0) - exp, 1) if played else None)})
-    played_rows = [r for r in rows if r["played"]]
-    exp_played = sum(r["Expected"] for r in played_rows)
-    act_played = sum((r["Actual"] or 0) for r in played_rows)
-    exp_full = sum(r["Expected"] for r in rows)
-    projected_final = act_played + (exp_full - exp_played)   # real so far + model for the rest
+    _now = datetime.now(timezone.utc)
 
-    m1, m2, m3 = st.columns(3)
-    m1.metric(f"Actual so far ({len(played_rows)}/{len(rows)} played)", f"{act_played:.0f}",
-              delta=(f"{act_played - exp_played:+.1f} vs model" if played_rows else None),
-              help="Real points from your players whose match has finished this round.")
-    m2.metric("Model expected (same players)", f"{exp_played:.1f}",
-              help="What the model projected for exactly those finished players — the apples-to-apples test.")
-    m3.metric("On pace for", f"{projected_final:.0f}",
-              help=f"Real points so far + the model's projection for your {len(rows) - len(played_rows)} "
-                   "players still to play. Model expected the full XI to score "
-                   f"{exp_full:.0f}.")
+    def _ko(fx):
+        return datetime.fromisoformat(fx["kickoff_utc"].replace("Z", "+00:00"))
 
-    if len(played_rows) < 3:
-        st.caption(f"⏳ Only {len(played_rows)} of your players have played round {live} so far — too small "
-                   "a sample to judge the model yet. The verdict sharpens as the round fills out.")
+    # per-round lineup + projection: the live round uses my fielded XI and real
+    # scores; the planning round uses the model's best XI (expected only).
+    rounds_info = {live: {"starters": _starters, "cap": _capid, "scores": _scores, "proj": proj_live}}
+    if target != live and proj_plan is not None:
+        _po = proj_plan.loc[[i for i in my["squad"] if i in proj_plan.index]]
+        _pxi = optimizer.best_xi(_po, "xp_next")
+        rounds_info[target] = {"starters": _pxi["xi_ids"], "cap": _pxi["captain_id"],
+                               "scores": {}, "proj": proj_plan}
+
+    # one row per match any of my starters feature in, chronological. expected =
+    # sum of my players' xP in that match (captain doubled); actual = real points.
+    mymatches = []
+    for r, info in rounds_info.items():
+        pr = info["proj"]
+        team_of = {pid: pr.loc[pid, "team"] for pid in info["starters"] if pid in pr.index}
+        for fx in _da.round_fixtures(d["fixtures"], r):
+            mine = [pid for pid in info["starters"] if team_of.get(pid) in (fx["home"], fx["away"])]
+            if not mine:
+                continue
+            exp = sum(float(pr.loc[pid, "xp_next"]) * (2 if pid == info["cap"] else 1)
+                      for pid in mine if pid in pr.index)
+            finished = _ko(fx) < _now
+            act = sum((info["scores"].get(pid) or 0) for pid in mine) if finished else None
+            mymatches.append({"r": r, "ko": fx["kickoff_utc"], "finished": finished,
+                              "label": f"R{r} · {fx['home']}–{fx['away']}", "exp": exp, "act": act})
+    mymatches.sort(key=lambda m: m["ko"])
+
+    # cumulative series: expected over every match, actual over finished ones
+    exp_cum, act_cum, last_played = 0.0, 0.0, -1
+    xs, exp_y, act_x, act_y = [], [], [], []
+    for i, m in enumerate(mymatches):
+        exp_cum += m["exp"]
+        xs.append(i)
+        exp_y.append(exp_cum)
+        if m["finished"]:
+            act_cum += (m["act"] or 0)
+            act_x.append(i)
+            act_y.append(act_cum)
+            last_played = i
+
+    # headline numbers framed on the LIVE round (apples-to-apples on finished games)
+    live_exp_full = sum(m["exp"] for m in mymatches if m["r"] == live)
+    live_exp_done = sum(m["exp"] for m in mymatches if m["r"] == live and m["finished"])
+    live_act_done = sum((m["act"] or 0) for m in mymatches if m["r"] == live and m["finished"])
+    n_done = sum(1 for m in mymatches if m["r"] == live and m["finished"])
+    c1, c2, c3 = st.columns(3)
+    c1.metric(f"Actual so far ({n_done} matches in)", f"{live_act_done:.0f}",
+              delta=(f"{live_act_done - live_exp_done:+.1f} vs model" if n_done else None),
+              help="Real points from your round-{0} matches that have finished.".format(live))
+    c2.metric("Model expected (same matches)", f"{live_exp_done:.1f}",
+              help="What the model projected for exactly those finished matches — the fair test.")
+    c3.metric(f"On pace this round (R{live})", f"{live_act_done + (live_exp_full - live_exp_done):.0f}",
+              help=f"Real points so far + the model's projection for your round-{live} players still to play "
+                   f"(it expected the full round to score {live_exp_full:.0f}).")
+
+    gfig = go.Figure()
+    _se = last_played if last_played >= 0 else 0
+    gfig.add_scatter(x=xs[:_se + 1], y=exp_y[:_se + 1], name="Model expected", mode="lines",
+                     line=dict(color="#0984e3", width=3, shape="spline", smoothing=0.5),
+                     customdata=[mymatches[i]["label"] for i in xs[:_se + 1]],
+                     hovertemplate="%{customdata}<br>expected: %{y:.1f}<extra></extra>")
+    if _se < len(xs) - 1:
+        gfig.add_scatter(x=xs[_se:], y=exp_y[_se:], name="Expected (projected)", mode="lines",
+                         line=dict(color="#0984e3", width=3, dash="dash", shape="spline", smoothing=0.5),
+                         opacity=0.8, showlegend=False,
+                         customdata=[mymatches[i]["label"] for i in xs[_se:]],
+                         hovertemplate="%{customdata}<br>expected: %{y:.1f}<extra></extra>")
+    if act_x:
+        gfig.add_scatter(x=act_x, y=act_y, name="Actually scored", mode="lines+markers",
+                         line=dict(color="#00b894", width=5, shape="spline", smoothing=0.5),
+                         marker=dict(size=7), customdata=[mymatches[i]["label"] for i in act_x],
+                         hovertemplate="%{customdata}<br>actual: %{y:.0f}<extra></extra>")
+    for r in sorted(rounds_info):
+        idxs = [i for i, m in enumerate(mymatches) if m["r"] == r]
+        if idxs:
+            gfig.add_vrect(x0=idxs[0] - 0.5, x1=idxs[-1] + 0.5, fillcolor="#ffffff" if r % 2 else "#000000",
+                           opacity=0.04, line_width=0)
+            gfig.add_annotation(x=(idxs[0] + idxs[-1]) / 2, y=1.0, yref="paper", text=f"Round {r}",
+                                showarrow=False, font=dict(size=12, color="#aaa"), yshift=8)
+    if last_played >= 0:
+        gfig.add_vline(x=last_played + 0.5, line=dict(color="#00b894", dash="dot", width=1))
+    _step = max(1, len(mymatches) // 10)
+    gfig.update_layout(height=420, yaxis_title="Cumulative points",
+                       xaxis=dict(title="Your matches (chronological →)", tickmode="array",
+                                  tickvals=list(range(0, len(mymatches), _step)),
+                                  ticktext=[mymatches[i]["label"].split("· ")[-1]
+                                            for i in range(0, len(mymatches), _step)], tickangle=-35),
+                       legend=dict(orientation="h", y=-0.35), margin=dict(l=10, r=10, t=22, b=10),
+                       hovermode="x unified")
+    st.plotly_chart(gfig, width="stretch", config={"displayModeBar": False})
+
+    if n_done < 3:
+        st.caption(f"⏳ Only {n_done} of your round-{live} matches have finished — too small a sample to judge "
+                   "the model yet. The gap between the lines becomes meaningful as the round fills out. "
+                   "(Tip: an early gap usually means a favourite your defenders backed didn't keep the clean "
+                   "sheet the odds implied — variance, not a broken model.)")
     else:
-        ratio = act_played / exp_played if exp_played else 1.0
+        ratio = live_act_done / live_exp_done if live_exp_done else 1.0
         if ratio >= 1.10:
-            st.success(f"✅ **Your XI is over-performing the model** — {act_played:.0f} actual vs "
-                       f"{exp_played:.1f} expected ({(ratio - 1) * 100:+.0f}%). Either variance is in your "
-                       "favour or the projections are a touch conservative.")
+            st.success(f"✅ **Over-performing the model** — {live_act_done:.0f} actual vs {live_exp_done:.1f} "
+                       f"expected ({(ratio - 1) * 100:+.0f}%).")
         elif ratio <= 0.90:
-            st.warning(f"⚠️ **Your XI is under the model** — {act_played:.0f} actual vs {exp_played:.1f} "
-                       f"expected ({(ratio - 1) * 100:+.0f}%). Early bad luck, or the model is optimistic "
-                       "for these picks.")
+            st.warning(f"⚠️ **Under the model** — {live_act_done:.0f} actual vs {live_exp_done:.1f} expected "
+                       f"({(ratio - 1) * 100:+.0f}%). Early variance, or the model is optimistic for these picks.")
         else:
-            st.info(f"🎯 **The model is tracking reality well** — {act_played:.0f} actual vs "
-                    f"{exp_played:.1f} expected ({(ratio - 1) * 100:+.0f}%). Projections look calibrated.")
-
-    _df = pd.DataFrame(
-        sorted([r for r in rows if r["played"]], key=lambda r: r["Δ"], reverse=True)
-        + sorted([r for r in rows if not r["played"]], key=lambda r: r["Expected"], reverse=True)
-    )
-    _df["Actual"] = _df.apply(lambda r: f"{r['Actual']:.0f}" if r["played"] else "— to play", axis=1)
-    _df["Δ"] = _df["Δ"].apply(lambda v: (f"{v:+.1f}" if v is not None else ""))
-    st.dataframe(_df[["Player", "Pos", "Expected", "Actual", "Δ"]], hide_index=True, width="stretch")
-
-    # round-by-round trend - only completed rounds are a fair test
-    _acc = _da.load_model_accuracy().get("rounds", {})
-    done = {int(k): v for k, v in _acc.items()
-            if v.get("starters") and v.get("played", 0) >= v["starters"]}
-    if done:
-        ks = sorted(done)
-        tfig = go.Figure()
-        tfig.add_bar(x=[f"R{k}" for k in ks], y=[done[k]["expected"] for k in ks],
-                     name="Model expected", marker_color="#0984e3")
-        tfig.add_bar(x=[f"R{k}" for k in ks], y=[done[k]["actual"] for k in ks],
-                     name="Actually scored", marker_color="#00b894")
-        tfig.update_layout(barmode="group", height=300, yaxis_title="Round points",
-                           legend=dict(orientation="h", y=-0.2), margin=dict(l=10, r=10, t=10, b=10))
-        st.markdown("**Round-by-round: expected vs actual** (completed rounds only)")
-        st.plotly_chart(tfig, width="stretch", config={"displayModeBar": False})
-    else:
-        st.caption("📊 A round-by-round expected-vs-actual chart appears here once round "
-                   f"{live} finishes — then every round adds a bar so you can watch the model's accuracy "
-                   "over the whole tournament.")
+            st.info(f"🎯 **Tracking reality well** — {live_act_done:.0f} actual vs {live_exp_done:.1f} expected "
+                    f"({(ratio - 1) * 100:+.0f}%). The projections look calibrated.")
 
 # ---------------------------------------------------------------- my upcoming matches
 st.subheader("📅 Your upcoming matches")

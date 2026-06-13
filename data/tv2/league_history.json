@@ -1,7 +1,7 @@
 {
  "rounds": {
   "2": {
-   "synced_at": "2026-06-13T18:02:23.563172+00:00",
+   "synced_at": "2026-06-13T20:09:50.379989+00:00",
    "members": {
     "Republikken Jonaland": {
      "manager": "Jonathan",
@@ -37,7 +37,7 @@
      ],
      "captain_id": "cd2b9e05-c249-4c21-9717-da200132d043",
      "formation": "3-4-3",
-     "total_points": 7
+     "total_points": 8
     },
     "Cabrones": {
      "manager": "Thomas",
@@ -73,6 +73,42 @@
      ],
      "captain_id": "3c1f2aaf-86af-4a0f-a712-9ea9f54fd5ef",
      "formation": "3-4-3",
+     "total_points": 3
+    },
+    "Erlend er best": {
+     "manager": "Erlend",
+     "squad": [
+      "bbc5a321-66a2-4285-9fe4-822f064efec7",
+      "9ce12e14-eeb2-48fd-9117-e13d925510b1",
+      "a9672b57-68c4-4c39-94cf-a07ab48687a3",
+      "c13962ec-25dd-4a3c-921a-e4e4398b8579",
+      "1f6e3324-d962-435c-ad65-2e13f14e136a",
+      "ad7d4724-3c54-4108-8651-936010a75c2f",
+      "8984e3ae-fd88-484b-8fb4-470f2bcb2f6c",
+      "1d8fbd81-3902-4363-ba31-900b5793de66",
+      "5f842533-aa68-4659-8f0c-6d3a68946a5f",
+      "79765177-f1e1-4230-8f2c-922e3d5cde76",
+      "4b73aa01-6b88-487f-85ca-fb2e4668618c",
+      "9a6d69d5-2ae2-4349-92e8-9715f997b343",
+      "9f5dbc2e-747a-4b53-a1f7-bc058a747a7f",
+      "15ba05b3-cc28-4e37-8d7f-07a1e277a955",
+      "84793022-3c89-47bd-8d1e-b8b7434cab66"
+     ],
+     "starter_ids": [
+      "bbc5a321-66a2-4285-9fe4-822f064efec7",
+      "9ce12e14-eeb2-48fd-9117-e13d925510b1",
+      "a9672b57-68c4-4c39-94cf-a07ab48687a3",
+      "c13962ec-25dd-4a3c-921a-e4e4398b8579",
+      "1f6e3324-d962-435c-ad65-2e13f14e136a",
+      "ad7d4724-3c54-4108-8651-936010a75c2f",
+      "8984e3ae-fd88-484b-8fb4-470f2bcb2f6c",
+      "1d8fbd81-3902-4363-ba31-900b5793de66",
+      "5f842533-aa68-4659-8f0c-6d3a68946a5f",
+      "79765177-f1e1-4230-8f2c-922e3d5cde76",
+      "4b73aa01-6b88-487f-85ca-fb2e4668618c"
+     ],
+     "captain_id": "8984e3ae-fd88-484b-8fb4-470f2bcb2f6c",
+     "formation": "5-4-1",
      "total_points": 2
     },
     "I dont know what I am doing": {
@@ -109,7 +145,7 @@
      ],
      "captain_id": "1ac149aa-ce4a-45fe-a968-66e42d74c6d0",
      "formation": "4-4-2",
-     "total_points": 0
+     "total_points": 1
     },
     "Brødrene Dahl": {
      "manager": "Preben",
@@ -145,7 +181,7 @@
      ],
      "captain_id": "3c1f2aaf-86af-4a0f-a712-9ea9f54fd5ef",
      "formation": "3-4-3",
-     "total_points": 0
+     "total_points": 1
     },
     "USTAB IL": {
      "manager": "julle",
@@ -181,43 +217,7 @@
      ],
      "captain_id": "3aaa39f5-9908-454d-97d0-b5806a65e3ac",
      "formation": "4-3-3",
-     "total_points": 0
-    },
-    "Erlend er best": {
-     "manager": "Erlend",
-     "squad": [
-      "bbc5a321-66a2-4285-9fe4-822f064efec7",
-      "9ce12e14-eeb2-48fd-9117-e13d925510b1",
-      "a9672b57-68c4-4c39-94cf-a07ab48687a3",
-      "c13962ec-25dd-4a3c-921a-e4e4398b8579",
-      "1f6e3324-d962-435c-ad65-2e13f14e136a",
-      "ad7d4724-3c54-4108-8651-936010a75c2f",
-      "8984e3ae-fd88-484b-8fb4-470f2bcb2f6c",
-      "1d8fbd81-3902-4363-ba31-900b5793de66",
-      "5f842533-aa68-4659-8f0c-6d3a68946a5f",
-      "79765177-f1e1-4230-8f2c-922e3d5cde76",
-      "4b73aa01-6b88-487f-85ca-fb2e4668618c",
-      "9a6d69d5-2ae2-4349-92e8-9715f997b343",
-      "9f5dbc2e-747a-4b53-a1f7-bc058a747a7f",
-      "15ba05b3-cc28-4e37-8d7f-07a1e277a955",
-      "84793022-3c89-47bd-8d1e-b8b7434cab66"
-     ],
-     "starter_ids": [
-      "bbc5a321-66a2-4285-9fe4-822f064efec7",
-      "9ce12e14-eeb2-48fd-9117-e13d925510b1",
-      "a9672b57-68c4-4c39-94cf-a07ab48687a3",
-      "c13962ec-25dd-4a3c-921a-e4e4398b8579",
-      "1f6e3324-d962-435c-ad65-2e13f14e136a",
-      "ad7d4724-3c54-4108-8651-936010a75c2f",
-      "8984e3ae-fd88-484b-8fb4-470f2bcb2f6c",
-      "1d8fbd81-3902-4363-ba31-900b5793de66",
-      "5f842533-aa68-4659-8f0c-6d3a68946a5f",
-      "79765177-f1e1-4230-8f2c-922e3d5cde76",
-      "4b73aa01-6b88-487f-85ca-fb2e4668618c"
-     ],
-     "captain_id": "8984e3ae-fd88-484b-8fb4-470f2bcb2f6c",
-     "formation": "5-4-1",
-     "total_points": 0
+     "total_points": 1
     }
    }
   }

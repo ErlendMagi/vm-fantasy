@@ -139,9 +139,20 @@ class Tv2Client:
         starter_ids = [pid(p) for p in starters if pid(p)]
         bench_ids = [pid(p) for p in bench if pid(p)]
         captain = next((pid(p) for p in starters if p.get("isCaptain")), None)
-        hist = [{"number": r.get("number"), "formation": r.get("formation"),
-                 "points": r.get("roundTotal"), "transfer_hit": r.get("transferHit", 0)}
-                for r in rounds]
+        # per round: lineup, this-round captain, and each player's ACTUAL points
+        # (so the points race can step per match with real results)
+        hist = []
+        for r in rounds:
+            rs, rb = (r.get("starters") or []), (r.get("bench") or [])
+            scores = {pid(p): p.get("points") for p in (rs + rb)
+                      if pid(p) and p.get("points") is not None}
+            hist.append({
+                "number": r.get("number"), "formation": r.get("formation"),
+                "points": r.get("roundTotal"), "transfer_hit": r.get("transferHit", 0),
+                "captain_id": next((pid(p) for p in rs if p.get("isCaptain")), None),
+                "starter_ids": [pid(p) for p in rs if pid(p)],
+                "scores": scores,
+            })
         return {
             "squad": starter_ids + bench_ids,
             "starter_ids": starter_ids, "bench_ids": bench_ids,

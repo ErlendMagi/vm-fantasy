@@ -66,145 +66,151 @@ def cum_actual(m):
     return out
 
 
-# ---------------------------------------------------------------- the points race (day by day)
-st.subheader("📈 Points race — day by day")
-st.caption("Solid = points actually scored. Dashed = expected cumulative points, day by day: the line "
-           "jumps on days a manager's players play (a Spain-heavy team jumps on Spain days) and stays "
-           "flat on rest days. Projections stop after the last round with a confirmed schedule — no "
-           "guessing about knockout pairings. Your line is the thick green one.")
+# ---------------------------------------------------------------- the points race (match by match)
+st.subheader("📈 Points race — match by match")
+st.caption("Every step is a match. Solid lines use the points your players **actually** scored in "
+           "finished matches; dashed lines project the upcoming ones. A manager's line only rises on a "
+           "match their players feature in. Your line is the thick green one.")
 have_squads = members["squad"].apply(len).gt(0).any()
 
-from collections import defaultdict
 from datetime import datetime, timedelta, timezone
 
 OSLO = timezone(timedelta(hours=2))
-today = datetime.now(OSLO).date()
+live, target = d["next_round"], d["target_round"]
+proj_live, proj_plan = d["proj"], d["proj_plan"]
+team_of = proj_live["team"]   # player id -> team (every player)
+
+# per-manager per-round detail from the sync: lineup, this-round captain, and
+# each player's ACTUAL points — so the race steps per MATCH on real results
+synced = {}
+for _L in (league or {}).get("leagues", []):
+    for _mm in _L.get("members", []):
+        synced[_mm["squad_name"]] = {r["number"]: r for r in _mm.get("rounds", []) if r.get("number")}
+
+race_matches = sorted([fx for fx in d["fixtures"] if fx.get("fantasy_round") and fx["fantasy_round"] <= target],
+                      key=lambda f: f["kickoff_utc"])
 
 
-def fixture_date(team, rnd):
-    for fx in d["fixtures"]:
-        if fx.get("fantasy_round") == rnd and team in (fx.get("home"), fx.get("away")):
-            return datetime.fromisoformat(fx["kickoff_utc"].replace("Z", "+00:00")).astimezone(OSLO).date()
-    return None
+def _mlbl(fx):
+    ko = datetime.fromisoformat(fx["kickoff_utc"].replace("Z", "+00:00")).astimezone(OSLO)
+    return f"{ko.strftime('%a %d %b')} · {fx['home']}–{fx['away']}"
 
 
-def round_end_date(rnd):
-    dates = [datetime.fromisoformat(fx["kickoff_utc"].replace("Z", "+00:00")).astimezone(OSLO).date()
-             for fx in d["fixtures"] if fx.get("fantasy_round") == rnd]
-    return max(dates) if dates else None
+mlabels = [_mlbl(fx) for fx in race_matches]
+_now = datetime.now(timezone.utc)
+
+
+def _ko(fx):
+    return datetime.fromisoformat(fx["kickoff_utc"].replace("Z", "+00:00"))
+
+
+# 'played' = kicked off (the fixtures' status field can lag; kickoff time can't)
+last_played = max([i for i, fx in enumerate(race_matches) if _ko(fx) < _now], default=-1)
+
+
+def _expected(pid, rnd):
+    p = proj_live if rnd == live else proj_plan
+    return float(p.loc[pid, "xp_next"]) if pid in p.index else 0.0
 
 
 fig = go.Figure()
-# common final projected day so every manager's line ends on the same date
-last_proj_round = min(d["next_round"] + 1, 3)
-common_end = round_end_date(last_proj_round)
 for _, m in members.iterrows():
     sq = m["squad_name"]
     width = 5 if m["is_me"] else 2
-    # actual: cumulative per completed round, placed on each round's final matchday
-    actual_pts = cum_actual(m)
-    ax, ay = [], []
-    for r_idx, total in enumerate(actual_pts, start=1):
-        rd = round_end_date(r_idx)
-        if rd and rd <= today:
-            ax.append(rd)
-            ay.append(total)
-    base = ay[-1] if ay else (m.get("total_points") or 0)
-    if ax:
-        fig.add_scatter(x=ax, y=ay, mode="lines+markers", name=sq, legendgroup=sq,
-                        line=dict(width=width, color=colour[sq], shape="spline", smoothing=0.8))
-    # expected: per-DAY steps for every scheduled round the model can price
-    if proj is not None and m["squad"]:
-        owned = proj.loc[[i for i in m["squad"] if i in proj.index]]
-        if len(owned) >= 11:
-            daily = defaultdict(float)
-            for rnd, xpcol in [(d["next_round"], "xp_next"), (d["next_round"] + 1, "xp_after")]:
-                if rnd > 3:          # knockout pairings not scheduled yet -> no projection
-                    continue
-                xi = optimizer.best_xi(owned, xpcol)
-                for pid in xi["xi_ids"]:
-                    fd = fixture_date(owned.loc[pid, "team"], rnd)
-                    if fd and fd >= today:
-                        daily[fd] += float(owned.loc[pid, xpcol]) * (2 if pid == xi["captain_id"] else 1)
-            run = float(base)
-            xs, ys = [max(ax[-1] if ax else today, today)], [run]
-            for day in sorted(daily):
-                run += daily[day]
-                xs.append(day)
-                ys.append(run)
-            # extend flat to the common end so all lines are comparable
-            # (a manager whose players finish a day earlier just goes flat)
-            if common_end and xs[-1] < common_end:
-                xs.append(common_end)
-                ys.append(run)
-            if len(xs) > 1:
-                fig.add_scatter(x=xs, y=ys, mode="lines+markers", name=sq, legendgroup=sq,
-                                showlegend=not ax, marker=dict(size=5),
-                                line=dict(width=width, color=colour[sq], dash="dash",
-                                          shape="spline", smoothing=0.8), opacity=0.8)
+    rdata = synced.get(sq, {})
+    sx, sy, dx, dy, run = [], [], [], [], 0.0
+    for i, fx in enumerate(race_matches):
+        rnd = fx["fantasy_round"]
+        rd = rdata.get(rnd, {})
+        teams = {fx["home"], fx["away"]}
+        if _ko(fx) < _now:
+            # actual: the round's scoring XI (auto-subs already folded into
+            # starter_ids by TV 2), real points, captain doubling baked in
+            _st = set(rd.get("starter_ids") or [])
+            run += sum(v for pid, v in (rd.get("scores") or {}).items()
+                       if v and pid in _st and team_of.get(pid) in teams)
+        else:
+            # expected: this round's starters in this match, captain doubled
+            starters = rd.get("starter_ids") or m.get("starter_ids") or m.get("squad") or []
+            capid = rd.get("captain_id") or m.get("captain_id")
+            run += sum(_expected(pid, rnd) * (2 if pid == capid else 1)
+                       for pid in starters if team_of.get(pid) in teams)
+        if i <= last_played:
+            sx.append(i)
+            sy.append(run)
+        else:
+            if not dx and sx:                                  # connect solid -> dashed
+                dx.append(sx[-1])
+                dy.append(sy[-1])
+            dx.append(i)
+            dy.append(run)
+    if sx:
+        fig.add_scatter(x=sx, y=sy, customdata=[mlabels[i] for i in sx], mode="lines", name=sq,
+                        legendgroup=sq, line=dict(width=width, color=colour[sq], shape="spline", smoothing=0.5),
+                        hovertemplate=f"%{{customdata}}<br>{sq}: %{{y:.0f}} pts<extra></extra>")
+    if dx:
+        fig.add_scatter(x=dx, y=dy, customdata=[mlabels[i] for i in dx], mode="lines", name=sq,
+                        legendgroup=sq, showlegend=not sx, opacity=0.75,
+                        line=dict(width=width, color=colour[sq], dash="dash", shape="spline", smoothing=0.5),
+                        hovertemplate=f"%{{customdata}}<br>{sq} (proj): %{{y:.0f}}<extra></extra>")
 
-# shaded bands + end-markers so every round's span is obvious
-for r in (1, 2, 3):
-    dts = [datetime.fromisoformat(fx["kickoff_utc"].replace("Z", "+00:00")).astimezone(OSLO).date()
-           for fx in d["fixtures"] if fx.get("fantasy_round") == r]
-    if not dts:
-        continue
-    fig.add_vrect(x0=str(min(dts)), x1=str(max(dts) + timedelta(days=1)),
-                  fillcolor="#ffffff" if r % 2 else "#000000", opacity=0.04, line_width=0)
-    fig.add_vline(x=str(max(dts) + timedelta(days=1)), line=dict(color="#777", dash="dot", width=1))
-    fig.add_annotation(x=str(max(dts) + timedelta(days=1)), y=1.0, yref="paper",
-                       text=f"🏁 Round {r} ends", showarrow=False, xanchor="right",
-                       font=dict(size=11, color="#999"), yshift=10)
+# round bands + a 'now' line at the latest finished match
+for r in sorted({fx["fantasy_round"] for fx in race_matches}):
+    idxs = [i for i, fx in enumerate(race_matches) if fx["fantasy_round"] == r]
+    fig.add_vrect(x0=idxs[0] - 0.5, x1=idxs[-1] + 0.5, fillcolor="#ffffff" if r % 2 else "#000000",
+                  opacity=0.04, line_width=0)
+    fig.add_annotation(x=(idxs[0] + idxs[-1]) / 2, y=1.0, yref="paper", text=f"Round {r}",
+                       showarrow=False, font=dict(size=12, color="#aaa"), yshift=8)
+if last_played >= 0:
+    fig.add_vline(x=last_played + 0.5, line=dict(color="#00b894", dash="dot", width=1))
 
-# 📺 / ⚠️ watch markers: my biggest games and the most dangerous rival games
+step = max(1, len(race_matches) // 12)
+fig.update_layout(
+    xaxis=dict(title="Match (chronological →)", tickmode="array",
+               tickvals=list(range(0, len(race_matches), step)),
+               ticktext=[mlabels[i].split("· ")[-1] for i in range(0, len(race_matches), step)], tickangle=-40),
+    yaxis_title="Cumulative points", height=490, legend=dict(orientation="h", y=-0.4),
+    margin=dict(l=10, r=10, t=22, b=10))
+st.plotly_chart(fig, width="stretch")
+st.caption("Each step is one match. **Solid** lines are the points your players *actually* scored "
+           "(real results, not estimates); **dashed** lines are projected from the upcoming matches. "
+           "The green dotted line marks the latest finished match.")
+
+# watch guide (the live round's games still to be played)
 watch_rows = []
-if proj is not None and have_squads:
+if proj_live is not None and have_squads:
     me_row = next((m for _, m in members.iterrows() if m["is_me"] and m["squad"]), None)
     if me_row is not None:
-        my_owned = proj.loc[[i for i in me_row["squad"] if i in proj.index]]
+        my_owned = proj_live.loc[[i for i in me_row["squad"] if i in proj_live.index]]
         my_xi = optimizer.best_xi(my_owned, "xp_next")
-        rivals = [(m["squad_name"], proj.loc[[i for i in m["squad"] if i in proj.index]])
-                  for _, m in members.iterrows() if not m["is_me"] and m["squad"]]
-        rival_xis = [(sn, ow, optimizer.best_xi(ow, "xp_next")) for sn, ow in rivals if len(ow) >= 11]
+        rival_xis = []
+        for _, mm in members.iterrows():
+            if mm["is_me"] or not mm["squad"]:
+                continue
+            ow = proj_live.loc[[i for i in mm["squad"] if i in proj_live.index]]
+            if len(ow) >= 11:
+                rival_xis.append((mm["squad_name"], ow, optimizer.best_xi(ow, "xp_next")))
 
-        def stake(owned_df, xi_info, teams):
-            sel = owned_df[(owned_df["team"].isin(teams)) & (owned_df["id"].isin(xi_info["xi_ids"]))]
+        def stake(ow, xi_, teams):
+            sel = ow[(ow["team"].isin(teams)) & (ow["id"].isin(xi_["xi_ids"]))]
             s = float(sel["xp_next"].sum())
-            if xi_info["captain_id"] in set(sel["id"]):
-                s += float(owned_df.loc[xi_info["captain_id"], "xp_next"])
+            if xi_["captain_id"] in set(sel["id"]):
+                s += float(ow.loc[xi_["captain_id"], "xp_next"])
             return s
 
         for fx in d["fixtures"]:
-            if fx.get("fantasy_round") != d["next_round"] or fx.get("status") == "finished":
+            if fx.get("fantasy_round") != live or fx.get("status") == "finished":
                 continue
             ko = datetime.fromisoformat(fx["kickoff_utc"].replace("Z", "+00:00")).astimezone(OSLO)
-            if ko.date() < today:
-                continue
             teams = {fx["home"], fx["away"]}
             mine = stake(my_owned, my_xi, teams)
-            threats = sorted(((stake(ow, xi, teams) - mine, sn) for sn, ow, xi in rival_xis), reverse=True)
+            threats = sorted(((stake(ow, xi_, teams) - mine, sn) for sn, ow, xi_ in rival_xis), reverse=True)
             danger, threat_name = (threats[0] if threats else (0.0, "-"))
-            watch_rows.append({"ko": ko, "date": ko.date(),
-                               "match": f"{viz.flag(fx['home'])} {fx['home']} – {fx['away']} {viz.flag(fx['away'])}",
-                               "mine": round(mine, 1), "danger": round(max(danger, 0), 1),
-                               "threat": threat_name})
-        top_watch = sorted(watch_rows, key=lambda r_: -r_["mine"])[:2]
-        top_danger = sorted(watch_rows, key=lambda r_: -r_["danger"])[:2]
-        for w in top_watch:
-            fig.add_annotation(x=str(w["date"]), y=0.05, yref="paper", text="📺", showarrow=False,
-                               font=dict(size=16), hovertext=f"Watch: {w['match']} — {w['mine']} of your pts at stake")
-        for w in top_danger:
-            if w["danger"] > 0:
-                fig.add_annotation(x=str(w["date"]), y=0.13, yref="paper", text="⚠️", showarrow=False,
-                                   font=dict(size=15),
-                                   hovertext=f"Danger: {w['match']} — {w['threat']} gains {w['danger']} on you")
-
-fig.update_layout(xaxis_title="Date", yaxis_title="Cumulative points", height=470,
-                  legend=dict(orientation="h", y=-0.25), hovermode="x unified")
-st.plotly_chart(fig, width="stretch")
+            watch_rows.append({"ko": ko, "match": f"{viz.flag(fx['home'])} {fx['home']} – {fx['away']} {viz.flag(fx['away'])}",
+                               "mine": round(mine, 1), "danger": round(max(danger, 0), 1), "threat": threat_name})
 
 if watch_rows:
-    st.markdown("#### 📺 Your watch guide — next round")
+    st.markdown(f"#### 📺 Your watch guide — round {live} (live)")
     st.caption("**Your stake** = expected points your XI has riding on the match (captain ×2). "
                "**Danger** = how many points the strongest rival gains on you in that match — "
                "those are the games that can hurt.")
@@ -219,9 +225,8 @@ if watch_rows:
         column_config={"match": "Match", "mine": st.column_config.NumberColumn("Your stake", format="%.1f"),
                        "danger": st.column_config.NumberColumn("Danger", format="%.1f"),
                        "threat": "Biggest threat", "verdict": ""})
-if not any(cum_actual(m) for _, m in members.iterrows()):
-    st.caption("No rounds scored yet — solid lines fill in as TV 2 finalises each round. Dashed lines "
-               "show each manager's expected path through the scheduled group games.")
+if last_played < 0:
+    st.caption("No matches finished yet — solid lines fill in match by match as results come in.")
 
 # ---------------------------------------------------------------- standings (below the race)
 st.subheader("🏆 Standings")

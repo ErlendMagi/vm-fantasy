@@ -164,6 +164,9 @@ PITCH_CSS = """
 .vmbench{display:flex;justify-content:center;gap:10px;margin-top:8px;padding-top:8px;border-top:1px dashed rgba(255,255,255,.25)}
 .vmcapbadge{position:absolute;top:-4px;left:-4px;background:#e17055;color:#fff;border-radius:50%;
  width:16px;height:16px;font-size:10px;font-weight:700;line-height:16px}
+.vmp.vice .vmpic img.face{border-color:#0984e3;box-shadow:0 0 0 2px #0984e3}
+.vmvicebadge{position:absolute;top:-4px;right:-4px;background:#0984e3;color:#fff;border-radius:50%;
+ width:16px;height:16px;font-size:10px;font-weight:700;line-height:16px;z-index:2}
 </style>
 """
 
@@ -174,13 +177,14 @@ def _initials_face(name: str) -> str:
             f'font-weight:700;font-size:14px;color:#fff">{ini}</div>')
 
 
-def _player_card(r, value_col, captain, rank=None, floor=None, ceil=None):
+def _player_card(r, value_col, captain, rank=None, floor=None, ceil=None, vice=False):
     photo = r.get("photo")
     face = (f'<img class="face" src="{photo}" referrerpolicy="no-referrer" '
             f'onerror="this.style.display=\'none\'">' if isinstance(photo, str) and photo else "") \
         + (_initials_face(r["name"]) if not (isinstance(photo, str) and photo) else "")
     fl = flag_img(r.get("team", ""), r.get("team_code", ""), h=13)
     cap_badge = '<div class="vmcapbadge">C</div>' if captain else ""
+    vice_badge = '<div class="vmvicebadge">V</div>' if vice else ""
     price = f"{r['price']:.1f}M" if r.get("price") == r.get("price") else ""
     rk = f'<span class="rk">#{rank}</span> ' if rank else ""
     rng = ""
@@ -188,8 +192,9 @@ def _player_card(r, value_col, captain, rank=None, floor=None, ceil=None):
         lo = 100 * floor / ceil
         rng = (f'<div class="vmbar" title="floor {floor:.1f} → ceiling {ceil:.1f}">'
                f'<span style="left:{lo:.0f}%;width:{100 - lo:.0f}%"></span></div>')
-    return (f'<div class="vmp {"cap" if captain else ""}">'
-            f'<div class="vmpic">{cap_badge}{face}<span class="fl">{fl}</span></div>'
+    cls = "cap" if captain else ("vice" if vice else "")
+    return (f'<div class="vmp {cls}">'
+            f'<div class="vmpic">{cap_badge}{vice_badge}{face}<span class="fl">{fl}</span></div>'
             f'<div class="nm">{short_name(r["name"])}</div>'
             f'<div class="meta">{rk}{price}</div>'
             f'<div class="meta"><b>{r[value_col]:.1f}</b> pts</div>{rng}</div>')
@@ -197,16 +202,16 @@ def _player_card(r, value_col, captain, rank=None, floor=None, ceil=None):
 
 def pitch_html(squad: pd.DataFrame, xi_ids: list, captain_id, value_col: str = "xp_next",
                bench_order: list | None = None, ranks: dict | None = None,
-               floors: dict | None = None, ceils: dict | None = None) -> str:
+               floors: dict | None = None, ceils: dict | None = None, vice_id=None) -> str:
     """A full pitch as HTML: real player photos, flag badges, rank, price, xP
-    and a floor→ceiling bar. Always visible (no expander needed)."""
+    and a floor→ceiling bar. Captain ringed orange (C), vice ringed blue (V)."""
     ranks, floors, ceils = ranks or {}, floors or {}, ceils or {}
     xi = squad.loc[[i for i in xi_ids if i in squad.index]]
     rows_html = []
     for pos in POS_ORDER:
         row = xi[xi["position"] == pos].sort_values(value_col, ascending=False)
         cards = "".join(_player_card(r, value_col, idx == captain_id, ranks.get(idx),
-                                     floors.get(idx), ceils.get(idx))
+                                     floors.get(idx), ceils.get(idx), vice=idx == vice_id)
                         for idx, r in row.iterrows())
         if cards:
             rows_html.append(f'<div class="vmrow">{cards}</div>')

@@ -11,26 +11,29 @@ nav.render("Transfers")
 d = services.get_data()
 st.title("🔁 Transfer suggestions")
 services.render_banners(d)
-if d["proj"] is None or d["my_team"] is None:
+if d["proj_plan"] is None or d["my_team"] is None:
     st.stop()
 
 proj, my = d["proj_plan"], d["my_team"]
-if d["target_round"] != d["next_round"]:
-    st.caption(f"Planning **round {d['target_round']}** (the next editable round). "
-               f"Round {d['next_round']} is locked and scoring live.")
+target, live = d["target_round"], d["next_round"]
+st.caption(f"Everything here plans the **editable round you can still change — round {target}**"
+           + (f". Round {live} is locked and scoring live." if target != live else "."))
 owned = proj.loc[[i for i in my["squad"] if i in proj.index]]
 
-st.subheader("Current squad health")
-st.caption("P(plays next+1) is the odds-derived chance the team is still in the tournament — "
-           "low values mean the player is about to stop scoring points (elimination risk).")
+st.subheader(f"Current squad health — round {target}")
+st.caption(f"All figures are for round {target} (the round you're planning). **P(through to R{target + 1})** "
+           "is the odds-derived chance the team is still in the tournament — low values mean the player is "
+           "about to stop scoring (elimination risk).")
 sq = owned.sort_values("xp_horizon", ascending=False)
 st.dataframe(
     sq[["name", "team", "position", "price", "opponent", "heat_mult", "xp_next", "xp_horizon", "p_plays_after"]],
     column_config={
+        "opponent": st.column_config.TextColumn(f"opp R{target}"),
         "heat_mult": st.column_config.NumberColumn("heat ×", format="%.2f"),
-        "xp_next": st.column_config.NumberColumn("xP next", format="%.2f"),
+        "xp_next": st.column_config.NumberColumn(f"xP R{target}", format="%.2f"),
         "xp_horizon": st.column_config.NumberColumn("xP horizon", format="%.2f"),
-        "p_plays_after": st.column_config.ProgressColumn("P(plays next+1)", min_value=0, max_value=1, format="%.2f"),
+        "p_plays_after": st.column_config.ProgressColumn(f"P(through to R{target + 1})",
+                                                         min_value=0, max_value=1, format="%.2f"),
     },
     hide_index=True, width="stretch",
 )
@@ -40,7 +43,7 @@ default_free = int(my.get("free_transfers", 2))
 unlimited = default_free >= config.SQUAD_SIZE
 if unlimited:
     st.info("Transfers are currently **unlimited** (the squad isn't locked yet) — no −4 hits apply. "
-            "After round 1 locks this becomes 2 free per round.")
+            "Once the squad locks you get 2 free transfers per round (a 3rd costs −4).")
 c1, c2 = st.columns(2)
 free = c1.number_input("Free transfers", 0, max(5, default_free),
                        5 if unlimited else default_free)
@@ -82,7 +85,7 @@ if best and best["n_transfers"] > 0:
             f = go.Figure()
             f.add_bar(name=on, x=labels, y=[o_row[c] for c in comp], marker_color=viz_neutral)
             f.add_bar(name=inn, x=labels, y=[i_row[c] for c in comp], marker_color="#00b894")
-            f.update_layout(barmode="group", height=300, yaxis_title="Expected pts (next round)",
+            f.update_layout(barmode="group", height=300, yaxis_title=f"Expected pts (round {target})",
                             legend=dict(orientation="h", y=-0.25), margin=dict(l=10, r=10, t=10, b=10))
             st.plotly_chart(f, width="stretch", config={"displayModeBar": False})
             st.caption(f"{inn} ({it}) survives to {i_row.get('p_plays_after', 1):.0%} vs {on}'s "
@@ -114,12 +117,13 @@ st.caption("Gains are net of any −4 hit, valued over the rest of the tournamen
 
 a, b = st.columns(2)
 with a:
-    st.subheader("Captain picks (next round)")
+    st.subheader(f"Captain picks (round {target})")
     st.dataframe(optimizer.captain_options(owned), hide_index=True, width="stretch")
 with b:
-    st.subheader("Suggested starting XI")
+    st.subheader(f"Suggested starting XI (round {target})")
     xi = optimizer.best_xi(owned, "xp_next")
     xi_df = owned.loc[[i for i in xi["xi_ids"] if i in owned.index]]
     xi_df = xi_df.sort_values("position", key=lambda s: s.map({"GK": 0, "DEF": 1, "MID": 2, "FWD": 3}))
-    st.write(f"Formation **{xi['formation']}** — projected **{xi['total']:.1f}** pts")
-    st.dataframe(xi_df[["name", "team", "position", "xp_next"]], hide_index=True, width="stretch")
+    st.write(f"Formation **{xi['formation']}** — projected **{xi['total']:.1f}** pts for round {target}")
+    st.dataframe(xi_df[["name", "team", "position", "xp_next"]], hide_index=True, width="stretch",
+                 column_config={"xp_next": st.column_config.NumberColumn(f"xP R{target}", format="%.2f")})

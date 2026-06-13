@@ -16,38 +16,47 @@ if d["players"] is None or d["proj"] is None or d["my_team"] is None:
     st.stop()
 
 proj, my, ranks = d["proj_plan"], d["my_team"], d["ranks"]
+proj_live = d["proj"]                         # the LIVE round being played (status & ratings)
 target, live = d["target_round"], d["next_round"]
 if target != live:
     st.info(f"**Round {live} is live & locked** — your team is scoring now (captain can't change). "
-            f"Everything below is your plan for **round {target}**, the next editable round, which the "
-            f"autopilot finalises before its deadline.")
-owned = proj.loc[[i for i in my["squad"] if i in proj.index]]
-xi = optimizer.best_xi(owned, "xp_next")
+            f"Your **ratings and the model-check below reflect round {live} (live)**; the **pitch, captain "
+            f"and point-source plan are for round {target}** (the next editable round) which the autopilot "
+            "finalises before its deadline. Every section says which round it's for.")
+owned = proj.loc[[i for i in my["squad"] if i in proj.index]]            # editable round (plan)
+owned_live = proj_live.loc[[i for i in my["squad"] if i in proj_live.index]]   # live round (status)
+xi = optimizer.best_xi(owned, "xp_next")                                # planned XI for round {target}
 cap_name = proj.loc[xi["captain_id"], "name"] if xi["captain_id"] else "-"
-rating = analytics.team_rating(proj, my["squad"], ranks)
-squad_rating = analytics.squad_quality(proj, my["squad"])  # all 15
+rating = analytics.team_rating(proj, my["squad"], ranks)                # planned XI rank (R target)
+rating_live = analytics.team_rating(proj_live, my["squad"], ranks)      # live XI — matches the history chart
+squad_rating_live = analytics.squad_quality(proj_live, my["squad"])     # all 15, live round
 history = {int(k): v for k, v in (my.get("round_history") or {}).items()}
 points_so_far = sum(history.values()) if history else int(owned["total_points"].sum())
 
 c1, c2, c3, c4, c5 = st.columns(5)
-c1.metric("⭐ Squad rating", f"{squad_rating['rating']:.0f}/100",
-          help="Average quality percentile across ALL 15 of your players (their rank within position). "
-               "This is the number to push toward 100 by the end of the cup.")
-c2.metric("Starting XI rating", f"{rating['rating']:.0f}/100",
-          help="Same idea but only your 11 starters — the XI you actually field")
-c3.metric("Expected next round", f"{xi['total']:.0f}", help=f"Captain: {cap_name} (doubled)")
+c1.metric("⭐ Squad rating", f"{squad_rating_live['rating']:.0f}/100",
+          help="Average quality percentile across ALL 15 of your players (their rank within position), for "
+               "the live round — so it matches the history chart below. Push it toward 100 by the cup's end.")
+c2.metric("Starting XI rating", f"{rating_live['rating']:.0f}/100",
+          help="Same idea but only your 11 live-round starters — keyed to the round being played.")
+c3.metric(f"Expected R{target} (plan)", f"{xi['total']:.0f}",
+          help=f"Your planned round {target} XI's projection. Planned captain: {cap_name} (doubled).")
 c4.metric("Points so far", points_so_far)
 c5.metric("Bank", f"{my.get('bank', 0):.1f}M")
 
-# ---------------------------------------------------------------- pitch (always visible)
-st.subheader("Your team on the pitch")
-st.caption("Real player photos + flags. Each card: rank in position (#), price, expected points, and a "
-           "floor→ceiling bar (how safe vs explosive). Captain ringed in orange.")
+# ---------------------------------------------------------------- pitch (planning round)
+st.subheader(f"Your planned XI — round {target}")
+st.caption(f"The lineup the autopilot will field for **round {target}** (the next editable round). Each card: "
+           "rank in position (#), price, expected points, floor→ceiling bar. **Captain ringed orange (C), "
+           "vice ringed blue (V).**")
 floors = dict(zip(owned.index, owned["floor"]))
 ceils = dict(zip(owned.index, owned["ceiling"]))
 bench = [p for p in my["squad"] if p not in xi["xi_ids"]]
-st.markdown(viz.pitch_html(owned, xi["xi_ids"], xi["captain_id"], "xp_next", bench, ranks, floors, ceils),
-            unsafe_allow_html=True)
+_vcand = owned.loc[[p for p in xi["xi_ids"] if p != xi["captain_id"] and p in owned.index]].sort_values(
+    "xp_next", ascending=False)
+vice_id = _vcand.index[0] if len(_vcand) else None
+st.markdown(viz.pitch_html(owned, xi["xi_ids"], xi["captain_id"], "xp_next", bench, ranks, floors, ceils,
+                           vice_id=vice_id), unsafe_allow_html=True)
 st.caption(f"Formation **{xi['formation']}** — re-chosen every round to maximise points, so it can change "
            f"through the tournament. Average XI rank: GK #{rating['avg_pos_rank']['GK']}, "
            f"DEF #{rating['avg_pos_rank']['DEF']}, MID #{rating['avg_pos_rank']['MID']}, "
@@ -79,6 +88,9 @@ if _days:
         rfig.add_scatter(x=hx, y=vals, name=nm, mode="lines+markers",
                          line=dict(color=colr, width=w, shape="spline", smoothing=0.9),
                          marker=dict(size=5))
+    rfig.add_vline(x=hx[-1], line=dict(color="#d63031", width=2),
+                   annotation_text="▲ today", annotation_position="top right",
+                   annotation_font=dict(color="#d63031", size=11))
     rfig.update_layout(height=380, yaxis=dict(title="Rating (0–100)", range=[0, 102]),
                        legend=dict(orientation="h", y=-0.25), hovermode="x unified",
                        margin=dict(l=10, r=10, t=10, b=10))
@@ -226,25 +238,71 @@ else:
             st.info(f"🎯 **Tracking reality well** — {live_act_done:.0f} actual vs {live_exp_done:.1f} expected "
                     f"({(ratio - 1) * 100:+.0f}%). The projections look calibrated.")
 
+# ---------------------------------------------------------------- squad risk (live round)
+st.subheader("🧯 Squad risk — how exposed is your round?")
+st.caption(f"Diversification check on your **round {live} (live)** XI: how many independent 'bets' you really "
+           "have, how much rides on a single match, and — given the league table — whether you should spread "
+           "risk or chase variance. One bad game shouldn't tank your whole round.")
+_my_total = next((mm.get("total_points", 0) for L in (_league or {}).get("leagues", [])
+                  for mm in L.get("members", []) if mm.get("squad_name") == my.get("squad_name")), 0)
+_rivals = [mm.get("total_points", 0) for L in (_league or {}).get("leagues", [])
+           for mm in L.get("members", [])
+           if mm.get("squad_name") != my.get("squad_name") and mm.get("total_points") is not None
+           and (mm.get("squad") or mm.get("rounds"))]
+_gap = (_my_total - max(_rivals)) if _rivals else None
+risk = analytics.squad_risk(proj_live, my["squad"], _capid, "xp_next",
+                            gap_to_field=_gap, rounds_left=max(1, 9 - live))
+if not risk:
+    st.caption("Risk metrics appear once your full XI is set.")
+else:
+    rc1, rc2, rc3 = st.columns(3)
+    rc1.metric("🎲 Effective bets", f"{risk['enb_match']:.1f}",
+               help="How many independent matches your points are really spread across (Herfindahl on "
+                    "expected points by match). Higher = more diversified; under ~4 is fragile.")
+    rc2.metric("⚠️ Biggest single match", f"{risk['max_match_share'] * 100:.0f}%",
+               help=f"Share of your round riding on {risk['top_match']}. Over 30% is a lot of eggs in one basket.")
+    rc3.metric("Round floor → ceiling", f"{risk['floor']:.0f}–{risk['ceiling']:.0f}",
+               help=f"Expected {risk['expected']:.0f}, std ±{risk['sd_round']:.0f} — the spread of plausible totals.")
+    bm = risk["by_match"]
+    rkfig = go.Figure(go.Bar(
+        x=[v * 100 for v in bm.values][::-1], y=list(bm.index)[::-1], orientation="h",
+        marker_color=["#d63031" if v > 0.30 else ("#fdcb6e" if v > 0.20 else "#0984e3")
+                      for v in bm.values][::-1],
+        text=[f"{v * 100:.0f}%" for v in bm.values][::-1], textposition="outside", cliponaxis=False))
+    rkfig.update_layout(height=80 + 30 * len(bm), xaxis_title="% of your round riding on this match",
+                        margin=dict(l=10, r=10, t=10, b=10),
+                        xaxis=dict(range=[0, max(bm.values) * 100 + 14]))
+    st.plotly_chart(rkfig, width="stretch", config={"displayModeBar": False})
+    for f in risk["flags"]:
+        st.markdown(f"- {f}")
+    if risk["regime_msg"]:
+        st.info("📐 **League-state call:** " + risk["regime_msg"])
+
 # ---------------------------------------------------------------- my upcoming matches
 st.subheader("📅 Your upcoming matches")
 my_teams = set(owned["team"])
+_now_um = datetime.now(timezone.utc)
 fixtures = sorted([fx for fx in d["fixtures"]
                    if (fx.get("home") in my_teams or fx.get("away") in my_teams)
-                   and fx.get("status") != "finished"], key=lambda f: f["kickoff_utc"])
+                   and datetime.fromisoformat(fx["kickoff_utc"].replace("Z", "+00:00")) >= _now_um],
+                  key=lambda f: f["kickoff_utc"])
 if not fixtures:
     st.caption("No upcoming fixtures yet.")
 else:
+    st.caption(f"xP is shown only for the round you're planning (round {target}); later rounds show '—' "
+               "because the projection re-computes each round.")
     rows = []
     for fx in fixtures[:14]:
         ko = datetime.fromisoformat(fx["kickoff_utc"].replace("Z", "+00:00")).astimezone(timezone(timedelta(hours=2)))
+        in_plan = fx.get("fantasy_round") == target
         for side in ("home", "away"):
             if fx[side] in my_teams:
                 mh = owned[owned["team"] == fx[side]]
                 rows.append({"When (Oslo)": ko.strftime("%a %d %b · %H:%M"),
+                             "R": fx.get("fantasy_round"),
                              "Match": f"{viz.flag(fx['home'])} {fx['home']} – {fx['away']} {viz.flag(fx['away'])}",
                              "Your players": ", ".join(viz.short_name(n) for n in mh["name"]),
-                             "Their xP": round(float(mh["xp_next"].sum()), 1)})
+                             f"xP R{target}": (round(float(mh["xp_next"].sum()), 1) if in_plan else None)})
     st.dataframe(rows, hide_index=True, width="stretch")
 
 # ---------------------------------------------------------------- purchase report card
@@ -263,7 +321,8 @@ st.dataframe(
                    "verdict": "verdict"})
 
 # ---------------------------------------------------------------- contributions chart
-st.subheader("Top point sources this round")
+st.subheader(f"Top point sources — your planned round {target} XI")
+st.caption(f"Where your planned round-{target} points are expected to come from (captain ×2 in orange).")
 contrib = owned[owned["id"].isin(xi["xi_ids"])].copy()
 contrib["pts"] = contrib["xp_next"] * contrib["id"].map(lambda i: 2 if i == xi["captain_id"] else 1)
 contrib = contrib.sort_values("pts").tail(8)
@@ -333,12 +392,15 @@ else:
                          line=dict(width=5, color=viz.MINE_GREEN, dash="dash", shape="spline", smoothing=0.8))
         ifig.add_scatter(x=[0, 1], y=[0, idx_next], name="Index (proj)", mode="lines+markers",
                          line=dict(width=3, color=viz.NEUTRAL, dash="dash", shape="spline", smoothing=0.8))
+    ifig.add_vline(x=(completed[-1] if completed else 0), line=dict(color="#d63031", width=2),
+                   annotation_text="▲ now", annotation_position="top left",
+                   annotation_font=dict(color="#d63031", size=11))
     ifig.update_layout(xaxis_title="Round", yaxis_title="Cumulative points", height=400,
                        legend=dict(orientation="h", y=-0.25))
     st.plotly_chart(ifig, width="stretch", config={"displayModeBar": False})
 
-    st.markdown("**Your bets vs the market** — expected points per position (next round). Taller-than-grey = "
-                "overweight, expecting to beat the market there.")
+    st.markdown(f"**Your bets vs the market** — expected points per position (planning round {target}). "
+                "Taller-than-grey = overweight, expecting to beat the market there.")
     my_xi = owned.loc[[i for i in xi["xi_ids"] if i in owned.index]]
     cats, mine_v, idx_v = [], [], []
     for pos in viz.POS_ORDER:
@@ -349,6 +411,6 @@ else:
     posfig = go.Figure()
     posfig.add_bar(name="My XI", x=cats, y=mine_v, marker_color=viz.MINE_GREEN)
     posfig.add_bar(name="People's Index", x=cats, y=idx_v, marker_color=viz.NEUTRAL)
-    posfig.update_layout(barmode="group", height=320, yaxis_title="Expected points (next round)",
+    posfig.update_layout(barmode="group", height=320, yaxis_title=f"Expected points (round {target})",
                          legend=dict(orientation="h", y=-0.25), margin=dict(l=10, r=10, t=10, b=10))
     st.plotly_chart(posfig, width="stretch", config={"displayModeBar": False})

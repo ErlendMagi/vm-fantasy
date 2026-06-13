@@ -40,7 +40,7 @@ if is_live and league and league.get("leagues"):
                   league["leagues"][0])
     extra = {m["squad_name"]: m for m in synced["members"]}
     for col, default in [("squad", []), ("starter_ids", []), ("bench_ids", []),
-                         ("captain_id", None), ("formation", None)]:
+                         ("captain_id", None), ("vice_captain_id", None), ("formation", None)]:
         members[col] = members["squad_name"].map(
             lambda sq, c=col, dft=default: (extra.get(sq) or {}).get(c, dft))
 elif "squad" not in members.columns:
@@ -102,7 +102,7 @@ if owned_teams:
 
 def _mlbl(fx):
     ko = datetime.fromisoformat(fx["kickoff_utc"].replace("Z", "+00:00")).astimezone(OSLO)
-    return f"{ko.strftime('%a %d %b')} · {fx['home']}–{fx['away']}"
+    return f"{fx['home']}–{fx['away']} ({ko.strftime('%a %d %b %H:%M')})"
 
 
 mlabels = [_mlbl(fx) for fx in race_matches]
@@ -171,21 +171,37 @@ for r in sorted({fx["fantasy_round"] for fx in race_matches}):
     fig.add_annotation(x=(idxs[0] + idxs[-1]) / 2, y=1.0, yref="paper", text=f"Round {r}",
                        showarrow=False, font=dict(size=12, color="#aaa"), yshift=8)
 if last_played >= 0:
-    fig.add_vline(x=last_played + 0.5, line=dict(color="#00b894", dash="dot", width=1))
+    fig.add_vline(x=last_played + 0.5, line=dict(color="#d63031", width=2),
+                  annotation_text="▲ now", annotation_position="top right",
+                  annotation_font=dict(color="#d63031", size=12))
 
-step = max(1, len(race_matches) // 12)
 fig.update_layout(
-    xaxis=dict(title="Match (chronological →)", tickmode="array",
-               tickvals=list(range(0, len(race_matches), step)),
-               ticktext=[mlabels[i].split("· ")[-1] for i in range(0, len(race_matches), step)], tickangle=-40),
-    yaxis_title="Cumulative points", height=490, legend=dict(orientation="h", y=-0.4),
-    margin=dict(l=10, r=10, t=22, b=10))
+    xaxis=dict(title="Every match any of us has a player in (chronological →)", tickmode="array",
+               tickvals=list(range(len(race_matches))), ticktext=mlabels,
+               tickangle=-55, tickfont=dict(size=9)),
+    yaxis_title="Cumulative points", height=580, legend=dict(orientation="h", y=-0.62),
+    margin=dict(l=10, r=10, t=22, b=150))
 st.plotly_chart(fig, width="stretch")
-st.caption("Each step is one match. **Solid** lines are the points your players *actually* scored "
-           "(real results, not estimates); **dashed** lines are projected from the upcoming matches. "
-           "The green dotted line marks the latest finished match.")
+st.caption("Each step is one match, labelled with its **date & kickoff (Oslo time)**. **Solid** lines are "
+           "the points your players *actually* scored; **dashed** lines project the upcoming matches. The "
+           "**red line marks now** — everything left of it has kicked off.")
 
-# watch guide (the live round's games still to be played)
+if last_played < 0:
+    st.caption("No matches finished yet — solid lines fill in match by match as results come in.")
+
+# ---------------------------------------------------------------- standings (right under the race)
+st.subheader("🏆 Standings")
+standings = members.sort_values(["total_points", "latest_round_points"], ascending=False).reset_index(drop=True)
+standings.insert(0, "pos", standings.index + 1)
+st.dataframe(
+    standings[["pos", "manager", "squad_name", "total_points", "latest_round_points", "is_me"]],
+    hide_index=True, width="stretch",
+    column_config={"pos": "#", "manager": "Manager", "squad_name": "Team",
+                   "total_points": "Total", "latest_round_points": "Last round",
+                   "is_me": st.column_config.CheckboxColumn("You")})
+
+# ---------------------------------------------------------------- watch guide (after standings)
+# round {live} games that have NOT kicked off yet (played/in-progress dropped)
 watch_rows = []
 if proj_live is not None and have_squads:
     me_row = next((m for _, m in members.iterrows() if m["is_me"] and m["squad"]), None)
@@ -208,7 +224,7 @@ if proj_live is not None and have_squads:
             return s
 
         for fx in d["fixtures"]:
-            if fx.get("fantasy_round") != live or fx.get("status") == "finished":
+            if fx.get("fantasy_round") != live or _ko(fx) < _now:   # drop kicked-off games
                 continue
             ko = datetime.fromisoformat(fx["kickoff_utc"].replace("Z", "+00:00")).astimezone(OSLO)
             teams = {fx["home"], fx["away"]}
@@ -219,11 +235,11 @@ if proj_live is not None and have_squads:
                                "mine": round(mine, 1), "danger": round(max(danger, 0), 1), "threat": threat_name})
 
 if watch_rows:
-    st.markdown(f"#### 📺 Your watch guide — round {live} (live)")
-    st.caption("**Your stake** = expected points your XI has riding on the match (captain ×2). "
-               "**Danger** = how many points the strongest rival gains on you in that match — "
-               "those are the games that can hurt.")
-    wg = pd.DataFrame(sorted(watch_rows, key=lambda r_: -r_["mine"]))
+    st.markdown(f"#### 📺 Your watch guide — round {live} (still to kick off)")
+    st.caption("Only round-{0} games that **haven't started yet** (played ones drop off). **Your stake** = "
+               "expected points your XI has riding on the match (captain ×2). **Danger** = how many points the "
+               "strongest rival gains on you there — the games that can hurt.".format(live))
+    wg = pd.DataFrame(sorted(watch_rows, key=lambda r_: r_["ko"]))
     wg["When (Oslo)"] = wg["ko"].apply(lambda k: k.strftime("%a %d %b · %H:%M"))
     wg["verdict"] = ["📺 must-watch" if m_ >= wg["mine"].quantile(0.7) and m_ > 0
                      else ("⚠️ danger" if dg > 2 else "—")
@@ -234,19 +250,9 @@ if watch_rows:
         column_config={"match": "Match", "mine": st.column_config.NumberColumn("Your stake", format="%.1f"),
                        "danger": st.column_config.NumberColumn("Danger", format="%.1f"),
                        "threat": "Biggest threat", "verdict": ""})
-if last_played < 0:
-    st.caption("No matches finished yet — solid lines fill in match by match as results come in.")
-
-# ---------------------------------------------------------------- standings (below the race)
-st.subheader("🏆 Standings")
-standings = members.sort_values(["total_points", "latest_round_points"], ascending=False).reset_index(drop=True)
-standings.insert(0, "pos", standings.index + 1)
-st.dataframe(
-    standings[["pos", "manager", "squad_name", "total_points", "latest_round_points", "is_me"]],
-    hide_index=True, width="stretch",
-    column_config={"pos": "#", "manager": "Manager", "squad_name": "Team",
-                   "total_points": "Total", "latest_round_points": "Last round",
-                   "is_me": st.column_config.CheckboxColumn("You")})
+elif proj_live is not None and have_squads:
+    st.caption(f"📺 All your round-{live} games have kicked off — the watch guide refills when round "
+               f"{live + 1}'s fixtures open.")
 
 # ---------------------------------------------------------------- rivals' squads, ranked by SPI
 if proj is not None and have_squads:
@@ -259,12 +265,12 @@ if proj is not None and have_squads:
                 for _, m in members.iterrows() if m["squad"]]
     spi = analytics.squad_power_index(proj, managers)
 
-    # ---- whose games matter most next round (right under the scoreboard) ----
-    st.subheader("🗓️ Whose games matter most next round")
-    st.caption("How much expected points each manager has riding on each upcoming match — the brighter "
-               "the cell, the more that game decides their round.")
+    # ---- whose games matter most in the LIVE round (not-yet-kicked-off games) ----
+    st.subheader(f"🗓️ Whose games matter most — round {live} (live)")
+    st.caption(f"Expected points each manager has riding on each **remaining round-{live} match** — the "
+               "brighter the cell, the more that game decides their round. Kicked-off games drop off.")
     from datetime import datetime as _dt, timedelta as _td, timezone as _tz
-    fixtures_r = sorted([fx for fx in d["fixtures"] if fx.get("fantasy_round") == d["next_round"]],
+    fixtures_r = sorted([fx for fx in d["fixtures"] if fx.get("fantasy_round") == live and _ko(fx) >= _now],
                         key=lambda f: f["kickoff_utc"])
     sq_members = members[members["squad"].apply(len) > 0]
     match_labels, zmat = [], []
@@ -338,52 +344,59 @@ if proj is not None and have_squads:
                          legend=dict(orientation="h", y=-0.3), margin=dict(l=10, r=10, t=6, b=10))
         st.plotly_chart(rf, width="stretch", config={"displayModeBar": False})
 
-    # ---- luck vs the field (right under the rating/ROI graphs) ----
-    st.subheader("🎲 Luck so far — over/under-performing the field")
-    st.caption("Each scored round, every manager vs the whole league's spread, in standard deviations (σ). "
-               "Far right = rode their luck / nailed it; far left = unlucky or misjudged. |σ|>2 is notable.")
+    # ---- luck over time: cumulative over/under-performance vs the field ----
+    st.subheader("🎲 Luck — cumulative over/under-performance vs the field")
+    st.caption("Each round, how many points above (lucky / clinical) or below (unlucky / misjudged) the "
+               "league average a manager scored, **added up over the tournament**. Above 0 = riding luck so "
+               "far; below 0 = due a bounce. Your line is the thick green one — it updates every round.")
     import numpy as np
+
+    def _pts_in(m, r):
+        return next((s.get("points", 0) for s in (m.get("round_scores") or [])
+                     if isinstance(s, dict) and s.get("roundNumber") == r), None)
     scored_rounds = sorted({s.get("roundNumber") for _, m in members.iterrows()
                             for s in (m.get("round_scores") or [])
                             if isinstance(s, dict) and s.get("roundNumber")})
     if scored_rounds:
-        rnd = st.selectbox("Round", scored_rounds, index=len(scored_rounds) - 1)
-
-        def pts_in(m, r):
-            return next((s.get("points", 0) for s in (m.get("round_scores") or [])
-                         if s.get("roundNumber") == r), None)
-        field = [p for p in (pts_in(m, rnd) for _, m in members.iterrows()) if p is not None]
-        mu, sd = (float(np.mean(field)), float(np.std(field))) if field else (0.0, 1.0)
-        sd = sd or 1.0
-        lr = []
+        means = {}
+        for r in scored_rounds:
+            fld = [p for p in (_pts_in(m, r) for _, m in members.iterrows()) if p is not None]
+            means[r] = float(np.mean(fld)) if fld else 0.0
+        lf = go.Figure()
         for _, m in members.iterrows():
-            p = pts_in(m, rnd)
-            if p is None:
-                continue
-            z = (p - mu) / sd
-            verdict = ("🍀 very lucky" if z > 2 else "🙂 lucky" if z > 0.7 else
-                       "💀 very unlucky" if z < -2 else "😐 unlucky" if z < -0.7 else "➖ as expected")
-            lr.append({"label": f"{'🟢 ' if m['is_me'] else ''}{m['squad_name']} · {p}p {verdict}",
-                       "z": round(z, 2)})
-        ld = pd.DataFrame(lr).sort_values("z")
-        st.caption(f"Round {rnd}: field average {mu:.1f} pts (σ {sd:.1f}), {len(field)} managers.")
-        lf = go.Figure(go.Bar(
-            x=ld["z"], y=ld["label"], orientation="h",
-            marker_color=["#00b894" if z > 0 else "#d63031" for z in ld["z"]],
-            hovertemplate="%{y}<br>%{x:.2f}σ from field<extra></extra>"))
-        lf.update_layout(height=110 + 34 * len(ld), bargap=0.35,
-                         xaxis=dict(title="σ from field average (→ over-performed)", zeroline=True,
-                                    zerolinecolor="#888", zerolinewidth=2),
-                         yaxis=dict(automargin=True), margin=dict(l=10, r=10, t=10, b=10))
+            run, xs_, ys_ = 0.0, [], []
+            for r in scored_rounds:
+                p = _pts_in(m, r)
+                if p is None:
+                    continue
+                run += (p - means[r])
+                xs_.append(r)
+                ys_.append(round(run, 1))
+            if xs_:
+                sq = m["squad_name"]
+                lf.add_scatter(x=xs_, y=ys_, mode="lines+markers", name=("🟢 " if m["is_me"] else "") + sq,
+                               line=dict(color=colour.get(sq, viz.NEUTRAL), width=5 if m["is_me"] else 2,
+                                         shape="spline", smoothing=0.5),
+                               marker=dict(size=8 if m["is_me"] else 5),
+                               hovertemplate="%{fullData.name}<br>after R%{x}: %{y:+.1f} vs field<extra></extra>")
+        lf.add_hline(y=0, line=dict(color="#888", width=1, dash="dot"))
+        lf.update_layout(height=430, xaxis=dict(title="Round", dtick=1),
+                         yaxis_title="Cumulative luck (points vs field average)",
+                         legend=dict(orientation="h", y=-0.3), hovermode="x unified",
+                         margin=dict(l=10, r=10, t=10, b=10))
         st.plotly_chart(lf, width="stretch", config={"displayModeBar": False})
+        if len(scored_rounds) < 2:
+            st.caption("Only one scored round so far — the lines fan out as more rounds complete.")
+    else:
+        st.caption("Luck lines appear once the first round has been scored.")
 
     if not spi.empty and not spi.iloc[0]["is_me"]:
         with st.expander("🤔 Why isn't my team #1 on the projection?"):
             st.markdown(
-                "This board ranks **the points your already-locked round-1 team is projected to score on the "
-                "next round's fixtures** — not who could build the best team today. Three reasons you can sit "
+                f"This board ranks **the points your current team is projected to score on round {live}'s "
+                "fixtures** — not who could build the best team today. Three reasons you can sit "
                 "behind a rival here and it's still fine:\n\n"
-                "1. **You're rules-locked.** After round 1 you only get **2 free transfers per round** (a 3rd "
+                "1. **You're rules-locked.** Each round you only get **2 free transfers** (a 3rd "
                 "costs −4 pts), so you can't rebuild to the current optimum in one week — a small gap is often "
                 "less than a single −4 hit.\n"
                 "2. **You're built for the whole cup, not one week.** The autopilot maximises rest-of-tournament "
@@ -407,6 +420,12 @@ if proj is not None and have_squads:
         xi = optimizer.best_xi(owned, "xp_next") if len(owned) >= 11 else None
         xi_ids = starter_ids if len(starter_ids) == 11 else (xi["xi_ids"] if xi else [])
         cap_id = m.get("captain_id") if m.get("captain_id") in owned.index else (xi["captain_id"] if xi else None)
+        # vice: real one from TV2 if present, else the 2nd-best starter as fallback
+        vice_id = m.get("vice_captain_id") if m.get("vice_captain_id") in owned.index else None
+        if vice_id is None and xi_ids:
+            _cand = owned.loc[[p for p in xi_ids if p != cap_id and p in owned.index]].sort_values(
+                "xp_next", ascending=False)
+            vice_id = _cand.index[0] if len(_cand) else None
         bench = m.get("bench_ids") or [pid for pid in m["squad"] if pid not in xi_ids]
         formation = m.get("formation") or (xi["formation"] if xi else "?")
         rating = analytics.team_rating(proj, m["squad"], ranks)
@@ -414,6 +433,9 @@ if proj is not None and have_squads:
             st.markdown(f"### {'🟢 ' if m['is_me'] else ''}{m['squad_name']}")
             st.caption(f"**{m['manager']}** · SPI {m['SPI']:.0f} · {formation} · {m['proj_next']:.0f} proj pts · "
                        f"{m['total_points']} actual · {owned['price'].sum():.0f}M")
+            cap_nm = viz.short_name(owned.loc[cap_id, "name"]) if cap_id in owned.index else "—"
+            vice_nm = viz.short_name(owned.loc[vice_id, "name"]) if vice_id in owned.index else "—"
+            st.caption(f"🟠 **C** {cap_nm}  ·  🔵 **V** {vice_nm}")
             st.caption(f"Avg XI rank: GK #{rating['avg_pos_rank']['GK']} · DEF #{rating['avg_pos_rank']['DEF']} · "
                        f"MID #{rating['avg_pos_rank']['MID']} · FWD #{rating['avg_pos_rank']['FWD']}")
             prev = prev_members.get(m["squad_name"])
@@ -424,8 +446,8 @@ if proj is not None and have_squads:
                     outs = ", ".join(viz.short_name(proj.loc[x, "name"]) for x in went if x in proj.index) or "—"
                     st.caption(f"↔️ since R{prev_round}: OUT {outs} · IN {ins}")
             if xi_ids:
-                st.markdown(viz.pitch_html(owned, xi_ids, cap_id, "xp_next", bench, ranks, floors, ceils),
-                            unsafe_allow_html=True)
+                st.markdown(viz.pitch_html(owned, xi_ids, cap_id, "xp_next", bench, ranks, floors, ceils,
+                                           vice_id=vice_id), unsafe_allow_html=True)
 
     st.subheader("⚔️ What you win & lose on (vs each rival)")
     mine = set((d["my_team"] or {}).get("squad", []))

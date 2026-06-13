@@ -127,7 +127,7 @@ class Tv2Client:
         per-round history of formation + points."""
         if not isinstance(view, dict):
             return {"squad": [], "starter_ids": [], "bench_ids": [], "captain_id": None,
-                    "formation": None, "rounds": []}
+                    "vice_captain_id": None, "formation": None, "rounds": []}
         rounds = view.get("rounds") or []
         latest = rounds[-1] if rounds else {}
         starters = latest.get("starters") or []
@@ -138,9 +138,17 @@ class Tv2Client:
 
         starter_ids = [pid(p) for p in starters if pid(p)]
         bench_ids = [pid(p) for p in bench if pid(p)]
-        captain = next((pid(p) for p in starters if p.get("isCaptain")), None)
-        # per round: lineup, this-round captain, and each player's ACTUAL points
-        # (so the points race can step per match with real results)
+
+        def cap_of(r, rs):
+            return r.get("captainPlayerId") or next((pid(p) for p in rs if p.get("isCaptain")), None)
+
+        def vice_of(r, rs):
+            return r.get("viceCaptainPlayerId") or next((pid(p) for p in rs if p.get("isViceCaptain")), None)
+
+        captain = cap_of(latest, starters)
+        vice = vice_of(latest, starters)
+        # per round: lineup, this-round captain + vice, and each player's ACTUAL
+        # points (so the points race can step per match with real results)
         hist = []
         for r in rounds:
             rs, rb = (r.get("starters") or []), (r.get("bench") or [])
@@ -149,15 +157,15 @@ class Tv2Client:
             hist.append({
                 "number": r.get("number"), "formation": r.get("formation"),
                 "points": r.get("roundTotal"), "transfer_hit": r.get("transferHit", 0),
-                "captain_id": next((pid(p) for p in rs if p.get("isCaptain")), None),
+                "captain_id": cap_of(r, rs), "vice_captain_id": vice_of(r, rs),
                 "starter_ids": [pid(p) for p in rs if pid(p)],
                 "scores": scores,
             })
         return {
             "squad": starter_ids + bench_ids,
             "starter_ids": starter_ids, "bench_ids": bench_ids,
-            "captain_id": captain, "formation": latest.get("formation"),
-            "rounds": hist,
+            "captain_id": captain, "vice_captain_id": vice,
+            "formation": latest.get("formation"), "rounds": hist,
         }
 
     # ------------------------------------------------------------ players

@@ -76,7 +76,9 @@ def get_data() -> dict:
 @st.cache_data(show_spinner="Searching transfer plans (single + double swaps)...")
 def _plans(sig: tuple, weather_bucket: str, squad: tuple, bank: float, free: int) -> list[dict]:
     from src import optimizer
-    proj = _computed(sig, weather_bucket)["proj"]
+    # transfers apply to the EDITABLE round you can still change (proj_plan),
+    # NOT the live round that's already locked and scoring.
+    proj = _computed(sig, weather_bucket)["proj_plan"]
     return optimizer.transfer_plans(proj, list(squad), bank, free_transfers=free)
 
 

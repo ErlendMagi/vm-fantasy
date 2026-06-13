@@ -37,6 +37,102 @@ def add_kpis(proj: pd.DataFrame) -> pd.DataFrame:
     return out
 
 
+def squad_risk(proj: pd.DataFrame, squad_ids: list[str], captain_id=None,
+               value_col: str = "xp_next", gap_to_field=None, rounds_left=None) -> dict | None:
+    """Concentration / variance risk of the scoring XI, so one bad match can't
+    quietly tank a round. All from existing proj columns. Returns:
+      enb_match        effective number of independent 'bets' (matches your points
+                       are spread across, Herfindahl-penalised for lumpiness)
+      max_match_share  fraction of the round riding on the single biggest match
+      top_match        that match's name
+      captain_share    fraction riding on the captain's doubling
+      cs_share         fraction of expected points that are clean-sheet points
+                       (a single 'low-scoring round' bet across all your defenders)
+      sd_round / cv    round-total standard deviation and coefficient of variation
+      floor/exp/ceiling the XI's downside, expected and upside totals
+      regime           leader / chaser / coinflip + advice, from the league gap
+    """
+    owned = proj.loc[[i for i in squad_ids if i in proj.index]]
+    if len(owned) < 11:
+        return None
+    xi = optimizer.best_xi(owned, value_col)
+    x = owned.loc[[i for i in xi["xi_ids"] if i in owned.index]].copy()
+    cap = captain_id if captain_id in set(x.index) else xi["captain_id"]
+    mult = pd.Series(1.0, index=x.index)
+    if cap in mult.index:
+        mult[cap] = float(config.CAPTAIN_MULTIPLIER)
+    x["w"] = (x[value_col].clip(lower=0) * mult)
+    total = float(x["w"].sum()) or 1.0
+
+    opp = x["opponent"] if "opponent" in x.columns else x["team"]
+    x["match"] = [" – ".join(sorted({str(t), str(o)})) for t, o in zip(x["team"], opp)]
+    by_match = x.groupby("match")["w"].sum() / total
+    hhi = float((by_match ** 2).sum())
+    enb = (1.0 / hhi) if hhi else float(len(x))
+    top_match = str(by_match.idxmax())
+    max_match_share = float(by_match.max())
+
+    by_team = x.groupby("team")["w"].sum() / total
+    max_team_share = float(by_team.max())
+    max_team_count = int(x["team"].value_counts().max())
+
+    captain_share = float((mult.get(cap, 1.0) - 1.0) * x.loc[cap, value_col] / total) if cap in x.index else 0.0
+    cap_match = x.loc[cap, "match"] if cap in x.index else None
+    captain_shares_match = bool(cap_match is not None and int((x["match"] == cap_match).sum()) > 1)
+
+    cs_share = float((x["pts_cs"] * mult).sum() / total)
+
+    # per-player variance proxy: secure points are steady, event points lumpy
+    secure = (x["pts_appear"] + x["pts_cs"] + x["pts_saves"] + x["pts_concede"]
+              + 0.5 * x["pts_duty"]).clip(lower=0)
+    event = (x["pts_goals"] + x["pts_assists"] + x["pts_motm"]).clip(lower=0)
+    ppe = x["position"].map(config.SCORING["goal"]).fillna(5.0)
+    var_i = (0.5 * secure + 1.0 * ppe * event) * (mult ** 2)   # Var(2X)=4Var(X) for captain
+    sd_round = float(var_i.sum() ** 0.5)
+    cv = sd_round / total if total else 0.0
+
+    floor_sum = float((x["floor"] * mult).sum())
+    ceiling_sum = float((x["ceiling"] * mult).sum())
+
+    flags = []
+    if captain_shares_match:
+        flags.append(f"⚠️ Captain shares a match with another starter — a flat {top_match} doubles down.")
+    if max_match_share > 0.30:
+        flags.append(f"⚠️ {max_match_share * 100:.0f}% of your round rides on one match ({top_match}).")
+    if cs_share > 0.33:
+        flags.append(f"⚠️ {cs_share * 100:.0f}% of your points are clean sheets — exposed to an open, high-scoring round.")
+    if max_team_count >= 3:
+        flags.append(f"⚠️ {max_team_count} starters from one nation — a single result moves them together.")
+    if not flags:
+        flags.append("✅ Well spread — no single match, team or the captain dominates the round.")
+
+    regime, regime_msg = "unknown", ""
+    if gap_to_field is not None and rounds_left is not None and sd_round > 0:
+        band = 1.5 * sd_round * (max(int(rounds_left), 1) ** 0.5)
+        if gap_to_field > band:
+            regime = "leader"
+            regime_msg = (f"You lead the field by {gap_to_field:.0f} with ~{rounds_left} rounds left → "
+                          "**diversify**. Keep variance low (high effective-bets, no stacked match/captain); "
+                          "you only need to not blow up.")
+        elif gap_to_field < -band:
+            regime = "chaser"
+            regime_msg = (f"You trail by {abs(gap_to_field):.0f} with ~{rounds_left} rounds left → you may need "
+                          "**variance**. A differential stack your rivals don't own (lower effective-bets) is OK "
+                          "here — a steady score won't catch them.")
+        else:
+            regime = "coinflip"
+            regime_msg = (f"The race is tight ({gap_to_field:+.0f}, ~{rounds_left} rounds left) → play the "
+                          "**expected-points optimum** and just avoid a single point of failure.")
+
+    return {"enb_match": enb, "max_match_share": max_match_share, "top_match": top_match,
+            "max_team_share": max_team_share, "max_team_count": max_team_count,
+            "captain_share": captain_share, "captain_shares_match": captain_shares_match,
+            "cs_share": cs_share, "sd_round": sd_round, "cv": cv,
+            "floor": floor_sum, "expected": total, "ceiling": ceiling_sum,
+            "by_match": by_match.sort_values(ascending=False), "captain_id": cap,
+            "flags": flags, "regime": regime, "regime_msg": regime_msg}
+
+
 def squad_power_index(proj: pd.DataFrame, managers: list[dict]) -> pd.DataFrame:
     """Squad Power Index (0-100) across a field of managers: a blend of this
     round's projected XI (60%), whole-cup durability (25%) and value-per-million

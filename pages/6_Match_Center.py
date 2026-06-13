@@ -30,10 +30,18 @@ if src and src.get("leagues"):
             rivals.append((m["squad_name"], proj.loc[[i for i in sq if i in proj.index]]))
 
 # the live round's games still to be played — the ones actually worth watching
-fixtures = sorted([f for f in d["fixtures_next"] if f.get("status") != "finished"],
-                  key=lambda f: f["kickoff_utc"])
-st.caption(f"Auto-written analysis for the {len(fixtures)} upcoming round-{d['next_round']} matches — "
-           "implied probabilities, expected goals, heat, key men, your exposure and rival threats. "
+_now = datetime.now(timezone.utc)
+
+
+def _koff(f):
+    return datetime.fromisoformat(f["kickoff_utc"].replace("Z", "+00:00"))
+
+
+fixtures = sorted([f for f in d["fixtures_next"] if f.get("status") != "finished"], key=_koff)
+n_live = sum(1 for f in fixtures if _koff(f) < _now)
+n_up = len(fixtures) - n_live
+st.caption(f"Auto-written analysis for round-{d['next_round']} matches — **{n_live} in progress, {n_up} still "
+           "to come** — implied probabilities, expected goals, heat, key men, your exposure and rival threats. "
            "Refreshes with the odds.")
 OSLO = timezone(timedelta(hours=2))
 if not fixtures:
@@ -45,9 +53,15 @@ if not fixtures:
 only_mine = st.toggle("Only games my players feature in", value=False)
 my_teams = set(owned["team"])
 
+_divider_shown = False
 for fx in fixtures:
     if only_mine and not ({fx["home"], fx["away"]} & my_teams):
         continue
+    if not _divider_shown and _koff(fx) >= _now:
+        st.markdown("<div style='border-top:2px solid #d63031;margin:6px 0 2px;color:#d63031;"
+                    "font-weight:700;font-size:0.9em'>▲ NOW — matches above have kicked off · "
+                    "below are still to come</div>", unsafe_allow_html=True)
+        _divider_shown = True
     brief = narrative.match_brief(fx, proj, owned, rivals)
     ko = datetime.fromisoformat(brief["kickoff_utc"].replace("Z", "+00:00")).astimezone(OSLO)
     with st.container(border=True):

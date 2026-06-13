@@ -16,6 +16,11 @@ if d["proj"] is None:
 proj = d["proj_plan"]  # rate players for the round you're planning (editable)
 my = d["my_team"] or {}
 my_ids = set(my.get("squad", []))
+target, live = d["target_round"], d["next_round"]
+if target != live:
+    st.info(f"These ratings plan your team for the **next editable round — round {target}** (the upcoming "
+            f"TV2 transfer deadline). Round {live} is still being played; see **Match Center** for the live "
+            "round. Every 'round {0}' label below means the round you can still change.".format(target))
 
 st.caption(
     "A player's **rating = expected points**, summing every way they score: minutes, goals "
@@ -23,22 +28,22 @@ st.caption(
     "adjusted for opponent, venue heat, stage and form."
 )
 
-horizon = st.radio("Rate players by…", ["Next round", "Whole tournament"], horizontal=True,
+horizon = st.radio("Rate players by…", [f"Round {target} (planning)", "Whole tournament"], horizontal=True,
                    help="Whole tournament weights every remaining round by the team's survival odds — "
                         "a star on a team likely to exit early rates lower here.")
-value_col = "xp_next" if horizon == "Next round" else "xp_tournament"
+value_col = "xp_next" if horizon.startswith("Round") else "xp_tournament"
 
 # ---------------------------------------------------------------- rankings per position
-st.subheader("Position rankings")
-st.caption("Bars show each player as a % of the best player in that position. "
-           "Green = in your squad. Hover for ownership.")
+st.subheader(f"Position rankings — planning round {target}")
+st.caption(f"Bars show each player as a % of the best player in that position, rated for the upcoming "
+           f"editable round (R{target}). Green = in your squad. Hover for ownership.")
 tabs = st.tabs([viz.POS_LABEL[p] for p in viz.POS_ORDER])
 for tab, pos in zip(tabs, viz.POS_ORDER):
     with tab:
         st.plotly_chart(viz.position_ranking_figure(proj, pos, value_col, my_ids),
                         width="stretch", config={"displayModeBar": False})
 
-with st.expander("How each position earns points (model averages)"):
+with st.expander(f"How each position earns points (round {target} averages)"):
     avg = proj[proj["xp_next"] > 0.5].groupby("position")[list(viz.COMP)].mean().reindex(viz.POS_ORDER)
     figc = go.Figure()
     for raw, label in viz.COMP.items():
@@ -61,14 +66,14 @@ if who:
     pct_tour = 100 * r["xp_tournament"] / max(float(pos_peers["xp_tournament"].max()), 0.01)
 
     c1, c2, c3, c4 = st.columns(4)
-    c1.metric("Rating next round", f"{r['xp_next']:.1f} pts", f"#{rank_next} of {viz.POS_LABEL[r['position']].lower()}")
+    c1.metric(f"Rating round {target}", f"{r['xp_next']:.1f} pts", f"#{rank_next} of {viz.POS_LABEL[r['position']].lower()}")
     c2.metric("Rating whole cup", f"{r['xp_tournament']:.1f} pts", f"#{rank_tour} · {pct_tour:.0f}% of best")
     c3.metric("Price", f"{r['price']}M")
     c4.metric("Owned by", f"{(r['ownership_pct'] or 0):.0f}%" if r["ownership_pct"] == r["ownership_pct"] else "–")
 
     a, b = st.columns(2)
     with a:
-        st.plotly_chart(viz.composition_figure(r, f"Where {viz.short_name(name)}'s points come from (next round)"),
+        st.plotly_chart(viz.composition_figure(r, f"Where {viz.short_name(name)}'s points come from (round {target})"),
                         width="stretch", config={"displayModeBar": False})
     with b:
         if r["id"] in my_ids:
@@ -149,9 +154,10 @@ with st.expander("🤓 Full data table (all players, all columns)"):
             "pts_appear": st.column_config.NumberColumn("minutes", format="%.2f"),
             "pts_duty": st.column_config.NumberColumn("duty", format="%.2f"),
             "form_mult": st.column_config.NumberColumn("form ×", format="%.2f"),
-            "xp_next": st.column_config.NumberColumn("xP next", format="%.2f"),
+            "opponent": st.column_config.TextColumn(f"opp R{target}"),
+            "xp_next": st.column_config.NumberColumn(f"xP R{target}", format="%.2f"),
             "xp_tournament": st.column_config.NumberColumn("xP cup", format="%.1f"),
-            "p_plays_after": st.column_config.NumberColumn("P(plays next+1)", format="percent"),
+            "p_plays_after": st.column_config.NumberColumn(f"P(plays R{target + 1})", format="percent"),
         },
         hide_index=True, width="stretch", height=520,
     )

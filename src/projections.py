@@ -158,7 +158,11 @@ def _team_xp(df: pd.DataFrame, mu_team: float, mu_opp: float, multiplier: float,
     full_match = df["position"].map(s["full_match"]) * df["p_start"] * full90_p  # P(plays 90 | starts)
 
     is_gk = (df["position"] == "GK").astype(float)
-    gk_saves = is_gk * (2.5 + 0.85 * mu_opp) / 3.0 * s["save_per3"] * df["p_start"]
+    # GK save points: +1 per 3 shot-saves (expected saves scale with opp threat)
+    # PLUS the rare penalty save (+5): expected pens faced x save rate x 5.
+    pens_faced = config.PEN_FACED_PER_MATCH * (mu_opp / config.PEN_FACED_REF_MU)
+    gk_saves = is_gk * ((2.5 + 0.85 * mu_opp) / 3.0 * s["save_per3"]
+                        + pens_faced * config.PEN_SAVE_RATE * s["penalty_save"]) * df["p_start"]
 
     # per-component expected points (so value is transparently more than goals)
     pts_appear = df["p_play"] * s["appearance"] + df["p_start"] * s["sixty_minutes"] + full_match

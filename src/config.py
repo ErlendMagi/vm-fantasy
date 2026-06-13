@@ -29,14 +29,19 @@ SCORING = {
     "save_per3": 1,           # GK: +1 per 3 saves
     # Man of the Match bonus: best/2nd/3rd rated player in a match (any position)
     "motm": {1: 3, 2: 2, 3: 1},
-    "flat_negative_tax": 0.25,  # expected yellow (-1) / pen conceded (-2) / OG (-2) drag
+    "flat_negative_tax": 0.25,  # expected drag: yellow -1 / red -3 / caused pen -2 / missed pen -2 / OG -2
 }
 CAPTAIN_MULTIPLIER = 2
+# GK penalty saves (+5 each, rare): a team faces ~0.16 penalties/match in the
+# VAR-era World Cup, scaled by the opponent's attacking threat; keepers save ~22%.
+PEN_FACED_PER_MATCH = 0.16
+PEN_SAVE_RATE = 0.22
+PEN_FACED_REF_MU = 1.3      # opponent xG that maps to the base penalties-faced rate
 # MotM modelling: each match distributes 6 bonus points (3+2+1). Research on
 # 2022 WC MotM awards: heavily attacker-biased (~28 FWD / 22 MID / 9 GK / 5 DEF
 # of 64) - a defender essentially only wins it by scoring. So the standout
 # weight is dominated by attacking output, with small per-position priors.
-MOTM_POINTS_PER_MATCH = 6.0
+MOTM_POINTS_PER_MATCH = float(sum(SCORING["motm"].values()))   # 3+2+1 = 6, straight from the table
 MOTM_RESULT_WEIGHT = 0.6   # how much winning lifts a player's MotM odds
 MOTM_POSITION_PRIOR = {"FWD": 0.20, "MID": 0.15, "GK": 0.10, "DEF": 0.03}
 

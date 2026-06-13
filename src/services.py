@@ -99,11 +99,13 @@ def get_optimal_squad(value_col: str = "xp_tournament") -> dict:
     return _optimal(_data_sig(), _weather_bucket(), value_col)
 
 
-@st.cache_data(ttl=120, show_spinner=False)
+@st.cache_data(ttl=60, show_spinner=False)
 def _live_league(_token: str) -> dict | None:
     """Live private-league standings straight from the TV 2 API (scores update
-    during matches). Light: leaderboard only, no per-member squad fetches —
-    squads/formations come from the synced league.json."""
+    during matches). For small leagues it also pulls each member's per-round
+    squad detail (per-player scores, starters, captain, vice) LIVE — so the
+    points race, the model-check and the standings all move together during
+    matches, not just on the hourly sync."""
     from src.http_fetch import fetch_json
     base = "https://vm-fantasyapi-production.up.railway.app"
     h = {"Authorization": f"Bearer {_token}", "Accept": "application/json"}
@@ -111,6 +113,7 @@ def _live_league(_token: str) -> dict | None:
         summary, _ = fetch_json(f"{base}/leagues/summary", {"tournamentId": "vm-2026"}, headers=h, timeout=10)
         if not summary:
             return None
+        from scraper.tv2_client import Tv2Client  # pure parser; no playwright at import
         leagues = []
         for lg in summary:
             if lg.get("leagueType") == "MAIN":
@@ -118,12 +121,22 @@ def _live_league(_token: str) -> dict | None:
             lb, _ = fetch_json(f"{base}/leagues/{lg['leagueId']}/leaderboard",
                                {"page": 1, "limit": 100}, headers=h, timeout=10)
             lb = lb or {}
-            members = [{
-                "manager": e.get("managerName"), "squad_name": e.get("squadName"),
-                "rank": e.get("rank"), "total_points": e.get("totalPoints", 0),
-                "latest_round_points": e.get("latestRoundPoints", 0),
-                "round_scores": e.get("roundScores", []),
-            } for e in lb.get("entries", [])]
+            entries = lb.get("entries", [])
+            fetch_squads = len(entries) <= config.LEAGUE_SQUAD_FETCH_MAX
+            members = []
+            for e in entries:
+                m = {"manager": e.get("managerName"), "squad_name": e.get("squadName"),
+                     "squad_id": e.get("squadId"), "rank": e.get("rank"),
+                     "total_points": e.get("totalPoints", 0),
+                     "latest_round_points": e.get("latestRoundPoints", 0),
+                     "round_scores": e.get("roundScores", [])}
+                if fetch_squads and e.get("squadId"):
+                    try:
+                        view, _ = fetch_json(f"{base}/squad/view/{e['squadId']}", headers=h, timeout=10)
+                        m.update(Tv2Client._parse_rival_view(view or {}))
+                    except Exception:
+                        pass
+                members.append(m)
             leagues.append({"name": lg.get("leagueName"), "league_id": lg.get("leagueId"),
                             "my_rank": (lb.get("myRank") or {}).get("rank"), "members": members})
         return {"leagues": leagues} if leagues else None

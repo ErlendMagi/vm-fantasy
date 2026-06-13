@@ -17,7 +17,7 @@ is_live = live is not None
 if is_live:
     try:
         from streamlit_autorefresh import st_autorefresh
-        st_autorefresh(interval=120_000, key="league_live_refresh")
+        st_autorefresh(interval=60_000, key="league_live_refresh")
     except ImportError:
         pass
 
@@ -39,10 +39,14 @@ if is_live and league and league.get("leagues"):
     synced = next((l for l in league["leagues"] if l.get("league_id") == lg.get("league_id")),
                   league["leagues"][0])
     extra = {m["squad_name"]: m for m in synced["members"]}
-    for col, default in [("squad", []), ("starter_ids", []), ("bench_ids", []),
-                         ("captain_id", None), ("vice_captain_id", None), ("formation", None)]:
-        members[col] = members["squad_name"].map(
-            lambda sq, c=col, dft=default: (extra.get(sq) or {}).get(c, dft))
+    # prefer the LIVE per-squad detail when present (small leagues now fetch it
+    # live), fall back to the synced file only for what live didn't carry
+    for col, default in [("squad", []), ("starter_ids", []), ("bench_ids", []), ("captain_id", None),
+                         ("vice_captain_id", None), ("formation", None), ("rounds", [])]:
+        live_col = members[col] if col in members.columns else [None] * len(members)
+        members[col] = [lv if lv not in (None, [], "") else (extra.get(sq) or {}).get(c2, dft)
+                        for lv, sq, c2, dft in
+                        zip(live_col, members["squad_name"], [col] * len(members), [default] * len(members))]
 elif "squad" not in members.columns:
     members["squad"] = [[] for _ in range(len(members))]
 
@@ -81,12 +85,16 @@ live, target = d["next_round"], d["target_round"]
 proj_live, proj_plan = d["proj"], d["proj_plan"]
 team_of = proj_live["team"]   # player id -> team (every player)
 
-# per-manager per-round detail from the sync: lineup, this-round captain, and
-# each player's ACTUAL points — so the race steps per MATCH on real results
+# per-manager per-round detail: lineup, this-round captain, and each player's
+# ACTUAL points — so the race steps per MATCH on real results. Prefer the LIVE
+# feed (updates during matches), fall back to the synced file.
 synced = {}
-for _L in (league or {}).get("leagues", []):
-    for _mm in _L.get("members", []):
-        synced[_mm["squad_name"]] = {r["number"]: r for r in _mm.get("rounds", []) if r.get("number")}
+for _src in (source, league):
+    for _L in (_src or {}).get("leagues", []):
+        for _mm in _L.get("members", []):
+            _rounds = {r["number"]: r for r in (_mm.get("rounds") or []) if r.get("number")}
+            if _rounds:
+                synced.setdefault(_mm["squad_name"], _rounds)
 
 race_matches = sorted([fx for fx in d["fixtures"] if fx.get("fantasy_round") and fx["fantasy_round"] <= target],
                       key=lambda f: f["kickoff_utc"])
@@ -191,13 +199,36 @@ if last_played < 0:
 
 # ---------------------------------------------------------------- standings (right under the race)
 st.subheader("🏆 Standings")
+# expected points each manager still has TO COME in the live round: their starters
+# whose match hasn't kicked off yet (captain ×2). Drops as games kick off.
+_future_teams = set()
+for _fx in d["fixtures"]:
+    if _fx.get("fantasy_round") == live and _ko(_fx) >= _now:
+        _future_teams.update((_fx["home"], _fx["away"]))
+
+
+def _exp_left(sq):
+    rd = synced.get(sq, {}).get(live, {})
+    starters = rd.get("starter_ids") or []
+    capid = rd.get("captain_id")
+    if not starters:
+        return None
+    return round(sum(float(proj_live.loc[pid, "xp_next"]) * (2 if pid == capid else 1)
+                     for pid in starters
+                     if pid in proj_live.index and team_of.get(pid) in _future_teams), 1)
+
+
 standings = members.sort_values(["total_points", "latest_round_points"], ascending=False).reset_index(drop=True)
 standings.insert(0, "pos", standings.index + 1)
+standings["exp_left"] = standings["squad_name"].map(_exp_left)
+st.caption(f"**Exp. left R{live}** = expected points each manager still has to come this round (from players "
+           "whose match hasn't kicked off yet, captain ×2). It ticks down as games play.")
 st.dataframe(
-    standings[["pos", "manager", "squad_name", "total_points", "latest_round_points", "is_me"]],
+    standings[["pos", "manager", "squad_name", "total_points", "latest_round_points", "exp_left", "is_me"]],
     hide_index=True, width="stretch",
     column_config={"pos": "#", "manager": "Manager", "squad_name": "Team",
                    "total_points": "Total", "latest_round_points": "Last round",
+                   "exp_left": st.column_config.NumberColumn(f"Exp. left R{live}", format="%.1f"),
                    "is_me": st.column_config.CheckboxColumn("You")})
 
 # ---------------------------------------------------------------- watch guide (after standings)

@@ -1,7 +1,7 @@
 {
  "rounds": {
   "2": {
-   "synced_at": "2026-06-13T22:52:26.387156+00:00",
+   "synced_at": "2026-06-13T23:54:43.213416+00:00",
    "members": {
     "Erlend er best": {
      "manager": "Erlend",
@@ -37,7 +37,7 @@
      ],
      "captain_id": "8984e3ae-fd88-484b-8fb4-470f2bcb2f6c",
      "formation": "5-4-1",
-     "total_points": 11
+     "total_points": 12
     },
     "Republikken Jonaland": {
      "manager": "Jonathan",
@@ -145,7 +145,7 @@
      ],
      "captain_id": "3c1f2aaf-86af-4a0f-a712-9ea9f54fd5ef",
      "formation": "3-4-3",
-     "total_points": 4
+     "total_points": 5
     },
     "USTAB IL": {
      "manager": "julle",
@@ -181,7 +181,7 @@
      ],
      "captain_id": "3aaa39f5-9908-454d-97d0-b5806a65e3ac",
      "formation": "4-3-3",
-     "total_points": 4
+     "total_points": 5
     },
     "I dont know what I am doing": {
      "manager": "Jostein",

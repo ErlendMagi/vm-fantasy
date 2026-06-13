@@ -88,9 +88,9 @@
    "away": "Bosnia & Herzegovina",
    "kickoff_utc": "2026-06-12T19:00:00.000Z",
    "venue_id": "Toronto",
-   "status": "scheduled",
-   "score_home": null,
-   "score_away": null
+   "status": "finished",
+   "score_home": 1,
+   "score_away": 1
   },
   {
    "match_id": "M008",
@@ -101,9 +101,9 @@
    "away": "Switzerland",
    "kickoff_utc": "2026-06-13T19:00:00.000Z",
    "venue_id": "San Francisco Bay Area (Santa Clara)",
-   "status": "scheduled",
-   "score_home": null,
-   "score_away": null
+   "status": "finished",
+   "score_home": 1,
+   "score_away": 1
   },
   {
    "match_id": "M009",
@@ -167,8 +167,8 @@
    "kickoff_utc": "2026-06-13T22:00:00.000Z",
    "venue_id": "New York/New Jersey (East Rutherford)",
    "status": "scheduled",
-   "score_home": null,
-   "score_away": null
+   "score_home": 0,
+   "score_away": 1
   },
   {
    "match_id": "M014",
@@ -244,9 +244,9 @@
    "away": "Paraguay",
    "kickoff_utc": "2026-06-13T01:00:00.000Z",
    "venue_id": "Los Angeles (Inglewood)",
-   "status": "scheduled",
-   "score_home": null,
-   "score_away": null
+   "status": "finished",
+   "score_home": 4,
+   "score_away": 1
   },
   {
    "match_id": "M020",

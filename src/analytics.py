@@ -37,6 +37,46 @@ def add_kpis(proj: pd.DataFrame) -> pd.DataFrame:
     return out
 
 
+def motm_probabilities(weights: dict) -> dict:
+    """P(player finishes 1st / 2nd / 3rd best in a match) from per-player standout
+    weights, via the Plackett-Luce ranking model. We use each player's expected
+    Man-of-the-Match points (pts_motm) as the weight — it already encodes
+    attacking output, result and a position prior. Returns {pid: {p1, p2, p3}}."""
+    items = [(pid, max(float(w), 0.0)) for pid, w in weights.items()]
+    W = sum(w for _, w in items)
+    if W <= 0 or len(items) < 2:
+        u = 1.0 / len(items) if items else 0.0
+        return {pid: {"p1": u, "p2": u, "p3": u} for pid, _ in items}
+    p1 = {pid: w / W for pid, w in items}
+    p2 = {pid: 0.0 for pid, _ in items}
+    for j, wj in items:                       # j is first, i is second
+        d1 = W - wj
+        if d1 <= 0:
+            continue
+        pj = wj / W
+        for i, wi in items:
+            if i != j:
+                p2[i] += pj * (wi / d1)
+    p3 = {pid: 0.0 for pid, _ in items}
+    top = sorted(items, key=lambda x: -x[1])[:14]   # tail weights ≈ 0; bound the O(n^3)
+    for j, wj in top:
+        d1 = W - wj
+        if d1 <= 0:
+            continue
+        pj = wj / W
+        for k, wk in top:
+            if k == j:
+                continue
+            d2 = d1 - wk
+            if d2 <= 0:
+                continue
+            pjk = pj * (wk / d1)
+            for i, wi in items:
+                if i != j and i != k:
+                    p3[i] += pjk * (wi / d2)
+    return {pid: {"p1": p1.get(pid, 0.0), "p2": p2.get(pid, 0.0), "p3": p3.get(pid, 0.0)} for pid, _ in items}
+
+
 def squad_risk(proj: pd.DataFrame, squad_ids: list[str], captain_id=None,
                value_col: str = "xp_next", gap_to_field=None, rounds_left=None) -> dict | None:
     """Concentration / variance risk of the scoring XI, so one bad match can't

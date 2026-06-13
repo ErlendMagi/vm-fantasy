@@ -100,6 +100,58 @@ def get_optimal_squad(value_col: str = "xp_tournament") -> dict:
 
 
 @st.cache_data(ttl=60, show_spinner=False)
+def _live_stats(sig: tuple, fixtures_key: tuple) -> dict:
+    """Best-effort LIVE per-player stats (minutes/rating/xg/shots/MotM) for
+    in-progress matches, straight from FotMob. Keyed by TV2 match_id; players
+    matched back to TV2 ids by team + fuzzy name. Returns {} on any failure so
+    the live panel always degrades gracefully."""
+    try:
+        from scraper.enrich_stats import find_match, player_lines, _sim
+    except Exception:
+        return {}
+    players = data_access.load_players()
+    if players is None:
+        return {}
+    by_team = {}
+    for pid, row in players.iterrows():
+        by_team.setdefault(row["team"], []).append((pid, row["name"]))
+    out = {}
+    for match_id, home, away, ko_date in fixtures_key:
+        try:
+            fm_id = find_match(ko_date, home, away)
+            if not fm_id:
+                continue
+            pmap = {}
+            for line in player_lines(fm_id):
+                cands = by_team.get(data_access.normalize_team(line.get("team") or ""), [])
+                best, bpid = 0.6, None
+                for pid, nm in cands:
+                    s = _sim(nm, line.get("name") or "")
+                    if s > best:
+                        best, bpid = s, pid
+                if bpid:
+                    pmap[bpid] = {k: line.get(k) for k in
+                                  ("minutes", "rating", "xg", "xa", "shots", "sot", "is_potm")}
+            if pmap:
+                out[match_id] = {"players": pmap}
+        except Exception:
+            continue
+    return out
+
+
+def get_live_stats(in_progress_fixtures: list[dict]) -> dict:
+    """in_progress_fixtures -> {match_id: {players: {pid: {minutes,rating,xg,...}}}}."""
+    from datetime import datetime as _dt
+    key = tuple(sorted(
+        (fx["match_id"], fx["home"], fx["away"],
+         _dt.fromisoformat(fx["kickoff_utc"].replace("Z", "+00:00")).strftime("%Y%m%d"))
+        for fx in in_progress_fixtures))
+    if not key:
+        return {}
+    return _live_stats(_data_sig(), key)
+
+
+@st.cache_data(ttl=60, show_spinner=False)
 def _live_league(_token: str) -> dict | None:
     """Live private-league standings straight from the TV 2 API (scores update
     during matches). For small leagues it also pulls each member's per-round

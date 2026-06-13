@@ -222,6 +222,78 @@ def pitch_html(squad: pd.DataFrame, xi_ids: list, captain_id, value_col: str = "
     return PITCH_CSS + f'<div class="vmpitch">{"".join(rows_html)}{bench_block}</div>'
 
 
+LIVE_CSS = """
+<style>
+@keyframes vlpulse{0%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(1.35)}100%{opacity:1;transform:scale(1)}}
+@keyframes vlpop{0%{transform:translateY(7px) scale(.96);opacity:0}100%{transform:none;opacity:1}}
+@keyframes vlshim{0%{background-position:-220px 0}100%{background-position:220px 0}}
+.vl-wrap{background:linear-gradient(160deg,#1b2430,#11161d);border:1px solid #2a3340;border-radius:14px;
+ padding:10px 14px 12px;margin:6px 0 12px}
+.vl-live{display:inline-block;width:11px;height:11px;border-radius:50%;background:#d63031;
+ box-shadow:0 0 9px #d63031;animation:vlpulse 1.1s infinite;margin-right:7px;vertical-align:middle}
+.vl-h{font-size:1.02rem;font-weight:800;margin:2px 0 4px}
+.vl-score{font-weight:800;color:#fdcb6e}
+.vl-clock{font-size:.8rem;color:#9aa7b4;margin-left:6px}
+.vl-row{display:flex;gap:10px;flex-wrap:wrap;margin:6px 0 2px}
+.vl-card{flex:1 1 150px;min-width:148px;max-width:210px;background:#0e131a;border:1px solid #283143;
+ border-radius:12px;padding:10px 10px 8px;animation:vlpop .45s ease both;position:relative;overflow:hidden}
+.vl-card.gold{border-color:#fdcb6e;box-shadow:0 0 0 1px #fdcb6e55}
+.vl-card.mine{border-color:#00b894;box-shadow:0 0 0 1px #00b89455}
+.vl-rank{position:absolute;top:5px;left:8px;font-size:1.15rem}
+.vl-face{width:56px;height:56px;border-radius:50%;overflow:hidden;margin:2px auto 6px;background:#1c2530;
+ position:relative;border:2px solid #2a3340}
+.vl-face img{width:100%;height:100%;object-fit:cover}
+.vl-fl{position:absolute;bottom:-1px;right:-3px}
+.vl-nm{font-weight:700;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:.9rem}
+.vl-tm{text-align:center;font-size:.71rem;color:#9aa7b4;margin-bottom:5px}
+.vl-big{text-align:center;font-size:1.4rem;font-weight:800;color:#fdcb6e;line-height:1.05}
+.vl-lab{text-align:center;font-size:.62rem;color:#9aa7b4;letter-spacing:.05em;text-transform:uppercase}
+.vl-bar{height:7px;border-radius:5px;background:rgba(255,255,255,.1);overflow:hidden;margin:5px 1px}
+.vl-bar>span{display:block;height:100%;border-radius:5px;background:linear-gradient(90deg,#e17055,#fdcb6e);
+ width:0;transition:width 1s cubic-bezier(.2,.8,.2,1)}
+.vl-card.gold .vl-bar>span{background-image:linear-gradient(90deg,#fdcb6e,#ffeaa7,#fdcb6e);
+ background-size:220px 100%;animation:vlshim 1.6s linear infinite}
+.vl-sub{text-align:center;font-size:.72rem;color:#cbd5e1}
+.vl-own{text-align:center;font-size:.72rem;margin-top:4px;font-weight:700}
+.vl-stats{text-align:center;font-size:.72rem;color:#dfe6ee;margin-top:5px;border-top:1px solid #222b36;padding-top:5px}
+.vl-pts{color:#00b894;font-weight:800}
+</style>
+"""
+
+
+def live_card(row, probs, owner_html="", klass="", rank="", live_pts=None, stats=None) -> str:
+    """One animated card: photo + flag, P(MotM) headline with an animated bar,
+    2nd/3rd odds, owner tag and a live-stats line. Used for both your players and
+    the Man-of-the-Match candidates."""
+    photo = row.get("photo")
+    img = (f'<img src="{photo}" referrerpolicy="no-referrer" onerror="this.style.display=\'none\'">'
+           if isinstance(photo, str) and photo else _initials_face(row["name"]))
+    fl = flag_img(row.get("team", ""), row.get("team_code", ""), h=15)
+    p1, p2, p3 = probs.get("p1", 0.0), probs.get("p2", 0.0), probs.get("p3", 0.0)
+    bits = []
+    if stats:
+        if stats.get("rating"):
+            bits.append(f"⭐{stats['rating']:.1f}")
+        if stats.get("xg") is not None:
+            bits.append(f"{stats['xg']:.1f}xG")
+        if stats.get("shots") is not None:
+            bits.append(f"{int(stats['shots'])} sh")
+        if stats.get("is_potm"):
+            bits.append("🏅POTM")
+    if live_pts is not None:
+        bits.append(f"<span class='vl-pts'>{live_pts:g} pts</span>")
+    statline = f'<div class="vl-stats">{" · ".join(bits)}</div>' if bits else ""
+    rk = f'<div class="vl-rank">{rank}</div>' if rank else ""
+    return (f'<div class="vl-card {klass}">{rk}'
+            f'<div class="vl-face">{img}<span class="vl-fl">{fl}</span></div>'
+            f'<div class="vl-nm">{short_name(row["name"])}</div>'
+            f'<div class="vl-tm">{row.get("team", "")} · {row.get("position", "")}</div>'
+            f'<div class="vl-big">{p1 * 100:.0f}%</div><div class="vl-lab">Man of the Match</div>'
+            f'<div class="vl-bar"><span style="width:{min(p1 * 100, 100):.0f}%"></span></div>'
+            f'<div class="vl-sub">2nd {p2 * 100:.0f}% · 3rd {p3 * 100:.0f}%</div>'
+            f'{owner_html}{statline}</div>')
+
+
 def _mini_player(r, tone):
     photo = r.get("photo")
     face = (f'<img class="face" src="{photo}" referrerpolicy="no-referrer" onerror="this.style.opacity=0">'

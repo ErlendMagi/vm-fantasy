@@ -70,6 +70,103 @@ def cum_actual(m):
     return out
 
 
+# ================================================================ LIVE: your players are playing now
+from datetime import datetime as _dtL, timedelta as _tdL, timezone as _tzL
+
+from src import analytics as _an
+
+_nowL = _dtL.now(_tzL.utc)
+
+
+def _koL(fx):
+    return _dtL.fromisoformat(fx["kickoff_utc"].replace("Z", "+00:00"))
+
+
+_liveR = d["next_round"]
+# in-progress = kicked off within the last ~2.75h and not marked finished
+in_prog = ([fx for fx in d["fixtures"]
+            if fx.get("fantasy_round") == _liveR and fx.get("status") != "finished"
+            and _koL(fx) <= _nowL < _koL(fx) + _tdL(hours=2.75)] if proj is not None else [])
+
+# ownership + live fantasy points across the whole league (from members' live rounds)
+owner_of, live_pts = {}, {}
+for _, _m in members.iterrows():
+    _mrd = next((r for r in (_m.get("rounds") or []) if r.get("number") == _liveR), {})
+    for _pid, _v in (_mrd.get("scores") or {}).items():
+        live_pts[_pid] = _v
+    for _pid in (_m.get("squad") or []):
+        owner_of.setdefault(_pid, _m["squad_name"])
+my_squad = set((d["my_team"] or {}).get("squad", []))
+
+
+def _match_pids(fx):
+    return list(proj.index[proj["team"].isin({fx["home"], fx["away"]})]) if proj is not None else []
+
+
+my_live = [fx for fx in in_prog if my_squad & set(_match_pids(fx))]
+any_owned_live = [fx for fx in in_prog if set(owner_of) & set(_match_pids(fx))]
+
+if my_live or any_owned_live:
+    st.markdown(f'### <span class="vl-live"></span> Live now — round {_liveR}', unsafe_allow_html=True)
+    show_all = st.toggle("👀 Show rivals' players & all owners too", value=False,
+                         help="Also surface every owned player in these games, with who owns each one.")
+    _games = sorted(any_owned_live if show_all else (my_live or any_owned_live), key=_koL)
+    live_stats = services.get_live_stats(_games)
+    st.markdown(viz.LIVE_CSS, unsafe_allow_html=True)
+
+    def _own_html(pid):
+        o = owner_of.get(pid)
+        if o == me_name:
+            return '<div class="vl-own" style="color:#00b894">🟢 You</div>'
+        if o:
+            return f'<div class="vl-own" style="color:#74b9ff">{o[:15]}</div>'
+        return '<div class="vl-own" style="color:#7f8c9b">unowned</div>'
+
+    for fx in _games:
+        pids = _match_pids(fx)
+        if not pids:
+            continue
+        sub = proj.loc[pids]
+        probs = _an.motm_probabilities({pid: float(sub.loc[pid, "pts_motm"]) for pid in pids})
+        stats_map = (live_stats.get(fx["match_id"]) or {}).get("players", {})
+        sh, sa = fx.get("score_home"), fx.get("score_away")
+        score = (f'<span class="vl-score">{fx["home"]} {sh}–{sa} {fx["away"]}</span>'
+                 if sh is not None and sa is not None else f'{fx["home"]} vs {fx["away"]}')
+        mins = int((_nowL - _koL(fx)).total_seconds() // 60)
+        clock = f"~{min(mins, 90)}′" + ("+" if mins > 90 else "")
+        st.markdown(f'<div class="vl-wrap"><div class="vl-h"><span class="vl-live"></span>{score}'
+                    f'<span class="vl-clock">{clock}</span></div>', unsafe_allow_html=True)
+
+        mine_here = sorted([p for p in pids if p in my_squad], key=lambda p: -probs[p]["p1"])
+        if mine_here:
+            cards = "".join(viz.live_card(sub.loc[p], probs[p], _own_html(p), "mine",
+                                          live_pts=live_pts.get(p), stats=stats_map.get(p)) for p in mine_here)
+            st.markdown(f'<div style="font-weight:700;margin-top:4px">⚽ Your players here</div>'
+                        f'<div class="vl-row">{cards}</div>', unsafe_allow_html=True)
+
+        top3 = sorted(pids, key=lambda p: -probs[p]["p1"])[:3]
+        cards = "".join(viz.live_card(sub.loc[p], probs[p], _own_html(p), "gold" if i == 0 else "",
+                                      "①②③"[i], live_pts=live_pts.get(p), stats=stats_map.get(p))
+                        for i, p in enumerate(top3))
+        st.markdown(f'<div style="font-weight:700;margin-top:8px">🏅 Man-of-the-Match race '
+                    f'<span style="font-weight:400;color:#9aa7b4;font-size:.85rem">(model odds, live)</span></div>'
+                    f'<div class="vl-row">{cards}</div>', unsafe_allow_html=True)
+
+        if show_all:
+            others = sorted([p for p in pids if p in owner_of and p not in mine_here and p not in top3],
+                            key=lambda p: -probs[p]["p1"])[:12]
+            if others:
+                cards = "".join(viz.live_card(sub.loc[p], probs[p], _own_html(p), "",
+                                              live_pts=live_pts.get(p), stats=stats_map.get(p)) for p in others)
+                st.markdown(f'<div style="font-weight:700;margin-top:8px">Other owned players here</div>'
+                            f'<div class="vl-row">{cards}</div>', unsafe_allow_html=True)
+        st.markdown("</div>", unsafe_allow_html=True)
+    st.caption("Live player stats + Man-of-the-Match odds (the model's standout weights as Plackett-Luce "
+               "probabilities). Real ⭐rating / xG / shots come from FotMob when available; **pts** are live "
+               "fantasy points. This panel only appears while your players are on the pitch.")
+    st.divider()
+
+
 # ---------------------------------------------------------------- the points race (match by match)
 st.subheader("📈 Points race — match by match")
 st.caption("Every step is a match — and only matches where **someone in the league owns a player** "
@@ -85,6 +182,14 @@ live, target = d["next_round"], d["target_round"]
 proj_live, proj_plan = d["proj"], d["proj_plan"]
 team_of = proj_live["team"]   # player id -> team (every player)
 
+_SCOPE = st.radio(
+    "Race view", [f"This round (R{live})", "Live + next round", "Whole tournament (projected finish)"],
+    index=1, horizontal=True, label_visibility="collapsed",
+    help="‘This round’ shows only the live round. ‘Whole tournament’ extends each line to a projected "
+         "FINAL total using rest-of-cup expected value (survival-weighted), so you see who's on track to win.")
+_whole = _SCOPE.startswith("Whole")
+_max_r = live if _SCOPE.startswith("This round") else target
+
 # per-manager per-round detail: lineup, this-round captain, and each player's
 # ACTUAL points — so the race steps per MATCH on real results. Prefer the LIVE
 # feed (updates during matches), fall back to the synced file.
@@ -96,7 +201,7 @@ for _src in (source, league):
             if _rounds:
                 synced.setdefault(_mm["squad_name"], _rounds)
 
-race_matches = sorted([fx for fx in d["fixtures"] if fx.get("fantasy_round") and fx["fantasy_round"] <= target],
+race_matches = sorted([fx for fx in d["fixtures"] if fx.get("fantasy_round") and fx["fantasy_round"] <= _max_r],
                       key=lambda f: f["kickoff_utc"])
 
 # only keep matches some manager actually has players in - those are the only
@@ -131,6 +236,7 @@ def _expected(pid, rnd):
 
 
 fig = go.Figure()
+end_actual = {}   # squad -> cumulative ACTUAL at the last kicked-off match (for the whole-cup projection)
 for _, m in members.iterrows():
     sq = m["squad_name"]
     width = 5 if m["is_me"] else 2
@@ -161,6 +267,7 @@ for _, m in members.iterrows():
                 dy.append(sy[-1])
             dx.append(i)
             dy.append(run)
+    end_actual[sq] = sy[-1] if sy else 0.0
     if sx:
         fig.add_scatter(x=sx, y=sy, customdata=[mlabels[i] for i in sx], mode="lines", name=sq,
                         legendgroup=sq, line=dict(width=width, color=colour[sq], shape="spline", smoothing=0.5),
@@ -170,6 +277,29 @@ for _, m in members.iterrows():
                         legendgroup=sq, showlegend=not sx, opacity=0.75,
                         line=dict(width=width, color=colour[sq], dash="dash", shape="spline", smoothing=0.5),
                         hovertemplate=f"%{{customdata}}<br>{sq} (proj): %{{y:.0f}}<extra></extra>")
+
+# whole-tournament view: extend each line to a projected FINAL total (actual so far
+# + rest-of-cup expected value of their best XI, survival-weighted via xp_tournament)
+if _whole and race_matches:
+    _fxx = len(race_matches) + max(2, len(race_matches) // 8)
+    _proj_rows = []
+    for _, m in members.iterrows():
+        sq = m["squad_name"]
+        op = proj_plan.loc[[i for i in (m.get("squad") or []) if i in proj_plan.index]]
+        rem = optimizer.squad_xp(op, "xp_tournament") if len(op) >= 11 else 0.0
+        ay = end_actual.get(sq, 0.0)
+        fin = ay + rem
+        _proj_rows.append((sq, fin, m["is_me"]))
+        fig.add_scatter(x=[last_played + 0.5 if last_played >= 0 else 0, _fxx], y=[ay, fin],
+                        mode="lines", legendgroup=sq, showlegend=False, opacity=0.7,
+                        line=dict(width=5 if m["is_me"] else 2, color=colour[sq], dash="dot"),
+                        hovertemplate=f"{sq} — projected finish: {fin:.0f}<extra></extra>")
+    for sq, fin, isme in sorted(_proj_rows, key=lambda r: r[1]):
+        fig.add_annotation(x=_fxx, y=fin, text=f"  {fin:.0f} {'🟢' if isme else ''}", showarrow=False,
+                           xanchor="left", font=dict(size=11, color=colour[sq]))
+    fig.add_vrect(x0=len(race_matches) - 0.5, x1=_fxx + 0.5, fillcolor="#0984e3", opacity=0.05, line_width=0)
+    fig.add_annotation(x=(len(race_matches) + _fxx) / 2, y=1.0, yref="paper", text="projected finish",
+                       showarrow=False, font=dict(size=12, color="#74b9ff"), yshift=8)
 
 # round bands + a 'now' line at the latest finished match
 for r in sorted({fx["fantasy_round"] for fx in race_matches}):
@@ -183,12 +313,13 @@ if last_played >= 0:
                   annotation_text="▲ now", annotation_position="top right",
                   annotation_font=dict(color="#d63031", size=12))
 
-fig.update_layout(
-    xaxis=dict(title="Every match any of us has a player in (chronological →)", tickmode="array",
-               tickvals=list(range(len(race_matches))), ticktext=mlabels,
-               tickangle=-55, tickfont=dict(size=9)),
-    yaxis_title="Cumulative points", height=580, legend=dict(orientation="h", y=-0.62),
-    margin=dict(l=10, r=10, t=22, b=150))
+_xaxis = dict(title="Every match any of us has a player in (chronological →)", tickmode="array",
+              tickvals=list(range(len(race_matches))), ticktext=mlabels, tickangle=-55, tickfont=dict(size=9))
+if _whole and race_matches:
+    _xaxis["range"] = [-0.5, len(race_matches) + max(2, len(race_matches) // 8) + 6]
+fig.update_layout(xaxis=_xaxis, yaxis_title="Cumulative points", height=580,
+                  legend=dict(orientation="h", y=-0.62),
+                  margin=dict(l=10, r=70 if _whole else 10, t=22, b=150))
 st.plotly_chart(fig, width="stretch")
 st.caption("Each step is one match, labelled with its **date & kickoff (Oslo time)**. **Solid** lines are "
            "the points your players *actually* scored; **dashed** lines project the upcoming matches. The "

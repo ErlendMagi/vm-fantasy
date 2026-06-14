@@ -18,6 +18,20 @@ proj, my = d["proj_plan"], d["my_team"]
 target, live = d["target_round"], d["next_round"]
 st.caption(f"Everything here plans the **editable round you can still change — round {target}**"
            + (f". Round {live} is locked and scoring live." if target != live else "."))
+
+_ls = services.get_league_state()
+if _ls and _ls.get("regime"):
+    _modes = {
+        "leader": "🛡️ **Leader mode** — you're ahead, so plans favour **covering** rivals' big guns and "
+                  "shedding variance (protect the lead).",
+        "chaser": "⚔️ **Chaser mode** — you're behind, so plans favour **differentials** your rivals don't own "
+                  "and a little more variance (you need swings to catch up).",
+        "coinflip": "⚖️ **Coin-flip** — the race is tight, so plans play the straight expected-points optimum.",
+    }
+    st.info(f"🤖 The autopilot is playing in {_modes.get(_ls['regime'], _ls['regime'])}", icon="🏆")
+    st.caption(f"gap {_ls['gap_to_field']:+.0f} vs the field · ~{_ls['rounds_left']} rounds left · "
+               "transfers, captain and the −4 bar are all tuned to this.")
+
 owned = proj.loc[[i for i in my["squad"] if i in proj.index]]
 
 st.subheader(f"Current squad health — round {target}")

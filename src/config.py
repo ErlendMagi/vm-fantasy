@@ -106,6 +106,19 @@ MAX_ASSIST_SHARE = {"FWD": 0.35, "MID": 0.40, "DEF": 0.25, "GK": 0.05}
 
 # ---------------------------------------------------------------- optimizer
 HIT_MARGIN = 1.0             # safety margin (pts) an extra -4 hit must clear to be taken
+
+# ---------------------------------------------------------------- win-probability play
+# In a small winner-takes-all league the objective is P(finish 1st), not raw EV.
+# These tilt the optimizer by league position: a LEADER suppresses variance and
+# COVERS rivals' big guns; a CHASER manufactures DIFFERENTIAL variance. All small
+# so they only break ties / pay tiny EV for the right risk — never wild moves.
+DIFF_LAMBDA = 0.18           # chaser: reward bringing in low-ownership upside
+COVER_LAMBDA = 0.12          # leader: reward covering rivals' high-ownership players
+K_VAR = 0.12                 # variance tilt per point of round SD (sign set by regime)
+HIT_MARGIN_BY_REGIME = {"leader": 2.5, "coinflip": 1.0, "chaser": 0.3}
+TOTAL_FANTASY_ROUNDS = 8     # 3 group + R32/R16/QF/SF/F
+CAPTAIN_PPLAY_FLOOR = 0.55   # never captain a player below this chance of playing
+CAPTAIN_COVER_BONUS = 0.30   # leader: armband nudge toward a widely-owned star
 MAX_PLAN_TRANSFERS = 6       # cap on transfers searched (covers mass post-group elimination)
 TRANSFER_VALUE_COL = "xp_tournament"  # plan transfers on whole-tournament value (the long game)
 

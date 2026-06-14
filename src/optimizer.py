@@ -46,6 +46,38 @@ def captain_options(squad: pd.DataFrame, xp_col: str = "xp_next", n: int = 3) ->
     return squad.sort_values(xp_col, ascending=False).head(n)[cols]
 
 
+def choose_captain(xi: pd.DataFrame, regime: str | None = None, field_own: dict | None = None,
+                   value_col: str = "xp_next") -> tuple:
+    """Captain + vice for a starting XI. Safety first: never captain a player
+    likely to be benched (the zero-double disaster), and put the vice in a
+    DIFFERENT match so one flat fixture can't kill both. Regime tilt: a leader
+    covers a widely-owned star (neutralises a rival's haul); a chaser allows a
+    higher-ceiling differential. regime=None ≈ availability-weighted argmax."""
+    if xi is None or len(xi) == 0:
+        return None, None
+    field_own = field_own or {}
+    pp = xi.get("p_play", pd.Series(0.85, index=xi.index)).fillna(0.85)
+    base = xi[value_col].clip(lower=0)
+    score = base * pp                                   # availability-weighted EV
+    if regime == "leader" and field_own:
+        own = pd.Series([field_own.get(i, 0.0) for i in xi.index], index=xi.index)
+        score = score + config.CAPTAIN_COVER_BONUS * own * base
+    elif regime == "chaser" and "ceiling" in xi.columns:
+        score = score + 0.25 * xi["ceiling"].clip(lower=0)
+    ok = pp >= config.CAPTAIN_PPLAY_FLOOR
+    pool = score[ok] if ok.any() else score
+    cap = pool.idxmax()
+
+    def _match(i):
+        return (xi.loc[i, "team"], xi.loc[i].get("opponent") if "opponent" in xi.columns else None)
+    cap_match = _match(cap)
+    order = score.drop(index=cap).sort_values(ascending=False)
+    vice = next((i for i in order.index if _match(i) != cap_match and pp.get(i, 0) >= 0.5), None)
+    if vice is None:
+        vice = order.index[0] if len(order) else None
+    return cap, vice
+
+
 def _fast_squad_value(ids: list[str], info: dict[str, tuple]) -> float:
     """Same result as squad_xp but on plain tuples - the transfer search calls
     this ~20k times, so no pandas here. info[pid] = (pos, xp, price, team).
@@ -82,7 +114,8 @@ def _fast_squad_value(ids: list[str], info: dict[str, tuple]) -> float:
 def transfer_plans(players: pd.DataFrame, my_squad_ids: list[str], bank: float,
                    free_transfers: int = config.FREE_TRANSFERS_PER_ROUND,
                    xp_col: str = config.TRANSFER_VALUE_COL, top_n: int = 10,
-                   shortlist_size: int = 14) -> list[dict]:
+                   shortlist_size: int = 14, rival_squads: list[set] | None = None,
+                   regime: str | None = None, hit_margin: float | None = None) -> list[dict]:
     """Plans sorted by net gain = (squad value gain on `xp_col`) - (−4 hits), vs
     no transfers. `xp_col` defaults to whole-tournament value, so swapping out a
     player whose country is likely eliminated correctly counts their lost future
@@ -105,6 +138,26 @@ def transfer_plans(players: pd.DataFrame, my_squad_ids: list[str], bank: float,
     owned_set = set(owned_ids)
     base_value = _fast_squad_value(owned_ids, info)
 
+    # league-aware tilt: cover rivals' stars when ahead, find differentials when behind
+    own_frac = {}
+    if rival_squads:
+        n_r = max(1, len(rival_squads))
+        from collections import Counter
+        _c = Counter(pid for s in rival_squads for pid in s)
+        own_frac = {pid: _c[pid] / n_r for pid in _c}
+    hitm = config.HIT_MARGIN if hit_margin is None else hit_margin
+
+    def league_tilt(outs: list[str], ins: list[str]) -> float:
+        if not own_frac or regime not in ("leader", "chaser"):
+            return 0.0
+        if regime == "chaser":          # reward low-ownership upside in, high-ownership out
+            gi = sum((1 - own_frac.get(i, 0.0)) * info[i][1] for i in ins)
+            go = sum((1 - own_frac.get(o, 0.0)) * info[o][1] for o in outs)
+            return config.DIFF_LAMBDA * (gi - go)
+        gi = sum(own_frac.get(i, 0.0) * info[i][1] for i in ins)   # leader: cover rivals' picks
+        go = sum(own_frac.get(o, 0.0) * info[o][1] for o in outs)
+        return config.COVER_LAMBDA * (gi - go)
+
     def hit_cost(n_transfers: int) -> int:
         return max(0, n_transfers - free_transfers) * config.EXTRA_TRANSFER_COST
 
@@ -126,17 +179,18 @@ def transfer_plans(players: pd.DataFrame, my_squad_ids: list[str], bank: float,
         new_ids = [pid for pid in owned_ids if pid not in outs] + ins
         value = _fast_squad_value(new_ids, info)
         cost = hit_cost(len(outs))
+        net = round(value - cost - base_value, 2)
         return {
             "outs": [(players.loc[o, "name"], players.loc[o, "team"]) for o in outs],
             "ins": [(players.loc[i, "name"], players.loc[i, "team"]) for i in ins],
             "out_ids": outs, "in_ids": ins,
             "n_transfers": len(outs), "hit_cost": cost,
-            "net_gain": round(value - cost - base_value, 2),
+            "net_gain": net, "league_gain": round(net + league_tilt(outs, ins), 2),
             "new_bank": round(bank + out_price - in_price, 1),
         }
 
     plans = [{"outs": [], "ins": [], "out_ids": [], "in_ids": [], "n_transfers": 0,
-              "hit_cost": 0, "net_gain": 0.0, "new_bank": round(bank, 1)}]
+              "hit_cost": 0, "net_gain": 0.0, "league_gain": 0.0, "new_bank": round(bank, 1)}]
 
     singles: list[dict] = []
     for out_id in owned.index:
@@ -160,12 +214,13 @@ def transfer_plans(players: pd.DataFrame, my_squad_ids: list[str], bank: float,
             if plan:
                 plans.append(plan)
 
-    plans.sort(key=lambda p: p["net_gain"], reverse=True)
+    _key = "league_gain" if regime in ("leader", "chaser") else "net_gain"
+    plans.sort(key=lambda p: p[_key], reverse=True)
 
     # Greedily extend toward more transfers (each an extra -4 hit). Keep adding
     # the best marginal single swap while it raises the net (post-hit) gain by
-    # more than HIT_MARGIN - this is the -4 ROI simulation, and it stacks when
-    # several teams are eliminated at once (post-group reshuffle).
+    # more than the (regime-tuned) hit margin - the -4 ROI simulation. A leader
+    # demands a fat margin (protect the cushion); a chaser takes hits readily.
     anchor = next((p for p in plans if p["n_transfers"] == 2), None) or plans[0]
     while anchor["n_transfers"] < config.MAX_PLAN_TRANSFERS:
         remaining = [i for i in owned.index if i not in anchor["out_ids"]]
@@ -178,11 +233,23 @@ def transfer_plans(players: pd.DataFrame, my_squad_ids: list[str], bank: float,
                 ext = evaluate(anchor["out_ids"] + [out_id], anchor["in_ids"] + [in_id])
                 if ext and (best_ext is None or ext["net_gain"] > best_ext["net_gain"]):
                     best_ext = ext
-        if best_ext and best_ext["net_gain"] > anchor["net_gain"] + config.HIT_MARGIN:
+        if best_ext and best_ext["net_gain"] > anchor["net_gain"] + hitm:
             plans.append(best_ext)
             anchor = best_ext
         else:
             break
 
-    plans.sort(key=lambda p: p["net_gain"], reverse=True)
+    plans.sort(key=lambda p: p[_key], reverse=True)
+    # variance tilt: shed round-SD when leading, buy it when chasing (top plans only)
+    if regime in ("leader", "chaser"):
+        from src import analytics as _an
+        sign = -1.0 if regime == "leader" else 1.0
+        head = max(top_n * 2, 12)
+        for p in plans[:head]:
+            new_ids = [pid for pid in owned_ids if pid not in p["out_ids"]] + p["in_ids"]
+            rows = players.loc[[i for i in new_ids if i in players.index]]
+            xi = best_xi(rows, "xp_next")
+            sd = _an.xi_sd(rows.loc[[i for i in xi["xi_ids"] if i in rows.index]], xi["captain_id"])
+            p["adj_gain"] = round(p["league_gain"] + sign * config.K_VAR * sd, 2)
+        plans[:head] = sorted(plans[:head], key=lambda p: p.get("adj_gain", p["league_gain"]), reverse=True)
     return plans[:top_n]

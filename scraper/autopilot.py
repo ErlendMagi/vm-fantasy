@@ -85,6 +85,21 @@ def main() -> None:
     adv = advancement.advancement_table(fixtures, match_odds, outrights)
     p_plays = advancement.p_plays_lookup(adv)
     proj = projections.project(players, fixtures, match_odds, outrights, completed, next_rnd, p_plays)
+    from src import analytics, config
+    proj = analytics.add_kpis(proj)
+
+    # league position -> play for P(win): cover rivals when ahead, differentiate
+    # when behind, tune the captain + the −4 bar to the regime. Best-effort.
+    regime, rivals, field_own, hit_margin = None, None, None, None
+    ls = analytics.league_state(data_access.load_league(), my_team.get("squad_name"), completed)
+    if ls:
+        risk = analytics.squad_risk(proj, my_team["squad"], None, "xp_next",
+                                    gap_to_field=ls["gap_to_field"], rounds_left=ls["rounds_left"])
+        regime = risk["regime"] if risk else None
+        rivals = ls["rival_squads"]
+        field_own = analytics.field_ownership(rivals)
+        hit_margin = config.HIT_MARGIN_BY_REGIME.get(regime)
+        print(f"league regime: {regime} (gap {ls['gap_to_field']:+d} vs field, {ls['rounds_left']} rounds left)")
 
     if ti.get("unlimitedTransfers"):
         print("transfers are unlimited - rebuilding the optimal squad from scratch")
@@ -92,7 +107,8 @@ def main() -> None:
         target_ids = res["squad_ids"]
     else:
         free = my_team["free_transfers"]
-        plans = optimizer.transfer_plans(proj, my_team["squad"], my_team["bank"], free_transfers=free)
+        plans = optimizer.transfer_plans(proj, my_team["squad"], my_team["bank"], free_transfers=free,
+                                         rival_squads=rivals, regime=regime, hit_margin=hit_margin)
         best = plans[0]
         if best["n_transfers"] == 0:
             print("best plan: keep the squad (no transfer clears the bar) - refreshing lineup/captain only")
@@ -104,7 +120,7 @@ def main() -> None:
                   f"(+{best['net_gain']} projected)")
         target_ids = [p for p in my_team["squad"] if p not in best["out_ids"]] + best["in_ids"]
 
-    t = compose_lineup(proj, target_ids)
+    t = compose_lineup(proj, target_ids, regime=regime, field_own=field_own)
     print_team(t, proj)
 
     if not args.confirm:

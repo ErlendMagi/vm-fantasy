@@ -44,7 +44,15 @@ def main() -> None:
     proj = analytics.add_kpis(proj)
 
     owned = proj.loc[[i for i in my["squad"] if i in proj.index]]
-    t = compose_lineup(proj, list(owned.index))
+    regime, field_own = None, None
+    ls = analytics.league_state(data_access.load_league(), my.get("squad_name"), completed)
+    if ls:
+        risk = analytics.squad_risk(proj, my["squad"], None, "xp_next",
+                                    gap_to_field=ls["gap_to_field"], rounds_left=ls["rounds_left"])
+        regime = risk["regime"] if risk else None
+        field_own = analytics.field_ownership(ls["rival_squads"])
+        print(f"league regime: {regime} (gap {ls['gap_to_field']:+d}, {ls['rounds_left']} rounds left)")
+    t = compose_lineup(proj, list(owned.index), regime=regime, field_own=field_own)
     cap, vice = t["captainId"], t["viceCaptainId"]
 
     def nm(pid):

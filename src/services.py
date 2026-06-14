@@ -73,13 +73,41 @@ def get_data() -> dict:
     return {**_bundle(sig), **_computed(sig, _weather_bucket())}
 
 
+def _regime_for(sig: tuple, weather_bucket: str, squad: tuple):
+    """League regime (leader/chaser/coinflip) + rival squads from the synced
+    standings, so transfers play for P(win) not just EV. Returns (regime, rivals,
+    hit_margin, state) or (None, None, None, None) when there's no league yet."""
+    from src import analytics
+    b = _bundle(sig)
+    my = b["my_team"] or {}
+    ls = analytics.league_state(data_access.load_league(), my.get("squad_name"), b["completed"])
+    if not ls:
+        return None, None, None, None
+    risk = analytics.squad_risk(_computed(sig, weather_bucket)["proj"], list(squad), None, "xp_next",
+                                gap_to_field=ls["gap_to_field"], rounds_left=ls["rounds_left"])
+    regime = risk["regime"] if risk else "coinflip"
+    return regime, ls["rival_squads"], config.HIT_MARGIN_BY_REGIME.get(regime), {**ls, "regime": regime,
+            "regime_msg": (risk or {}).get("regime_msg", "")}
+
+
 @st.cache_data(show_spinner="Searching transfer plans (single + double swaps)...")
 def _plans(sig: tuple, weather_bucket: str, squad: tuple, bank: float, free: int) -> list[dict]:
     from src import optimizer
     # transfers apply to the EDITABLE round you can still change (proj_plan),
-    # NOT the live round that's already locked and scoring.
+    # NOT the live round that's already locked and scoring. Ranked for P(win):
+    # cover rivals when ahead, differentiate when behind, tune the −4 bar by regime.
     proj = _computed(sig, weather_bucket)["proj_plan"]
-    return optimizer.transfer_plans(proj, list(squad), bank, free_transfers=free)
+    regime, rivals, hit_margin, _ = _regime_for(sig, weather_bucket, squad)
+    return optimizer.transfer_plans(proj, list(squad), bank, free_transfers=free,
+                                    rival_squads=rivals, regime=regime, hit_margin=hit_margin)
+
+
+def get_league_state() -> dict | None:
+    """The autopilot's current league regime + gap, for display."""
+    sig = _data_sig()
+    my = (_bundle(sig)["my_team"] or {})
+    _, _, _, state = _regime_for(sig, _weather_bucket(), tuple(my.get("squad", [])))
+    return state
 
 
 def get_transfer_plans(squad: list[str], bank: float, free: int) -> list[dict]:

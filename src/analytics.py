@@ -37,6 +37,46 @@ def add_kpis(proj: pd.DataFrame) -> pd.DataFrame:
     return out
 
 
+def league_state(league: dict | None, my_squad_name: str, completed_rounds: list | None) -> dict | None:
+    """Where you stand vs the field, for win-probability play. Returns the gap to
+    the best rival, rounds left, and the rivals' squads (for differential/cover)."""
+    members = [m for L in (league or {}).get("leagues", []) for m in L.get("members", [])]
+    me = next((m for m in members if m.get("squad_name") == my_squad_name), None)
+    if me is None:
+        return None
+    my_total = me.get("total_points", 0) or 0
+    rivals = [m for m in members if m.get("squad_name") != my_squad_name and (m.get("squad") or m.get("rounds"))]
+    rival_totals = [m.get("total_points", 0) or 0 for m in rivals]
+    best_rival = max(rival_totals) if rival_totals else my_total
+    rival_squads = [set(m.get("squad") or []) for m in rivals if m.get("squad")]
+    rounds_left = max(1, config.TOTAL_FANTASY_ROUNDS - len(completed_rounds or []))
+    return {"my_total": my_total, "best_rival": best_rival, "gap_to_field": my_total - best_rival,
+            "rounds_left": rounds_left, "rival_squads": rival_squads, "n_rivals": len(rivals)}
+
+
+def field_ownership(rival_squads: list[set]) -> dict:
+    """player id -> fraction of rivals owning that player (0..1)."""
+    if not rival_squads:
+        return {}
+    n = len(rival_squads)
+    from collections import Counter
+    c = Counter(pid for s in rival_squads for pid in s)
+    return {pid: c[pid] / n for pid in c}
+
+
+def xi_sd(xi: pd.DataFrame, captain_id=None) -> float:
+    """Std-dev of a starting XI's round total: secure points are steady, event
+    points (goals/assists/MotM) are lumpy; the captain's contribution is squared."""
+    mult = pd.Series(1.0, index=xi.index)
+    if captain_id is not None and captain_id in mult.index:
+        mult[captain_id] = float(config.CAPTAIN_MULTIPLIER)
+    secure = (xi["pts_appear"] + xi["pts_cs"] + xi["pts_saves"] + xi["pts_concede"]
+              + 0.5 * xi["pts_duty"]).clip(lower=0)
+    event = (xi["pts_goals"] + xi["pts_assists"] + xi["pts_motm"]).clip(lower=0)
+    ppe = xi["position"].map(config.SCORING["goal"]).fillna(5.0)
+    return float(((0.5 * secure + 1.0 * ppe * event) * (mult ** 2)).sum() ** 0.5)
+
+
 def live_motm_weight(stats: dict | None) -> float:
     """Standout weight from LIVE match stats — what actually decides Man of the
     Match: the FotMob rating first, then goals/assists, with the awarded POTM
@@ -137,13 +177,7 @@ def squad_risk(proj: pd.DataFrame, squad_ids: list[str], captain_id=None,
 
     cs_share = float((x["pts_cs"] * mult).sum() / total)
 
-    # per-player variance proxy: secure points are steady, event points lumpy
-    secure = (x["pts_appear"] + x["pts_cs"] + x["pts_saves"] + x["pts_concede"]
-              + 0.5 * x["pts_duty"]).clip(lower=0)
-    event = (x["pts_goals"] + x["pts_assists"] + x["pts_motm"]).clip(lower=0)
-    ppe = x["position"].map(config.SCORING["goal"]).fillna(5.0)
-    var_i = (0.5 * secure + 1.0 * ppe * event) * (mult ** 2)   # Var(2X)=4Var(X) for captain
-    sd_round = float(var_i.sum() ** 0.5)
+    sd_round = xi_sd(x, cap)            # secure steady / event lumpy / captain squared
     cv = sd_round / total if total else 0.0
 
     floor_sum = float((x["floor"] * mult).sum())

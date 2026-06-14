@@ -42,21 +42,29 @@ def build_target(value_col: str) -> dict:
     return {**compose_lineup(proj, res["squad_ids"]), "proj": proj, "res": res, "value_col": value_col}
 
 
-def compose_lineup(proj, squad_ids: list[str]) -> dict:
+def compose_lineup(proj, squad_ids: list[str], regime=None, field_own=None) -> dict:
     """Best XI + captain/vice + ordered bench for a given 15 - the full write
-    payload fields. Shared by apply_team and autopilot."""
+    payload fields. Shared by apply_team and autopilot. Captain/vice come from
+    optimizer.choose_captain: never an at-risk-of-benching captain, vice always in
+    a DIFFERENT match, and a regime tilt (cover when ahead, differential when behind)."""
     xi = optimizer.best_xi(proj.loc[squad_ids], "xp_next")
     starters = xi["xi_ids"]
     bench = [p for p in squad_ids if p not in starters]
     # bench order: backup GK first, then outfield by descending next-round xP
     bench.sort(key=lambda i: (proj.loc[i, "position"] != "GK", -proj.loc[i, "xp_next"]))
-    xi_by_xp = proj.loc[starters].sort_values("xp_next", ascending=False)
+    xidf = proj.loc[[s for s in starters if s in proj.index]]
+    cap, vice = optimizer.choose_captain(xidf, regime, field_own, "xp_next")
+    if cap is None:
+        cap = xi["captain_id"]
+    if vice is None:
+        by_xp = xidf.sort_values("xp_next", ascending=False)
+        vice = by_xp.index[1] if len(by_xp) > 1 else cap
     return {
         "playerIds": squad_ids,
         "starterIds": starters,
         "benchIds": bench,
-        "captainId": xi["captain_id"],
-        "viceCaptainId": xi_by_xp.index[1],
+        "captainId": cap,
+        "viceCaptainId": vice,
         "formation": xi["formation"],
     }
 

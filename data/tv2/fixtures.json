@@ -166,8 +166,8 @@
    "away": "Morocco",
    "kickoff_utc": "2026-06-13T22:00:00.000Z",
    "venue_id": "New York/New Jersey (East Rutherford)",
-   "status": "scheduled",
-   "score_home": 0,
+   "status": "finished",
+   "score_home": 1,
    "score_away": 1
   },
   {
@@ -179,9 +179,9 @@
    "away": "Scotland",
    "kickoff_utc": "2026-06-14T01:00:00.000Z",
    "venue_id": "Boston (Foxborough)",
-   "status": "scheduled",
-   "score_home": null,
-   "score_away": null
+   "status": "finished",
+   "score_home": 0,
+   "score_away": 1
   },
   {
    "match_id": "M015",
@@ -258,8 +258,8 @@
    "kickoff_utc": "2026-06-14T04:00:00.000Z",
    "venue_id": "Vancouver",
    "status": "scheduled",
-   "score_home": null,
-   "score_away": null
+   "score_home": 2,
+   "score_away": 0
   },
   {
    "match_id": "M021",

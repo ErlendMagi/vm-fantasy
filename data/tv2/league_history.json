@@ -1,7 +1,7 @@
 {
  "rounds": {
   "2": {
-   "synced_at": "2026-06-14T04:40:34.242614+00:00",
+   "synced_at": "2026-06-14T08:43:20.197658+00:00",
    "members": {
     "Erlend er best": {
      "manager": "Erlend",
@@ -37,7 +37,7 @@
      ],
      "captain_id": "8984e3ae-fd88-484b-8fb4-470f2bcb2f6c",
      "formation": "5-4-1",
-     "total_points": 13
+     "total_points": 15
     },
     "Republikken Jonaland": {
      "manager": "Jonathan",

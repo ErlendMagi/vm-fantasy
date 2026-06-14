@@ -2,10 +2,10 @@
  "rounds": {
   "1": {
    "expected": 52.2,
-   "actual": 15,
-   "played": 4,
+   "actual": 16,
+   "played": 9,
    "starters": 11,
-   "updated_at": "2026-06-14T16:15:43.861748+00:00"
+   "updated_at": "2026-06-14T18:06:07.428469+00:00"
   }
  }
 }

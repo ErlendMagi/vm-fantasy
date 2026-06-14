@@ -58,6 +58,16 @@ ROTATION_KO_FACTOR = 0.35      # knockout stages: low (one-off games, best XI)
 LINEUP_WINDOW_HOURS = 8                                      # only fixtures within the deadline window
 LINEUP_PSTART = {"start": 0.95, "bench": 0.35, "out": 0.05}            # CONFIRMED XI
 PREDICTED_LINEUP_PSTART = {"start": 0.85, "bench": 0.45, "out": 0.20}  # PREDICTED XI (softer)
+
+# Learned calibration: scale projected xP toward realised points each round,
+# HEAVILY shrunk so a tiny sample barely moves it. The global scale is purely
+# multiplicative (leaves every ranking/argmax unchanged — only fixes absolute
+# point units that the −4 bar and regime bands depend on); the positional layer
+# is mean-normalised so it only re-weights ACROSS GK/DEF/MID/FWD.
+CALIBRATION_K0 = 33                          # global shrink (~3 rounds of an 11-man XI)
+CALIBRATION_BOUNDS = (0.6, 1.4)
+POSITION_CALIBRATION_K = 20
+POSITION_CALIBRATION_BOUNDS = (0.8, 1.25)
 # MotM modelling: each match distributes 6 bonus points (3+2+1). Research on
 # 2022 WC MotM awards: heavily attacker-biased (~28 FWD / 22 MID / 9 GK / 5 DEF
 # of 64) - a defender essentially only wins it by scoring. So the standout

@@ -320,7 +320,8 @@ def project(players: pd.DataFrame, fixtures: list[dict], match_odds: dict | None
             outrights: dict | None, completed: list[int], next_rnd: int,
             p_plays: dict[tuple[str, int], float] | None = None,
             temp_fn=weather.apparent_temp_at_kickoff,
-            player_odds: dict | None = None, lineups: dict | None = None) -> pd.DataFrame:
+            player_odds: dict | None = None, lineups: dict | None = None,
+            calibration: dict | None = None) -> pd.DataFrame:
     """Adds xp_next, xp_after, xp_horizon, xp_tournament (+ detail columns)."""
     stadiums = data_access.load_stadiums()
     climate = data_access.load_climate()
@@ -387,14 +388,19 @@ def project(players: pd.DataFrame, fixtures: list[dict], match_odds: dict | None
                 raw.loc[g.index] = g["xp_base"] + config.MOTM_POINTS_PER_MATCH * g["w"] / max(g["w"].sum(), 1e-9) / 2
         per_match[label] = raw
 
-    # dynamic form: blend the odds prior with observed fantasy points so far
+    # dynamic form: blend the odds prior with observed fantasy points so far,
+    # then the learned calibration scale (global level + per-position re-weight)
     prior_ppm = (per_match["next"] + per_match["after"]) / 2.0
     form = player_profile.form_multiplier(df, completed, prior_ppm)
     out["form_mult"] = form
+    cal = calibration if calibration is not None else data_access.load_calibration()
+    cal_mult = float(cal.get("global_scale", 1.0)) * df["position"].map(
+        lambda p, ps=(cal.get("positional") or {}): ps.get(p, 1.0))
+    adj = form * cal_mult
     for label in ("next", "after"):
-        per_match[label] = per_match[label] * form
+        per_match[label] = per_match[label] * adj
     if comps_next is not None:
-        comps_next = comps_next.mul(form, axis=0)
+        comps_next = comps_next.mul(adj, axis=0)
         for col in component_cols:
             out[col] = comps_next[col]
 

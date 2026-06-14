@@ -12,7 +12,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-from src import advancement, analytics, data_access, optimizer, projections  # noqa: E402
+from src import advancement, analytics, config, data_access, optimizer, projections  # noqa: E402
 
 HIST = ROOT / "data" / "tv2" / "rating_history.json"
 ACC = ROOT / "data" / "tv2" / "model_accuracy.json"
@@ -36,25 +36,78 @@ def _record_accuracy(proj, my, live_round: int) -> None:
     capid = rd.get("captain_id")
     if not starters:
         return
-    expected = round(sum(
-        (float(proj.loc[pid, "xp_next"]) if pid in proj.index else 0.0) * (2 if pid == capid else 1)
-        for pid in starters), 1)
+    scores = rd.get("scores") or {}
+
+    def xp_of(pid, cap=True):
+        x = float(proj.loc[pid, "xp_next"]) if pid in proj.index else 0.0
+        return x * (2 if (cap and pid == capid) else 1)
+
+    expected = round(sum(xp_of(p) for p in starters), 1)                 # full XI
+    expected_played = round(sum(xp_of(p) for p in starters if p in scores), 1)  # finished games only
     actual = rd.get("points")
-    played = sum(1 for v in (rd.get("scores") or {}).values() if v is not None)
+    played = sum(1 for v in scores.values() if v is not None)
+    finalized = played >= len(starters)
+    # per-position expected vs actual (captain un-doubled, for a clean level signal)
+    by_pos = {}
+    for p in starters:
+        pos = proj.loc[p, "position"] if p in proj.index else "?"
+        d = by_pos.setdefault(pos, {"expected": 0.0, "actual": 0.0, "n": 0})
+        d["expected"] += xp_of(p, cap=False)
+        if scores.get(p) is not None:
+            d["actual"] += scores[p] / (2 if p == capid else 1)
+            d["n"] += 1
+    by_pos = {k: {"expected": round(v["expected"], 2), "actual": round(v["actual"], 2), "n": v["n"]}
+              for k, v in by_pos.items()}
 
     acc = data_access.load_model_accuracy()
     rounds = acc.setdefault("rounds", {})
     entry = rounds.get(str(live_round), {})
-    # lock the expected at first sight; keep updating the actual as games finish
-    entry.setdefault("expected", expected)
+    entry.setdefault("expected", expected)          # legacy locked field (My Team chart)
+    entry["expected_full"] = expected
+    entry["expected_played"] = expected_played
     entry["actual"] = int(actual) if actual is not None else entry.get("actual", 0)
     entry["played"] = played
     entry["starters"] = len(starters)
+    entry["finalized"] = finalized
+    entry["by_pos"] = by_pos
     entry["updated_at"] = datetime.now(timezone.utc).isoformat()
     rounds[str(live_round)] = entry
     ACC.write_text(json.dumps(acc, indent=1), encoding="utf-8")
-    print(f"model accuracy r{live_round}: expected {entry['expected']} | actual {entry['actual']} "
-          f"({played}/{len(starters)} played)")
+    print(f"model accuracy r{live_round}: expected {expected} (played {expected_played}) | "
+          f"actual {entry['actual']} ({played}/{len(starters)} played, finalized={finalized})")
+    _update_calibration(acc)
+
+
+def _update_calibration(acc: dict) -> None:
+    """Learn a global + positional xP scale from FINALISED rounds (every fielded
+    starter's match finished), heavily shrunk toward 1.0 so a tiny sample is safe.
+    Global = sum(actual)/sum(expected_played); positional re-weights relative to it."""
+    fin = [v for v in acc.get("rounds", {}).values() if v.get("finalized")]
+    sum_exp = sum(v.get("expected_played", v.get("expected", 0)) for v in fin)
+    sum_act = sum(v.get("actual", 0) for v in fin)
+    n = sum(v.get("starters", 0) for v in fin)                 # player-rounds of evidence
+    if not fin or sum_exp <= 0:
+        print("calibration: no finalised rounds yet - staying at 1.0")
+        return
+    raw = sum_act / sum_exp
+    g = (n * raw + config.CALIBRATION_K0) / (n + config.CALIBRATION_K0)
+    lo, hi = config.CALIBRATION_BOUNDS
+    g = min(hi, max(lo, g))
+    pos_scale = {}
+    plo, phi = config.POSITION_CALIBRATION_BOUNDS
+    for pos in ("GK", "DEF", "MID", "FWD"):
+        pe = sum((v.get("by_pos", {}).get(pos, {}) or {}).get("expected", 0) for v in fin)
+        pa = sum((v.get("by_pos", {}).get(pos, {}) or {}).get("actual", 0) for v in fin)
+        npr = sum((v.get("by_pos", {}).get(pos, {}) or {}).get("n", 0) for v in fin)
+        if pe > 0 and npr > 0:
+            rel = (pa / pe) / raw                              # position level vs the global level
+            ps = (npr * rel + config.POSITION_CALIBRATION_K) / (npr + config.POSITION_CALIBRATION_K)
+            pos_scale[pos] = round(min(phi, max(plo, ps)), 3)
+    cal = {"global_scale": round(g, 3), "positional": pos_scale, "raw": round(raw, 3),
+           "n_finalized_rounds": len(fin), "updated_at": datetime.now(timezone.utc).isoformat()}
+    (ROOT / "data" / "tv2" / "calibration.json").write_text(json.dumps(cal, indent=1), encoding="utf-8")
+    print(f"calibration: global {cal['global_scale']} (raw {cal['raw']}, {len(fin)} finalised round(s)) "
+          f"| positional {pos_scale}")
 
 
 def main() -> None:

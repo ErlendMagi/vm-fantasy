@@ -115,6 +115,12 @@ def load_predicted_lineups() -> dict:
     return _read_json(config.TV2_DIR / "predicted_lineups.json") or {"players": {}}
 
 
+def load_calibration() -> dict:
+    """Learned global + positional xP scale from realised results. Written by
+    record_rating.py; defaults to a no-op (1.0) when there's nothing to learn."""
+    return _read_json(config.TV2_DIR / "calibration.json") or {"global_scale": 1.0, "positional": {}}
+
+
 def load_duties() -> dict[str, dict]:
     data = _read_json(config.STATIC_DIR / "duties.json")
     return (data or {}).get("duties", {})

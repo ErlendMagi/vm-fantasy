@@ -92,14 +92,41 @@ def _regime_for(sig: tuple, weather_bucket: str, squad: tuple):
 
 @st.cache_data(show_spinner="Searching transfer plans (single + double swaps)...")
 def _plans(sig: tuple, weather_bucket: str, squad: tuple, bank: float, free: int) -> list[dict]:
-    from src import optimizer
-    # transfers apply to the EDITABLE round you can still change (proj_plan),
-    # NOT the live round that's already locked and scoring. Ranked for P(win):
-    # cover rivals when ahead, differentiate when behind, tune the −4 bar by regime.
-    proj = _computed(sig, weather_bucket)["proj_plan"]
-    regime, rivals, hit_margin, _ = _regime_for(sig, weather_bucket, squad)
-    return optimizer.transfer_plans(proj, list(squad), bank, free_transfers=free,
-                                    rival_squads=rivals, regime=regime, hit_margin=hit_margin, cover=True)
+    from src import analytics, optimizer, rank_sim
+    # transfers apply to the EDITABLE round you can still change (proj_plan), NOT
+    # the live round. Heuristic search first, then a principled re-rank by the
+    # ACTUAL objective: simulated P(you finish 1st) vs the field's real squads.
+    comp = _computed(sig, weather_bucket)
+    proj, fx = comp["proj_plan"], comp["fixtures_plan"]
+    regime, rivals, hit_margin, state = _regime_for(sig, weather_bucket, squad)
+    plans = optimizer.transfer_plans(proj, list(squad), bank, free_transfers=free,
+                                     rival_squads=rivals, regime=regime, hit_margin=hit_margin, cover=True)
+    if rivals and fx:
+        fo = analytics.field_effective_ownership(rivals, (state or {}).get("rival_captains"))
+        plans = rank_sim.rank_plans_by_win(proj, plans, list(squad), rivals,
+                                           (state or {}).get("rival_captains"), regime=regime,
+                                           field_own=fo, fixtures=fx)
+    return plans
+
+
+@st.cache_data(ttl=180, show_spinner=False)
+def _win_prob(sig: tuple, weather_bucket: str, squad: tuple) -> float | None:
+    from src import rank_sim
+    comp = _computed(sig, weather_bucket)
+    proj, fx = comp["proj_plan"], comp["fixtures_plan"]
+    _, rivals, _, state = _regime_for(sig, weather_bucket, squad)
+    if not rivals or not fx:
+        return None
+    ranked = rank_sim.rank_plans_by_win(proj, [{"out_ids": [], "in_ids": []}], list(squad), rivals,
+                                        (state or {}).get("rival_captains"), fixtures=fx)
+    return ranked[0].get("p_win") if ranked else None
+
+
+def get_win_probability() -> float | None:
+    """Monte-Carlo P(your current squad finishes the next round 1st of the league)."""
+    sig = _data_sig()
+    my = _bundle(sig)["my_team"] or {}
+    return _win_prob(sig, _weather_bucket(), tuple(my.get("squad", [])))
 
 
 def get_league_state() -> dict | None:

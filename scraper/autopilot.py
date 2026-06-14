@@ -110,6 +110,14 @@ def main() -> None:
         free = my_team["free_transfers"]
         plans = optimizer.transfer_plans(proj, my_team["squad"], my_team["bank"], free_transfers=free,
                                          rival_squads=rivals, regime=regime, hit_margin=hit_margin, cover=True)
+        # principled re-rank: pick the plan that maximises simulated P(finish 1st)
+        # vs the field's actual squads (the objective the heuristics approximate)
+        if rivals:
+            from src import rank_sim
+            plans = rank_sim.rank_plans_by_win(proj, plans, my_team["squad"], rivals,
+                                               ls.get("rival_captains"), regime=regime, field_own=field_own)
+            if plans and plans[0].get("p_win") is not None:
+                print(f"win-prob re-rank: best plan P(finish 1st) = {plans[0]['p_win'] * 100:.1f}%")
         best = plans[0]
         # bank a free transfer rather than burn it on a marginal gain — preserves
         # the option to make a 2-move swing next round at no −4 (e.g. dump two

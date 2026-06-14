@@ -88,9 +88,13 @@ def row_of(name, team):
     return proj.loc[id_by_name[(name, team)]]
 
 
+_keep_pw = next((p.get("p_win") for p in plans if p["n_transfers"] == 0), None)
 if best and best["n_transfers"] > 0:
+    _pw = (f" It lifts your **win probability to {best['p_win'] * 100:.0f}%**"
+           + (f" (from {_keep_pw * 100:.0f}% if you keep)." if _keep_pw is not None else ".")
+           if best.get("p_win") is not None else "")
     st.caption(f"Best plan: **+{best['net_gain']:.1f}** points over the rest of the cup"
-               + (f" after a −{best['hit_cost']} hit." if best["hit_cost"] else ".") + f" {auto_note}")
+               + (f" after a −{best['hit_cost']} hit." if best["hit_cost"] else ".") + _pw + f" {auto_note}")
     per = best["net_gain"] / best["n_transfers"]
     for (on, ot), (inn, it) in zip(best["outs"], best["ins"]):
         o_row, i_row = row_of(on, ot), row_of(inn, it)

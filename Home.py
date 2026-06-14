@@ -353,6 +353,14 @@ if last_played < 0:
 
 # ---------------------------------------------------------------- standings (right under the race)
 st.subheader("🏆 Standings")
+_pwin = services.get_win_probability()
+if _pwin is not None:
+    _fair = 1.0 / max(len(members), 1)
+    st.metric("🎲 Your win probability (next round)", f"{_pwin * 100:.0f}%",
+              delta=f"{(_pwin - _fair) * 100:+.0f}% vs an even split",
+              help="Monte-Carlo simulation of the whole next round across all squads (shared match "
+                   "scorelines for correlation), counting how often YOUR total finishes 1st. This is the "
+                   "objective the whole engine optimises — not just points.")
 # expected points each manager still has TO COME in the live round: their starters
 # whose match hasn't kicked off yet (captain ×2). Drops as games kick off.
 _future_teams = set()

@@ -1,7 +1,7 @@
 {
  "rounds": {
   "2": {
-   "synced_at": "2026-06-14T20:13:22.781844+00:00",
+   "synced_at": "2026-06-14T22:00:54.027509+00:00",
    "members": {
     "USTAB IL": {
      "manager": "julle",
@@ -73,7 +73,7 @@
      ],
      "captain_id": "3c1f2aaf-86af-4a0f-a712-9ea9f54fd5ef",
      "formation": "3-4-3",
-     "total_points": 28
+     "total_points": 29
     },
     "Republikken Jonaland": {
      "manager": "Jonathan",
@@ -145,7 +145,7 @@
      ],
      "captain_id": "3c1f2aaf-86af-4a0f-a712-9ea9f54fd5ef",
      "formation": "3-4-3",
-     "total_points": 24
+     "total_points": 23
     },
     "I dont know what I am doing": {
      "manager": "Jostein",

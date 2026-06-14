@@ -42,8 +42,8 @@ def live_motm_weight(stats: dict | None) -> float:
     Match: the FotMob rating first, then goals/assists, with the awarded POTM
     pinned on top. Returns 0 if the player isn't on the pitch (so people who
     aren't playing can't show up as MotM candidates)."""
-    if not stats or (stats.get("minutes") or 0) <= 0:
-        return 0.0
+    if not stats or (stats.get("rating") is None and (stats.get("minutes") or 0) <= 0):
+        return 0.0      # not on the pitch (FotMob omits 'minutes' mid-match, so rating is the tell)
     r = stats.get("rating") or 0.0
     w = (max(0.0, r - 5.0) ** 2.2) if r else 0.3        # rating above average, steepened
     w += 5.0 * (stats.get("goals") or 0) + 3.0 * (stats.get("assists") or 0)

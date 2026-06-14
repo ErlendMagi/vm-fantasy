@@ -163,16 +163,18 @@ def _live_stats(sig: tuple, fixtures_key: tuple) -> dict:
             pmap = {}
             for fm_pid, p in (content.get("playerStats") or {}).items():
                 blocks = p.get("stats") or []
-                minutes = _fm_stat(blocks, "minutes played")
-                if minutes is None:
-                    continue
-                line = {"name": p.get("name"), "team": p.get("teamName"), "minutes": minutes,
+                line = {"name": p.get("name"), "team": p.get("teamName"),
+                        "minutes": _fm_stat(blocks, "minutes played"),
                         "rating": _fm_stat(blocks, "fotmob rating"),
                         "goals": _fm_stat(blocks, "goals", exact=True),
                         "assists": _fm_stat(blocks, "assists", exact=True),
                         "xg": _fm_stat(blocks, "expected goals (xg)"),
                         "shots": _fm_stat(blocks, "total shots"),
                         "is_potm": str(p.get("id")) == str(potm)}
+                # on the pitch = has a live rating (FotMob omits 'minutes' mid-match);
+                # bench players who never came on have neither → skipped
+                if line["rating"] is None and (line["minutes"] or 0) <= 0:
+                    continue
                 cands = by_team.get(data_access.normalize_team(line["team"] or ""), [])
                 best, bpid = 0.6, None
                 for pid, nm in cands:

@@ -123,7 +123,8 @@ if _games:
         return '<div class="vl-own" style="color:#7f8c9b">unowned</div>'
 
     def _playing(p, stats_map, have_fm):
-        return (not have_fm) or bool(stats_map.get(p) and (stats_map[p].get("minutes") or 0) > 0)
+        s = stats_map.get(p)
+        return (not have_fm) or bool(s and (s.get("rating") is not None or (s.get("minutes") or 0) > 0))
 
     for fx in _games:
         ls = live_stats.get(fx["match_id"], {})

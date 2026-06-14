@@ -95,6 +95,16 @@ st.markdown(viz.pitch_html(owned, xi_ids, cap_id, "xp_next", bench, ranks, floor
 st.caption(f"Formation **{_formation}**. Average XI rank: GK #{rating_live['avg_pos_rank']['GK']}, "
            f"DEF #{rating_live['avg_pos_rank']['DEF']}, MID #{rating_live['avg_pos_rank']['MID']}, "
            f"FWD #{rating_live['avg_pos_rank']['FWD']}.")
+# auto-sub cover: a benched starter who doesn't play is replaced by a bench player who did
+_bench_ids = [b for b in bench if b in owned.index]
+_cover = int((owned.loc[_bench_ids, "p_play"] > 0.5).sum()) if _bench_ids else 0
+_rot_starters = int((owned.loc[[i for i in xi_ids if i in owned.index], "rotation_risk"] > 0.05).sum())
+_msg = f"🔁 **Auto-sub cover:** {_cover} of your {len(_bench_ids)} bench are likely to play this round, so a " \
+       "benched starter gets swapped in for one who did play."
+if _rot_starters:
+    _msg += (f" ⚠️ {_rot_starters} of your starters carry rotation risk (lopsided game) — bench cover that "
+             "actually plays is worth more than a cheap fringe bench.")
+st.caption(_msg)
 
 # ---------------------------------------------------------------- rating over time
 st.subheader("📈 Your ratings, day by day")

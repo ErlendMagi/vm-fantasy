@@ -37,6 +37,20 @@ CAPTAIN_MULTIPLIER = 2
 PEN_FACED_PER_MATCH = 0.16
 PEN_SAVE_RATE = 0.22
 PEN_FACED_REF_MU = 1.3      # opponent xG that maps to the base penalties-faced rate
+
+# Blowout rotation: heavy favourites rest regulars, especially in dead-rubber
+# group games. A MODEST haircut on a nailed starter's expected points, scaled by
+# how lopsided the match is (win prob) and the stage. Calibrated low on purpose:
+# stars usually DO start and feast on weak teams, so round 1 / knockouts (best XI
+# fielded) are near-zero; group game 3 (resting before the knockouts) is the real
+# rotation window.
+ROTATION_BASE = 0.16            # max fraction of a nailed starter's value at risk
+ROTATION_MAX = 0.25            # hard cap on the per-player haircut
+ROTATION_NAILED_MIN = 0.62     # only players at least this likely to start carry rotation risk
+ROTATION_PWIN_FLOOR = 0.62     # below this win prob there's no rotation risk
+ROTATION_PWIN_CEIL = 0.93
+ROTATION_GROUP_ROUND = {1: 0.35, 2: 0.55, 3: 1.0}   # within the group stage, by fantasy round
+ROTATION_KO_FACTOR = 0.35      # knockout stages: low (one-off games, best XI)
 # MotM modelling: each match distributes 6 bonus points (3+2+1). Research on
 # 2022 WC MotM awards: heavily attacker-biased (~28 FWD / 22 MID / 9 GK / 5 DEF
 # of 64) - a defender essentially only wins it by scoring. So the standout

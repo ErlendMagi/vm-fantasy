@@ -26,10 +26,14 @@ st.caption(f"All figures are for round {target} (the round you're planning). **P
            "about to stop scoring (elimination risk).")
 sq = owned.sort_values("xp_horizon", ascending=False)
 st.dataframe(
-    sq[["name", "team", "position", "price", "opponent", "heat_mult", "xp_next", "xp_horizon", "p_plays_after"]],
+    sq[["name", "team", "position", "price", "opponent", "heat_mult", "rotation_risk",
+        "xp_next", "xp_horizon", "p_plays_after"]],
     column_config={
         "opponent": st.column_config.TextColumn(f"opp R{target}"),
         "heat_mult": st.column_config.NumberColumn("heat ×", format="%.2f"),
+        "rotation_risk": st.column_config.NumberColumn("rot risk", format="percent",
+                                                       help="Chance this nailed starter is rested in a "
+                                                            "lopsided game — already shaved off xP."),
         "xp_next": st.column_config.NumberColumn(f"xP R{target}", format="%.2f"),
         "xp_horizon": st.column_config.NumberColumn("xP horizon", format="%.2f"),
         "p_plays_after": st.column_config.ProgressColumn(f"P(through to R{target + 1})",

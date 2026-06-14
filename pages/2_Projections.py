@@ -75,6 +75,10 @@ if who:
     with a:
         st.plotly_chart(viz.composition_figure(r, f"Where {viz.short_name(name)}'s points come from (round {target})"),
                         width="stretch", config={"displayModeBar": False})
+        if r.get("rotation_risk", 0) > 0.03:
+            st.caption(f"🔄 **Rotation risk ~{r['rotation_risk'] * 100:.0f}%** — {viz.short_name(name)} is a "
+                       "nailed starter in a lopsided game, so there's a real chance of being rested (the "
+                       "projection already shaves this off).")
     with b:
         if r["id"] in my_ids:
             st.success(f"✅ **{name} is in your team.**")
@@ -143,7 +147,7 @@ with st.expander("🤓 Full data table (all players, all columns)"):
         view.sort_values(value_col, ascending=False)[
             ["name", "team", "position", "price", "ownership_pct", "opponent",
              "pts_goals", "pts_assists", "pts_cs", "pts_motm", "pts_appear", "pts_duty", "form_mult",
-             "xp_next", "xp_tournament", "p_plays_after"]
+             "rotation_risk", "xp_next", "xp_tournament", "p_plays_after"]
         ],
         column_config={
             "ownership_pct": st.column_config.NumberColumn("owned %", format="%.1f"),
@@ -154,6 +158,9 @@ with st.expander("🤓 Full data table (all players, all columns)"):
             "pts_appear": st.column_config.NumberColumn("minutes", format="%.2f"),
             "pts_duty": st.column_config.NumberColumn("duty", format="%.2f"),
             "form_mult": st.column_config.NumberColumn("form ×", format="%.2f"),
+            "rotation_risk": st.column_config.NumberColumn("rot risk", format="percent",
+                                                           help="Chance a nailed starter is rested in a "
+                                                                "lopsided game (blowout rotation)."),
             "opponent": st.column_config.TextColumn(f"opp R{target}"),
             "xp_next": st.column_config.NumberColumn(f"xP R{target}", format="%.2f"),
             "xp_tournament": st.column_config.NumberColumn("xP cup", format="%.1f"),

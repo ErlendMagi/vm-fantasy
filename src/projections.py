@@ -133,8 +133,18 @@ def _distribute(df: pd.DataFrame, total: float, raw_market: dict,
     return out
 
 
+def _rotation_strength(p_win: float, stage: str, rnd: int | None) -> float:
+    """Expected rotation haircut for a NAILED starter in this match — bigger the
+    more lopsided the game (win prob) and the more 'dead-rubber' the stage."""
+    lo, hi = config.ROTATION_PWIN_FLOOR, config.ROTATION_PWIN_CEIL
+    lop = min(1.0, max(0.0, (p_win - lo) / (hi - lo)))
+    sf = config.ROTATION_GROUP_ROUND.get(rnd, 0.55) if stage == "group" else config.ROTATION_KO_FACTOR
+    return min(config.ROTATION_MAX, config.ROTATION_BASE * lop * sf)
+
+
 def _team_xp(df: pd.DataFrame, mu_team: float, mu_opp: float, multiplier: float,
-             player_odds: dict, duties: dict | None = None, full90_p: float = 0.70) -> pd.DataFrame:
+             player_odds: dict, duties: dict | None = None, full90_p: float = 0.70,
+             rot_strength: float = 0.0) -> pd.DataFrame:
     """Base per-player xP for one team in one match (everything except the
     Man-of-the-Match bonus, which needs both teams). Also returns the standout
     weight `w` used to allocate MotM."""
@@ -190,14 +200,29 @@ def _team_xp(df: pd.DataFrame, mu_team: float, mu_opp: float, multiplier: float,
                     pts_duty[idx] += (config.DUTY_PEN_BONUS.get(row["position"], 0.6)
                                       * config.DUTY_RANK_MULT[pen] * row["p_start"] * multiplier)
 
+    # blowout rotation: shave a NAILED starter's expected points in a lopsided
+    # game (they might be rested). Fringe players (low p_start) are untouched —
+    # if anything they'd play MORE when regulars are rested.
+    nailed = (df["p_start"] > config.ROTATION_NAILED_MIN).astype(float)
+    rotation_risk = (rot_strength * nailed).clip(upper=config.ROTATION_MAX)
+    rot_mult = 1.0 - rotation_risk
+    pts_appear = pts_appear * rot_mult
+    pts_goals = pts_goals * rot_mult
+    pts_assists = pts_assists * rot_mult
+    pts_cs = pts_cs * rot_mult
+    pts_concede = pts_concede * rot_mult
+    pts_saves = pts_saves * rot_mult
+    pts_duty = pts_duty * rot_mult
+    pts_tax = pts_tax * rot_mult
     xp_base = pts_appear + pts_goals + pts_assists + pts_cs + pts_concede + pts_saves + pts_duty + pts_tax
 
     # standout weight ~ what wins a high match rating: dominated by attacking
     # output (goals/assists), small per-position prior, GK clean-sheet heroics
     prior = df["position"].map(config.MOTM_POSITION_PRIOR)
-    w = 3.0 * xg + 2.0 * xa + prior * df["p_start"] + 0.4 * p_cs * df["p_start"] * is_gk
+    w = (3.0 * xg + 2.0 * xa + prior * df["p_start"] + 0.4 * p_cs * df["p_start"] * is_gk) * rot_mult
     return pd.DataFrame({
         "xp_base": xp_base, "xg": xg, "xa": xa, "p_cs": p_cs, "heat_mult": multiplier, "w": w,
+        "rotation_risk": rotation_risk,
         "pts_appear": pts_appear, "pts_goals": pts_goals, "pts_assists": pts_assists,
         "pts_cs": pts_cs, "pts_concede": pts_concede, "pts_saves": pts_saves, "pts_duty": pts_duty,
     })
@@ -246,7 +271,8 @@ def project_round(players: pd.DataFrame, fixtures_r: list[dict], mus: dict[str, 
             if tp.empty:
                 continue
             mult = heat.heat_multiplier(temp, climate.get(fx[side], "temperate"), indoor)
-            part = _team_xp(tp, mu_t, mu_o, mult, player_odds, duties, full90_p)
+            rot = _rotation_strength(p_win, stage, fx.get("fantasy_round"))
+            part = _team_xp(tp, mu_t, mu_o, mult, player_odds, duties, full90_p, rot_strength=rot)
             part["opponent"] = fx[opp]
             part["venue"] = fx["venue_id"]
             part["apparent_temp"] = np.nan if temp is None else float(temp)
@@ -265,8 +291,8 @@ def project_round(players: pd.DataFrame, fixtures_r: list[dict], mus: dict[str, 
         fixture_rows.append({**fx, **mu, "apparent_temp": temp, "indoor_ac": indoor,
                              "p_home_win": p_home, "p_away_win": p_away})
 
-    cols = ["xp", "xp_base", "pts_motm", "xg", "xa", "p_cs", "heat_mult", "opponent", "venue",
-            "apparent_temp", "pts_appear", "pts_goals", "pts_assists", "pts_cs", "pts_concede",
+    cols = ["xp", "xp_base", "pts_motm", "xg", "xa", "p_cs", "heat_mult", "rotation_risk", "opponent",
+            "venue", "apparent_temp", "pts_appear", "pts_goals", "pts_assists", "pts_cs", "pts_concede",
             "pts_saves", "pts_duty"]
     if not parts:
         return pd.DataFrame(columns=cols)
@@ -325,8 +351,9 @@ def project(players: pd.DataFrame, fixtures: list[dict], match_odds: dict | None
         proj = project_round(df, fixtures_r, mus, stadiums, climate, player_odds, temp_fn, duties, stage)
         raw = proj["xp"].reindex(out.index).astype(float).fillna(0.0)
         if label == "next":
-            for col in ["xg", "xa", "heat_mult", "opponent", "venue", "apparent_temp"]:
+            for col in ["xg", "xa", "heat_mult", "rotation_risk", "opponent", "venue", "apparent_temp"]:
                 out[col] = proj[col].reindex(out.index)
+            out["rotation_risk"] = out["rotation_risk"].fillna(0.0)
             comps_next = proj.reindex(out.index).reindex(columns=component_cols).fillna(0.0)
             out["motm"] = comps_next["pts_motm"]
             out.attrs["fixtures_next"] = proj.attrs.get("fixtures", [])
@@ -337,7 +364,9 @@ def project(players: pd.DataFrame, fixtures: list[dict], match_odds: dict | None
             avg_s = (sum(strengths.values()) / len(strengths)) if strengths else 1.0
             for team, tp in df[generic].groupby("team"):
                 mu_for, mu_against = _generic_ko_mu(team, strengths, avg_s)
-                g = _team_xp(tp, mu_for, mu_against, 1.0, player_odds, duties, full90_p)
+                _pw = mu_for / (mu_for + mu_against + 1e-9)
+                g = _team_xp(tp, mu_for, mu_against, 1.0, player_odds, duties, full90_p,
+                             rot_strength=_rotation_strength(_pw, stage, rnd))
                 raw.loc[g.index] = g["xp_base"] + config.MOTM_POINTS_PER_MATCH * g["w"] / max(g["w"].sum(), 1e-9) / 2
         per_match[label] = raw
 

@@ -50,7 +50,7 @@ def main() -> None:
         risk = analytics.squad_risk(proj, my["squad"], None, "xp_next",
                                     gap_to_field=ls["gap_to_field"], rounds_left=ls["rounds_left"])
         regime = risk["regime"] if risk else None
-        field_own = analytics.field_ownership(ls["rival_squads"])
+        field_own = analytics.field_effective_ownership(ls["rival_squads"], ls.get("rival_captains"))
         print(f"league regime: {regime} (gap {ls['gap_to_field']:+d}, {ls['rounds_left']} rounds left)")
     t = compose_lineup(proj, list(owned.index), regime=regime, field_own=field_own)
     cap, vice = t["captainId"], t["viceCaptainId"]

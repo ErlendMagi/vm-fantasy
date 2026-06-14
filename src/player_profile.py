@@ -65,6 +65,35 @@ def minutes_start_prob(players: pd.DataFrame, completed: list[int]) -> pd.Series
     return obs if obs.notna().any() else None
 
 
+def observed_attacking(players: pd.DataFrame, completed: list[int]) -> pd.DataFrame:
+    """Observed xG/xA per 90 from FotMob (minutes-weighted, recent-weighted),
+    ignoring cameos. NaN where there's no data yet. Used to sharpen WHO a team's
+    goals/assists go to — real shot volume is steadier than goals themselves."""
+    out = pd.DataFrame(index=players.index)
+    out["xg_per90"] = np.nan
+    out["xa_per90"] = np.nan
+    out["att_games"] = 0
+    from src import data_access
+    store = data_access.load_player_stats().get("rounds", {})
+    if not completed or not store:
+        return out
+    for idx in players.index:
+        xs, as_, mins = [], [], []
+        for r in completed:
+            rec = (store.get(str(r), {}).get("players", {}) or {}).get(idx)
+            if rec and rec.get("minutes") and float(rec["minutes"]) >= 20:   # skip cameos
+                mins.append(float(rec["minutes"]))
+                xs.append(float(rec["xg"]) if rec.get("xg") is not None else np.nan)
+                as_.append(float(rec["xa"]) if rec.get("xa") is not None else np.nan)
+        if mins and np.isfinite(np.nansum(xs + as_)):
+            w = np.linspace(1.0, 1.6, len(mins))                              # recency weight
+            tot = float(np.dot(mins, w))
+            out.loc[idx, "xg_per90"] = float(np.nansum(np.array(xs) * w)) / tot * 90 if tot else np.nan
+            out.loc[idx, "xa_per90"] = float(np.nansum(np.array(as_) * w)) / tot * 90 if tot else np.nan
+            out.loc[idx, "att_games"] = len(mins)
+    return out
+
+
 def form_multiplier(players: pd.DataFrame, completed: list[int], prior_ppm: pd.Series) -> pd.Series:
     """Blend each player's observed points-per-appearance with their model
     prior (per-match xP) via shrinkage; return a bounded multiplier on the

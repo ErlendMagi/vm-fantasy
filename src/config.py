@@ -119,6 +119,15 @@ SUB_BUMP = 0.12            # P(plays at all) over P(starts), for appearance poin
 DUTY_SP_BONUS = 0.75
 DUTY_PEN_BONUS = {"GK": 1.2, "DEF": 0.9, "MID": 0.7, "FWD": 0.6}
 DUTY_RANK_MULT = [1.0, 0.5, 0.35]   # primary, backup, third/shared
+# Observed xG/xA (FotMob): refines WITHIN-team goal/assist attribution toward who
+# is really creating chances — shrunk by games so it's a no-op early, and it only
+# re-weights shares (team total stays odds-driven; level stays form+calibration).
+XG_SHRINKAGE_K = 4.0          # > FORM_SHRINKAGE_K(2.5): attribution moves SLOWER than level
+XG_BOOST_BOUNDS = (0.70, 1.45)   # a strict tilt; downstream MAX_GOAL_SHARE still clamps
+XG_ATTR_MIN_MINUTES = 20      # a round counts only if he actually played
+POSITION_XG_BASELINE = {"FWD": 0.42, "MID": 0.20, "DEF": 0.05, "GK": 0.01}   # typical xG/90
+POSITION_XA_BASELINE = {"FWD": 0.18, "MID": 0.22, "DEF": 0.10, "GK": 0.02}   # typical xA/90
+
 POSITION_GOAL_FACTOR = {"FWD": 1.0, "MID": 0.5, "DEF": 0.15, "GK": 0.0}
 POSITION_ASSIST_FACTOR = {"FWD": 0.6, "MID": 1.0, "DEF": 0.35, "GK": 0.05}
 PRICE_INVOLVEMENT_EXP = 1.5   # weight ~ price^exp: stars take bigger attacking share
@@ -143,6 +152,10 @@ TOTAL_FANTASY_ROUNDS = 8     # 3 group + R32/R16/QF/SF/F
 CAPTAIN_PPLAY_FLOOR = 0.55   # never captain a player below this chance of playing
 CAPTAIN_COVER_BONUS = 0.30   # leader: armband nudge toward a widely-owned star
 COVER_WEIGHT = 0.15          # value a bench that actually plays (real auto-sub cover)
+BANK_THRESHOLD = 1.2         # don't spend a FREE transfer on a smaller gain — bank it
+                             # for a coordinated 2-move swing next round (zero −4)
+CAPTAIN_EO_WEIGHT = 1.0      # weight of rival CAPTAINCY in effective ownership (vs plain own)
+CAPTAIN_CORR_W = 0.10        # captain match-correlation tilt (leader de-stacks / chaser stacks)
 MAX_PLAN_TRANSFERS = 6       # cap on transfers searched (covers mass post-group elimination)
 TRANSFER_VALUE_COL = "xp_tournament"  # plan transfers on whole-tournament value (the long game)
 

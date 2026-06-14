@@ -64,6 +64,13 @@ def choose_captain(xi: pd.DataFrame, regime: str | None = None, field_own: dict 
         score = score + config.CAPTAIN_COVER_BONUS * own * base
     elif regime == "chaser" and "ceiling" in xi.columns:
         score = score + 0.25 * xi["ceiling"].clip(lower=0)
+    # correlation tilt: leader avoids stacking the armband onto an already-heavy
+    # match (variance), chaser embraces it (ceiling)
+    if regime in ("leader", "chaser") and "opponent" in xi.columns:
+        match = {i: frozenset({xi.loc[i, "team"], xi.loc[i].get("opponent")}) for i in xi.index}
+        stack = pd.Series([sum(base[j] for j in xi.index if j != i and match[j] == match[i])
+                           for i in xi.index], index=xi.index)
+        score = score + (-1.0 if regime == "leader" else 1.0) * config.CAPTAIN_CORR_W * stack
     ok = pp >= config.CAPTAIN_PPLAY_FLOOR
     pool = score[ok] if ok.any() else score
     cap = pool.idxmax()

@@ -97,7 +97,8 @@ def main() -> None:
                                     gap_to_field=ls["gap_to_field"], rounds_left=ls["rounds_left"])
         regime = risk["regime"] if risk else None
         rivals = ls["rival_squads"]
-        field_own = analytics.field_ownership(rivals)
+        # captaincy uses EFFECTIVE ownership (own + rivals' captaincy); transfers use plain ownership
+        field_own = analytics.field_effective_ownership(rivals, ls.get("rival_captains"))
         hit_margin = config.HIT_MARGIN_BY_REGIME.get(regime)
         print(f"league regime: {regime} (gap {ls['gap_to_field']:+d} vs field, {ls['rounds_left']} rounds left)")
 
@@ -110,6 +111,16 @@ def main() -> None:
         plans = optimizer.transfer_plans(proj, my_team["squad"], my_team["bank"], free_transfers=free,
                                          rival_squads=rivals, regime=regime, hit_margin=hit_margin, cover=True)
         best = plans[0]
+        # bank a free transfer rather than burn it on a marginal gain — preserves
+        # the option to make a 2-move swing next round at no −4 (e.g. dump two
+        # newly-eliminated teams' players together). Only banks a FREE transfer
+        # whose gain is below the bar; −4 hits are already vetted by HIT_MARGIN.
+        if best["n_transfers"] > 0 and best["hit_cost"] == 0 and best["net_gain"] < config.BANK_THRESHOLD:
+            keep = next((p for p in plans if p["n_transfers"] == 0), None)
+            if keep is not None:
+                print(f"best free transfer gains only {best['net_gain']} (< bank bar {config.BANK_THRESHOLD}) "
+                      "- banking the transfer for a bigger swing next round")
+                best = keep
         if best["n_transfers"] == 0:
             print("best plan: keep the squad (no transfer clears the bar) - refreshing lineup/captain only")
         else:

@@ -167,8 +167,11 @@ def _team_xp(df: pd.DataFrame, mu_team: float, mu_opp: float, multiplier: float,
     weight `w` used to allocate MotM."""
     s = config.SCORING
     involvement = df["price"] ** config.PRICE_INVOLVEMENT_EXP * (1 + df["ppg"] / 4) * df["p_start"]
-    goal_w = df["position"].map(config.POSITION_GOAL_FACTOR) * involvement
-    assist_w = df["position"].map(config.POSITION_ASSIST_FACTOR) * involvement
+    # observed-xG attribution tilt (1.0 when no data / column absent -> exact no-op)
+    xg_boost = df["xg_boost"] if "xg_boost" in df.columns else 1.0
+    xa_boost = df["xa_boost"] if "xa_boost" in df.columns else 1.0
+    goal_w = df["position"].map(config.POSITION_GOAL_FACTOR) * involvement * xg_boost
+    assist_w = df["position"].map(config.POSITION_ASSIST_FACTOR) * involvement * xa_boost
 
     market_goal_idx = set(_market_lambdas(df, player_odds, "anytime_goal"))
     xg = _distribute(df, mu_team, _market_lambdas(df, player_odds, "anytime_goal"),
@@ -338,6 +341,22 @@ def project(players: pd.DataFrame, fixtures: list[dict], match_odds: dict | None
     df = start_probabilities(players, completed, lineups, next_rnd)
     df["ppg"] = df["total_points"] / max(1, len(completed))
     p_plays = p_plays or {}
+
+    # observed-xG attribution boost: refine WHO gets a team's heuristic goal/assist
+    # share toward who's really creating chances (share-preserving via _distribute's
+    # renormalisation; market-quoted scorers untouched; no-op until games accrue).
+    att = player_profile.observed_attacking(players, completed)
+
+    def _boost(col, baseline):
+        ratio = (att[col] / df["position"].map(baseline).replace(0, np.nan)).clip(0.2, 3.0)
+        g = att["att_games"].to_numpy(dtype=float)
+        w = g / (g + config.XG_SHRINKAGE_K)
+        b = pd.Series(1.0 + w * (ratio.fillna(1.0).to_numpy() - 1.0), index=df.index)
+        b = b.clip(*config.XG_BOOST_BOUNDS).where(att[col].notna(), 1.0)
+        return b.mask(df["position"] == "GK", 1.0)            # GKs: leave attribution alone
+
+    df["xg_boost"] = _boost("xg_per90", config.POSITION_XG_BASELINE)
+    df["xa_boost"] = _boost("xa_per90", config.POSITION_XA_BASELINE)
 
     # one bulk weather call for every outdoor venue across the projected rounds
     if temp_fn is weather.apparent_temp_at_kickoff:

@@ -115,7 +115,8 @@ def transfer_plans(players: pd.DataFrame, my_squad_ids: list[str], bank: float,
                    free_transfers: int = config.FREE_TRANSFERS_PER_ROUND,
                    xp_col: str = config.TRANSFER_VALUE_COL, top_n: int = 10,
                    shortlist_size: int = 14, rival_squads: list[set] | None = None,
-                   regime: str | None = None, hit_margin: float | None = None) -> list[dict]:
+                   regime: str | None = None, hit_margin: float | None = None,
+                   cover: bool = False) -> list[dict]:
     """Plans sorted by net gain = (squad value gain on `xp_col`) - (−4 hits), vs
     no transfers. `xp_col` defaults to whole-tournament value, so swapping out a
     player whose country is likely eliminated correctly counts their lost future
@@ -240,16 +241,27 @@ def transfer_plans(players: pd.DataFrame, my_squad_ids: list[str], bank: float,
             break
 
     plans.sort(key=lambda p: p[_key], reverse=True)
-    # variance tilt: shed round-SD when leading, buy it when chasing (top plans only)
-    if regime in ("leader", "chaser"):
+    # top-plan re-rank: regime variance tilt (shed SD leading / buy it chasing)
+    # + bench-cover bonus (reward a bench that can actually auto-sub in)
+    if regime in ("leader", "chaser") or cover:
         from src import analytics as _an
         sign = -1.0 if regime == "leader" else 1.0
+        pp = players["p_play"] if "p_play" in players.columns else None
+        xpn = players["xp_next"] if "xp_next" in players.columns else None
         head = max(top_n * 2, 12)
         for p in plans[:head]:
             new_ids = [pid for pid in owned_ids if pid not in p["out_ids"]] + p["in_ids"]
             rows = players.loc[[i for i in new_ids if i in players.index]]
             xi = best_xi(rows, "xp_next")
-            sd = _an.xi_sd(rows.loc[[i for i in xi["xi_ids"] if i in rows.index]], xi["captain_id"])
-            p["adj_gain"] = round(p["league_gain"] + sign * config.K_VAR * sd, 2)
+            adj = p["league_gain"]
+            if regime in ("leader", "chaser"):
+                sd = _an.xi_sd(rows.loc[[i for i in xi["xi_ids"] if i in rows.index]], xi["captain_id"])
+                adj += sign * config.K_VAR * sd
+            if cover and pp is not None and xpn is not None:
+                bench = [i for i in new_ids if i not in set(xi["xi_ids"]) and i in players.index]
+                cov = sum(float(pp.get(b, 0.0)) * max(float(xpn.get(b, 0.0)), 0.0) for b in bench)
+                p["bench_cover"] = round(cov, 2)
+                adj += config.COVER_WEIGHT * cov
+            p["adj_gain"] = round(adj, 2)
         plans[:head] = sorted(plans[:head], key=lambda p: p.get("adj_gain", p["league_gain"]), reverse=True)
     return plans[:top_n]

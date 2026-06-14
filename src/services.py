@@ -99,7 +99,7 @@ def _plans(sig: tuple, weather_bucket: str, squad: tuple, bank: float, free: int
     proj = _computed(sig, weather_bucket)["proj_plan"]
     regime, rivals, hit_margin, _ = _regime_for(sig, weather_bucket, squad)
     return optimizer.transfer_plans(proj, list(squad), bank, free_transfers=free,
-                                    rival_squads=rivals, regime=regime, hit_margin=hit_margin)
+                                    rival_squads=rivals, regime=regime, hit_margin=hit_margin, cover=True)
 
 
 def get_league_state() -> dict | None:

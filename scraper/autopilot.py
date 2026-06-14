@@ -108,7 +108,7 @@ def main() -> None:
     else:
         free = my_team["free_transfers"]
         plans = optimizer.transfer_plans(proj, my_team["squad"], my_team["bank"], free_transfers=free,
-                                         rival_squads=rivals, regime=regime, hit_margin=hit_margin)
+                                         rival_squads=rivals, regime=regime, hit_margin=hit_margin, cover=True)
         best = plans[0]
         if best["n_transfers"] == 0:
             print("best plan: keep the squad (no transfer clears the bar) - refreshing lineup/captain only")

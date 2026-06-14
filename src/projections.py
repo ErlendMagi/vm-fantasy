@@ -79,7 +79,9 @@ def start_probabilities(players: pd.DataFrame, completed: list[int],
     df = players.copy()
     rank = df.groupby(["team", "position"])["price"].rank(ascending=False, method="first")
     slots = df["position"].map(STARTER_SLOTS)
-    prior = pd.Series(np.where(rank <= slots, 0.78, np.where(rank <= slots + 2, 0.30, 0.10)), index=df.index)
+    prior = pd.Series(np.where(rank <= slots, config.STARTER_PRIOR,
+                               np.where(rank <= slots + 2, config.FRINGE_PRIOR, config.DEEP_PRIOR)),
+                      index=df.index)
     if completed:
         # primary signal: observed minutes (nailed starter vs cameo vs benched)
         obs_min = player_profile.minutes_start_prob(df, completed)
@@ -108,7 +110,7 @@ def start_probabilities(players: pd.DataFrame, completed: list[int],
             if ps is not None:
                 df.loc[pid, "p_start"] = ps
 
-    df["p_play"] = np.minimum(1.0, df["p_start"] + 0.15)
+    df["p_play"] = np.minimum(1.0, df["p_start"] + config.SUB_BUMP)
     return df
 
 

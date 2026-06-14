@@ -106,6 +106,12 @@ ASSISTED_GOAL_SHARE = 0.75    # share of goals that yield an assist
 FORM_SHRINKAGE_K = 2.5
 FORM_MULT_BOUNDS = (0.75, 1.35)  # form can't swing a projection more than this
 MINUTES_SHRINKAGE_K = 1.0  # observed minutes confirm a starter fast (k=1 -> 50% weight after 1 game)
+# Pre-lineup start-probability priors by price rank (a nailed starter in a deep
+# 26-man WC squad still rotates; confirmed lineups override these near kickoff).
+STARTER_PRIOR = 0.72       # top-N by price within team/position
+FRINGE_PRIOR = 0.24        # just outside the XI slots
+DEEP_PRIOR = 0.07          # deep squad
+SUB_BUMP = 0.12            # P(plays at all) over P(starts), for appearance points
 # Duty bonuses (xP/match, research-calibrated): set-piece takers earn ~0.25
 # set-piece assists/match (x3 pts) that no goal-odds market captures; penalty
 # duty is applied only when a player's xG is NOT market-quoted (the bookies
@@ -136,6 +142,7 @@ HIT_MARGIN_BY_REGIME = {"leader": 2.5, "coinflip": 1.0, "chaser": 0.3}
 TOTAL_FANTASY_ROUNDS = 8     # 3 group + R32/R16/QF/SF/F
 CAPTAIN_PPLAY_FLOOR = 0.55   # never captain a player below this chance of playing
 CAPTAIN_COVER_BONUS = 0.30   # leader: armband nudge toward a widely-owned star
+COVER_WEIGHT = 0.15          # value a bench that actually plays (real auto-sub cover)
 MAX_PLAN_TRANSFERS = 6       # cap on transfers searched (covers mass post-group elimination)
 TRANSFER_VALUE_COL = "xp_tournament"  # plan transfers on whole-tournament value (the long game)
 

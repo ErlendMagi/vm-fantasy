@@ -1,24 +1,24 @@
 {
- "synced_at": "2026-06-14T18:06:30.957773+00:00",
+ "synced_at": "2026-06-14T20:12:38.068633+00:00",
  "current_round": 2,
  "leagues": [
   {
    "name": "BPG",
    "league_id": "0e140160-5f7e-43f1-8a1e-5e43433d5b12",
-   "my_rank": 1,
+   "my_rank": 6,
    "members": [
     {
      "manager": "julle",
      "squad_name": "USTAB IL",
      "squad_id": "88e4be95-381d-43ec-9569-bec5e6ea68b5",
      "rank": 1,
-     "total_points": 16,
-     "latest_round_points": 16,
+     "total_points": 39,
+     "latest_round_points": 39,
      "round_scores": [
       {
        "roundNumber": 1,
        "roundName": "Runde 1 - Gruppespill",
-       "points": 16
+       "points": 39
       }
      ],
      "squad": [
@@ -64,7 +64,7 @@
       {
        "number": 1,
        "formation": "4-3-3",
-       "points": 16,
+       "points": 39,
        "transfer_hit": 0,
        "captain_id": "3aaa39f5-9908-454d-97d0-b5806a65e3ac",
        "vice_captain_id": null,
@@ -82,273 +82,13 @@
         "b19a765c-bdac-460e-a3c0-b588c5feedab"
        ],
        "scores": {
-        "3aaa39f5-9908-454d-97d0-b5806a65e3ac": 10,
+        "3aaa39f5-9908-454d-97d0-b5806a65e3ac": 24,
         "63e43337-c5a2-4ec8-851d-74ef245d345c": 0,
         "bbc5a321-66a2-4285-9fe4-822f064efec7": 3,
-        "37083f32-812e-43de-ab1b-aa999648b146": 1,
+        "37083f32-812e-43de-ab1b-aa999648b146": 10,
         "b19a765c-bdac-460e-a3c0-b588c5feedab": 2,
-        "cb6156b9-aa0c-4341-9e97-3785532cc888": 0,
+        "cb6156b9-aa0c-4341-9e97-3785532cc888": -1,
         "95b045af-510d-4f14-8e37-a054f738b223": 0,
-        "c46375fa-4dfc-4e94-a590-5b61842477ae": 0
-       }
-      }
-     ]
-    },
-    {
-     "manager": "Erlend",
-     "squad_name": "Erlend er best",
-     "squad_id": "18c36cc9-fd90-4ff4-9278-13ffcc184f4d",
-     "rank": 1,
-     "total_points": 16,
-     "latest_round_points": 16,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 16
-      }
-     ],
-     "squad": [
-      "bbc5a321-66a2-4285-9fe4-822f064efec7",
-      "9ce12e14-eeb2-48fd-9117-e13d925510b1",
-      "a9672b57-68c4-4c39-94cf-a07ab48687a3",
-      "c13962ec-25dd-4a3c-921a-e4e4398b8579",
-      "1f6e3324-d962-435c-ad65-2e13f14e136a",
-      "ad7d4724-3c54-4108-8651-936010a75c2f",
-      "8984e3ae-fd88-484b-8fb4-470f2bcb2f6c",
-      "1d8fbd81-3902-4363-ba31-900b5793de66",
-      "5f842533-aa68-4659-8f0c-6d3a68946a5f",
-      "79765177-f1e1-4230-8f2c-922e3d5cde76",
-      "4b73aa01-6b88-487f-85ca-fb2e4668618c",
-      "9a6d69d5-2ae2-4349-92e8-9715f997b343",
-      "9f5dbc2e-747a-4b53-a1f7-bc058a747a7f",
-      "15ba05b3-cc28-4e37-8d7f-07a1e277a955",
-      "84793022-3c89-47bd-8d1e-b8b7434cab66"
-     ],
-     "starter_ids": [
-      "bbc5a321-66a2-4285-9fe4-822f064efec7",
-      "9ce12e14-eeb2-48fd-9117-e13d925510b1",
-      "a9672b57-68c4-4c39-94cf-a07ab48687a3",
-      "c13962ec-25dd-4a3c-921a-e4e4398b8579",
-      "1f6e3324-d962-435c-ad65-2e13f14e136a",
-      "ad7d4724-3c54-4108-8651-936010a75c2f",
-      "8984e3ae-fd88-484b-8fb4-470f2bcb2f6c",
-      "1d8fbd81-3902-4363-ba31-900b5793de66",
-      "5f842533-aa68-4659-8f0c-6d3a68946a5f",
-      "79765177-f1e1-4230-8f2c-922e3d5cde76",
-      "4b73aa01-6b88-487f-85ca-fb2e4668618c"
-     ],
-     "bench_ids": [
-      "9a6d69d5-2ae2-4349-92e8-9715f997b343",
-      "9f5dbc2e-747a-4b53-a1f7-bc058a747a7f",
-      "15ba05b3-cc28-4e37-8d7f-07a1e277a955",
-      "84793022-3c89-47bd-8d1e-b8b7434cab66"
-     ],
-     "captain_id": "8984e3ae-fd88-484b-8fb4-470f2bcb2f6c",
-     "vice_captain_id": null,
-     "formation": "5-4-1",
-     "rounds": [
-      {
-       "number": 1,
-       "formation": "5-4-1",
-       "points": 16,
-       "transfer_hit": 0,
-       "captain_id": "8984e3ae-fd88-484b-8fb4-470f2bcb2f6c",
-       "vice_captain_id": null,
-       "starter_ids": [
-        "bbc5a321-66a2-4285-9fe4-822f064efec7",
-        "9ce12e14-eeb2-48fd-9117-e13d925510b1",
-        "a9672b57-68c4-4c39-94cf-a07ab48687a3",
-        "c13962ec-25dd-4a3c-921a-e4e4398b8579",
-        "1f6e3324-d962-435c-ad65-2e13f14e136a",
-        "ad7d4724-3c54-4108-8651-936010a75c2f",
-        "8984e3ae-fd88-484b-8fb4-470f2bcb2f6c",
-        "1d8fbd81-3902-4363-ba31-900b5793de66",
-        "5f842533-aa68-4659-8f0c-6d3a68946a5f",
-        "79765177-f1e1-4230-8f2c-922e3d5cde76",
-        "4b73aa01-6b88-487f-85ca-fb2e4668618c"
-       ],
-       "scores": {
-        "bbc5a321-66a2-4285-9fe4-822f064efec7": 3,
-        "9ce12e14-eeb2-48fd-9117-e13d925510b1": 0,
-        "a9672b57-68c4-4c39-94cf-a07ab48687a3": 1,
-        "c13962ec-25dd-4a3c-921a-e4e4398b8579": 0,
-        "ad7d4724-3c54-4108-8651-936010a75c2f": 2,
-        "79765177-f1e1-4230-8f2c-922e3d5cde76": 10,
-        "9f5dbc2e-747a-4b53-a1f7-bc058a747a7f": 0,
-        "15ba05b3-cc28-4e37-8d7f-07a1e277a955": 0,
-        "84793022-3c89-47bd-8d1e-b8b7434cab66": 2
-       }
-      }
-     ]
-    },
-    {
-     "manager": "Jostein",
-     "squad_name": "I dont know what I am doing",
-     "squad_id": "e7d9c14b-5a51-4312-bd67-4077934e09d6",
-     "rank": 3,
-     "total_points": 12,
-     "latest_round_points": 12,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 12
-      }
-     ],
-     "squad": [
-      "1ac149aa-ce4a-45fe-a968-66e42d74c6d0",
-      "2ede12ab-22a0-42c3-88e0-0ee24466c034",
-      "6ad16f0f-56ff-4016-8bb6-cfd39954ab3c",
-      "c13962ec-25dd-4a3c-921a-e4e4398b8579",
-      "3aaa39f5-9908-454d-97d0-b5806a65e3ac",
-      "2fa400c3-ac42-494c-990e-b1cac5da48a2",
-      "93dc4bc4-cdba-4848-b641-a23d043f1612",
-      "13993950-3e6e-4572-bb03-916cdc1af3b9",
-      "0daf8375-dddd-4b10-9246-907d7b6b34bc",
-      "5f842533-aa68-4659-8f0c-6d3a68946a5f",
-      "7a06da13-07bf-4c98-8b0d-d70889165c70",
-      "bbc5a321-66a2-4285-9fe4-822f064efec7",
-      "21b15e87-3a84-4b47-9d94-7f808fe40e94",
-      "016c5cfb-9d26-4351-8512-6fa6a76117ba",
-      "5ff3c464-dbd2-41f6-8af9-bff123a9926f"
-     ],
-     "starter_ids": [
-      "1ac149aa-ce4a-45fe-a968-66e42d74c6d0",
-      "2ede12ab-22a0-42c3-88e0-0ee24466c034",
-      "6ad16f0f-56ff-4016-8bb6-cfd39954ab3c",
-      "c13962ec-25dd-4a3c-921a-e4e4398b8579",
-      "3aaa39f5-9908-454d-97d0-b5806a65e3ac",
-      "2fa400c3-ac42-494c-990e-b1cac5da48a2",
-      "93dc4bc4-cdba-4848-b641-a23d043f1612",
-      "13993950-3e6e-4572-bb03-916cdc1af3b9",
-      "0daf8375-dddd-4b10-9246-907d7b6b34bc",
-      "5f842533-aa68-4659-8f0c-6d3a68946a5f",
-      "7a06da13-07bf-4c98-8b0d-d70889165c70"
-     ],
-     "bench_ids": [
-      "bbc5a321-66a2-4285-9fe4-822f064efec7",
-      "21b15e87-3a84-4b47-9d94-7f808fe40e94",
-      "016c5cfb-9d26-4351-8512-6fa6a76117ba",
-      "5ff3c464-dbd2-41f6-8af9-bff123a9926f"
-     ],
-     "captain_id": "1ac149aa-ce4a-45fe-a968-66e42d74c6d0",
-     "vice_captain_id": null,
-     "formation": "4-4-2",
-     "rounds": [
-      {
-       "number": 1,
-       "formation": "4-4-2",
-       "points": 12,
-       "transfer_hit": 0,
-       "captain_id": "1ac149aa-ce4a-45fe-a968-66e42d74c6d0",
-       "vice_captain_id": null,
-       "starter_ids": [
-        "1ac149aa-ce4a-45fe-a968-66e42d74c6d0",
-        "2ede12ab-22a0-42c3-88e0-0ee24466c034",
-        "6ad16f0f-56ff-4016-8bb6-cfd39954ab3c",
-        "c13962ec-25dd-4a3c-921a-e4e4398b8579",
-        "3aaa39f5-9908-454d-97d0-b5806a65e3ac",
-        "2fa400c3-ac42-494c-990e-b1cac5da48a2",
-        "93dc4bc4-cdba-4848-b641-a23d043f1612",
-        "13993950-3e6e-4572-bb03-916cdc1af3b9",
-        "0daf8375-dddd-4b10-9246-907d7b6b34bc",
-        "5f842533-aa68-4659-8f0c-6d3a68946a5f",
-        "7a06da13-07bf-4c98-8b0d-d70889165c70"
-       ],
-       "scores": {
-        "6ad16f0f-56ff-4016-8bb6-cfd39954ab3c": 4,
-        "c13962ec-25dd-4a3c-921a-e4e4398b8579": 0,
-        "3aaa39f5-9908-454d-97d0-b5806a65e3ac": 5,
-        "13993950-3e6e-4572-bb03-916cdc1af3b9": 3,
-        "0daf8375-dddd-4b10-9246-907d7b6b34bc": 0,
-        "bbc5a321-66a2-4285-9fe4-822f064efec7": 3,
-        "016c5cfb-9d26-4351-8512-6fa6a76117ba": 0,
-        "5ff3c464-dbd2-41f6-8af9-bff123a9926f": 5
-       }
-      }
-     ]
-    },
-    {
-     "manager": "Jonathan",
-     "squad_name": "Republikken Jonaland",
-     "squad_id": "5c1a5961-0669-40da-b3da-49861b59c9cc",
-     "rank": 3,
-     "total_points": 12,
-     "latest_round_points": 12,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 12
-      }
-     ],
-     "squad": [
-      "bbc5a321-66a2-4285-9fe4-822f064efec7",
-      "7a06da13-07bf-4c98-8b0d-d70889165c70",
-      "37083f32-812e-43de-ab1b-aa999648b146",
-      "02e74c9d-ccc0-4521-aa7b-dc3f490ae7a5",
-      "d204c4d5-8691-4019-9556-517f50f44bc5",
-      "21b15e87-3a84-4b47-9d94-7f808fe40e94",
-      "5f842533-aa68-4659-8f0c-6d3a68946a5f",
-      "b5e2ee3e-eb94-4460-827f-32f2f39db023",
-      "cd2b9e05-c249-4c21-9717-da200132d043",
-      "8bb75dec-6ccb-462f-b33c-6740e99567be",
-      "5fe056ca-5166-40e6-9f93-ae6f3471ff4d",
-      "21af8d29-db66-49ba-ac07-eea18b504e53",
-      "c859b383-0941-47e3-ba24-f61d8d2b8e35",
-      "c5426c55-9dee-4b81-a249-369c5afac644",
-      "c46375fa-4dfc-4e94-a590-5b61842477ae"
-     ],
-     "starter_ids": [
-      "bbc5a321-66a2-4285-9fe4-822f064efec7",
-      "7a06da13-07bf-4c98-8b0d-d70889165c70",
-      "37083f32-812e-43de-ab1b-aa999648b146",
-      "02e74c9d-ccc0-4521-aa7b-dc3f490ae7a5",
-      "d204c4d5-8691-4019-9556-517f50f44bc5",
-      "21b15e87-3a84-4b47-9d94-7f808fe40e94",
-      "5f842533-aa68-4659-8f0c-6d3a68946a5f",
-      "b5e2ee3e-eb94-4460-827f-32f2f39db023",
-      "cd2b9e05-c249-4c21-9717-da200132d043",
-      "8bb75dec-6ccb-462f-b33c-6740e99567be",
-      "5fe056ca-5166-40e6-9f93-ae6f3471ff4d"
-     ],
-     "bench_ids": [
-      "21af8d29-db66-49ba-ac07-eea18b504e53",
-      "c859b383-0941-47e3-ba24-f61d8d2b8e35",
-      "c5426c55-9dee-4b81-a249-369c5afac644",
-      "c46375fa-4dfc-4e94-a590-5b61842477ae"
-     ],
-     "captain_id": "cd2b9e05-c249-4c21-9717-da200132d043",
-     "vice_captain_id": null,
-     "formation": "3-4-3",
-     "rounds": [
-      {
-       "number": 1,
-       "formation": "3-4-3",
-       "points": 15,
-       "transfer_hit": 0,
-       "captain_id": "cd2b9e05-c249-4c21-9717-da200132d043",
-       "vice_captain_id": null,
-       "starter_ids": [
-        "bbc5a321-66a2-4285-9fe4-822f064efec7",
-        "7a06da13-07bf-4c98-8b0d-d70889165c70",
-        "37083f32-812e-43de-ab1b-aa999648b146",
-        "02e74c9d-ccc0-4521-aa7b-dc3f490ae7a5",
-        "d204c4d5-8691-4019-9556-517f50f44bc5",
-        "21b15e87-3a84-4b47-9d94-7f808fe40e94",
-        "5f842533-aa68-4659-8f0c-6d3a68946a5f",
-        "b5e2ee3e-eb94-4460-827f-32f2f39db023",
-        "cd2b9e05-c249-4c21-9717-da200132d043",
-        "8bb75dec-6ccb-462f-b33c-6740e99567be",
-        "5fe056ca-5166-40e6-9f93-ae6f3471ff4d"
-       ],
-       "scores": {
-        "bbc5a321-66a2-4285-9fe4-822f064efec7": 3,
-        "37083f32-812e-43de-ab1b-aa999648b146": 1,
-        "8bb75dec-6ccb-462f-b33c-6740e99567be": 4,
-        "5fe056ca-5166-40e6-9f93-ae6f3471ff4d": 7,
-        "21af8d29-db66-49ba-ac07-eea18b504e53": 0,
         "c46375fa-4dfc-4e94-a590-5b61842477ae": 0
        }
       }
@@ -358,14 +98,14 @@
      "manager": "Thomas",
      "squad_name": "Cabrones",
      "squad_id": "fd09f24f-8974-4174-9fa3-88bb6c55adb3",
-     "rank": 5,
-     "total_points": 11,
-     "latest_round_points": 11,
+     "rank": 2,
+     "total_points": 28,
+     "latest_round_points": 28,
      "round_scores": [
       {
        "roundNumber": 1,
        "roundName": "Runde 1 - Gruppespill",
-       "points": 11
+       "points": 28
       }
      ],
      "squad": [
@@ -411,7 +151,7 @@
       {
        "number": 1,
        "formation": "3-4-3",
-       "points": 11,
+       "points": 28,
        "transfer_hit": 0,
        "captain_id": "3c1f2aaf-86af-4a0f-a712-9ea9f54fd5ef",
        "vice_captain_id": null,
@@ -430,10 +170,96 @@
        ],
        "scores": {
         "bbc5a321-66a2-4285-9fe4-822f064efec7": 3,
-        "37083f32-812e-43de-ab1b-aa999648b146": 1,
-        "3aaa39f5-9908-454d-97d0-b5806a65e3ac": 5,
+        "37083f32-812e-43de-ab1b-aa999648b146": 10,
+        "3aaa39f5-9908-454d-97d0-b5806a65e3ac": 12,
         "4d5c484f-d059-41fa-bf5e-b7a5571830c7": 2,
+        "69128071-724f-4e9f-ab0a-ab8eb937cbf8": 1,
         "3fa8a2d2-9d57-4f9c-a712-99f9b097e414": 0,
+        "c46375fa-4dfc-4e94-a590-5b61842477ae": 0
+       }
+      }
+     ]
+    },
+    {
+     "manager": "Jonathan",
+     "squad_name": "Republikken Jonaland",
+     "squad_id": "5c1a5961-0669-40da-b3da-49861b59c9cc",
+     "rank": 3,
+     "total_points": 26,
+     "latest_round_points": 26,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 26
+      }
+     ],
+     "squad": [
+      "bbc5a321-66a2-4285-9fe4-822f064efec7",
+      "7a06da13-07bf-4c98-8b0d-d70889165c70",
+      "37083f32-812e-43de-ab1b-aa999648b146",
+      "02e74c9d-ccc0-4521-aa7b-dc3f490ae7a5",
+      "d204c4d5-8691-4019-9556-517f50f44bc5",
+      "21b15e87-3a84-4b47-9d94-7f808fe40e94",
+      "5f842533-aa68-4659-8f0c-6d3a68946a5f",
+      "b5e2ee3e-eb94-4460-827f-32f2f39db023",
+      "cd2b9e05-c249-4c21-9717-da200132d043",
+      "8bb75dec-6ccb-462f-b33c-6740e99567be",
+      "5fe056ca-5166-40e6-9f93-ae6f3471ff4d",
+      "21af8d29-db66-49ba-ac07-eea18b504e53",
+      "c859b383-0941-47e3-ba24-f61d8d2b8e35",
+      "c5426c55-9dee-4b81-a249-369c5afac644",
+      "c46375fa-4dfc-4e94-a590-5b61842477ae"
+     ],
+     "starter_ids": [
+      "bbc5a321-66a2-4285-9fe4-822f064efec7",
+      "7a06da13-07bf-4c98-8b0d-d70889165c70",
+      "37083f32-812e-43de-ab1b-aa999648b146",
+      "02e74c9d-ccc0-4521-aa7b-dc3f490ae7a5",
+      "d204c4d5-8691-4019-9556-517f50f44bc5",
+      "21b15e87-3a84-4b47-9d94-7f808fe40e94",
+      "5f842533-aa68-4659-8f0c-6d3a68946a5f",
+      "b5e2ee3e-eb94-4460-827f-32f2f39db023",
+      "cd2b9e05-c249-4c21-9717-da200132d043",
+      "8bb75dec-6ccb-462f-b33c-6740e99567be",
+      "5fe056ca-5166-40e6-9f93-ae6f3471ff4d"
+     ],
+     "bench_ids": [
+      "21af8d29-db66-49ba-ac07-eea18b504e53",
+      "c859b383-0941-47e3-ba24-f61d8d2b8e35",
+      "c5426c55-9dee-4b81-a249-369c5afac644",
+      "c46375fa-4dfc-4e94-a590-5b61842477ae"
+     ],
+     "captain_id": "cd2b9e05-c249-4c21-9717-da200132d043",
+     "vice_captain_id": null,
+     "formation": "3-4-3",
+     "rounds": [
+      {
+       "number": 1,
+       "formation": "3-4-3",
+       "points": 26,
+       "transfer_hit": 0,
+       "captain_id": "cd2b9e05-c249-4c21-9717-da200132d043",
+       "vice_captain_id": null,
+       "starter_ids": [
+        "bbc5a321-66a2-4285-9fe4-822f064efec7",
+        "7a06da13-07bf-4c98-8b0d-d70889165c70",
+        "37083f32-812e-43de-ab1b-aa999648b146",
+        "02e74c9d-ccc0-4521-aa7b-dc3f490ae7a5",
+        "d204c4d5-8691-4019-9556-517f50f44bc5",
+        "21b15e87-3a84-4b47-9d94-7f808fe40e94",
+        "5f842533-aa68-4659-8f0c-6d3a68946a5f",
+        "b5e2ee3e-eb94-4460-827f-32f2f39db023",
+        "cd2b9e05-c249-4c21-9717-da200132d043",
+        "8bb75dec-6ccb-462f-b33c-6740e99567be",
+        "5fe056ca-5166-40e6-9f93-ae6f3471ff4d"
+       ],
+       "scores": {
+        "bbc5a321-66a2-4285-9fe4-822f064efec7": 3,
+        "37083f32-812e-43de-ab1b-aa999648b146": 10,
+        "8bb75dec-6ccb-462f-b33c-6740e99567be": 6,
+        "5fe056ca-5166-40e6-9f93-ae6f3471ff4d": 7,
+        "21af8d29-db66-49ba-ac07-eea18b504e53": 0,
         "c46375fa-4dfc-4e94-a590-5b61842477ae": 0
        }
       }
@@ -443,14 +269,14 @@
      "manager": "Preben",
      "squad_name": "Brødrene Dahl",
      "squad_id": "93cf671d-8506-47b9-8e33-465d2960a6ca",
-     "rank": 5,
-     "total_points": 11,
-     "latest_round_points": 11,
+     "rank": 4,
+     "total_points": 24,
+     "latest_round_points": 24,
      "round_scores": [
       {
        "roundNumber": 1,
        "roundName": "Runde 1 - Gruppespill",
-       "points": 11
+       "points": 24
       }
      ],
      "squad": [
@@ -496,7 +322,7 @@
       {
        "number": 1,
        "formation": "3-4-3",
-       "points": 14,
+       "points": 24,
        "transfer_hit": 0,
        "captain_id": "3c1f2aaf-86af-4a0f-a712-9ea9f54fd5ef",
        "vice_captain_id": null,
@@ -514,13 +340,189 @@
         "b19a765c-bdac-460e-a3c0-b588c5feedab"
        ],
        "scores": {
-        "3aaa39f5-9908-454d-97d0-b5806a65e3ac": 5,
-        "8bb75dec-6ccb-462f-b33c-6740e99567be": 4,
+        "3aaa39f5-9908-454d-97d0-b5806a65e3ac": 12,
+        "8bb75dec-6ccb-462f-b33c-6740e99567be": 6,
         "bbc5a321-66a2-4285-9fe4-822f064efec7": 3,
+        "f4170747-2c28-4daa-b766-48cfcc6e3906": 1,
         "b19a765c-bdac-460e-a3c0-b588c5feedab": 2,
         "753caed2-2027-4cf4-af65-26f554b96263": 0,
-        "cb6156b9-aa0c-4341-9e97-3785532cc888": 0,
+        "cb6156b9-aa0c-4341-9e97-3785532cc888": -1,
         "c46375fa-4dfc-4e94-a590-5b61842477ae": 0
+       }
+      }
+     ]
+    },
+    {
+     "manager": "Jostein",
+     "squad_name": "I dont know what I am doing",
+     "squad_id": "e7d9c14b-5a51-4312-bd67-4077934e09d6",
+     "rank": 5,
+     "total_points": 20,
+     "latest_round_points": 20,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 20
+      }
+     ],
+     "squad": [
+      "1ac149aa-ce4a-45fe-a968-66e42d74c6d0",
+      "2ede12ab-22a0-42c3-88e0-0ee24466c034",
+      "6ad16f0f-56ff-4016-8bb6-cfd39954ab3c",
+      "c13962ec-25dd-4a3c-921a-e4e4398b8579",
+      "3aaa39f5-9908-454d-97d0-b5806a65e3ac",
+      "2fa400c3-ac42-494c-990e-b1cac5da48a2",
+      "93dc4bc4-cdba-4848-b641-a23d043f1612",
+      "13993950-3e6e-4572-bb03-916cdc1af3b9",
+      "0daf8375-dddd-4b10-9246-907d7b6b34bc",
+      "5f842533-aa68-4659-8f0c-6d3a68946a5f",
+      "7a06da13-07bf-4c98-8b0d-d70889165c70",
+      "bbc5a321-66a2-4285-9fe4-822f064efec7",
+      "21b15e87-3a84-4b47-9d94-7f808fe40e94",
+      "016c5cfb-9d26-4351-8512-6fa6a76117ba",
+      "5ff3c464-dbd2-41f6-8af9-bff123a9926f"
+     ],
+     "starter_ids": [
+      "1ac149aa-ce4a-45fe-a968-66e42d74c6d0",
+      "2ede12ab-22a0-42c3-88e0-0ee24466c034",
+      "6ad16f0f-56ff-4016-8bb6-cfd39954ab3c",
+      "c13962ec-25dd-4a3c-921a-e4e4398b8579",
+      "3aaa39f5-9908-454d-97d0-b5806a65e3ac",
+      "2fa400c3-ac42-494c-990e-b1cac5da48a2",
+      "93dc4bc4-cdba-4848-b641-a23d043f1612",
+      "13993950-3e6e-4572-bb03-916cdc1af3b9",
+      "0daf8375-dddd-4b10-9246-907d7b6b34bc",
+      "5f842533-aa68-4659-8f0c-6d3a68946a5f",
+      "7a06da13-07bf-4c98-8b0d-d70889165c70"
+     ],
+     "bench_ids": [
+      "bbc5a321-66a2-4285-9fe4-822f064efec7",
+      "21b15e87-3a84-4b47-9d94-7f808fe40e94",
+      "016c5cfb-9d26-4351-8512-6fa6a76117ba",
+      "5ff3c464-dbd2-41f6-8af9-bff123a9926f"
+     ],
+     "captain_id": "1ac149aa-ce4a-45fe-a968-66e42d74c6d0",
+     "vice_captain_id": null,
+     "formation": "4-4-2",
+     "rounds": [
+      {
+       "number": 1,
+       "formation": "4-4-2",
+       "points": 20,
+       "transfer_hit": 0,
+       "captain_id": "1ac149aa-ce4a-45fe-a968-66e42d74c6d0",
+       "vice_captain_id": null,
+       "starter_ids": [
+        "1ac149aa-ce4a-45fe-a968-66e42d74c6d0",
+        "2ede12ab-22a0-42c3-88e0-0ee24466c034",
+        "6ad16f0f-56ff-4016-8bb6-cfd39954ab3c",
+        "c13962ec-25dd-4a3c-921a-e4e4398b8579",
+        "3aaa39f5-9908-454d-97d0-b5806a65e3ac",
+        "2fa400c3-ac42-494c-990e-b1cac5da48a2",
+        "93dc4bc4-cdba-4848-b641-a23d043f1612",
+        "13993950-3e6e-4572-bb03-916cdc1af3b9",
+        "0daf8375-dddd-4b10-9246-907d7b6b34bc",
+        "5f842533-aa68-4659-8f0c-6d3a68946a5f",
+        "7a06da13-07bf-4c98-8b0d-d70889165c70"
+       ],
+       "scores": {
+        "6ad16f0f-56ff-4016-8bb6-cfd39954ab3c": 4,
+        "c13962ec-25dd-4a3c-921a-e4e4398b8579": 1,
+        "3aaa39f5-9908-454d-97d0-b5806a65e3ac": 12,
+        "13993950-3e6e-4572-bb03-916cdc1af3b9": 3,
+        "0daf8375-dddd-4b10-9246-907d7b6b34bc": 0,
+        "bbc5a321-66a2-4285-9fe4-822f064efec7": 3,
+        "016c5cfb-9d26-4351-8512-6fa6a76117ba": 0,
+        "5ff3c464-dbd2-41f6-8af9-bff123a9926f": 5
+       }
+      }
+     ]
+    },
+    {
+     "manager": "Erlend",
+     "squad_name": "Erlend er best",
+     "squad_id": "18c36cc9-fd90-4ff4-9278-13ffcc184f4d",
+     "rank": 6,
+     "total_points": 19,
+     "latest_round_points": 19,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 19
+      }
+     ],
+     "squad": [
+      "bbc5a321-66a2-4285-9fe4-822f064efec7",
+      "9ce12e14-eeb2-48fd-9117-e13d925510b1",
+      "a9672b57-68c4-4c39-94cf-a07ab48687a3",
+      "c13962ec-25dd-4a3c-921a-e4e4398b8579",
+      "1f6e3324-d962-435c-ad65-2e13f14e136a",
+      "ad7d4724-3c54-4108-8651-936010a75c2f",
+      "8984e3ae-fd88-484b-8fb4-470f2bcb2f6c",
+      "1d8fbd81-3902-4363-ba31-900b5793de66",
+      "5f842533-aa68-4659-8f0c-6d3a68946a5f",
+      "79765177-f1e1-4230-8f2c-922e3d5cde76",
+      "4b73aa01-6b88-487f-85ca-fb2e4668618c",
+      "9a6d69d5-2ae2-4349-92e8-9715f997b343",
+      "9f5dbc2e-747a-4b53-a1f7-bc058a747a7f",
+      "15ba05b3-cc28-4e37-8d7f-07a1e277a955",
+      "84793022-3c89-47bd-8d1e-b8b7434cab66"
+     ],
+     "starter_ids": [
+      "bbc5a321-66a2-4285-9fe4-822f064efec7",
+      "9ce12e14-eeb2-48fd-9117-e13d925510b1",
+      "a9672b57-68c4-4c39-94cf-a07ab48687a3",
+      "c13962ec-25dd-4a3c-921a-e4e4398b8579",
+      "1f6e3324-d962-435c-ad65-2e13f14e136a",
+      "ad7d4724-3c54-4108-8651-936010a75c2f",
+      "8984e3ae-fd88-484b-8fb4-470f2bcb2f6c",
+      "1d8fbd81-3902-4363-ba31-900b5793de66",
+      "5f842533-aa68-4659-8f0c-6d3a68946a5f",
+      "79765177-f1e1-4230-8f2c-922e3d5cde76",
+      "4b73aa01-6b88-487f-85ca-fb2e4668618c"
+     ],
+     "bench_ids": [
+      "9a6d69d5-2ae2-4349-92e8-9715f997b343",
+      "9f5dbc2e-747a-4b53-a1f7-bc058a747a7f",
+      "15ba05b3-cc28-4e37-8d7f-07a1e277a955",
+      "84793022-3c89-47bd-8d1e-b8b7434cab66"
+     ],
+     "captain_id": "8984e3ae-fd88-484b-8fb4-470f2bcb2f6c",
+     "vice_captain_id": null,
+     "formation": "5-4-1",
+     "rounds": [
+      {
+       "number": 1,
+       "formation": "5-4-1",
+       "points": 19,
+       "transfer_hit": 0,
+       "captain_id": "8984e3ae-fd88-484b-8fb4-470f2bcb2f6c",
+       "vice_captain_id": null,
+       "starter_ids": [
+        "bbc5a321-66a2-4285-9fe4-822f064efec7",
+        "9ce12e14-eeb2-48fd-9117-e13d925510b1",
+        "a9672b57-68c4-4c39-94cf-a07ab48687a3",
+        "c13962ec-25dd-4a3c-921a-e4e4398b8579",
+        "1f6e3324-d962-435c-ad65-2e13f14e136a",
+        "ad7d4724-3c54-4108-8651-936010a75c2f",
+        "8984e3ae-fd88-484b-8fb4-470f2bcb2f6c",
+        "1d8fbd81-3902-4363-ba31-900b5793de66",
+        "5f842533-aa68-4659-8f0c-6d3a68946a5f",
+        "79765177-f1e1-4230-8f2c-922e3d5cde76",
+        "4b73aa01-6b88-487f-85ca-fb2e4668618c"
+       ],
+       "scores": {
+        "bbc5a321-66a2-4285-9fe4-822f064efec7": 3,
+        "9ce12e14-eeb2-48fd-9117-e13d925510b1": 1,
+        "a9672b57-68c4-4c39-94cf-a07ab48687a3": 2,
+        "c13962ec-25dd-4a3c-921a-e4e4398b8579": 1,
+        "ad7d4724-3c54-4108-8651-936010a75c2f": 2,
+        "79765177-f1e1-4230-8f2c-922e3d5cde76": 10,
+        "9f5dbc2e-747a-4b53-a1f7-bc058a747a7f": 1,
+        "15ba05b3-cc28-4e37-8d7f-07a1e277a955": 0,
+        "84793022-3c89-47bd-8d1e-b8b7434cab66": 2
        }
       }
      ]
@@ -530,13 +532,123 @@
   {
    "name": "Oslo",
    "league_id": "9427c891-ef7c-4e41-ad77-efc3222ab02e",
-   "my_rank": 1589,
+   "my_rank": 4363,
    "members": [
     {
      "manager": "Knut ",
      "squad_name": "Thraex' finest",
      "squad_id": "c0a13144-e75b-4a4b-a42e-dbb34a1c6556",
      "rank": 1,
+     "total_points": 77,
+     "latest_round_points": 77,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 77
+      }
+     ],
+     "squad": [],
+     "starter_ids": [],
+     "bench_ids": [],
+     "captain_id": null,
+     "vice_captain_id": null,
+     "formation": null,
+     "rounds": []
+    },
+    {
+     "manager": "Terje",
+     "squad_name": "WC Villasimius ",
+     "squad_id": "ca5512e6-baac-451e-bae3-616b233a237c",
+     "rank": 2,
+     "total_points": 64,
+     "latest_round_points": 64,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 64
+      }
+     ],
+     "squad": [],
+     "starter_ids": [],
+     "bench_ids": [],
+     "captain_id": null,
+     "vice_captain_id": null,
+     "formation": null,
+     "rounds": []
+    },
+    {
+     "manager": "Teemu",
+     "squad_name": "Finland skal vinne VM",
+     "squad_id": "c2c5a428-e757-4287-b26d-0e926c65de02",
+     "rank": 2,
+     "total_points": 64,
+     "latest_round_points": 64,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 64
+      }
+     ],
+     "squad": [],
+     "starter_ids": [],
+     "bench_ids": [],
+     "captain_id": null,
+     "vice_captain_id": null,
+     "formation": null,
+     "rounds": []
+    },
+    {
+     "manager": "Simon",
+     "squad_name": "Tangsprell United",
+     "squad_id": "f8e51045-7328-4f0b-922f-42aa008d5c25",
+     "rank": 4,
+     "total_points": 63,
+     "latest_round_points": 63,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 63
+      }
+     ],
+     "squad": [],
+     "starter_ids": [],
+     "bench_ids": [],
+     "captain_id": null,
+     "vice_captain_id": null,
+     "formation": null,
+     "rounds": []
+    },
+    {
+     "manager": "Vebjorn",
+     "squad_name": "URadebeLeeds",
+     "squad_id": "b1226888-b709-40dc-b830-f9b83a5c443d",
+     "rank": 5,
+     "total_points": 62,
+     "latest_round_points": 62,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 62
+      }
+     ],
+     "squad": [],
+     "starter_ids": [],
+     "bench_ids": [],
+     "captain_id": null,
+     "vice_captain_id": null,
+     "formation": null,
+     "rounds": []
+    },
+    {
+     "manager": "Magnus",
+     "squad_name": "Team Zissou",
+     "squad_id": "1dd86a13-c837-4d92-9475-c7f17177adbb",
+     "rank": 6,
      "total_points": 58,
      "latest_round_points": 58,
      "round_scores": [
@@ -555,10 +667,1022 @@
      "rounds": []
     },
     {
-     "manager": "Andreas",
-     "squad_name": "King Crab Safari",
-     "squad_id": "85f2279a-c6dd-4931-8d2b-b48194c6747a",
-     "rank": 2,
+     "manager": "Ludolf",
+     "squad_name": "Knødegjeng",
+     "squad_id": "1c09cdb5-0bae-4269-a111-602e38c9876c",
+     "rank": 6,
+     "total_points": 58,
+     "latest_round_points": 58,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 58
+      }
+     ],
+     "squad": [],
+     "starter_ids": [],
+     "bench_ids": [],
+     "captain_id": null,
+     "vice_captain_id": null,
+     "formation": null,
+     "rounds": []
+    },
+    {
+     "manager": "Marius",
+     "squad_name": "Ikke interessert",
+     "squad_id": "fd8400f7-809a-4ff6-b218-feb69382d61b",
+     "rank": 8,
+     "total_points": 57,
+     "latest_round_points": 57,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 57
+      }
+     ],
+     "squad": [],
+     "starter_ids": [],
+     "bench_ids": [],
+     "captain_id": null,
+     "vice_captain_id": null,
+     "formation": null,
+     "rounds": []
+    },
+    {
+     "manager": "Petter",
+     "squad_name": "3 øl 1 håp",
+     "squad_id": "5497ccf5-bca4-4fb6-9cf6-a06758e24060",
+     "rank": 8,
+     "total_points": 57,
+     "latest_round_points": 57,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 57
+      }
+     ],
+     "squad": [],
+     "starter_ids": [],
+     "bench_ids": [],
+     "captain_id": null,
+     "vice_captain_id": null,
+     "formation": null,
+     "rounds": []
+    },
+    {
+     "manager": "MIKA",
+     "squad_name": "Finske Grace Kelly",
+     "squad_id": "0b729fa7-605c-4db9-a771-e35876630def",
+     "rank": 8,
+     "total_points": 57,
+     "latest_round_points": 57,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 57
+      }
+     ],
+     "squad": [],
+     "starter_ids": [],
+     "bench_ids": [],
+     "captain_id": null,
+     "vice_captain_id": null,
+     "formation": null,
+     "rounds": []
+    },
+    {
+     "manager": "sumo",
+     "squad_name": "Liverbird ",
+     "squad_id": "061816d4-dfef-46ce-aa12-77a7d8dc36df",
+     "rank": 8,
+     "total_points": 57,
+     "latest_round_points": 57,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 57
+      }
+     ],
+     "squad": [],
+     "starter_ids": [],
+     "bench_ids": [],
+     "captain_id": null,
+     "vice_captain_id": null,
+     "formation": null,
+     "rounds": []
+    },
+    {
+     "manager": "Erik",
+     "squad_name": "LOL FC",
+     "squad_id": "b7b3ba54-a172-4952-a911-03bd6543dfef",
+     "rank": 12,
+     "total_points": 56,
+     "latest_round_points": 56,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 56
+      }
+     ],
+     "squad": [],
+     "starter_ids": [],
+     "bench_ids": [],
+     "captain_id": null,
+     "vice_captain_id": null,
+     "formation": null,
+     "rounds": []
+    },
+    {
+     "manager": "Ali André",
+     "squad_name": "Inter Oslo FC",
+     "squad_id": "632b0e3f-34d9-4ed7-8a89-73f99c339f5f",
+     "rank": 12,
+     "total_points": 56,
+     "latest_round_points": 56,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 56
+      }
+     ],
+     "squad": [],
+     "starter_ids": [],
+     "bench_ids": [],
+     "captain_id": null,
+     "vice_captain_id": null,
+     "formation": null,
+     "rounds": []
+    },
+    {
+     "manager": "Kristian",
+     "squad_name": "Altpå?Jatakk",
+     "squad_id": "0cadce91-5864-4f54-904e-d2292c726bad",
+     "rank": 12,
+     "total_points": 56,
+     "latest_round_points": 56,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 56
+      }
+     ],
+     "squad": [],
+     "starter_ids": [],
+     "bench_ids": [],
+     "captain_id": null,
+     "vice_captain_id": null,
+     "formation": null,
+     "rounds": []
+    },
+    {
+     "manager": "Tobias ",
+     "squad_name": "Brunost Fernandes",
+     "squad_id": "e8209f4f-25ec-468e-9e91-296d81703a77",
+     "rank": 15,
+     "total_points": 55,
+     "latest_round_points": 55,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 55
+      }
+     ],
+     "squad": [],
+     "starter_ids": [],
+     "bench_ids": [],
+     "captain_id": null,
+     "vice_captain_id": null,
+     "formation": null,
+     "rounds": []
+    },
+    {
+     "manager": "Camilla",
+     "squad_name": "CFC",
+     "squad_id": "ddbfa8a4-5699-441b-9704-3444fe03026d",
+     "rank": 15,
+     "total_points": 55,
+     "latest_round_points": 55,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 55
+      }
+     ],
+     "squad": [],
+     "starter_ids": [],
+     "bench_ids": [],
+     "captain_id": null,
+     "vice_captain_id": null,
+     "formation": null,
+     "rounds": []
+    },
+    {
+     "manager": "RUNE",
+     "squad_name": "Haug Forest",
+     "squad_id": "88b4d786-d6e4-4107-abe0-e0f006df434f",
+     "rank": 15,
+     "total_points": 55,
+     "latest_round_points": 55,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 55
+      }
+     ],
+     "squad": [],
+     "starter_ids": [],
+     "bench_ids": [],
+     "captain_id": null,
+     "vice_captain_id": null,
+     "formation": null,
+     "rounds": []
+    },
+    {
+     "manager": "Markus",
+     "squad_name": "Kragerøøøør",
+     "squad_id": "3049eac0-3c91-4c51-98e4-7348ed53752b",
+     "rank": 15,
+     "total_points": 55,
+     "latest_round_points": 55,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 55
+      }
+     ],
+     "squad": [],
+     "starter_ids": [],
+     "bench_ids": [],
+     "captain_id": null,
+     "vice_captain_id": null,
+     "formation": null,
+     "rounds": []
+    },
+    {
+     "manager": "Jim-Ronny",
+     "squad_name": "JIMHEINR",
+     "squad_id": "929fa5b2-8fc0-4848-b278-3f29f05bdb60",
+     "rank": 19,
+     "total_points": 54,
+     "latest_round_points": 54,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 54
+      }
+     ],
+     "squad": [],
+     "starter_ids": [],
+     "bench_ids": [],
+     "captain_id": null,
+     "vice_captain_id": null,
+     "formation": null,
+     "rounds": []
+    },
+    {
+     "manager": "adrian",
+     "squad_name": "FK Straffe/Rabat",
+     "squad_id": "570d2f73-28cc-4457-8b90-0dc61ec961e4",
+     "rank": 19,
+     "total_points": 54,
+     "latest_round_points": 54,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 54
+      }
+     ],
+     "squad": [],
+     "starter_ids": [],
+     "bench_ids": [],
+     "captain_id": null,
+     "vice_captain_id": null,
+     "formation": null,
+     "rounds": []
+    },
+    {
+     "manager": "Alexander",
+     "squad_name": "Aursnes sine disipler",
+     "squad_id": "f93f609f-f932-4422-bca3-2c4c2f80b593",
+     "rank": 21,
+     "total_points": 53,
+     "latest_round_points": 53,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 53
+      }
+     ],
+     "squad": [],
+     "starter_ids": [],
+     "bench_ids": [],
+     "captain_id": null,
+     "vice_captain_id": null,
+     "formation": null,
+     "rounds": []
+    },
+    {
+     "manager": "Morten",
+     "squad_name": "Toten Dream team",
+     "squad_id": "eaaee1d6-b31f-4e5d-9fd2-ca4a918dc863",
+     "rank": 21,
+     "total_points": 53,
+     "latest_round_points": 53,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 53
+      }
+     ],
+     "squad": [],
+     "starter_ids": [],
+     "bench_ids": [],
+     "captain_id": null,
+     "vice_captain_id": null,
+     "formation": null,
+     "rounds": []
+    },
+    {
+     "manager": "geir",
+     "squad_name": "Fc balltap",
+     "squad_id": "e483c1cd-6209-4bd7-85ba-c81df1a42c3c",
+     "rank": 21,
+     "total_points": 53,
+     "latest_round_points": 53,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 53
+      }
+     ],
+     "squad": [],
+     "starter_ids": [],
+     "bench_ids": [],
+     "captain_id": null,
+     "vice_captain_id": null,
+     "formation": null,
+     "rounds": []
+    },
+    {
+     "manager": "Espen",
+     "squad_name": "FC Iggy Pop",
+     "squad_id": "af27495a-aa4e-44a3-9f8e-9e2f3b16d1ed",
+     "rank": 21,
+     "total_points": 53,
+     "latest_round_points": 53,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 53
+      }
+     ],
+     "squad": [],
+     "starter_ids": [],
+     "bench_ids": [],
+     "captain_id": null,
+     "vice_captain_id": null,
+     "formation": null,
+     "rounds": []
+    },
+    {
+     "manager": "GAUTE REIER",
+     "squad_name": "Hightower United",
+     "squad_id": "abe57e63-45f7-42eb-a11d-cd6b43b4de58",
+     "rank": 21,
+     "total_points": 53,
+     "latest_round_points": 53,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 53
+      }
+     ],
+     "squad": [],
+     "starter_ids": [],
+     "bench_ids": [],
+     "captain_id": null,
+     "vice_captain_id": null,
+     "formation": null,
+     "rounds": []
+    },
+    {
+     "manager": "Janusan ",
+     "squad_name": "Samba King Football Federation",
+     "squad_id": "9526c5d6-463a-45e4-ad34-19e5f3957de1",
+     "rank": 21,
+     "total_points": 53,
+     "latest_round_points": 53,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 53
+      }
+     ],
+     "squad": [],
+     "starter_ids": [],
+     "bench_ids": [],
+     "captain_id": null,
+     "vice_captain_id": null,
+     "formation": null,
+     "rounds": []
+    },
+    {
+     "manager": " Bjørn Gohn",
+     "squad_name": "18 LYN 96",
+     "squad_id": "84c16d05-4b17-4b73-934f-4edb8a0b3191",
+     "rank": 21,
+     "total_points": 53,
+     "latest_round_points": 53,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 53
+      }
+     ],
+     "squad": [],
+     "starter_ids": [],
+     "bench_ids": [],
+     "captain_id": null,
+     "vice_captain_id": null,
+     "formation": null,
+     "rounds": []
+    },
+    {
+     "manager": "Tomas",
+     "squad_name": "Tap Tap FC",
+     "squad_id": "4c797477-ca5e-4741-a131-be3e48dc8519",
+     "rank": 21,
+     "total_points": 53,
+     "latest_round_points": 53,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 53
+      }
+     ],
+     "squad": [],
+     "starter_ids": [],
+     "bench_ids": [],
+     "captain_id": null,
+     "vice_captain_id": null,
+     "formation": null,
+     "rounds": []
+    },
+    {
+     "manager": "Robin",
+     "squad_name": "Sheffield Tuesday",
+     "squad_id": "3f532e0e-3a45-4e34-b2be-76d1dff7ed69",
+     "rank": 21,
+     "total_points": 53,
+     "latest_round_points": 53,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 53
+      }
+     ],
+     "squad": [],
+     "starter_ids": [],
+     "bench_ids": [],
+     "captain_id": null,
+     "vice_captain_id": null,
+     "formation": null,
+     "rounds": []
+    },
+    {
+     "manager": "Stian",
+     "squad_name": "StaysmanXI",
+     "squad_id": "d86c7c52-c240-4ef5-8ec0-6c6b7d316f02",
+     "rank": 30,
+     "total_points": 52,
+     "latest_round_points": 52,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 52
+      }
+     ],
+     "squad": [],
+     "starter_ids": [],
+     "bench_ids": [],
+     "captain_id": null,
+     "vice_captain_id": null,
+     "formation": null,
+     "rounds": []
+    },
+    {
+     "manager": "Martin",
+     "squad_name": "Nordbyen Elleven",
+     "squad_id": "a55a3dd6-629b-4d51-92ef-379659fb16a7",
+     "rank": 30,
+     "total_points": 52,
+     "latest_round_points": 52,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 52
+      }
+     ],
+     "squad": [],
+     "starter_ids": [],
+     "bench_ids": [],
+     "captain_id": null,
+     "vice_captain_id": null,
+     "formation": null,
+     "rounds": []
+    },
+    {
+     "manager": "Renate",
+     "squad_name": "Supre suckers",
+     "squad_id": "a446c0f4-8d60-4a58-a667-f5e3747132d3",
+     "rank": 30,
+     "total_points": 52,
+     "latest_round_points": 52,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 52
+      }
+     ],
+     "squad": [],
+     "starter_ids": [],
+     "bench_ids": [],
+     "captain_id": null,
+     "vice_captain_id": null,
+     "formation": null,
+     "rounds": []
+    },
+    {
+     "manager": "Johannes",
+     "squad_name": "Dunkepå",
+     "squad_id": "a022e54a-31e7-40f3-8491-f7a3db4a75ec",
+     "rank": 30,
+     "total_points": 52,
+     "latest_round_points": 52,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 52
+      }
+     ],
+     "squad": [],
+     "starter_ids": [],
+     "bench_ids": [],
+     "captain_id": null,
+     "vice_captain_id": null,
+     "formation": null,
+     "rounds": []
+    },
+    {
+     "manager": "Alf ROBIN G",
+     "squad_name": "Sjubabaloba",
+     "squad_id": "799940b4-b15b-4b03-9112-22f25b38d292",
+     "rank": 30,
+     "total_points": 52,
+     "latest_round_points": 52,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 52
+      }
+     ],
+     "squad": [],
+     "starter_ids": [],
+     "bench_ids": [],
+     "captain_id": null,
+     "vice_captain_id": null,
+     "formation": null,
+     "rounds": []
+    },
+    {
+     "manager": "Håvard",
+     "squad_name": "Lemieux",
+     "squad_id": "67144cb2-c19d-44c9-8634-f79a8fe88b35",
+     "rank": 30,
+     "total_points": 52,
+     "latest_round_points": 52,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 52
+      }
+     ],
+     "squad": [],
+     "starter_ids": [],
+     "bench_ids": [],
+     "captain_id": null,
+     "vice_captain_id": null,
+     "formation": null,
+     "rounds": []
+    },
+    {
+     "manager": "Jonas",
+     "squad_name": "Petrichor",
+     "squad_id": "5b234f03-370f-412d-9f98-f9d76e61ab47",
+     "rank": 30,
+     "total_points": 52,
+     "latest_round_points": 52,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 52
+      }
+     ],
+     "squad": [],
+     "starter_ids": [],
+     "bench_ids": [],
+     "captain_id": null,
+     "vice_captain_id": null,
+     "formation": null,
+     "rounds": []
+    },
+    {
+     "manager": "Henrik",
+     "squad_name": "Haalandaise",
+     "squad_id": "59469c28-a6b2-412b-b769-3f4785ae4e2b",
+     "rank": 30,
+     "total_points": 52,
+     "latest_round_points": 52,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 52
+      }
+     ],
+     "squad": [],
+     "starter_ids": [],
+     "bench_ids": [],
+     "captain_id": null,
+     "vice_captain_id": null,
+     "formation": null,
+     "rounds": []
+    },
+    {
+     "manager": "PETTER",
+     "squad_name": "Kjøp nå, vinn senere",
+     "squad_id": "4d6e8adf-a3d4-4ff2-b360-a79bbd3727e2",
+     "rank": 30,
+     "total_points": 52,
+     "latest_round_points": 52,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 52
+      }
+     ],
+     "squad": [],
+     "starter_ids": [],
+     "bench_ids": [],
+     "captain_id": null,
+     "vice_captain_id": null,
+     "formation": null,
+     "rounds": []
+    },
+    {
+     "manager": "Randi",
+     "squad_name": "Charelito",
+     "squad_id": "1a9669cc-e287-4ecd-b38c-67a45a88a3e5",
+     "rank": 30,
+     "total_points": 52,
+     "latest_round_points": 52,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 52
+      }
+     ],
+     "squad": [],
+     "starter_ids": [],
+     "bench_ids": [],
+     "captain_id": null,
+     "vice_captain_id": null,
+     "formation": null,
+     "rounds": []
+    },
+    {
+     "manager": "KARIN",
+     "squad_name": "OLE89",
+     "squad_id": "155a2554-4a6a-48c6-ad83-2f6aca916ef1",
+     "rank": 30,
+     "total_points": 52,
+     "latest_round_points": 52,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 52
+      }
+     ],
+     "squad": [],
+     "starter_ids": [],
+     "bench_ids": [],
+     "captain_id": null,
+     "vice_captain_id": null,
+     "formation": null,
+     "rounds": []
+    },
+    {
+     "manager": "Adrian ",
+     "squad_name": "Hoy",
+     "squad_id": "fc4a4be5-448e-47ba-aba7-f0ba2096472b",
+     "rank": 41,
+     "total_points": 51,
+     "latest_round_points": 51,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 51
+      }
+     ],
+     "squad": [],
+     "starter_ids": [],
+     "bench_ids": [],
+     "captain_id": null,
+     "vice_captain_id": null,
+     "formation": null,
+     "rounds": []
+    },
+    {
+     "manager": "Mats",
+     "squad_name": "Sleivdal",
+     "squad_id": "db6753e5-d0f7-4339-a443-c3a435595b6d",
+     "rank": 41,
+     "total_points": 51,
+     "latest_round_points": 51,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 51
+      }
+     ],
+     "squad": [],
+     "starter_ids": [],
+     "bench_ids": [],
+     "captain_id": null,
+     "vice_captain_id": null,
+     "formation": null,
+     "rounds": []
+    },
+    {
+     "manager": "Petrit",
+     "squad_name": "The legends",
+     "squad_id": "c54f1579-1a15-4269-92ce-0eb27d7a7810",
+     "rank": 41,
+     "total_points": 51,
+     "latest_round_points": 51,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 51
+      }
+     ],
+     "squad": [],
+     "starter_ids": [],
+     "bench_ids": [],
+     "captain_id": null,
+     "vice_captain_id": null,
+     "formation": null,
+     "rounds": []
+    },
+    {
+     "manager": "Martin",
+     "squad_name": "Zieg FC",
+     "squad_id": "bb1fcdb9-4bce-43a3-9add-16c7f3699ad2",
+     "rank": 41,
+     "total_points": 51,
+     "latest_round_points": 51,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 51
+      }
+     ],
+     "squad": [],
+     "starter_ids": [],
+     "bench_ids": [],
+     "captain_id": null,
+     "vice_captain_id": null,
+     "formation": null,
+     "rounds": []
+    },
+    {
+     "manager": "Henrik",
+     "squad_name": "Nard dogs",
+     "squad_id": "60afe2ca-f436-420e-bdc1-c121a2f5de37",
+     "rank": 41,
+     "total_points": 51,
+     "latest_round_points": 51,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 51
+      }
+     ],
+     "squad": [],
+     "starter_ids": [],
+     "bench_ids": [],
+     "captain_id": null,
+     "vice_captain_id": null,
+     "formation": null,
+     "rounds": []
+    },
+    {
+     "manager": "Åsmund",
+     "squad_name": "Braastad IL",
+     "squad_id": "5238e77d-8c0e-4dea-a6a2-2e2a0a5bc24b",
+     "rank": 41,
+     "total_points": 51,
+     "latest_round_points": 51,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 51
+      }
+     ],
+     "squad": [],
+     "starter_ids": [],
+     "bench_ids": [],
+     "captain_id": null,
+     "vice_captain_id": null,
+     "formation": null,
+     "rounds": []
+    },
+    {
+     "manager": "Mathias",
+     "squad_name": "The Kardashians",
+     "squad_id": "4df221bd-a538-4349-bfd5-42de334830ea",
+     "rank": 41,
+     "total_points": 51,
+     "latest_round_points": 51,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 51
+      }
+     ],
+     "squad": [],
+     "starter_ids": [],
+     "bench_ids": [],
+     "captain_id": null,
+     "vice_captain_id": null,
+     "formation": null,
+     "rounds": []
+    },
+    {
+     "manager": "Rune",
+     "squad_name": "Lindebergåsen teamet",
+     "squad_id": "30bf5fe5-5e52-4d4b-9ee1-7d45184fd288",
+     "rank": 41,
+     "total_points": 51,
+     "latest_round_points": 51,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 51
+      }
+     ],
+     "squad": [],
+     "starter_ids": [],
+     "bench_ids": [],
+     "captain_id": null,
+     "vice_captain_id": null,
+     "formation": null,
+     "rounds": []
+    },
+    {
+     "manager": "Michael",
+     "squad_name": "Tørres",
+     "squad_id": "2bae1bab-ca10-4436-b83b-bdf348b3cf64",
+     "rank": 41,
+     "total_points": 51,
+     "latest_round_points": 51,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 51
+      }
+     ],
+     "squad": [],
+     "starter_ids": [],
+     "bench_ids": [],
+     "captain_id": null,
+     "vice_captain_id": null,
+     "formation": null,
+     "rounds": []
+    },
+    {
+     "manager": "Erik",
+     "squad_name": "Malangen Dribleklubb",
+     "squad_id": "14b02a0a-7703-4356-a81e-1eecd03a493b",
+     "rank": 41,
+     "total_points": 51,
+     "latest_round_points": 51,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 51
+      }
+     ],
+     "squad": [],
+     "starter_ids": [],
+     "bench_ids": [],
+     "captain_id": null,
+     "vice_captain_id": null,
+     "formation": null,
+     "rounds": []
+    },
+    {
+     "manager": "Ørjan",
+     "squad_name": "Frøyas Hage",
+     "squad_id": "06581004-80ee-4c99-bf0f-7bf4caa4d2b0",
+     "rank": 41,
+     "total_points": 51,
+     "latest_round_points": 51,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 51
+      }
+     ],
+     "squad": [],
+     "starter_ids": [],
+     "bench_ids": [],
+     "captain_id": null,
+     "vice_captain_id": null,
+     "formation": null,
+     "rounds": []
+    },
+    {
+     "manager": "Tobias",
+     "squad_name": "Boge´s disipler",
+     "squad_id": "03a79494-5495-4890-8fff-164d5c2a4db3",
+     "rank": 41,
+     "total_points": 51,
+     "latest_round_points": 51,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 51
+      }
+     ],
+     "squad": [],
+     "starter_ids": [],
+     "bench_ids": [],
+     "captain_id": null,
+     "vice_captain_id": null,
+     "formation": null,
+     "rounds": []
+    },
+    {
+     "manager": "Isabelle Matilda",
+     "squad_name": "Jentelaget",
+     "squad_id": "f49fbb01-6f6b-4bbb-a6b7-2d0196f22bcb",
+     "rank": 53,
      "total_points": 50,
      "latest_round_points": 50,
      "round_scores": [
@@ -577,17 +1701,17 @@
      "rounds": []
     },
     {
-     "manager": "Thomas",
-     "squad_name": "Bang Average FC",
-     "squad_id": "b2919344-e8c2-47c7-9f15-93158ffd5d3e",
-     "rank": 3,
-     "total_points": 44,
-     "latest_round_points": 44,
+     "manager": "Mads",
+     "squad_name": "OSI H6",
+     "squad_id": "d5d21c03-8f34-4a61-a9e3-514c246ea389",
+     "rank": 53,
+     "total_points": 50,
+     "latest_round_points": 50,
      "round_scores": [
       {
        "roundNumber": 1,
        "roundName": "Runde 1 - Gruppespill",
-       "points": 44
+       "points": 50
       }
      ],
      "squad": [],
@@ -599,17 +1723,17 @@
      "rounds": []
     },
     {
-     "manager": "Petter",
-     "squad_name": "3 øl 1 håp",
-     "squad_id": "5497ccf5-bca4-4fb6-9cf6-a06758e24060",
-     "rank": 4,
-     "total_points": 41,
-     "latest_round_points": 41,
+     "manager": "Eilert",
+     "squad_name": "Sjelden Kjepphest",
+     "squad_id": "d285dd9d-1fc5-40b0-ad40-a7ec9264d4e9",
+     "rank": 53,
+     "total_points": 50,
+     "latest_round_points": 50,
      "round_scores": [
       {
        "roundNumber": 1,
        "roundName": "Runde 1 - Gruppespill",
-       "points": 41
+       "points": 50
       }
      ],
      "squad": [],
@@ -621,17 +1745,17 @@
      "rounds": []
     },
     {
-     "manager": "Simon",
-     "squad_name": "Tangsprell United",
-     "squad_id": "f8e51045-7328-4f0b-922f-42aa008d5c25",
-     "rank": 5,
-     "total_points": 40,
-     "latest_round_points": 40,
+     "manager": "Odd Steinar",
+     "squad_name": "Galgeberg Greats",
+     "squad_id": "b333edcc-4a03-4fe8-8c0f-bd76fa86882e",
+     "rank": 53,
+     "total_points": 50,
+     "latest_round_points": 50,
      "round_scores": [
       {
        "roundNumber": 1,
        "roundName": "Runde 1 - Gruppespill",
-       "points": 40
+       "points": 50
       }
      ],
      "squad": [],
@@ -643,17 +1767,17 @@
      "rounds": []
     },
     {
-     "manager": "Kristian",
-     "squad_name": "MOT",
-     "squad_id": "d4b80b07-84e2-432a-8fcf-e57410ebd552",
-     "rank": 5,
-     "total_points": 40,
-     "latest_round_points": 40,
+     "manager": "Cathrine",
+     "squad_name": "Disney",
+     "squad_id": "98487972-f3a9-4507-8bb6-3f3c9876844a",
+     "rank": 53,
+     "total_points": 50,
+     "latest_round_points": 50,
      "round_scores": [
       {
        "roundNumber": 1,
        "roundName": "Runde 1 - Gruppespill",
-       "points": 40
+       "points": 50
       }
      ],
      "squad": [],
@@ -665,17 +1789,17 @@
      "rounds": []
     },
     {
-     "manager": "Terje",
-     "squad_name": "WC Villasimius ",
-     "squad_id": "ca5512e6-baac-451e-bae3-616b233a237c",
-     "rank": 5,
-     "total_points": 40,
-     "latest_round_points": 40,
+     "manager": "Daniel",
+     "squad_name": "Langhus Rockers",
+     "squad_id": "91cb6d61-7700-4aac-b6c9-db81a05f413c",
+     "rank": 53,
+     "total_points": 50,
+     "latest_round_points": 50,
      "round_scores": [
       {
        "roundNumber": 1,
        "roundName": "Runde 1 - Gruppespill",
-       "points": 40
+       "points": 50
       }
      ],
      "squad": [],
@@ -687,17 +1811,17 @@
      "rounds": []
     },
     {
-     "manager": "Anders",
-     "squad_name": "Karamellene",
-     "squad_id": "eff0b952-7007-42d8-a79f-bc3dcc2cf7fa",
-     "rank": 8,
-     "total_points": 39,
-     "latest_round_points": 39,
+     "manager": "Aslak",
+     "squad_name": "Forza Stabæk",
+     "squad_id": "8725c20e-8fd4-4780-b99a-7773f2903973",
+     "rank": 53,
+     "total_points": 50,
+     "latest_round_points": 50,
      "round_scores": [
       {
        "roundNumber": 1,
        "roundName": "Runde 1 - Gruppespill",
-       "points": 39
+       "points": 50
       }
      ],
      "squad": [],
@@ -709,281 +1833,17 @@
      "rounds": []
     },
     {
-     "manager": "Vebjorn",
-     "squad_name": "URadebeLeeds",
-     "squad_id": "b1226888-b709-40dc-b830-f9b83a5c443d",
-     "rank": 9,
-     "total_points": 38,
-     "latest_round_points": 38,
+     "manager": "Andreas",
+     "squad_name": "King Crab Safari",
+     "squad_id": "85f2279a-c6dd-4931-8d2b-b48194c6747a",
+     "rank": 53,
+     "total_points": 50,
+     "latest_round_points": 50,
      "round_scores": [
       {
        "roundNumber": 1,
        "roundName": "Runde 1 - Gruppespill",
-       "points": 38
-      }
-     ],
-     "squad": [],
-     "starter_ids": [],
-     "bench_ids": [],
-     "captain_id": null,
-     "vice_captain_id": null,
-     "formation": null,
-     "rounds": []
-    },
-    {
-     "manager": "Renate",
-     "squad_name": "Supre suckers",
-     "squad_id": "a446c0f4-8d60-4a58-a667-f5e3747132d3",
-     "rank": 9,
-     "total_points": 38,
-     "latest_round_points": 38,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 38
-      }
-     ],
-     "squad": [],
-     "starter_ids": [],
-     "bench_ids": [],
-     "captain_id": null,
-     "vice_captain_id": null,
-     "formation": null,
-     "rounds": []
-    },
-    {
-     "manager": "Nita",
-     "squad_name": "JuciKakavuci",
-     "squad_id": "447b440a-11a9-41d3-8c7c-88a55bc436f1",
-     "rank": 9,
-     "total_points": 38,
-     "latest_round_points": 38,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 38
-      }
-     ],
-     "squad": [],
-     "starter_ids": [],
-     "bench_ids": [],
-     "captain_id": null,
-     "vice_captain_id": null,
-     "formation": null,
-     "rounds": []
-    },
-    {
-     "manager": "Adrian ",
-     "squad_name": "Hoy",
-     "squad_id": "fc4a4be5-448e-47ba-aba7-f0ba2096472b",
-     "rank": 12,
-     "total_points": 37,
-     "latest_round_points": 37,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 37
-      }
-     ],
-     "squad": [],
-     "starter_ids": [],
-     "bench_ids": [],
-     "captain_id": null,
-     "vice_captain_id": null,
-     "formation": null,
-     "rounds": []
-    },
-    {
-     "manager": "Lara",
-     "squad_name": "1869 Sofienberg sport & fiske",
-     "squad_id": "cda1930a-5765-4418-99b3-8ce5b60eeeb9",
-     "rank": 12,
-     "total_points": 37,
-     "latest_round_points": 37,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 37
-      }
-     ],
-     "squad": [],
-     "starter_ids": [],
-     "bench_ids": [],
-     "captain_id": null,
-     "vice_captain_id": null,
-     "formation": null,
-     "rounds": []
-    },
-    {
-     "manager": "Martin",
-     "squad_name": "Varhaug IL",
-     "squad_id": "c975ce79-d297-4cab-8666-de2075005e80",
-     "rank": 12,
-     "total_points": 37,
-     "latest_round_points": 37,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 37
-      }
-     ],
-     "squad": [],
-     "starter_ids": [],
-     "bench_ids": [],
-     "captain_id": null,
-     "vice_captain_id": null,
-     "formation": null,
-     "rounds": []
-    },
-    {
-     "manager": "Birgit",
-     "squad_name": "Toftolini FC",
-     "squad_id": "8e159f23-54d7-4e66-93e4-6aab1ef09781",
-     "rank": 12,
-     "total_points": 37,
-     "latest_round_points": 37,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 37
-      }
-     ],
-     "squad": [],
-     "starter_ids": [],
-     "bench_ids": [],
-     "captain_id": null,
-     "vice_captain_id": null,
-     "formation": null,
-     "rounds": []
-    },
-    {
-     "manager": "RUNE",
-     "squad_name": "Haug Forest",
-     "squad_id": "88b4d786-d6e4-4107-abe0-e0f006df434f",
-     "rank": 12,
-     "total_points": 37,
-     "latest_round_points": 37,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 37
-      }
-     ],
-     "squad": [],
-     "starter_ids": [],
-     "bench_ids": [],
-     "captain_id": null,
-     "vice_captain_id": null,
-     "formation": null,
-     "rounds": []
-    },
-    {
-     "manager": "Harald",
-     "squad_name": "Helvetes Haaland",
-     "squad_id": "7f3f496b-093e-4ae2-a4fe-f9de1c28bfb2",
-     "rank": 12,
-     "total_points": 37,
-     "latest_round_points": 37,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 37
-      }
-     ],
-     "squad": [],
-     "starter_ids": [],
-     "bench_ids": [],
-     "captain_id": null,
-     "vice_captain_id": null,
-     "formation": null,
-     "rounds": []
-    },
-    {
-     "manager": "Tomas",
-     "squad_name": "Tap Tap FC",
-     "squad_id": "4c797477-ca5e-4741-a131-be3e48dc8519",
-     "rank": 12,
-     "total_points": 37,
-     "latest_round_points": 37,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 37
-      }
-     ],
-     "squad": [],
-     "starter_ids": [],
-     "bench_ids": [],
-     "captain_id": null,
-     "vice_captain_id": null,
-     "formation": null,
-     "rounds": []
-    },
-    {
-     "manager": "sumo",
-     "squad_name": "Liverbird ",
-     "squad_id": "061816d4-dfef-46ce-aa12-77a7d8dc36df",
-     "rank": 12,
-     "total_points": 37,
-     "latest_round_points": 37,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 37
-      }
-     ],
-     "squad": [],
-     "starter_ids": [],
-     "bench_ids": [],
-     "captain_id": null,
-     "vice_captain_id": null,
-     "formation": null,
-     "rounds": []
-    },
-    {
-     "manager": "Jan Fredrik Nes",
-     "squad_name": "Freds",
-     "squad_id": "ddf3a79c-e0b1-4ad5-88af-7b5e7efb9060",
-     "rank": 20,
-     "total_points": 36,
-     "latest_round_points": 36,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 36
-      }
-     ],
-     "squad": [],
-     "starter_ids": [],
-     "bench_ids": [],
-     "captain_id": null,
-     "vice_captain_id": null,
-     "formation": null,
-     "rounds": []
-    },
-    {
-     "manager": "Sjur",
-     "squad_name": "FC Sjur",
-     "squad_id": "b8ce969a-830f-4616-925f-b94f72914176",
-     "rank": 20,
-     "total_points": 36,
-     "latest_round_points": 36,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 36
+       "points": 50
       }
      ],
      "squad": [],
@@ -998,1224 +1858,14 @@
      "manager": "Bjørn",
      "squad_name": "Vinneres ",
      "squad_id": "7b47d93c-384c-41dc-80e8-1c24a8f49c24",
-     "rank": 20,
-     "total_points": 36,
-     "latest_round_points": 36,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 36
-      }
-     ],
-     "squad": [],
-     "starter_ids": [],
-     "bench_ids": [],
-     "captain_id": null,
-     "vice_captain_id": null,
-     "formation": null,
-     "rounds": []
-    },
-    {
-     "manager": "Ali André",
-     "squad_name": "Inter Oslo FC",
-     "squad_id": "632b0e3f-34d9-4ed7-8a89-73f99c339f5f",
-     "rank": 20,
-     "total_points": 36,
-     "latest_round_points": 36,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 36
-      }
-     ],
-     "squad": [],
-     "starter_ids": [],
-     "bench_ids": [],
-     "captain_id": null,
-     "vice_captain_id": null,
-     "formation": null,
-     "rounds": []
-    },
-    {
-     "manager": "Viktor",
-     "squad_name": "Braut force attack",
-     "squad_id": "1477acce-a087-46a4-acb3-1e82c96f57c7",
-     "rank": 20,
-     "total_points": 36,
-     "latest_round_points": 36,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 36
-      }
-     ],
-     "squad": [],
-     "starter_ids": [],
-     "bench_ids": [],
-     "captain_id": null,
-     "vice_captain_id": null,
-     "formation": null,
-     "rounds": []
-    },
-    {
-     "manager": "Teemu",
-     "squad_name": "Finland skal vinne VM",
-     "squad_id": "c2c5a428-e757-4287-b26d-0e926c65de02",
-     "rank": 25,
-     "total_points": 35,
-     "latest_round_points": 35,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 35
-      }
-     ],
-     "squad": [],
-     "starter_ids": [],
-     "bench_ids": [],
-     "captain_id": null,
-     "vice_captain_id": null,
-     "formation": null,
-     "rounds": []
-    },
-    {
-     "manager": "Knut",
-     "squad_name": "Miracle on grass",
-     "squad_id": "91051909-7816-4246-8e97-ce75e48d6b6d",
-     "rank": 25,
-     "total_points": 35,
-     "latest_round_points": 35,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 35
-      }
-     ],
-     "squad": [],
-     "starter_ids": [],
-     "bench_ids": [],
-     "captain_id": null,
-     "vice_captain_id": null,
-     "formation": null,
-     "rounds": []
-    },
-    {
-     "manager": "Nina",
-     "squad_name": "TILSYNelatende best",
-     "squad_id": "332d3d76-6518-4d16-89c5-765503002fc2",
-     "rank": 25,
-     "total_points": 35,
-     "latest_round_points": 35,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 35
-      }
-     ],
-     "squad": [],
-     "starter_ids": [],
-     "bench_ids": [],
-     "captain_id": null,
-     "vice_captain_id": null,
-     "formation": null,
-     "rounds": []
-    },
-    {
-     "manager": "Pål",
-     "squad_name": "Her går da Undav",
-     "squad_id": "094ec54f-e1c0-411b-922e-726b6a86fd12",
-     "rank": 25,
-     "total_points": 35,
-     "latest_round_points": 35,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 35
-      }
-     ],
-     "squad": [],
-     "starter_ids": [],
-     "bench_ids": [],
-     "captain_id": null,
-     "vice_captain_id": null,
-     "formation": null,
-     "rounds": []
-    },
-    {
-     "manager": "Anonym",
-     "squad_name": "Skur18",
-     "squad_id": "075b423e-2a16-4489-8b7d-adb56b04bda9",
-     "rank": 25,
-     "total_points": 35,
-     "latest_round_points": 35,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 35
-      }
-     ],
-     "squad": [],
-     "starter_ids": [],
-     "bench_ids": [],
-     "captain_id": null,
-     "vice_captain_id": null,
-     "formation": null,
-     "rounds": []
-    },
-    {
-     "manager": "Martin",
-     "squad_name": "Antonio Nasa",
-     "squad_id": "e5c02690-3cd2-432b-a757-51cc2208771f",
-     "rank": 30,
-     "total_points": 34,
-     "latest_round_points": 34,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 34
-      }
-     ],
-     "squad": [],
-     "starter_ids": [],
-     "bench_ids": [],
-     "captain_id": null,
-     "vice_captain_id": null,
-     "formation": null,
-     "rounds": []
-    },
-    {
-     "manager": "ingvildsathre@hotmail.com",
-     "squad_name": "FC Lillehammer",
-     "squad_id": "d78b6706-ca05-40d3-85bb-f86aeeabaa95",
-     "rank": 30,
-     "total_points": 34,
-     "latest_round_points": 34,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 34
-      }
-     ],
-     "squad": [],
-     "starter_ids": [],
-     "bench_ids": [],
-     "captain_id": null,
-     "vice_captain_id": null,
-     "formation": null,
-     "rounds": []
-    },
-    {
-     "manager": "Nils-Åge",
-     "squad_name": "Lemcester Wanderers",
-     "squad_id": "7ed55155-fafb-444b-8728-217e50aa93eb",
-     "rank": 30,
-     "total_points": 34,
-     "latest_round_points": 34,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 34
-      }
-     ],
-     "squad": [],
-     "starter_ids": [],
-     "bench_ids": [],
-     "captain_id": null,
-     "vice_captain_id": null,
-     "formation": null,
-     "rounds": []
-    },
-    {
-     "manager": "Simen",
-     "squad_name": "Thraex Footballfan#1",
-     "squad_id": "5c3cb70f-892a-4798-b751-c46e0067da5d",
-     "rank": 30,
-     "total_points": 34,
-     "latest_round_points": 34,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 34
-      }
-     ],
-     "squad": [],
-     "starter_ids": [],
-     "bench_ids": [],
-     "captain_id": null,
-     "vice_captain_id": null,
-     "formation": null,
-     "rounds": []
-    },
-    {
-     "manager": "William",
-     "squad_name": "Dubnation ",
-     "squad_id": "0df31b06-2a05-45ce-a8b1-b6fdea775a3f",
-     "rank": 30,
-     "total_points": 34,
-     "latest_round_points": 34,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 34
-      }
-     ],
-     "squad": [],
-     "starter_ids": [],
-     "bench_ids": [],
-     "captain_id": null,
-     "vice_captain_id": null,
-     "formation": null,
-     "rounds": []
-    },
-    {
-     "manager": "MIKA",
-     "squad_name": "Finske Grace Kelly",
-     "squad_id": "0b729fa7-605c-4db9-a771-e35876630def",
-     "rank": 30,
-     "total_points": 34,
-     "latest_round_points": 34,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 34
-      }
-     ],
-     "squad": [],
-     "starter_ids": [],
-     "bench_ids": [],
-     "captain_id": null,
-     "vice_captain_id": null,
-     "formation": null,
-     "rounds": []
-    },
-    {
-     "manager": "Britt Elin",
-     "squad_name": "FC Vikings",
-     "squad_id": "0ae732dd-7940-4c29-a767-4a62215295d9",
-     "rank": 30,
-     "total_points": 34,
-     "latest_round_points": 34,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 34
-      }
-     ],
-     "squad": [],
-     "starter_ids": [],
-     "bench_ids": [],
-     "captain_id": null,
-     "vice_captain_id": null,
-     "formation": null,
-     "rounds": []
-    },
-    {
-     "manager": "Anonym",
-     "squad_name": "Judas",
-     "squad_id": "db0c7ef9-6587-487a-956a-ecfeb88e1183",
-     "rank": 37,
-     "total_points": 33,
-     "latest_round_points": 33,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 33
-      }
-     ],
-     "squad": [],
-     "starter_ids": [],
-     "bench_ids": [],
-     "captain_id": null,
-     "vice_captain_id": null,
-     "formation": null,
-     "rounds": []
-    },
-    {
-     "manager": "Erlend",
-     "squad_name": "Fotball",
-     "squad_id": "c5312952-d043-43fe-b99e-dc42ea19cfc4",
-     "rank": 37,
-     "total_points": 33,
-     "latest_round_points": 33,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 33
-      }
-     ],
-     "squad": [],
-     "starter_ids": [],
-     "bench_ids": [],
-     "captain_id": null,
-     "vice_captain_id": null,
-     "formation": null,
-     "rounds": []
-    },
-    {
-     "manager": "Randi",
-     "squad_name": "Randabaggarna",
-     "squad_id": "baf719ad-8206-4c9c-adb2-c1e996cbea31",
-     "rank": 37,
-     "total_points": 33,
-     "latest_round_points": 33,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 33
-      }
-     ],
-     "squad": [],
-     "starter_ids": [],
-     "bench_ids": [],
-     "captain_id": null,
-     "vice_captain_id": null,
-     "formation": null,
-     "rounds": []
-    },
-    {
-     "manager": "Lars",
-     "squad_name": "TooLates",
-     "squad_id": "8b5c1bc3-c9c2-4ce0-89c1-a72f12b71ab9",
-     "rank": 37,
-     "total_points": 33,
-     "latest_round_points": 33,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 33
-      }
-     ],
-     "squad": [],
-     "starter_ids": [],
-     "bench_ids": [],
-     "captain_id": null,
-     "vice_captain_id": null,
-     "formation": null,
-     "rounds": []
-    },
-    {
-     "manager": " Bjørn Gohn",
-     "squad_name": "18 LYN 96",
-     "squad_id": "84c16d05-4b17-4b73-934f-4edb8a0b3191",
-     "rank": 37,
-     "total_points": 33,
-     "latest_round_points": 33,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 33
-      }
-     ],
-     "squad": [],
-     "starter_ids": [],
-     "bench_ids": [],
-     "captain_id": null,
-     "vice_captain_id": null,
-     "formation": null,
-     "rounds": []
-    },
-    {
-     "manager": "Niklas",
-     "squad_name": "Gutta",
-     "squad_id": "6b083802-00ce-493a-803b-105c16ec2892",
-     "rank": 37,
-     "total_points": 33,
-     "latest_round_points": 33,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 33
-      }
-     ],
-     "squad": [],
-     "starter_ids": [],
-     "bench_ids": [],
-     "captain_id": null,
-     "vice_captain_id": null,
-     "formation": null,
-     "rounds": []
-    },
-    {
-     "manager": "Håvard",
-     "squad_name": "Lemieux",
-     "squad_id": "67144cb2-c19d-44c9-8634-f79a8fe88b35",
-     "rank": 37,
-     "total_points": 33,
-     "latest_round_points": 33,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 33
-      }
-     ],
-     "squad": [],
-     "starter_ids": [],
-     "bench_ids": [],
-     "captain_id": null,
-     "vice_captain_id": null,
-     "formation": null,
-     "rounds": []
-    },
-    {
-     "manager": "Øyvind",
-     "squad_name": "Locos fra Landås",
-     "squad_id": "3f346679-25ca-4dba-b8d5-85e6139c2717",
-     "rank": 37,
-     "total_points": 33,
-     "latest_round_points": 33,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 33
-      }
-     ],
-     "squad": [],
-     "starter_ids": [],
-     "bench_ids": [],
-     "captain_id": null,
-     "vice_captain_id": null,
-     "formation": null,
-     "rounds": []
-    },
-    {
-     "manager": "Zakaria",
-     "squad_name": "33/34",
-     "squad_id": "2ea58c6a-bf09-44f8-8411-5318dd960f7d",
-     "rank": 37,
-     "total_points": 33,
-     "latest_round_points": 33,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 33
-      }
-     ],
-     "squad": [],
-     "starter_ids": [],
-     "bench_ids": [],
-     "captain_id": null,
-     "vice_captain_id": null,
-     "formation": null,
-     "rounds": []
-    },
-    {
-     "manager": "Eivind",
-     "squad_name": "Grabbarna Grus",
-     "squad_id": "f7bf9579-0453-4635-a6e6-a17ce6f6d870",
-     "rank": 46,
-     "total_points": 32,
-     "latest_round_points": 32,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 32
-      }
-     ],
-     "squad": [],
-     "starter_ids": [],
-     "bench_ids": [],
-     "captain_id": null,
-     "vice_captain_id": null,
-     "formation": null,
-     "rounds": []
-    },
-    {
-     "manager": "Tobias ",
-     "squad_name": "Brunost Fernandes",
-     "squad_id": "e8209f4f-25ec-468e-9e91-296d81703a77",
-     "rank": 46,
-     "total_points": 32,
-     "latest_round_points": 32,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 32
-      }
-     ],
-     "squad": [],
-     "starter_ids": [],
-     "bench_ids": [],
-     "captain_id": null,
-     "vice_captain_id": null,
-     "formation": null,
-     "rounds": []
-    },
-    {
-     "manager": "Andres",
-     "squad_name": "Andres Sexy Picks FC",
-     "squad_id": "9edadd51-31a9-4db2-a287-68ee4696c746",
-     "rank": 46,
-     "total_points": 32,
-     "latest_round_points": 32,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 32
-      }
-     ],
-     "squad": [],
-     "starter_ids": [],
-     "bench_ids": [],
-     "captain_id": null,
-     "vice_captain_id": null,
-     "formation": null,
-     "rounds": []
-    },
-    {
-     "manager": "TORE",
-     "squad_name": "Tores Lotto Lag",
-     "squad_id": "8af0ef82-6a43-4e3e-ba14-f91df2b075af",
-     "rank": 46,
-     "total_points": 32,
-     "latest_round_points": 32,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 32
-      }
-     ],
-     "squad": [],
-     "starter_ids": [],
-     "bench_ids": [],
-     "captain_id": null,
-     "vice_captain_id": null,
-     "formation": null,
-     "rounds": []
-    },
-    {
-     "manager": "Mina",
-     "squad_name": "Ats",
-     "squad_id": "86d15239-dca4-4a97-97da-8c39a700df89",
-     "rank": 46,
-     "total_points": 32,
-     "latest_round_points": 32,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 32
-      }
-     ],
-     "squad": [],
-     "starter_ids": [],
-     "bench_ids": [],
-     "captain_id": null,
-     "vice_captain_id": null,
-     "formation": null,
-     "rounds": []
-    },
-    {
-     "manager": "Terje",
-     "squad_name": "New Yokke, New Yokke",
-     "squad_id": "3f504a37-abb2-4493-9c74-1778c90b65f7",
-     "rank": 46,
-     "total_points": 32,
-     "latest_round_points": 32,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 32
-      }
-     ],
-     "squad": [],
-     "starter_ids": [],
-     "bench_ids": [],
-     "captain_id": null,
-     "vice_captain_id": null,
-     "formation": null,
-     "rounds": []
-    },
-    {
-     "manager": "Kaj",
-     "squad_name": "Kimmich-kål",
-     "squad_id": "3220b38b-edae-4134-a459-4b588d4740f3",
-     "rank": 46,
-     "total_points": 32,
-     "latest_round_points": 32,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 32
-      }
-     ],
-     "squad": [],
-     "starter_ids": [],
-     "bench_ids": [],
-     "captain_id": null,
-     "vice_captain_id": null,
-     "formation": null,
-     "rounds": []
-    },
-    {
-     "manager": "Johnny",
-     "squad_name": "Berre Ball",
-     "squad_id": "d0c483fb-175d-41a7-8800-07c08a1d97d8",
      "rank": 53,
-     "total_points": 31,
-     "latest_round_points": 31,
+     "total_points": 50,
+     "latest_round_points": 50,
      "round_scores": [
       {
        "roundNumber": 1,
        "roundName": "Runde 1 - Gruppespill",
-       "points": 31
-      }
-     ],
-     "squad": [],
-     "starter_ids": [],
-     "bench_ids": [],
-     "captain_id": null,
-     "vice_captain_id": null,
-     "formation": null,
-     "rounds": []
-    },
-    {
-     "manager": "Viktor",
-     "squad_name": "Vamos Jugar",
-     "squad_id": "b7a08564-58eb-4691-bd71-eb181ef802f2",
-     "rank": 53,
-     "total_points": 31,
-     "latest_round_points": 31,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 31
-      }
-     ],
-     "squad": [],
-     "starter_ids": [],
-     "bench_ids": [],
-     "captain_id": null,
-     "vice_captain_id": null,
-     "formation": null,
-     "rounds": []
-    },
-    {
-     "manager": "Helge",
-     "squad_name": "The LeBron James of soccer FC",
-     "squad_id": "b71cec96-ffe3-4104-90f7-774cb89677a1",
-     "rank": 53,
-     "total_points": 31,
-     "latest_round_points": 31,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 31
-      }
-     ],
-     "squad": [],
-     "starter_ids": [],
-     "bench_ids": [],
-     "captain_id": null,
-     "vice_captain_id": null,
-     "formation": null,
-     "rounds": []
-    },
-    {
-     "manager": "Sigurd",
-     "squad_name": "Jau",
-     "squad_id": "881d57fb-3293-44fb-aa54-fb95d810360a",
-     "rank": 53,
-     "total_points": 31,
-     "latest_round_points": 31,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 31
-      }
-     ],
-     "squad": [],
-     "starter_ids": [],
-     "bench_ids": [],
-     "captain_id": null,
-     "vice_captain_id": null,
-     "formation": null,
-     "rounds": []
-    },
-    {
-     "manager": "Fridtjof",
-     "squad_name": "Doffens utvalgte",
-     "squad_id": "81ca3416-693c-484b-921c-e710d9871533",
-     "rank": 53,
-     "total_points": 31,
-     "latest_round_points": 31,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 31
-      }
-     ],
-     "squad": [],
-     "starter_ids": [],
-     "bench_ids": [],
-     "captain_id": null,
-     "vice_captain_id": null,
-     "formation": null,
-     "rounds": []
-    },
-    {
-     "manager": "Kristian",
-     "squad_name": "Kristian’s 11 ",
-     "squad_id": "7cc0cbdf-d534-4f22-a461-abdda67093eb",
-     "rank": 53,
-     "total_points": 31,
-     "latest_round_points": 31,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 31
-      }
-     ],
-     "squad": [],
-     "starter_ids": [],
-     "bench_ids": [],
-     "captain_id": null,
-     "vice_captain_id": null,
-     "formation": null,
-     "rounds": []
-    },
-    {
-     "manager": "Jens",
-     "squad_name": "Dette går ikke bra",
-     "squad_id": "6a98be23-845c-44ab-af72-da54e08fc6d0",
-     "rank": 53,
-     "total_points": 31,
-     "latest_round_points": 31,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 31
-      }
-     ],
-     "squad": [],
-     "starter_ids": [],
-     "bench_ids": [],
-     "captain_id": null,
-     "vice_captain_id": null,
-     "formation": null,
-     "rounds": []
-    },
-    {
-     "manager": "Mathias",
-     "squad_name": "The Kardashians",
-     "squad_id": "4df221bd-a538-4349-bfd5-42de334830ea",
-     "rank": 53,
-     "total_points": 31,
-     "latest_round_points": 31,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 31
-      }
-     ],
-     "squad": [],
-     "starter_ids": [],
-     "bench_ids": [],
-     "captain_id": null,
-     "vice_captain_id": null,
-     "formation": null,
-     "rounds": []
-    },
-    {
-     "manager": "PETTER",
-     "squad_name": "Kjøp nå, vinn senere",
-     "squad_id": "4d6e8adf-a3d4-4ff2-b360-a79bbd3727e2",
-     "rank": 53,
-     "total_points": 31,
-     "latest_round_points": 31,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 31
-      }
-     ],
-     "squad": [],
-     "starter_ids": [],
-     "bench_ids": [],
-     "captain_id": null,
-     "vice_captain_id": null,
-     "formation": null,
-     "rounds": []
-    },
-    {
-     "manager": "Matin",
-     "squad_name": "Ormenlange",
-     "squad_id": "427eac8d-612b-4bbe-a878-6f2b0ae1f88f",
-     "rank": 53,
-     "total_points": 31,
-     "latest_round_points": 31,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 31
-      }
-     ],
-     "squad": [],
-     "starter_ids": [],
-     "bench_ids": [],
-     "captain_id": null,
-     "vice_captain_id": null,
-     "formation": null,
-     "rounds": []
-    },
-    {
-     "manager": "Andrew",
-     "squad_name": "Andrew's andreplass lag",
-     "squad_id": "1b6b6a08-64c9-401e-80ec-64d71dcc4e4b",
-     "rank": 53,
-     "total_points": 31,
-     "latest_round_points": 31,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 31
-      }
-     ],
-     "squad": [],
-     "starter_ids": [],
-     "bench_ids": [],
-     "captain_id": null,
-     "vice_captain_id": null,
-     "formation": null,
-     "rounds": []
-    },
-    {
-     "manager": "kassem",
-     "squad_name": "glory890",
-     "squad_id": "0dd1b9f5-cdf6-494d-9492-f64020ecd2da",
-     "rank": 53,
-     "total_points": 31,
-     "latest_round_points": 31,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 31
-      }
-     ],
-     "squad": [],
-     "starter_ids": [],
-     "bench_ids": [],
-     "captain_id": null,
-     "vice_captain_id": null,
-     "formation": null,
-     "rounds": []
-    },
-    {
-     "manager": "Henrik",
-     "squad_name": "HP FC",
-     "squad_id": "0a81bd47-74cb-4658-941b-74423c0e2e99",
-     "rank": 53,
-     "total_points": 31,
-     "latest_round_points": 31,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 31
-      }
-     ],
-     "squad": [],
-     "starter_ids": [],
-     "bench_ids": [],
-     "captain_id": null,
-     "vice_captain_id": null,
-     "formation": null,
-     "rounds": []
-    },
-    {
-     "manager": "Christer",
-     "squad_name": "Dette lukter haraball",
-     "squad_id": "ec5944dd-c59d-4dab-a7ed-e5447e086851",
-     "rank": 66,
-     "total_points": 30,
-     "latest_round_points": 30,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 30
-      }
-     ],
-     "squad": [],
-     "starter_ids": [],
-     "bench_ids": [],
-     "captain_id": null,
-     "vice_captain_id": null,
-     "formation": null,
-     "rounds": []
-    },
-    {
-     "manager": "Ole",
-     "squad_name": "Rooooo",
-     "squad_id": "e7c9b7f5-3da1-4629-81c9-72f67f2866c2",
-     "rank": 66,
-     "total_points": 30,
-     "latest_round_points": 30,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 30
-      }
-     ],
-     "squad": [],
-     "starter_ids": [],
-     "bench_ids": [],
-     "captain_id": null,
-     "vice_captain_id": null,
-     "formation": null,
-     "rounds": []
-    },
-    {
-     "manager": "Erik",
-     "squad_name": "LOL FC",
-     "squad_id": "b7b3ba54-a172-4952-a911-03bd6543dfef",
-     "rank": 66,
-     "total_points": 30,
-     "latest_round_points": 30,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 30
-      }
-     ],
-     "squad": [],
-     "starter_ids": [],
-     "bench_ids": [],
-     "captain_id": null,
-     "vice_captain_id": null,
-     "formation": null,
-     "rounds": []
-    },
-    {
-     "manager": "Guro",
-     "squad_name": "Guros utvalgte",
-     "squad_id": "aee4f860-1937-4c27-b263-9cd3e68b6763",
-     "rank": 66,
-     "total_points": 30,
-     "latest_round_points": 30,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 30
-      }
-     ],
-     "squad": [],
-     "starter_ids": [],
-     "bench_ids": [],
-     "captain_id": null,
-     "vice_captain_id": null,
-     "formation": null,
-     "rounds": []
-    },
-    {
-     "manager": "Kamilla",
-     "squad_name": "Vamos Bendejo",
-     "squad_id": "a07c3113-936d-49c4-a97b-0ae1529f97ad",
-     "rank": 66,
-     "total_points": 30,
-     "latest_round_points": 30,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 30
-      }
-     ],
-     "squad": [],
-     "starter_ids": [],
-     "bench_ids": [],
-     "captain_id": null,
-     "vice_captain_id": null,
-     "formation": null,
-     "rounds": []
-    },
-    {
-     "manager": "Aleksander",
-     "squad_name": "VM gull",
-     "squad_id": "9b6fa4d1-174c-42a3-bdad-136ce5fe67fd",
-     "rank": 66,
-     "total_points": 30,
-     "latest_round_points": 30,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 30
-      }
-     ],
-     "squad": [],
-     "starter_ids": [],
-     "bench_ids": [],
-     "captain_id": null,
-     "vice_captain_id": null,
-     "formation": null,
-     "rounds": []
-    },
-    {
-     "manager": "Janusan ",
-     "squad_name": "Samba King Football Federation",
-     "squad_id": "9526c5d6-463a-45e4-ad34-19e5f3957de1",
-     "rank": 66,
-     "total_points": 30,
-     "latest_round_points": 30,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 30
-      }
-     ],
-     "squad": [],
-     "starter_ids": [],
-     "bench_ids": [],
-     "captain_id": null,
-     "vice_captain_id": null,
-     "formation": null,
-     "rounds": []
-    },
-    {
-     "manager": "Anders",
-     "squad_name": "Lena69",
-     "squad_id": "947e0605-fa8b-4b92-8215-cdd610225f1a",
-     "rank": 66,
-     "total_points": 30,
-     "latest_round_points": 30,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 30
-      }
-     ],
-     "squad": [],
-     "starter_ids": [],
-     "bench_ids": [],
-     "captain_id": null,
-     "vice_captain_id": null,
-     "formation": null,
-     "rounds": []
-    },
-    {
-     "manager": "Emilie",
-     "squad_name": "Emilies gutter",
-     "squad_id": "85db4e82-f875-431e-8c4f-3989829f3fc2",
-     "rank": 66,
-     "total_points": 30,
-     "latest_round_points": 30,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 30
-      }
-     ],
-     "squad": [],
-     "starter_ids": [],
-     "bench_ids": [],
-     "captain_id": null,
-     "vice_captain_id": null,
-     "formation": null,
-     "rounds": []
-    },
-    {
-     "manager": "Andreas Øie",
-     "squad_name": "FC Barsel",
-     "squad_id": "83874fe1-2ace-4292-b93c-f7ec1052abbd",
-     "rank": 66,
-     "total_points": 30,
-     "latest_round_points": 30,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 30
-      }
-     ],
-     "squad": [],
-     "starter_ids": [],
-     "bench_ids": [],
-     "captain_id": null,
-     "vice_captain_id": null,
-     "formation": null,
-     "rounds": []
-    },
-    {
-     "manager": "Ivar",
-     "squad_name": "Kongeblå",
-     "squad_id": "7f372f6a-fc01-44dc-9295-704fdc2ae9a6",
-     "rank": 66,
-     "total_points": 30,
-     "latest_round_points": 30,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 30
-      }
-     ],
-     "squad": [],
-     "starter_ids": [],
-     "bench_ids": [],
-     "captain_id": null,
-     "vice_captain_id": null,
-     "formation": null,
-     "rounds": []
-    },
-    {
-     "manager": "Christoffer ",
-     "squad_name": "Bjerk FC",
-     "squad_id": "7933b046-94e2-4f61-bbcc-3c814ee01f69",
-     "rank": 66,
-     "total_points": 30,
-     "latest_round_points": 30,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 30
+       "points": 50
       }
      ],
      "squad": [],
@@ -2230,14 +1880,14 @@
      "manager": "Henrik",
      "squad_name": "Reisvang ",
      "squad_id": "75770c42-a86f-4366-80ff-89b4411f8b61",
-     "rank": 66,
-     "total_points": 30,
-     "latest_round_points": 30,
+     "rank": 53,
+     "total_points": 50,
+     "latest_round_points": 50,
      "round_scores": [
       {
        "roundNumber": 1,
        "roundName": "Runde 1 - Gruppespill",
-       "points": 30
+       "points": 50
       }
      ],
      "squad": [],
@@ -2249,17 +1899,17 @@
      "rounds": []
     },
     {
-     "manager": "Even",
-     "squad_name": "The LeBron James of VM Fantasy",
-     "squad_id": "66b3f2b4-ae5e-4fcb-bfa0-2dcf1935f490",
-     "rank": 66,
-     "total_points": 30,
-     "latest_round_points": 30,
+     "manager": "Sebastian",
+     "squad_name": "Wistings Disipler ",
+     "squad_id": "47d95914-ed28-4ec3-8272-0f786a696a6c",
+     "rank": 53,
+     "total_points": 50,
+     "latest_round_points": 50,
      "round_scores": [
       {
        "roundNumber": 1,
        "roundName": "Runde 1 - Gruppespill",
-       "points": 30
+       "points": 50
       }
      ],
      "squad": [],
@@ -2271,17 +1921,17 @@
      "rounds": []
     },
     {
-     "manager": "Joar",
-     "squad_name": "Shadowjaa",
-     "squad_id": "53ab79af-0c0f-4304-9e70-432e431c3f33",
-     "rank": 66,
-     "total_points": 30,
-     "latest_round_points": 30,
+     "manager": "Robert",
+     "squad_name": "Romsås",
+     "squad_id": "455cb994-d970-4ecf-aa1a-c245fac11eea",
+     "rank": 53,
+     "total_points": 50,
+     "latest_round_points": 50,
      "round_scores": [
       {
        "roundNumber": 1,
        "roundName": "Runde 1 - Gruppespill",
-       "points": 30
+       "points": 50
       }
      ],
      "squad": [],
@@ -2293,17 +1943,17 @@
      "rounds": []
     },
     {
-     "manager": "ELEFTERIOS KVAALE",
-     "squad_name": "Det for bli sånn",
-     "squad_id": "3a75135a-61a7-4a27-a71b-9a545e91fb71",
-     "rank": 66,
-     "total_points": 30,
-     "latest_round_points": 30,
+     "manager": "Nita",
+     "squad_name": "JuciKakavuci",
+     "squad_id": "447b440a-11a9-41d3-8c7c-88a55bc436f1",
+     "rank": 53,
+     "total_points": 50,
+     "latest_round_points": 50,
      "round_scores": [
       {
        "roundNumber": 1,
        "roundName": "Runde 1 - Gruppespill",
-       "points": 30
+       "points": 50
       }
      ],
      "squad": [],
@@ -2315,17 +1965,17 @@
      "rounds": []
     },
     {
-     "manager": "Ingrid",
-     "squad_name": "USF ",
-     "squad_id": "38da3d9b-a6ea-4e84-8c40-14a412f9cfe2",
-     "rank": 66,
-     "total_points": 30,
-     "latest_round_points": 30,
+     "manager": "Hussein",
+     "squad_name": "Irak’n roll",
+     "squad_id": "3a1aa7cb-a854-42ce-af6a-d861b229352b",
+     "rank": 53,
+     "total_points": 50,
+     "latest_round_points": 50,
      "round_scores": [
       {
        "roundNumber": 1,
        "roundName": "Runde 1 - Gruppespill",
-       "points": 30
+       "points": 50
       }
      ],
      "squad": [],
@@ -2337,17 +1987,39 @@
      "rounds": []
     },
     {
-     "manager": "Magnus",
-     "squad_name": "Team Zissou",
-     "squad_id": "1dd86a13-c837-4d92-9475-c7f17177adbb",
-     "rank": 66,
-     "total_points": 30,
-     "latest_round_points": 30,
+     "manager": "Mads",
+     "squad_name": "God Sign Naverseat",
+     "squad_id": "382723e0-f8a2-4b31-9325-e4b1586faada",
+     "rank": 53,
+     "total_points": 50,
+     "latest_round_points": 50,
      "round_scores": [
       {
        "roundNumber": 1,
        "roundName": "Runde 1 - Gruppespill",
-       "points": 30
+       "points": 50
+      }
+     ],
+     "squad": [],
+     "starter_ids": [],
+     "bench_ids": [],
+     "captain_id": null,
+     "vice_captain_id": null,
+     "formation": null,
+     "rounds": []
+    },
+    {
+     "manager": "Adrian",
+     "squad_name": "dsvdv",
+     "squad_id": "27867290-a8d1-49f9-8d54-a0287682e487",
+     "rank": 53,
+     "total_points": 50,
+     "latest_round_points": 50,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 50
       }
      ],
      "squad": [],
@@ -2362,14 +2034,14 @@
      "manager": "Fredrik",
      "squad_name": "Haalandslaget ",
      "squad_id": "1cb301da-14cb-4c9e-b06a-5c5505a2ee91",
-     "rank": 66,
-     "total_points": 30,
-     "latest_round_points": 30,
+     "rank": 53,
+     "total_points": 50,
+     "latest_round_points": 50,
      "round_scores": [
       {
        "roundNumber": 1,
        "roundName": "Runde 1 - Gruppespill",
-       "points": 30
+       "points": 50
       }
      ],
      "squad": [],
@@ -2381,17 +2053,17 @@
      "rounds": []
     },
     {
-     "manager": "Isak",
-     "squad_name": "McGinn for the win",
-     "squad_id": "01fabf2f-fb34-4fea-9bf7-58804dbe8aad",
-     "rank": 66,
-     "total_points": 30,
-     "latest_round_points": 30,
+     "manager": "Pål",
+     "squad_name": "Her går da Undav",
+     "squad_id": "094ec54f-e1c0-411b-922e-726b6a86fd12",
+     "rank": 53,
+     "total_points": 50,
+     "latest_round_points": 50,
      "round_scores": [
       {
        "roundNumber": 1,
        "roundName": "Runde 1 - Gruppespill",
-       "points": 30
+       "points": 50
       }
      ],
      "squad": [],
@@ -2403,17 +2075,17 @@
      "rounds": []
     },
     {
-     "manager": "Marius",
-     "squad_name": "Ikke interessert",
-     "squad_id": "fd8400f7-809a-4ff6-b218-feb69382d61b",
-     "rank": 86,
-     "total_points": 29,
-     "latest_round_points": 29,
+     "manager": "Jakob",
+     "squad_name": "Jok4416",
+     "squad_id": "f97cfc61-9f0d-4b0b-8897-a9f5181efef3",
+     "rank": 71,
+     "total_points": 49,
+     "latest_round_points": 49,
      "round_scores": [
       {
        "roundNumber": 1,
        "roundName": "Runde 1 - Gruppespill",
-       "points": 29
+       "points": 49
       }
      ],
      "squad": [],
@@ -2425,17 +2097,17 @@
      "rounds": []
     },
     {
-     "manager": "Isabelle Matilda",
-     "squad_name": "Jentelaget",
-     "squad_id": "f49fbb01-6f6b-4bbb-a6b7-2d0196f22bcb",
-     "rank": 86,
-     "total_points": 29,
-     "latest_round_points": 29,
+     "manager": "Kristin",
+     "squad_name": "Jaja Yamal",
+     "squad_id": "e6a73b5f-f796-476c-b21a-83b79206d8a9",
+     "rank": 71,
+     "total_points": 49,
+     "latest_round_points": 49,
      "round_scores": [
       {
        "roundNumber": 1,
        "roundName": "Runde 1 - Gruppespill",
-       "points": 29
+       "points": 49
       }
      ],
      "squad": [],
@@ -2447,17 +2119,17 @@
      "rounds": []
     },
     {
-     "manager": "Robert",
-     "squad_name": "Balsam Boys",
-     "squad_id": "e78bb829-abe4-4f31-99cb-9a846894a39f",
-     "rank": 86,
-     "total_points": 29,
-     "latest_round_points": 29,
+     "manager": "Mathias",
+     "squad_name": "shit team",
+     "squad_id": "e224a677-464c-4588-bc3d-b1841a2864a2",
+     "rank": 71,
+     "total_points": 49,
+     "latest_round_points": 49,
      "round_scores": [
       {
        "roundNumber": 1,
        "roundName": "Runde 1 - Gruppespill",
-       "points": 29
+       "points": 49
       }
      ],
      "squad": [],
@@ -2469,17 +2141,17 @@
      "rounds": []
     },
     {
-     "manager": "geir",
-     "squad_name": "Fc balltap",
-     "squad_id": "e483c1cd-6209-4bd7-85ba-c81df1a42c3c",
-     "rank": 86,
-     "total_points": 29,
-     "latest_round_points": 29,
+     "manager": "Aron",
+     "squad_name": "Få på no pjæls her",
+     "squad_id": "cee76f7b-3161-4113-b979-81b5215ab849",
+     "rank": 71,
+     "total_points": 49,
+     "latest_round_points": 49,
      "round_scores": [
       {
        "roundNumber": 1,
        "roundName": "Runde 1 - Gruppespill",
-       "points": 29
+       "points": 49
       }
      ],
      "squad": [],
@@ -2491,17 +2163,17 @@
      "rounds": []
     },
     {
-     "manager": "ÅSELINN MALMFRID KRANE",
-     "squad_name": "Trollungan",
-     "squad_id": "d9ec1c67-1d3f-438b-89bf-b4e8129148f5",
-     "rank": 86,
-     "total_points": 29,
-     "latest_round_points": 29,
+     "manager": "IVER",
+     "squad_name": "Kaos-verein",
+     "squad_id": "c18b4aad-4380-4b90-9497-d2cc14f8b701",
+     "rank": 71,
+     "total_points": 49,
+     "latest_round_points": 49,
      "round_scores": [
       {
        "roundNumber": 1,
        "roundName": "Runde 1 - Gruppespill",
-       "points": 29
+       "points": 49
       }
      ],
      "squad": [],
@@ -2513,17 +2185,17 @@
      "rounds": []
     },
     {
-     "manager": "Erlend",
-     "squad_name": "ErlendLuco",
-     "squad_id": "cde52b0b-a945-49c1-add1-85d276a71620",
-     "rank": 86,
-     "total_points": 29,
-     "latest_round_points": 29,
+     "manager": "Kristian",
+     "squad_name": "Freyr",
+     "squad_id": "9c2b936b-5738-4e61-b334-1c41aaa72649",
+     "rank": 71,
+     "total_points": 49,
+     "latest_round_points": 49,
      "round_scores": [
       {
        "roundNumber": 1,
        "roundName": "Runde 1 - Gruppespill",
-       "points": 29
+       "points": 49
       }
      ],
      "squad": [],
@@ -2535,17 +2207,17 @@
      "rounds": []
     },
     {
-     "manager": "Emil Fernando",
-     "squad_name": "Mellanmjölk ",
-     "squad_id": "cd554489-a25a-4e72-81b8-c3179d82d6ec",
-     "rank": 86,
-     "total_points": 29,
-     "latest_round_points": 29,
+     "manager": "Jørn",
+     "squad_name": "The Copilots",
+     "squad_id": "977f0b73-a87b-4568-aba0-87eb7a9c48d6",
+     "rank": 71,
+     "total_points": 49,
+     "latest_round_points": 49,
      "round_scores": [
       {
        "roundNumber": 1,
        "roundName": "Runde 1 - Gruppespill",
-       "points": 29
+       "points": 49
       }
      ],
      "squad": [],
@@ -2558,16 +2230,16 @@
     },
     {
      "manager": "Sondre",
-     "squad_name": "Dr.Dre",
-     "squad_id": "c82faebf-20f9-4ad6-b7c3-cbe7374bd906",
-     "rank": 86,
-     "total_points": 29,
-     "latest_round_points": 29,
+     "squad_name": "Kjøh FC",
+     "squad_id": "95b4ddf7-ac28-4b53-858b-0eecd1c5e3fa",
+     "rank": 71,
+     "total_points": 49,
+     "latest_round_points": 49,
      "round_scores": [
       {
        "roundNumber": 1,
        "roundName": "Runde 1 - Gruppespill",
-       "points": 29
+       "points": 49
       }
      ],
      "squad": [],
@@ -2579,17 +2251,17 @@
      "rounds": []
     },
     {
-     "manager": "Markus",
-     "squad_name": "Vorsen Capital",
-     "squad_id": "c7578a72-58f6-4d1c-83ae-c8f0d9649712",
-     "rank": 86,
-     "total_points": 29,
-     "latest_round_points": 29,
+     "manager": "Erik",
+     "squad_name": "Nå er vi med",
+     "squad_id": "821c3072-def2-43c6-a754-544614f54f84",
+     "rank": 71,
+     "total_points": 49,
+     "latest_round_points": 49,
      "round_scores": [
       {
        "roundNumber": 1,
        "roundName": "Runde 1 - Gruppespill",
-       "points": 29
+       "points": 49
       }
      ],
      "squad": [],
@@ -2601,17 +2273,149 @@
      "rounds": []
     },
     {
-     "manager": "Rostyslav",
-     "squad_name": "RG",
-     "squad_id": "c5d37083-d4e8-4154-9c0f-8dde0534a262",
-     "rank": 86,
-     "total_points": 29,
-     "latest_round_points": 29,
+     "manager": "Daniel",
+     "squad_name": "Rileys Utvalgte",
+     "squad_id": "7dd98613-dcf1-4d92-bdc8-0c58336993e4",
+     "rank": 71,
+     "total_points": 49,
+     "latest_round_points": 49,
      "round_scores": [
       {
        "roundNumber": 1,
        "roundName": "Runde 1 - Gruppespill",
-       "points": 29
+       "points": 49
+      }
+     ],
+     "squad": [],
+     "starter_ids": [],
+     "bench_ids": [],
+     "captain_id": null,
+     "vice_captain_id": null,
+     "formation": null,
+     "rounds": []
+    },
+    {
+     "manager": "Ali",
+     "squad_name": "Mahagna",
+     "squad_id": "6d943a7c-ac50-4e35-be62-ecf3f2f64a01",
+     "rank": 71,
+     "total_points": 49,
+     "latest_round_points": 49,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 49
+      }
+     ],
+     "squad": [],
+     "starter_ids": [],
+     "bench_ids": [],
+     "captain_id": null,
+     "vice_captain_id": null,
+     "formation": null,
+     "rounds": []
+    },
+    {
+     "manager": "Martin",
+     "squad_name": "Baklengs rulle",
+     "squad_id": "69b2bb95-48a4-404f-9241-b0fd7934a299",
+     "rank": 71,
+     "total_points": 49,
+     "latest_round_points": 49,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 49
+      }
+     ],
+     "squad": [],
+     "starter_ids": [],
+     "bench_ids": [],
+     "captain_id": null,
+     "vice_captain_id": null,
+     "formation": null,
+     "rounds": []
+    },
+    {
+     "manager": "Preben Hast",
+     "squad_name": "babyfaced assassins",
+     "squad_id": "5d233024-d384-429d-a2f3-88f9b23dd3de",
+     "rank": 71,
+     "total_points": 49,
+     "latest_round_points": 49,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 49
+      }
+     ],
+     "squad": [],
+     "starter_ids": [],
+     "bench_ids": [],
+     "captain_id": null,
+     "vice_captain_id": null,
+     "formation": null,
+     "rounds": []
+    },
+    {
+     "manager": "Haakon",
+     "squad_name": "Høkkert IL",
+     "squad_id": "281bf14d-80b4-4600-9679-8f47438dfe12",
+     "rank": 71,
+     "total_points": 49,
+     "latest_round_points": 49,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 49
+      }
+     ],
+     "squad": [],
+     "starter_ids": [],
+     "bench_ids": [],
+     "captain_id": null,
+     "vice_captain_id": null,
+     "formation": null,
+     "rounds": []
+    },
+    {
+     "manager": "Karine",
+     "squad_name": "FrkHemstads XI",
+     "squad_id": "1c30f3c6-7715-470f-a4b6-15fd5810add1",
+     "rank": 71,
+     "total_points": 49,
+     "latest_round_points": 49,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 49
+      }
+     ],
+     "squad": [],
+     "starter_ids": [],
+     "bench_ids": [],
+     "captain_id": null,
+     "vice_captain_id": null,
+     "formation": null,
+     "rounds": []
+    },
+    {
+     "manager": "Silje",
+     "squad_name": "Evig Hypp på VM",
+     "squad_id": "ca16a39b-c43c-4986-9331-e64fda806937",
+     "rank": 86,
+     "total_points": 48,
+     "latest_round_points": 48,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 48
       }
      ],
      "squad": [],
@@ -2627,13 +2431,13 @@
      "squad_name": "Real Buljong",
      "squad_id": "c0689af7-9e21-4dc3-9474-e23e6dc72eb7",
      "rank": 86,
-     "total_points": 29,
-     "latest_round_points": 29,
+     "total_points": 48,
+     "latest_round_points": 48,
      "round_scores": [
       {
        "roundNumber": 1,
        "roundName": "Runde 1 - Gruppespill",
-       "points": 29
+       "points": 48
       }
      ],
      "squad": [],
@@ -2649,13 +2453,13 @@
      "squad_name": "Forever Jong FC",
      "squad_id": "b652afe2-d5a8-4ece-b07c-d83f469792fa",
      "rank": 86,
-     "total_points": 29,
-     "latest_round_points": 29,
+     "total_points": 48,
+     "latest_round_points": 48,
      "round_scores": [
       {
        "roundNumber": 1,
        "roundName": "Runde 1 - Gruppespill",
-       "points": 29
+       "points": 48
       }
      ],
      "squad": [],
@@ -2667,17 +2471,17 @@
      "rounds": []
     },
     {
-     "manager": "Lily",
-     "squad_name": "PiffiMob",
-     "squad_id": "b48a2698-e953-41d6-9456-a08cc421a75e",
+     "manager": "Jakob",
+     "squad_name": "Forza Dønnum",
+     "squad_id": "9df8769e-dfba-442d-8e4c-5ef08b7eaade",
      "rank": 86,
-     "total_points": 29,
-     "latest_round_points": 29,
+     "total_points": 48,
+     "latest_round_points": 48,
      "round_scores": [
       {
        "roundNumber": 1,
        "roundName": "Runde 1 - Gruppespill",
-       "points": 29
+       "points": 48
       }
      ],
      "squad": [],
@@ -2689,17 +2493,17 @@
      "rounds": []
     },
     {
-     "manager": "Odd Steinar",
-     "squad_name": "Galgeberg Greats",
-     "squad_id": "b333edcc-4a03-4fe8-8c0f-bd76fa86882e",
+     "manager": "magnus",
+     "squad_name": "Team Bytingsvik",
+     "squad_id": "9465527a-dfde-4493-8a2f-7a18cc26b295",
      "rank": 86,
-     "total_points": 29,
-     "latest_round_points": 29,
+     "total_points": 48,
+     "latest_round_points": 48,
      "round_scores": [
       {
        "roundNumber": 1,
        "roundName": "Runde 1 - Gruppespill",
-       "points": 29
+       "points": 48
       }
      ],
      "squad": [],
@@ -2711,17 +2515,215 @@
      "rounds": []
     },
     {
-     "manager": "Fredrik",
-     "squad_name": "Glory20",
-     "squad_id": "b314078c-80d2-4edf-a217-0ad876ece19c",
+     "manager": "Glenn",
+     "squad_name": "Kumpita",
+     "squad_id": "90824033-d2f1-43be-a0db-4526a7ae8441",
      "rank": 86,
-     "total_points": 29,
-     "latest_round_points": 29,
+     "total_points": 48,
+     "latest_round_points": 48,
      "round_scores": [
       {
        "roundNumber": 1,
        "roundName": "Runde 1 - Gruppespill",
-       "points": 29
+       "points": 48
+      }
+     ],
+     "squad": [],
+     "starter_ids": [],
+     "bench_ids": [],
+     "captain_id": null,
+     "vice_captain_id": null,
+     "formation": null,
+     "rounds": []
+    },
+    {
+     "manager": "Hanne",
+     "squad_name": "Nebys finest lads",
+     "squad_id": "825cbf02-a627-49b1-8050-d7a70154ab5c",
+     "rank": 86,
+     "total_points": 48,
+     "latest_round_points": 48,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 48
+      }
+     ],
+     "squad": [],
+     "starter_ids": [],
+     "bench_ids": [],
+     "captain_id": null,
+     "vice_captain_id": null,
+     "formation": null,
+     "rounds": []
+    },
+    {
+     "manager": "Nils-Åge",
+     "squad_name": "Lemcester Wanderers",
+     "squad_id": "7ed55155-fafb-444b-8728-217e50aa93eb",
+     "rank": 86,
+     "total_points": 48,
+     "latest_round_points": 48,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 48
+      }
+     ],
+     "squad": [],
+     "starter_ids": [],
+     "bench_ids": [],
+     "captain_id": null,
+     "vice_captain_id": null,
+     "formation": null,
+     "rounds": []
+    },
+    {
+     "manager": "Jenny Hanche",
+     "squad_name": "Holmenkollen Terrasse",
+     "squad_id": "7dc805f9-270d-4ded-b930-f0e96d7e1ae0",
+     "rank": 86,
+     "total_points": 48,
+     "latest_round_points": 48,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 48
+      }
+     ],
+     "squad": [],
+     "starter_ids": [],
+     "bench_ids": [],
+     "captain_id": null,
+     "vice_captain_id": null,
+     "formation": null,
+     "rounds": []
+    },
+    {
+     "manager": "Kristian",
+     "squad_name": "Ingleball",
+     "squad_id": "73045edb-ac0b-419c-bd1c-0ef2da52dfa1",
+     "rank": 86,
+     "total_points": 48,
+     "latest_round_points": 48,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 48
+      }
+     ],
+     "squad": [],
+     "starter_ids": [],
+     "bench_ids": [],
+     "captain_id": null,
+     "vice_captain_id": null,
+     "formation": null,
+     "rounds": []
+    },
+    {
+     "manager": "Anders",
+     "squad_name": "døggy",
+     "squad_id": "6c6f015c-b1f5-4d53-b801-e15b33c2799b",
+     "rank": 86,
+     "total_points": 48,
+     "latest_round_points": 48,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 48
+      }
+     ],
+     "squad": [],
+     "starter_ids": [],
+     "bench_ids": [],
+     "captain_id": null,
+     "vice_captain_id": null,
+     "formation": null,
+     "rounds": []
+    },
+    {
+     "manager": "Ole",
+     "squad_name": "Mbappe Meal",
+     "squad_id": "672ad0a7-b87d-4cbd-9c7e-56df7ecd6f61",
+     "rank": 86,
+     "total_points": 48,
+     "latest_round_points": 48,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 48
+      }
+     ],
+     "squad": [],
+     "starter_ids": [],
+     "bench_ids": [],
+     "captain_id": null,
+     "vice_captain_id": null,
+     "formation": null,
+     "rounds": []
+    },
+    {
+     "manager": "Andreas",
+     "squad_name": "Tynn Suppe",
+     "squad_id": "489b5c50-b130-450d-bddd-e5a4b847949c",
+     "rank": 86,
+     "total_points": 48,
+     "latest_round_points": 48,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 48
+      }
+     ],
+     "squad": [],
+     "starter_ids": [],
+     "bench_ids": [],
+     "captain_id": null,
+     "vice_captain_id": null,
+     "formation": null,
+     "rounds": []
+    },
+    {
+     "manager": "Audun",
+     "squad_name": "North Džekota",
+     "squad_id": "459d19e1-4b42-4c36-92ce-bb01ccee6205",
+     "rank": 86,
+     "total_points": 48,
+     "latest_round_points": 48,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 48
+      }
+     ],
+     "squad": [],
+     "starter_ids": [],
+     "bench_ids": [],
+     "captain_id": null,
+     "vice_captain_id": null,
+     "formation": null,
+     "rounds": []
+    },
+    {
+     "manager": "Emilie",
+     "squad_name": "Indirekte frispark⚽️👀",
+     "squad_id": "43479237-fd17-4c49-babe-e8adb7868250",
+     "rank": 86,
+     "total_points": 48,
+     "latest_round_points": 48,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 48
       }
      ],
      "squad": [],

@@ -83,11 +83,6 @@ def _koL(fx):
 
 
 _liveR = d["next_round"]
-# in-progress = kicked off within the last ~2.75h and not marked finished
-in_prog = ([fx for fx in d["fixtures"]
-            if fx.get("fantasy_round") == _liveR and fx.get("status") != "finished"
-            and _koL(fx) <= _nowL < _koL(fx) + _tdL(hours=2.75)] if proj is not None else [])
-
 # ownership + live fantasy points across the whole league (from members' live rounds)
 owner_of, live_pts = {}, {}
 for _, _m in members.iterrows():
@@ -103,67 +98,94 @@ def _match_pids(fx):
     return list(proj.index[proj["team"].isin({fx["home"], fx["away"]})]) if proj is not None else []
 
 
-my_live = [fx for fx in in_prog if my_squad & set(_match_pids(fx))]
-any_owned_live = [fx for fx in in_prog if set(owner_of) & set(_match_pids(fx))]
+# candidate live games: kicked off in the last ~2.2h, not flagged finished, and I have a player in them
+_cand = ([fx for fx in d["fixtures"]
+          if fx.get("fantasy_round") == _liveR and fx.get("status") != "finished"
+          and _koL(fx) <= _nowL < _koL(fx) + _tdL(hours=2.2)
+          and my_squad & set(_match_pids(fx))] if proj is not None else [])
+live_stats = services.get_live_stats(_cand)
+# FotMob is the source of truth for 'finished' — drop games that are actually over
+_games = sorted([fx for fx in _cand if not live_stats.get(fx["match_id"], {}).get("finished")], key=_koL)
 
-if my_live or any_owned_live:
-    st.markdown(f'### <span class="vl-live"></span> Live now — round {_liveR}', unsafe_allow_html=True)
-    show_all = st.toggle("👀 Show rivals' players & all owners too", value=False,
-                         help="Also surface every owned player in these games, with who owns each one.")
-    _games = sorted(any_owned_live if show_all else (my_live or any_owned_live), key=_koL)
-    live_stats = services.get_live_stats(_games)
+if _games:
     st.markdown(viz.LIVE_CSS, unsafe_allow_html=True)
+    st.markdown(f'### <span class="vl-live"></span> Live now — your players are playing (round {_liveR})',
+                unsafe_allow_html=True)
+    _prev = st.session_state.get("motm_prev", {})
+    _cur = {}
 
     def _own_html(pid):
         o = owner_of.get(pid)
         if o == me_name:
             return '<div class="vl-own" style="color:#00b894">🟢 You</div>'
         if o:
-            return f'<div class="vl-own" style="color:#74b9ff">{o[:15]}</div>'
+            return f'<div class="vl-own" style="color:#74b9ff">👤 {o[:16]}</div>'
         return '<div class="vl-own" style="color:#7f8c9b">unowned</div>'
 
+    def _playing(p, stats_map, have_fm):
+        return (not have_fm) or bool(stats_map.get(p) and (stats_map[p].get("minutes") or 0) > 0)
+
     for fx in _games:
+        ls = live_stats.get(fx["match_id"], {})
+        stats_map = ls.get("players", {})
+        have_fm = bool(stats_map)
         pids = _match_pids(fx)
         if not pids:
             continue
         sub = proj.loc[pids]
-        probs = _an.motm_probabilities({pid: float(sub.loc[pid, "pts_motm"]) for pid in pids})
-        stats_map = (live_stats.get(fx["match_id"]) or {}).get("players", {})
-        sh, sa = fx.get("score_home"), fx.get("score_away")
-        score = (f'<span class="vl-score">{fx["home"]} {sh}–{sa} {fx["away"]}</span>'
-                 if sh is not None and sa is not None else f'{fx["home"]} vs {fx["away"]}')
+        if have_fm:                                  # LIVE odds: who's actually performing on the pitch
+            weights = {p: _an.live_motm_weight(stats_map.get(p)) for p in pids}
+        else:                                        # pre-match estimate, down-weighted by P(play)
+            weights = {p: float(sub.loc[p, "pts_motm"]) * float(sub.loc[p].get("p_play") or 0.8) for p in pids}
+        probs = _an.motm_probabilities(weights)
+        for p in pids:
+            _cur[p] = probs[p]["p1"]
+
+        def _tr(p):
+            return viz.trend_arrow(None if p not in _prev else probs[p]["p1"] - _prev[p])
+
+        sc = ls.get("score")
+        score = (f'<span class="vl-score">{fx["home"]} {sc[0]}–{sc[1]} {fx["away"]}</span>'
+                 if sc else f'{fx["home"]} vs {fx["away"]}')
         mins = int((_nowL - _koL(fx)).total_seconds() // 60)
-        clock = f"~{min(mins, 90)}′" + ("+" if mins > 90 else "")
+        clock = (f"~{min(mins, 90)}′" + ("+" if mins > 90 else "")) if have_fm else "LIVE"
+        src = "" if have_fm else " · pre-match estimate (live stats unavailable)"
         st.markdown(f'<div class="vl-wrap"><div class="vl-h"><span class="vl-live"></span>{score}'
-                    f'<span class="vl-clock">{clock}</span></div>', unsafe_allow_html=True)
+                    f'<span class="vl-clock">{clock}{src}</span></div>', unsafe_allow_html=True)
 
-        mine_here = sorted([p for p in pids if p in my_squad], key=lambda p: -probs[p]["p1"])
-        if mine_here:
-            cards = "".join(viz.live_card(sub.loc[p], probs[p], _own_html(p), "mine",
-                                          live_pts=live_pts.get(p), stats=stats_map.get(p)) for p in mine_here)
-            st.markdown(f'<div style="font-weight:700;margin-top:4px">⚽ Your players here</div>'
-                        f'<div class="vl-row">{cards}</div>', unsafe_allow_html=True)
-
-        top3 = sorted(pids, key=lambda p: -probs[p]["p1"])[:3]
-        cards = "".join(viz.live_card(sub.loc[p], probs[p], _own_html(p), "gold" if i == 0 else "",
-                                      "①②③"[i], live_pts=live_pts.get(p), stats=stats_map.get(p))
-                        for i, p in enumerate(top3))
-        st.markdown(f'<div style="font-weight:700;margin-top:8px">🏅 Man-of-the-Match race '
-                    f'<span style="font-weight:400;color:#9aa7b4;font-size:.85rem">(model odds, live)</span></div>'
-                    f'<div class="vl-row">{cards}</div>', unsafe_allow_html=True)
-
-        if show_all:
-            others = sorted([p for p in pids if p in owner_of and p not in mine_here and p not in top3],
-                            key=lambda p: -probs[p]["p1"])[:12]
-            if others:
-                cards = "".join(viz.live_card(sub.loc[p], probs[p], _own_html(p), "",
-                                              live_pts=live_pts.get(p), stats=stats_map.get(p)) for p in others)
-                st.markdown(f'<div style="font-weight:700;margin-top:8px">Other owned players here</div>'
-                            f'<div class="vl-row">{cards}</div>', unsafe_allow_html=True)
+        left, right = st.columns([1.05, 1])
+        with left:
+            st.markdown('<div style="font-weight:700">⚽ Owned players on the pitch '
+                        '<span style="font-weight:400;color:#9aa7b4;font-size:.82rem">(you & rivals)</span></div>',
+                        unsafe_allow_html=True)
+            owned_here = [p for p in pids if p in owner_of and _playing(p, stats_map, have_fm)]
+            owned_here.sort(key=lambda p: (0 if p in my_squad else 1, -probs[p]["p1"]))
+            if owned_here:
+                cards = "".join(viz.live_card(sub.loc[p], probs[p], _own_html(p),
+                                              "mine" if p in my_squad else "", live_pts=live_pts.get(p),
+                                              stats=stats_map.get(p), trend=_tr(p)) for p in owned_here)
+                st.markdown(f'<div class="vl-row">{cards}</div>', unsafe_allow_html=True)
+            else:
+                st.caption("No owned players on the pitch in this match yet.")
+        with right:
+            st.markdown('<div style="font-weight:700">🏅 MVP race '
+                        '<span style="font-weight:400;color:#9aa7b4;font-size:.82rem">(odds to be best on '
+                        'the pitch)</span></div>', unsafe_allow_html=True)
+            ranked = [p for p in sorted(pids, key=lambda p: -probs[p]["p1"]) if weights[p] > 0][:3]
+            if ranked:
+                cards = "".join(viz.live_card(sub.loc[p], probs[p], _own_html(p), "gold" if i == 0 else "",
+                                              "①②③"[i], live_pts=live_pts.get(p), stats=stats_map.get(p),
+                                              trend=_tr(p)) for i, p in enumerate(ranked))
+                st.markdown(f'<div class="vl-row">{cards}</div>', unsafe_allow_html=True)
+            else:
+                st.caption("Waiting for live ratings…")
         st.markdown("</div>", unsafe_allow_html=True)
-    st.caption("Live player stats + Man-of-the-Match odds (the model's standout weights as Plackett-Luce "
-               "probabilities). Real ⭐rating / xG / shots come from FotMob when available; **pts** are live "
-               "fantasy points. This panel only appears while your players are on the pitch.")
+
+    st.session_state["motm_prev"] = _cur
+    st.caption("Live from FotMob: real score, ⭐rating, ⚽goals, 🅰assists, shots — and **MVP odds** computed "
+               "from who's *actually performing* (Plackett-Luce on live ratings; players not on the pitch are "
+               "excluded). 🟢▲ rising / 🔴▼ falling tracks who's climbing the MVP race since the last refresh. "
+               "**pts** = live fantasy points. This panel vanishes the moment the game ends.")
     st.divider()
 
 

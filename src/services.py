@@ -99,14 +99,35 @@ def get_optimal_squad(value_col: str = "xp_tournament") -> dict:
     return _optimal(_data_sig(), _weather_bucket(), value_col)
 
 
+def _fm_stat(blocks, key: str, exact: bool = False):
+    """Pull a numeric from FotMob playerStats blocks. exact=True matches the
+    label exactly (so 'goals' doesn't grab 'expected goals (xg)')."""
+    kl = key.lower()
+    for b in blocks or []:
+        for label, payload in (b.get("stats") or {}).items():
+            ll = label.strip().lower()
+            if (ll == kl) if exact else (kl in ll):
+                v = payload
+                if isinstance(v, dict):
+                    v = v.get("stat", v)
+                    if isinstance(v, dict):
+                        v = v.get("value")
+                try:
+                    return float(v)
+                except (TypeError, ValueError):
+                    return None
+    return None
+
+
 @st.cache_data(ttl=60, show_spinner=False)
 def _live_stats(sig: tuple, fixtures_key: tuple) -> dict:
-    """Best-effort LIVE per-player stats (minutes/rating/xg/shots/MotM) for
-    in-progress matches, straight from FotMob. Keyed by TV2 match_id; players
-    matched back to TV2 ids by team + fuzzy name. Returns {} on any failure so
-    the live panel always degrades gracefully."""
+    """LIVE match state for in-progress games from FotMob: the real score, a
+    finished/started flag, and per-player live stats (minutes/rating/goals/
+    assists/xg/shots/POTM). Keyed by TV2 match_id; players matched to TV2 ids by
+    team + fuzzy name. Best-effort: returns {} on failure so the panel degrades."""
     try:
-        from scraper.enrich_stats import find_match, player_lines, _sim
+        from src.http_fetch import fetch_json
+        from scraper.enrich_stats import _sim, find_match
     except Exception:
         return {}
     players = data_access.load_players()
@@ -115,25 +136,52 @@ def _live_stats(sig: tuple, fixtures_key: tuple) -> dict:
     by_team = {}
     for pid, row in players.iterrows():
         by_team.setdefault(row["team"], []).append((pid, row["name"]))
+    FM = "https://www.fotmob.com/api/data"
     out = {}
     for match_id, home, away, ko_date in fixtures_key:
         try:
             fm_id = find_match(ko_date, home, away)
             if not fm_id:
                 continue
+            md, _ = fetch_json(f"{FM}/matchDetails", {"matchId": fm_id}, timeout=20)
+            if not md:
+                continue
+            header = md.get("header") or {}
+            status = header.get("status") or {}
+            finished = bool(status.get("finished"))
+            started = bool(status.get("started"))
+            teams = header.get("teams") or []
+            score = None
+            if len(teams) >= 2 and teams[0].get("score") is not None and teams[1].get("score") is not None:
+                t0 = teams[0].get("name", "")
+                if _sim(t0, home) >= _sim(t0, away):       # orient to our home/away
+                    score = (teams[0].get("score"), teams[1].get("score"))
+                else:
+                    score = (teams[1].get("score"), teams[0].get("score"))
+            content = md.get("content") or {}
+            potm = (((content.get("matchFacts") or {}).get("playerOfTheMatch") or {}).get("id"))
             pmap = {}
-            for line in player_lines(fm_id):
-                cands = by_team.get(data_access.normalize_team(line.get("team") or ""), [])
+            for fm_pid, p in (content.get("playerStats") or {}).items():
+                blocks = p.get("stats") or []
+                minutes = _fm_stat(blocks, "minutes played")
+                if minutes is None:
+                    continue
+                line = {"name": p.get("name"), "team": p.get("teamName"), "minutes": minutes,
+                        "rating": _fm_stat(blocks, "fotmob rating"),
+                        "goals": _fm_stat(blocks, "goals", exact=True),
+                        "assists": _fm_stat(blocks, "assists", exact=True),
+                        "xg": _fm_stat(blocks, "expected goals (xg)"),
+                        "shots": _fm_stat(blocks, "total shots"),
+                        "is_potm": str(p.get("id")) == str(potm)}
+                cands = by_team.get(data_access.normalize_team(line["team"] or ""), [])
                 best, bpid = 0.6, None
                 for pid, nm in cands:
-                    s = _sim(nm, line.get("name") or "")
+                    s = _sim(nm, line["name"] or "")
                     if s > best:
                         best, bpid = s, pid
                 if bpid:
-                    pmap[bpid] = {k: line.get(k) for k in
-                                  ("minutes", "rating", "xg", "xa", "shots", "sot", "is_potm")}
-            if pmap:
-                out[match_id] = {"players": pmap}
+                    pmap[bpid] = line
+            out[match_id] = {"players": pmap, "score": score, "finished": finished, "started": started}
         except Exception:
             continue
     return out

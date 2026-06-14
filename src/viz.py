@@ -261,10 +261,22 @@ LIVE_CSS = """
 """
 
 
-def live_card(row, probs, owner_html="", klass="", rank="", live_pts=None, stats=None) -> str:
-    """One animated card: photo + flag, P(MotM) headline with an animated bar,
-    2nd/3rd odds, owner tag and a live-stats line. Used for both your players and
-    the Man-of-the-Match candidates."""
+def trend_arrow(delta: float | None) -> str:
+    """Green ▲ rising / red ▼ falling / grey ▬ flat — change in MVP odds since
+    the last refresh. Empty when there's no prior reading yet."""
+    if delta is None:
+        return ""
+    if delta > 0.012:
+        return "<span style='color:#00b894'>▲</span>"
+    if delta < -0.012:
+        return "<span style='color:#d63031'>▼</span>"
+    return "<span style='color:#9aa7b4'>▬</span>"
+
+
+def live_card(row, probs, owner_html="", klass="", rank="", live_pts=None, stats=None, trend="") -> str:
+    """One animated card: photo + flag, P(MVP) headline (with a trend arrow) and
+    an animated bar, 2nd/3rd odds, owner tag and the live stats that actually
+    decide MVP (rating, goals, assists, shots)."""
     photo = row.get("photo")
     img = (f'<img src="{photo}" referrerpolicy="no-referrer" onerror="this.style.display=\'none\'">'
            if isinstance(photo, str) and photo else _initials_face(row["name"]))
@@ -274,10 +286,14 @@ def live_card(row, probs, owner_html="", klass="", rank="", live_pts=None, stats
     if stats:
         if stats.get("rating"):
             bits.append(f"⭐{stats['rating']:.1f}")
+        if stats.get("goals"):
+            bits.append(f"⚽{int(stats['goals'])}")
+        if stats.get("assists"):
+            bits.append(f"🅰{int(stats['assists'])}")
+        if stats.get("shots"):
+            bits.append(f"{int(stats['shots'])}sh")
         if stats.get("xg") is not None:
             bits.append(f"{stats['xg']:.1f}xG")
-        if stats.get("shots") is not None:
-            bits.append(f"{int(stats['shots'])} sh")
         if stats.get("is_potm"):
             bits.append("🏅POTM")
     if live_pts is not None:
@@ -288,7 +304,7 @@ def live_card(row, probs, owner_html="", klass="", rank="", live_pts=None, stats
             f'<div class="vl-face">{img}<span class="vl-fl">{fl}</span></div>'
             f'<div class="vl-nm">{short_name(row["name"])}</div>'
             f'<div class="vl-tm">{row.get("team", "")} · {row.get("position", "")}</div>'
-            f'<div class="vl-big">{p1 * 100:.0f}%</div><div class="vl-lab">Man of the Match</div>'
+            f'<div class="vl-big">{p1 * 100:.0f}% {trend}</div><div class="vl-lab">MVP odds</div>'
             f'<div class="vl-bar"><span style="width:{min(p1 * 100, 100):.0f}%"></span></div>'
             f'<div class="vl-sub">2nd {p2 * 100:.0f}% · 3rd {p3 * 100:.0f}%</div>'
             f'{owner_html}{statline}</div>')

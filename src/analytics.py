@@ -37,6 +37,21 @@ def add_kpis(proj: pd.DataFrame) -> pd.DataFrame:
     return out
 
 
+def live_motm_weight(stats: dict | None) -> float:
+    """Standout weight from LIVE match stats — what actually decides Man of the
+    Match: the FotMob rating first, then goals/assists, with the awarded POTM
+    pinned on top. Returns 0 if the player isn't on the pitch (so people who
+    aren't playing can't show up as MotM candidates)."""
+    if not stats or (stats.get("minutes") or 0) <= 0:
+        return 0.0
+    r = stats.get("rating") or 0.0
+    w = (max(0.0, r - 5.0) ** 2.2) if r else 0.3        # rating above average, steepened
+    w += 5.0 * (stats.get("goals") or 0) + 3.0 * (stats.get("assists") or 0)
+    if stats.get("is_potm"):
+        w += 25.0                                        # the actually-awarded POTM dominates
+    return float(w)
+
+
 def motm_probabilities(weights: dict) -> dict:
     """P(player finishes 1st / 2nd / 3rd best in a match) from per-player standout
     weights, via the Plackett-Luce ranking model. We use each player's expected

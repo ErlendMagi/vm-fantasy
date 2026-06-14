@@ -68,6 +68,16 @@ jobs:
           git add data/tv2/rating_history.json data/tv2/model_accuracy.json
           git diff --cached --quiet || (git commit -m "rating snapshot $(date -u +%F)" && git push)
 
+      # Pre-deadline lineup signal: FotMob predicted/confirmed XIs for the
+      # imminent round -> override start probabilities so the autopilot never
+      # captains/fields a benched or injured player. Best-effort, runs right
+      # before the autopilot so it acts on the freshest XIs.
+      - name: Enrich predicted/confirmed lineups
+        run: |
+          python scraper/enrich_lineups.py || echo "lineup enrichment failed - skipping"
+          git add data/tv2/predicted_lineups.json
+          git diff --cached --quiet || (git commit -m "lineups $(date -u +%FT%H:%MZ)" && git push)
+
       # Autopilot: when a transfer deadline is within 8 hours, applies the
       # optimizer's best transfers + lineup + captain directly to the TV 2
       # team (verified after writing). Outside that window it does nothing.

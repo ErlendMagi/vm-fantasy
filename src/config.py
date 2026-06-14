@@ -51,6 +51,13 @@ ROTATION_PWIN_FLOOR = 0.62     # below this win prob there's no rotation risk
 ROTATION_PWIN_CEIL = 0.93
 ROTATION_GROUP_ROUND = {1: 0.35, 2: 0.55, 3: 1.0}   # within the group stage, by fantasy round
 ROTATION_KO_FACTOR = 0.35      # knockout stages: low (one-off games, best XI)
+
+# Pre-deadline lineup signal (FotMob predicted/confirmed XIs). Overrides p_start
+# for the imminent round when a lineup is published — the strongest available
+# guard against captaining/fielding a benched or injured player.
+LINEUP_WINDOW_HOURS = 8                                      # only fixtures within the deadline window
+LINEUP_PSTART = {"start": 0.95, "bench": 0.35, "out": 0.05}            # CONFIRMED XI
+PREDICTED_LINEUP_PSTART = {"start": 0.85, "bench": 0.45, "out": 0.20}  # PREDICTED XI (softer)
 # MotM modelling: each match distributes 6 bonus points (3+2+1). Research on
 # 2022 WC MotM awards: heavily attacker-biased (~28 FWD / 22 MID / 9 GK / 5 DEF
 # of 64) - a defender essentially only wins it by scoring. So the standout

@@ -109,6 +109,12 @@ def load_model_accuracy() -> dict:
     return _read_json(config.TV2_DIR / "model_accuracy.json") or {"rounds": {}}
 
 
+def load_predicted_lineups() -> dict:
+    """FotMob predicted/confirmed XIs for the imminent round: player id -> {role,
+    type, round, ko}. Written by enrich_lineups.py. {} when none."""
+    return _read_json(config.TV2_DIR / "predicted_lineups.json") or {"players": {}}
+
+
 def load_duties() -> dict[str, dict]:
     data = _read_json(config.STATIC_DIR / "duties.json")
     return (data or {}).get("duties", {})

@@ -70,10 +70,12 @@ def fixture_mus(fixtures: list[dict], match_odds: dict | None,
     return out
 
 
-def start_probabilities(players: pd.DataFrame, completed: list[int]) -> pd.DataFrame:
+def start_probabilities(players: pd.DataFrame, completed: list[int],
+                        lineups: dict | None = None, for_round: int | None = None) -> pd.DataFrame:
     """Adds p_start / p_play. Price-rank prior before round 1; once games are
     played, blend in observed minutes (FotMob enrichment, the strongest signal)
-    with a TV2-points fallback."""
+    with a TV2-points fallback. Finally, a published FotMob lineup for the
+    imminent round OVERRIDES p_start (confirmed XI = the strongest signal of all)."""
     df = players.copy()
     rank = df.groupby(["team", "position"])["price"].rank(ascending=False, method="first")
     slots = df["position"].map(STARTER_SLOTS)
@@ -93,6 +95,19 @@ def start_probabilities(players: pd.DataFrame, completed: list[int]) -> pd.DataF
             df["p_start"] = tv2_based
     else:
         df["p_start"] = prior
+
+    # published-lineup override for the round being projected: a confirmed XI is
+    # ground truth — captain/field starters, drop benched, zero out the injured.
+    lp = (lineups or {}).get("players", {})
+    if lp and for_round is not None:
+        for pid, rec in lp.items():
+            if pid not in df.index or rec.get("round") != for_round:
+                continue
+            table = config.LINEUP_PSTART if rec.get("type") == "standard" else config.PREDICTED_LINEUP_PSTART
+            ps = table.get(rec.get("role"))
+            if ps is not None:
+                df.loc[pid, "p_start"] = ps
+
     df["p_play"] = np.minimum(1.0, df["p_start"] + 0.15)
     return df
 
@@ -305,17 +320,19 @@ def project(players: pd.DataFrame, fixtures: list[dict], match_odds: dict | None
             outrights: dict | None, completed: list[int], next_rnd: int,
             p_plays: dict[tuple[str, int], float] | None = None,
             temp_fn=weather.apparent_temp_at_kickoff,
-            player_odds: dict | None = None) -> pd.DataFrame:
+            player_odds: dict | None = None, lineups: dict | None = None) -> pd.DataFrame:
     """Adds xp_next, xp_after, xp_horizon, xp_tournament (+ detail columns)."""
     stadiums = data_access.load_stadiums()
     climate = data_access.load_climate()
     duties = data_access.load_duties()
     if player_odds is None:
         player_odds = data_access.load_player_odds()
+    if lineups is None:
+        lineups = data_access.load_predicted_lineups()
     strengths = team_strengths(outrights)
     mus = fixture_mus(fixtures, match_odds, strengths)
 
-    df = start_probabilities(players, completed)
+    df = start_probabilities(players, completed, lineups, next_rnd)
     df["ppg"] = df["total_points"] / max(1, len(completed))
     p_plays = p_plays or {}
 

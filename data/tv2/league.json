@@ -1,5 +1,5 @@
 {
- "synced_at": "2026-06-14T23:57:36.546278+00:00",
+ "synced_at": "2026-06-15T00:26:56.232575+00:00",
  "current_round": 2,
  "leagues": [
   {
@@ -535,7 +535,7 @@
   {
    "name": "Oslo",
    "league_id": "9427c891-ef7c-4e41-ad77-efc3222ab02e",
-   "my_rank": 4675,
+   "my_rank": 4695,
    "members": [
     {
      "manager": "Knut ",
@@ -2584,6 +2584,28 @@
      "rounds": []
     },
     {
+     "manager": "Andreas",
+     "squad_name": "Tynn Suppe",
+     "squad_id": "489b5c50-b130-450d-bddd-e5a4b847949c",
+     "rank": 76,
+     "total_points": 49,
+     "latest_round_points": 49,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 49
+      }
+     ],
+     "squad": [],
+     "starter_ids": [],
+     "bench_ids": [],
+     "captain_id": null,
+     "vice_captain_id": null,
+     "formation": null,
+     "rounds": []
+    },
+    {
      "manager": "Emilie",
      "squad_name": "Indirekte frispark⚽️👀",
      "squad_id": "43479237-fd17-4c49-babe-e8adb7868250",
@@ -2675,7 +2697,7 @@
      "manager": "Anonym",
      "squad_name": "Judas",
      "squad_id": "db0c7ef9-6587-487a-956a-ecfeb88e1183",
-     "rank": 98,
+     "rank": 99,
      "total_points": 48,
      "latest_round_points": 48,
      "round_scores": [
@@ -2697,29 +2719,7 @@
      "manager": "KRISTOFFER",
      "squad_name": "Doffy FC",
      "squad_id": "ce2a17ac-9d18-43dd-b672-96941a175b66",
-     "rank": 98,
-     "total_points": 48,
-     "latest_round_points": 48,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 48
-      }
-     ],
-     "squad": [],
-     "starter_ids": [],
-     "bench_ids": [],
-     "captain_id": null,
-     "vice_captain_id": null,
-     "formation": null,
-     "rounds": []
-    },
-    {
-     "manager": "Silje",
-     "squad_name": "Evig Hypp på VM",
-     "squad_id": "ca16a39b-c43c-4986-9331-e64fda806937",
-     "rank": 98,
+     "rank": 99,
      "total_points": 48,
      "latest_round_points": 48,
      "round_scores": [

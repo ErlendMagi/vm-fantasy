@@ -2,13 +2,13 @@
  "rounds": {
   "1": {
    "expected": 52.2,
-   "actual": 19,
-   "played": 9,
+   "actual": 20,
+   "played": 12,
    "starters": 11,
-   "updated_at": "2026-06-15T11:39:13.331182+00:00",
+   "updated_at": "2026-06-15T16:48:53.957350+00:00",
    "expected_full": 47.7,
-   "expected_played": 22.4,
-   "finalized": false,
+   "expected_played": 37.6,
+   "finalized": true,
    "by_pos": {
     "GK": {
      "expected": 3.73,
@@ -18,12 +18,12 @@
     "DEF": {
      "expected": 16.48,
      "actual": 6.0,
-     "n": 4
+     "n": 5
     },
     "MID": {
-     "expected": 19.08,
-     "actual": 10.0,
-     "n": 1
+     "expected": 19.09,
+     "actual": 11.0,
+     "n": 3
     },
     "FWD": {
      "expected": 4.23,

@@ -1,4 +1,155 @@
 {
- "updated": "2026-06-15T04:53:09.179782+00:00",
- "players": {}
+ "updated": "2026-06-15T10:57:51.414752+00:00",
+ "players": {
+  "66f58480-5f8e-4e3d-9999-79e1e7f4b1f9": {
+   "role": "start",
+   "type": "predicted",
+   "round": 1,
+   "ko": "2026-06-15T16:00:00.000Z"
+  },
+  "991caea2-0063-4448-a686-3e38548c33f0": {
+   "role": "start",
+   "type": "predicted",
+   "round": 1,
+   "ko": "2026-06-15T16:00:00.000Z"
+  },
+  "991b0d39-8944-4820-b252-5efbb7ba1f35": {
+   "role": "start",
+   "type": "predicted",
+   "round": 1,
+   "ko": "2026-06-15T16:00:00.000Z"
+  },
+  "94dabb46-2e43-490e-96d9-30ca34836e85": {
+   "role": "start",
+   "type": "predicted",
+   "round": 1,
+   "ko": "2026-06-15T16:00:00.000Z"
+  },
+  "3ab1b429-a4a7-411d-85a3-ec5acb922398": {
+   "role": "start",
+   "type": "predicted",
+   "round": 1,
+   "ko": "2026-06-15T16:00:00.000Z"
+  },
+  "1d4a7f1e-2a5c-48e5-a8c7-fe000b2a0f0c": {
+   "role": "start",
+   "type": "predicted",
+   "round": 1,
+   "ko": "2026-06-15T16:00:00.000Z"
+  },
+  "60bf99a3-ae1e-493b-83fb-e6e7b5a05c12": {
+   "role": "start",
+   "type": "predicted",
+   "round": 1,
+   "ko": "2026-06-15T16:00:00.000Z"
+  },
+  "cd2b9e05-c249-4c21-9717-da200132d043": {
+   "role": "start",
+   "type": "predicted",
+   "round": 1,
+   "ko": "2026-06-15T16:00:00.000Z"
+  },
+  "afc73a69-a31e-4ebc-8876-649241a00041": {
+   "role": "start",
+   "type": "predicted",
+   "round": 1,
+   "ko": "2026-06-15T16:00:00.000Z"
+  },
+  "1d8fbd81-3902-4363-ba31-900b5793de66": {
+   "role": "start",
+   "type": "predicted",
+   "round": 1,
+   "ko": "2026-06-15T16:00:00.000Z"
+  },
+  "d1381d98-d89c-4335-a213-2a8585fa9f06": {
+   "role": "start",
+   "type": "predicted",
+   "round": 1,
+   "ko": "2026-06-15T16:00:00.000Z"
+  },
+  "f00150a1-6e98-40d8-91eb-3c7d72c28ac3": {
+   "role": "start",
+   "type": "predicted",
+   "round": 1,
+   "ko": "2026-06-15T16:00:00.000Z"
+  },
+  "a579bf6b-540c-4fd8-834d-de6d3227cf86": {
+   "role": "start",
+   "type": "predicted",
+   "round": 1,
+   "ko": "2026-06-15T16:00:00.000Z"
+  },
+  "b60c853d-6ec3-428d-add1-9072a3bb2a20": {
+   "role": "start",
+   "type": "predicted",
+   "round": 1,
+   "ko": "2026-06-15T16:00:00.000Z"
+  },
+  "221305e2-7103-46c1-b8be-37e33aea0ba6": {
+   "role": "start",
+   "type": "predicted",
+   "round": 1,
+   "ko": "2026-06-15T16:00:00.000Z"
+  },
+  "f96e9458-d292-4b43-98df-265489f8f4f9": {
+   "role": "start",
+   "type": "predicted",
+   "round": 1,
+   "ko": "2026-06-15T16:00:00.000Z"
+  },
+  "2f5b9a67-dea6-4704-9d4d-3e900ab8edb0": {
+   "role": "start",
+   "type": "predicted",
+   "round": 1,
+   "ko": "2026-06-15T16:00:00.000Z"
+  },
+  "3c61423c-90f9-408d-913f-877f33966794": {
+   "role": "start",
+   "type": "predicted",
+   "round": 1,
+   "ko": "2026-06-15T16:00:00.000Z"
+  },
+  "ecb55a95-5946-48e4-b6ba-2b1b3d90a5ed": {
+   "role": "start",
+   "type": "predicted",
+   "round": 1,
+   "ko": "2026-06-15T16:00:00.000Z"
+  },
+  "cb657c83-2cd5-4bc3-b070-72e9b8736ec3": {
+   "role": "start",
+   "type": "predicted",
+   "round": 1,
+   "ko": "2026-06-15T16:00:00.000Z"
+  },
+  "cd5d8a2a-b1bd-4198-9f30-7435cb5f3018": {
+   "role": "start",
+   "type": "predicted",
+   "round": 1,
+   "ko": "2026-06-15T16:00:00.000Z"
+  },
+  "1413d96c-f53c-4fa7-b168-62756d2d8d30": {
+   "role": "start",
+   "type": "predicted",
+   "round": 1,
+   "ko": "2026-06-15T16:00:00.000Z"
+  },
+  "ee18d5cd-6fd9-43b1-919a-3a3140246b16": {
+   "role": "start",
+   "type": "predicted",
+   "round": 1,
+   "ko": "2026-06-15T16:00:00.000Z"
+  },
+  "315c95d2-5a7a-401e-bda9-97287fe52b39": {
+   "role": "start",
+   "type": "predicted",
+   "round": 1,
+   "ko": "2026-06-15T16:00:00.000Z"
+  },
+  "cc333583-9af5-4793-ac1a-2a03a7cf8cc1": {
+   "role": "start",
+   "type": "predicted",
+   "round": 1,
+   "ko": "2026-06-15T16:00:00.000Z"
+  }
+ }
 }

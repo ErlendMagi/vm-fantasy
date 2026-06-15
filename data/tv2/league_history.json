@@ -1,7 +1,7 @@
 {
  "rounds": {
   "2": {
-   "synced_at": "2026-06-15T11:39:32.250078+00:00",
+   "synced_at": "2026-06-15T16:48:37.325764+00:00",
    "members": {
     "USTAB IL": {
      "manager": "julle",
@@ -37,7 +37,7 @@
      ],
      "captain_id": "3aaa39f5-9908-454d-97d0-b5806a65e3ac",
      "formation": "4-3-3",
-     "total_points": 39
+     "total_points": 40
     },
     "Cabrones": {
      "manager": "Thomas",
@@ -73,7 +73,7 @@
      ],
      "captain_id": "3c1f2aaf-86af-4a0f-a712-9ea9f54fd5ef",
      "formation": "3-4-3",
-     "total_points": 29
+     "total_points": 30
     },
     "Republikken Jonaland": {
      "manager": "Jonathan",
@@ -109,7 +109,7 @@
      ],
      "captain_id": "cd2b9e05-c249-4c21-9717-da200132d043",
      "formation": "3-4-3",
-     "total_points": 28
+     "total_points": 30
     },
     "Brødrene Dahl": {
      "manager": "Preben",
@@ -217,7 +217,7 @@
      ],
      "captain_id": "8984e3ae-fd88-484b-8fb4-470f2bcb2f6c",
      "formation": "5-4-1",
-     "total_points": 19
+     "total_points": 20
     }
    }
   }

@@ -38,10 +38,12 @@ def observed_stats(players: pd.DataFrame, completed: list[int]) -> pd.DataFrame:
     return out
 
 
-def minutes_start_prob(players: pd.DataFrame, completed: list[int]) -> pd.Series | None:
+def minutes_start_prob(players: pd.DataFrame, completed: list[int]):
     """Observed start probability from FotMob minutes over completed rounds:
-    a player averaging ~90' is a nailed starter, ~0' is benched. Returns None
-    when no enriched stats are available yet (graceful no-op).
+    a player averaging ~90' is a nailed starter, ~0' is benched. Returns
+    (obs_start_prob, n_games) per player, or (None, None) when no enriched stats
+    exist yet — n_games is each player's OWN count of games-with-minutes, so the
+    caller can shrink the blend per player (1 game trusts less than 3).
 
     Minutes are the single most predictive fantasy signal — far better than 'did
     they score fantasy points', which misses a 90-minute blank from a starter.
@@ -49,8 +51,9 @@ def minutes_start_prob(players: pd.DataFrame, completed: list[int]) -> pd.Series
     from src import data_access
     store = data_access.load_player_stats().get("rounds", {})
     if not completed or not store:
-        return None
+        return None, None
     obs = pd.Series(np.nan, index=players.index)
+    games = pd.Series(0, index=players.index, dtype=float)
     for idx in players.index:
         mins = []
         for r in completed:
@@ -62,7 +65,8 @@ def minutes_start_prob(players: pd.DataFrame, completed: list[int]) -> pd.Series
             w = np.linspace(1.0, 1.6, len(mins))
             avg = float(np.average(mins, weights=w))
             obs[idx] = min(0.97, max(0.05, avg / 90.0))
-    return obs if obs.notna().any() else None
+            games[idx] = len(mins)
+    return (obs, games) if obs.notna().any() else (None, None)
 
 
 def observed_attacking(players: pd.DataFrame, completed: list[int]) -> pd.DataFrame:

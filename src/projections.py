@@ -82,19 +82,16 @@ def start_probabilities(players: pd.DataFrame, completed: list[int],
     prior = pd.Series(np.where(rank <= slots, config.STARTER_PRIOR,
                                np.where(rank <= slots + 2, config.FRINGE_PRIOR, config.DEEP_PRIOR)),
                       index=df.index)
-    if completed:
-        # primary signal: observed minutes (nailed starter vs cameo vs benched)
-        obs_min = player_profile.minutes_start_prob(df, completed)
-        last = max(completed)
-        played = df["round_points"].apply(lambda rp: rp.get(last, 0) > 0)
-        tv2_based = pd.Series(np.where(played, 0.85, np.minimum(prior, 0.20)), index=df.index)
-        if obs_min is not None:
-            n_games = len(completed)
-            w = n_games / (n_games + config.MINUTES_SHRINKAGE_K)  # minutes confirm fast
-            blended = (1 - w) * prior + w * obs_min
-            df["p_start"] = blended.where(obs_min.notna(), tv2_based)
-        else:
-            df["p_start"] = tv2_based
+    obs_min, n_games = player_profile.minutes_start_prob(df, completed) if completed else (None, None)
+    if obs_min is not None:
+        # primary signal: observed minutes (nailed starter vs cameo vs benched).
+        # A player seen averaging ~17' gets a low p_start; ~90' stays nailed. The
+        # blend weight uses each player's OWN game count (more games -> trust more).
+        w = n_games / (n_games + config.MINUTES_SHRINKAGE_K)
+        blended = (1 - w) * prior + w * obs_min
+        # players whose match hasn't been played/enriched yet keep the price-rank
+        # prior (NOT a crushed fallback) — we just don't have evidence on them yet
+        df["p_start"] = blended.where(obs_min.notna(), prior)
     else:
         df["p_start"] = prior
 
@@ -340,14 +337,18 @@ def project(players: pd.DataFrame, fixtures: list[dict], match_odds: dict | None
     strengths = team_strengths(outrights)
     mus = fixture_mus(fixtures, match_odds, strengths)
 
-    df = start_probabilities(players, completed, lineups, next_rnd)
-    df["ppg"] = df["total_points"] / max(1, len(completed))
+    # observed signals (minutes, xG) fire on rounds we already have RESULTS for —
+    # not only fully-finished rounds — so a 17-minute cameo downweights a player
+    # immediately instead of waiting for the whole round to end.
+    played = data_access.played_rounds(fixtures)
+    df = start_probabilities(players, played, lineups, next_rnd)
+    df["ppg"] = df["total_points"] / max(1, len(played))
     p_plays = p_plays or {}
 
     # observed-xG attribution boost: refine WHO gets a team's heuristic goal/assist
     # share toward who's really creating chances (share-preserving via _distribute's
     # renormalisation; market-quoted scorers untouched; no-op until games accrue).
-    att = player_profile.observed_attacking(players, completed)
+    att = player_profile.observed_attacking(players, played)
 
     def _boost(col, baseline):
         ratio = (att[col] / df["position"].map(baseline).replace(0, np.nan)).clip(0.2, 3.0)

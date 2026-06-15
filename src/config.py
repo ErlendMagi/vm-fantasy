@@ -119,7 +119,7 @@ ASSISTED_GOAL_SHARE = 0.75    # share of goals that yield an assist
 # tournament -> modest K so 1-2 strong games move the needle without dominating.
 FORM_SHRINKAGE_K = 2.5
 FORM_MULT_BOUNDS = (0.75, 1.35)  # form can't swing a projection more than this
-MINUTES_SHRINKAGE_K = 1.0  # observed minutes confirm a starter fast (k=1 -> 50% weight after 1 game)
+MINUTES_SHRINKAGE_K = 0.6  # observed minutes are the strongest signal -> ~62% weight after 1 game
 # Pre-lineup start-probability priors by price rank (a nailed starter in a deep
 # 26-man WC squad still rotates; confirmed lineups override these near kickoff).
 STARTER_PRIOR = 0.72       # top-N by price within team/position

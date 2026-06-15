@@ -190,6 +190,18 @@ def completed_rounds(fixtures: list[dict]) -> list[int]:
     return sorted(r for r, statuses in rounds.items() if all(s == "finished" for s in statuses))
 
 
+def played_rounds(fixtures: list[dict]) -> list[int]:
+    """Rounds that have at least ONE finished match — i.e. rounds we already have
+    real results/minutes for. Unlike completed_rounds (which waits for the WHOLE
+    round to finish), this lets the observed-minutes/xG signals kick in as soon as
+    games are played, so a player seen getting 17' isn't fielded on a stale prior."""
+    rounds: set[int] = set()
+    for m in fixtures:
+        if m.get("fantasy_round") and m.get("status") == "finished":
+            rounds.add(m["fantasy_round"])
+    return sorted(rounds)
+
+
 def next_round(fixtures: list[dict]) -> int:
     """The LIVE round = the earliest round still being played (has a match not
     yet finished). This is what 'happening now' refers to: live points race,

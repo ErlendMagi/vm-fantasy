@@ -55,17 +55,22 @@ jobs:
       # Post-match enrichment: FotMob per-player minutes/rating/xG for finished
       # games (free, keyless) -> sharper start-probability + form. Best-effort.
       - name: Enrich finished matches with FotMob stats
+        continue-on-error: true        # best-effort: never block the autopilot
         run: |
           python scraper/enrich_stats.py || echo "enrichment failed - skipping"
-          git add data/tv2/player_stats.json
+          if [ -f data/tv2/player_stats.json ]; then git add data/tv2/player_stats.json; fi
           git diff --cached --quiet || (git commit -m "stats enrichment $(date -u +%FT%H:%MZ)" && git push)
 
-      # Daily rating snapshot for the My Team history chart (one entry/day,
-      # freshest run wins). Committed separately so a failure never blocks sync.
+      # Daily rating snapshot + self-tuning calibration. Best-effort; the learned
+      # files only exist once there's data, so add only the ones that are present.
       - name: Record daily team-rating history
+        continue-on-error: true
         run: |
           python scraper/record_rating.py || echo "rating snapshot failed - skipping"
-          git add data/tv2/rating_history.json data/tv2/model_accuracy.json data/tv2/calibration.json data/tv2/motm_calibration.json
+          for f in data/tv2/rating_history.json data/tv2/model_accuracy.json \
+                   data/tv2/calibration.json data/tv2/motm_calibration.json; do
+            if [ -f "$f" ]; then git add "$f"; fi
+          done
           git diff --cached --quiet || (git commit -m "rating snapshot $(date -u +%F)" && git push)
 
       # Pre-deadline lineup signal: FotMob predicted/confirmed XIs for the
@@ -73,9 +78,10 @@ jobs:
       # captains/fields a benched or injured player. Best-effort, runs right
       # before the autopilot so it acts on the freshest XIs.
       - name: Enrich predicted/confirmed lineups
+        continue-on-error: true
         run: |
           python scraper/enrich_lineups.py || echo "lineup enrichment failed - skipping"
-          git add data/tv2/predicted_lineups.json
+          if [ -f data/tv2/predicted_lineups.json ]; then git add data/tv2/predicted_lineups.json; fi
           git diff --cached --quiet || (git commit -m "lineups $(date -u +%FT%H:%MZ)" && git push)
 
       # Autopilot: when a transfer deadline is within 8 hours, applies the

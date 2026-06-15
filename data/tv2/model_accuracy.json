@@ -5,7 +5,7 @@
    "actual": 19,
    "played": 9,
    "starters": 11,
-   "updated_at": "2026-06-15T10:57:50.117444+00:00",
+   "updated_at": "2026-06-15T11:39:13.331182+00:00",
    "expected_full": 47.7,
    "expected_played": 22.4,
    "finalized": false,
@@ -16,12 +16,12 @@
      "n": 1
     },
     "DEF": {
-     "expected": 16.58,
+     "expected": 16.48,
      "actual": 6.0,
      "n": 4
     },
     "MID": {
-     "expected": 18.94,
+     "expected": 19.08,
      "actual": 10.0,
      "n": 1
     },

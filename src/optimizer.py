@@ -41,9 +41,27 @@ def squad_xp(squad: pd.DataFrame, xp_col: str = "xp_next") -> float:
     return best_xi(squad, xp_col)["total"]
 
 
-def captain_options(squad: pd.DataFrame, xp_col: str = "xp_next", n: int = 3) -> pd.DataFrame:
-    cols = [c for c in ["name", "team", "position", "opponent", xp_col, "heat_mult"] if c in squad.columns]
-    return squad.sort_values(xp_col, ascending=False).head(n)[cols]
+def captain_options(squad: pd.DataFrame, xp_col: str = "xp_next", n: int = 3,
+                    regime: str | None = None, field_own: dict | None = None) -> pd.DataFrame:
+    """Top captain candidates ranked the way the autopilot ACTUALLY picks the
+    armband (availability-weighted EV, regime tilt), restricted to the starting XI
+    — so this table agrees with choose_captain / rank_sim / what gets written to
+    TV2, instead of a raw xp argmax that could headline a likely-benched player.
+    The model's chosen captain (🟠 C) and vice (🔵 V) float to the top."""
+    xi_ids = [i for i in best_xi(squad, xp_col)["xi_ids"] if i in squad.index]
+    if not xi_ids:
+        return squad.head(0)
+    xi = squad.loc[xi_ids].copy()
+    cap, vice = choose_captain(xi, regime=regime, field_own=field_own, value_col=xp_col)
+    pp = xi.get("p_play", pd.Series(0.85, index=xi.index)).fillna(0.85)
+    xi["cap_ev"] = (xi[xp_col].clip(lower=0) * pp).round(2)        # availability-weighted EV
+    order = xi.sort_values("cap_ev", ascending=False).index.tolist()
+    front = [i for i in (cap, vice) if i in xi.index]              # armband + vice always on top
+    xi = xi.loc[front + [i for i in order if i not in front]]
+    xi["armband"] = ["🟠 C" if i == cap else ("🔵 V" if i == vice else "") for i in xi.index]
+    cols = [c for c in ["armband", "name", "team", "position", "opponent", xp_col, "p_play", "cap_ev"]
+            if c in xi.columns]
+    return xi.head(n)[cols]
 
 
 def choose_captain(xi: pd.DataFrame, regime: str | None = None, field_own: dict | None = None,

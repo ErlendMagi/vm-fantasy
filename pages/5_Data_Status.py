@@ -17,7 +17,8 @@ c1, c2, c3 = st.columns(3)
 c1.metric("Last synced", meta.get("last_synced", "never")[:16].replace("T", " "))
 c2.metric("Scraper mode", meta.get("scraper_mode", "?"))
 odds = d["match_odds"]
-c3.metric("Odds credits left", (odds or {}).get("credits_remaining") or "?")
+_cr = (odds or {}).get("credits_remaining")
+c3.metric("Odds credits left", "?" if _cr is None else _cr)   # a real 0 must show as 0, not '?'
 
 st.subheader("Data files")
 rows = []
@@ -40,8 +41,10 @@ if not d["outrights"]:
 
 if d["adv"] is not None:
     st.subheader("Advancement probabilities (all 48 teams)")
-    st.caption("P(team plays in each knockout round), from 10,000 group-stage simulations + "
-               "strength propagation. Used to discount future points of at-risk players.")
+    st.caption("P(team reaches each knockout stage), from 10,000 group-stage simulations + strength "
+               "propagation. **R32–SF** drive the playtime discount for at-risk players (the fantasy Final "
+               "round is played by all four semifinalists, so it uses the **SF** column); **F** = P(reach "
+               "the final) and **WIN** = P(champion) are shown for context, not used for discounting.")
     adv = d["adv"].sort_values("R32", ascending=False)
     st.dataframe(
         adv.style.format("{:.0%}"),

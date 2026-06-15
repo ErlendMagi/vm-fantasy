@@ -43,9 +43,12 @@ horizon = st.radio("Rate players by…", [f"Round {target} (planning)", "Whole t
 value_col = "xp_next" if horizon.startswith("Round") else "xp_tournament"
 
 # ---------------------------------------------------------------- rankings per position
-st.subheader(f"Position rankings — planning round {target}")
-st.caption(f"Bars show each player as a % of the best player in that position, rated for the upcoming "
-           f"editable round (R{target}). Green = in your squad. Hover for ownership.")
+_is_round = horizon.startswith("Round")           # the chart follows value_col; the heading must too
+st.subheader(f"Position rankings — {f'planning round {target}' if _is_round else 'whole tournament'}")
+st.caption("Bars show each player as a % of the best player in that position, rated for "
+           + (f"the upcoming editable round (R{target})." if _is_round else
+              "the whole tournament (survival-weighted — a star on a team likely to exit early rates lower).")
+           + " Green = in your squad. Hover for ownership.")
 tabs = st.tabs([viz.POS_LABEL[p] for p in viz.POS_ORDER])
 for tab, pos in zip(tabs, viz.POS_ORDER):
     with tab:
@@ -75,7 +78,8 @@ if who:
     pct_tour = 100 * r["xp_tournament"] / max(float(pos_peers["xp_tournament"].max()), 0.01)
 
     c1, c2, c3, c4, c5 = st.columns(5)
-    c1.metric(f"Rating round {target}", f"{r['xp_next']:.1f} pts", f"#{rank_next} of {viz.POS_LABEL[r['position']].lower()}")
+    c1.metric(f"Rating round {target}", f"{r['xp_next']:.1f} pts",
+              f"#{rank_next} of {viz.POS_LABEL[r['position']].lower()} this round")
     c2.metric("Rating whole cup", f"{r['xp_tournament']:.1f} pts", f"#{rank_tour} · {pct_tour:.0f}% of best")
     _srcmap = {"lineup✓": "confirmed XI", "lineup~": "predicted XI", "minutes": "observed minutes",
                "prior": "pre-game estimate"}

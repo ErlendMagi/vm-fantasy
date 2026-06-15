@@ -22,10 +22,25 @@ def top_players(owned: pd.DataFrame, teams, n=3):
     return sel.head(n)
 
 
+def _xi_stake(owned: pd.DataFrame, xi_ids, cap_id, teams):
+    """Expected points an owner has riding on a match: their STARTING XI players in
+    it, captain counted twice. Mirrors the League watch guide exactly, so the same
+    fixture shows the same stake on both tabs (the old version summed the whole
+    15-man squad with no captain double — a different, inflated number)."""
+    ids = set(xi_ids) if xi_ids else set(owned.index)
+    sel = owned[(owned["team"].isin(teams)) & (owned.index.isin(ids))]
+    s = float(sel["xp_next"].sum())
+    if cap_id is not None and cap_id in set(sel.index):
+        s += float(owned.loc[cap_id, "xp_next"])
+    return s, sel
+
+
 def match_brief(fx: dict, proj: pd.DataFrame, my_owned: pd.DataFrame,
-                rivals: list[tuple[str, pd.DataFrame]]) -> dict:
+                rivals: list[tuple], my_xi_ids=None, my_cap=None) -> dict:
     """fx is an enriched next-round fixture (mu_home/mu_away/p_home_win/
-    p_away_win/apparent_temp/indoor_ac). Returns title + paragraphs + tags."""
+    p_away_win/apparent_temp/indoor_ac). `rivals` is a list of
+    (squad_name, owned_df, xi_ids, cap_id); `my_xi_ids`/`my_cap` resolve your
+    starting XI + captain. Returns title + paragraphs + tags."""
     home, away = fx["home"], fx["away"]
     ph, pa = float(fx.get("p_home_win", 0.4)), float(fx.get("p_away_win", 0.4))
     pd_ = _devig_draw(ph, pa)
@@ -79,25 +94,23 @@ def match_brief(fx: dict, proj: pd.DataFrame, my_owned: pd.DataFrame,
             pl_lines.append(f"**{side}** fantasy threats: {names}.")
     players_para = " ".join(pl_lines)
 
-    # --- my exposure ---
-    mine = my_owned[my_owned["team"].isin({home, away})]
-    my_stake = float(mine["xp_next"].sum())
+    # --- my exposure (starting XI + captain double, matching the watch guide) ---
+    my_stake, mine = _xi_stake(my_owned, my_xi_ids, my_cap, {home, away})
     if len(mine):
         my_para = (f"**Your exposure:** {', '.join(mine['name'])} — about **{my_stake:.1f}** expected points "
                    f"riding on this one. " +
                    ("This is one of your big games; watch it." if my_stake >= 6 else
                     "Modest stake, but live."))
     else:
-        my_para = "**Your exposure:** none of your players feature — a free watch, no points at risk."
+        my_para = "**Your exposure:** none of your starters feature — a free watch, no points at risk."
 
-    # --- rival threat ---
+    # --- rival threat (each rival's XI + captain, same basis as yours) ---
     threat_line = ""
     threats = []
-    for sn, ow in rivals:
-        riv = ow[ow["team"].isin({home, away})]
-        gain = float(riv["xp_next"].sum()) - my_stake
+    for sn, ow, r_xi, r_cap in rivals:
+        rstake, riv = _xi_stake(ow, r_xi, r_cap, {home, away})
         if len(riv):
-            threats.append((gain, sn, float(riv["xp_next"].sum())))
+            threats.append((rstake - my_stake, sn, rstake))
     threats.sort(reverse=True)
     if threats and threats[0][0] > 1.5:
         g, sn, val = threats[0]
@@ -121,8 +134,10 @@ def match_brief(fx: dict, proj: pd.DataFrame, my_owned: pd.DataFrame,
         "kickoff_utc": fx["kickoff_utc"], "venue": fx.get("venue_id"),
         "ph": ph, "pd": pd_, "pa": pa, "mu_h": mu_h, "mu_a": mu_a,
         "my_stake": round(my_stake, 1),
+        # round once and gate the name on the SAME value the metric shows, so a
+        # sub-0.05 gain can't render '—' while the tooltip still names a rival.
         "danger": round(threats[0][0], 1) if threats else 0.0,
-        "danger_name": threats[0][1] if threats else None,
+        "danger_name": threats[0][1] if threats and round(threats[0][0], 1) > 0 else None,
         "paragraphs": paragraphs,
     }
 

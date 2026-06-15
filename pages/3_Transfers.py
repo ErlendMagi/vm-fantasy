@@ -40,10 +40,14 @@ st.caption(f"All figures are for round {target} (the round you're planning). **P
            "about to stop scoring (elimination risk).")
 sq = owned.sort_values("xp_horizon", ascending=False)
 st.dataframe(
-    sq[["name", "team", "position", "price", "opponent", "heat_mult", "rotation_risk",
+    sq[["name", "team", "position", "price", "p_start", "opponent", "heat_mult", "rotation_risk",
         "xp_next", "xp_horizon", "p_plays_after"]],
     column_config={
         "opponent": st.column_config.TextColumn(f"opp R{target}"),
+        "p_start": st.column_config.NumberColumn("start %", format="percent",
+                                                 help=f"Chance this player starts round {target} — it scales "
+                                                      "the whole projection. Low here = benching risk, which "
+                                                      "'rot risk' (blowout rest of a nailed starter) misses."),
         "heat_mult": st.column_config.NumberColumn("heat ×", format="%.2f"),
         "rotation_risk": st.column_config.NumberColumn("rot risk", format="percent",
                                                        help="Chance this nailed starter is rested in a "
@@ -74,7 +78,8 @@ if len(my["squad"]) - len(missing) < config.SQUAD_SIZE:
     st.stop()
 
 plans = services.get_transfer_plans(my["squad"], bank, free)
-is_live = (free == default_free) and abs(bank - float(my.get("bank", 0.0))) < 1e-6
+_free_default = 5 if unlimited else default_free          # the input's own default (unlimited shows 5)
+is_live = (free == _free_default) and abs(bank - float(my.get("bank", 0.0))) < 1e-6
 best = plans[0] if plans else None
 auto_note = ("The autopilot runs this exact search with your live transfers and bank before the deadline."
              if is_live else "What-if with your edited inputs — the autopilot uses your real values.")
@@ -134,15 +139,17 @@ for p in plans[:8]:
         vals.append(round((p.get("p_win") or 0) * 100, 1))
         txt.append(f"{(p.get('p_win') or 0) * 100:.0f}% · {p['net_gain']:+.1f} pts{trim}")
     else:
-        vals.append(p["net_gain"])
-        txt.append(f"{p['net_gain']:+.1f}{trim}")
+        # plot the SAME quantity the list is sorted by (adj_gain / league_gain), so the
+        # bars are monotonic; show the raw EV as the text annotation.
+        vals.append(round(p.get("adj_gain", p.get("league_gain", p["net_gain"])), 1))
+        txt.append(f"{p['net_gain']:+.1f} pts{trim}")
 figp = go.Figure(go.Bar(
     x=vals[::-1], y=labels[::-1], orientation="h",
     marker_color=[viz_gain if p["net_gain"] >= 0 else viz_neutral for p in plans[:8]][::-1],
     text=txt[::-1], textposition="outside", cliponaxis=False))
 figp.update_layout(height=90 + 36 * len(labels), margin=dict(l=10, r=10, t=10, b=10),
                    xaxis_title=("Win probability % — the objective (EV + diversification + variance)"
-                                if _has_pw else "Expected points gained vs keeping the squad"))
+                                if _has_pw else "Plan value — EV + diversification + variance (text = raw EV)"))
 st.plotly_chart(figp, width="stretch", config={"displayModeBar": False})
 st.caption("Ranked by the model's true objective — **win probability** when rivals' squads are known, else raw "
            "points. The text shows each plan's raw EV gain (net of any −4 hit, over the rest of the cup) and "
@@ -152,7 +159,26 @@ st.caption("Ranked by the model's true objective — **win probability** when ri
 a, b = st.columns(2)
 with a:
     st.subheader(f"Captain picks (round {target})")
-    st.dataframe(optimizer.captain_options(owned), hide_index=True, width="stretch")
+    _cap_regime = (_ls or {}).get("regime")
+    _cap_fo = (analytics.field_effective_ownership((_ls or {}).get("rival_squads") or [],
+                                                   (_ls or {}).get("rival_captains")) if _ls else None)
+    st.dataframe(
+        optimizer.captain_options(owned, regime=_cap_regime, field_own=_cap_fo),
+        hide_index=True, width="stretch",
+        column_config={
+            "armband": st.column_config.TextColumn("", help="🟠 C = the captain the autopilot would set, "
+                                                            "🔵 V = vice."),
+            "opponent": st.column_config.TextColumn(f"opp R{target}"),
+            "xp_next": st.column_config.NumberColumn(f"xP R{target}", format="%.2f"),
+            "p_play": st.column_config.NumberColumn("plays %", format="percent"),
+            "cap_ev": st.column_config.NumberColumn("cap EV", format="%.2f",
+                                                    help="Availability-weighted EV (xP × P(plays)). The 🟠C/🔵V "
+                                                         "is this PLUS a leader/chaser regime tilt, so under a "
+                                                         "tilt the armband can sit just above a higher-EV row."),
+        })
+    st.caption("Ranked the way the **autopilot actually sets the armband** (availability-weighted, "
+               "regime-aware) and limited to your starting XI — so 🟠 C is exactly what gets written and what "
+               "the win-probability sim assumes, not a raw xP pick that could name a benched player.")
 with b:
     st.subheader(f"Suggested starting XI (round {target})")
     xi = optimizer.best_xi(owned, "xp_next")

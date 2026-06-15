@@ -259,7 +259,8 @@ def _expected(pid, rnd):
 
 
 fig = go.Figure()
-end_actual = {}   # squad -> cumulative ACTUAL at the last kicked-off match (for the whole-cup projection)
+end_actual = {}   # squad -> cumulative ACTUAL at the last kicked-off match (line start)
+end_run = {}      # squad -> cumulative through the END of the race (actual + EV up to target round)
 for _, m in members.iterrows():
     sq = m["squad_name"]
     width = 5 if m["is_me"] else 2
@@ -291,6 +292,7 @@ for _, m in members.iterrows():
             dx.append(i)
             dy.append(run)
     end_actual[sq] = sy[-1] if sy else 0.0
+    end_run[sq] = run                         # actual-where-played + EV for not-yet-kicked-off, through target
     if sx:
         fig.add_scatter(x=sx, y=sy, customdata=[mlabels[i] for i in sx], mode="lines", name=sq,
                         legendgroup=sq, line=dict(width=width, color=colour[sq], shape="spline", smoothing=0.5),
@@ -301,19 +303,25 @@ for _, m in members.iterrows():
                         line=dict(width=width, color=colour[sq], dash="dash", shape="spline", smoothing=0.5),
                         hovertemplate=f"%{{customdata}}<br>{sq} (proj): %{{y:.0f}}<extra></extra>")
 
-# whole-tournament view: extend each line to a projected FINAL total (actual so far
-# + rest-of-cup expected value of their best XI, survival-weighted via xp_tournament)
+# whole-tournament view: extend each manager's race line to a projected FINAL total.
+# end_run already blends realized (played) + EV (not-yet-kicked-off) THROUGH the target
+# round, so we add only the EV of rounds BEYOND the target — the live round is counted
+# exactly once (as actual where played, EV where not), never dropped and never doubled.
 if _whole and race_matches:
     _fxx = len(race_matches) + max(2, len(race_matches) // 8)
+    _anchor_x = len(race_matches) - 1            # extend from the end of the race line
     _proj_rows = []
     for _, m in members.iterrows():
         sq = m["squad_name"]
         op = proj_plan.loc[[i for i in (m.get("squad") or []) if i in proj_plan.index]]
-        rem = optimizer.squad_xp(op, "xp_tournament") if len(op) >= 11 else 0.0
-        ay = end_actual.get(sq, 0.0)
-        fin = ay + rem
+        # xp_tournament(proj_plan) spans target..final; subtract the target round (xp_next)
+        # to leave only rounds AFTER target, which the race line hasn't covered yet.
+        beyond = max(0.0, optimizer.squad_xp(op, "xp_tournament") - optimizer.squad_xp(op, "xp_next")) \
+            if len(op) >= 11 else 0.0
+        start = end_run.get(sq, end_actual.get(sq, 0.0))   # the race line's endpoint
+        fin = start + beyond                               # projected finish
         _proj_rows.append((sq, fin, m["is_me"]))
-        fig.add_scatter(x=[last_played + 0.5 if last_played >= 0 else 0, _fxx], y=[ay, fin],
+        fig.add_scatter(x=[_anchor_x, _fxx], y=[start, fin],
                         mode="lines", legendgroup=sq, showlegend=False, opacity=0.7,
                         line=dict(width=5 if m["is_me"] else 2, color=colour[sq], dash="dot"),
                         hovertemplate=f"{sq} — projected finish: {fin:.0f}<extra></extra>")
@@ -356,11 +364,12 @@ st.subheader("🏆 Standings")
 _pwin = services.get_win_probability()
 if _pwin is not None:
     _fair = 1.0 / max(len(members), 1)
-    st.metric("🎲 Your win probability (next round)", f"{_pwin * 100:.0f}%",
+    st.metric(f"🎲 Your win probability (round {target})", f"{_pwin * 100:.0f}%",
               delta=f"{(_pwin - _fair) * 100:+.0f}% vs an even split",
-              help="Monte-Carlo simulation of the whole next round across all squads (shared match "
-                   "scorelines for correlation), counting how often YOUR total finishes 1st. This is the "
-                   "objective the whole engine optimises — not just points.")
+              help=f"Monte-Carlo simulation of the **editable round you're planning (round {target})** across "
+                   "all squads (shared match scorelines for correlation), counting how often YOUR total "
+                   "finishes 1st. This is the objective the whole engine optimises — computed the same way "
+                   "(same regime + effective-ownership) as the Transfers keep-the-squad win probability.")
 # expected points each manager still has TO COME in the live round: their starters
 # whose match hasn't kicked off yet (captain ×2). Drops as games kick off.
 _future_teams = set()
@@ -450,13 +459,28 @@ elif proj_live is not None and have_squads:
 # ---------------------------------------------------------------- rivals' squads, ranked by SPI
 if proj is not None and have_squads:
     from src import analytics
-    ranks = d["ranks"]
+    ranks = d["ranks_live"]   # live tab → live-round ranks (match the pitch the cards draw)
     floors = dict(zip(proj.index, proj["floor"]))
     ceils = dict(zip(proj.index, proj["ceiling"]))
     managers = [{"squad_name": m["squad_name"], "manager": m["manager"], "is_me": m["is_me"],
                  "squad": m["squad"], "total_points": m["total_points"]}
                 for _, m in members.iterrows() if m["squad"]]
-    spi = analytics.squad_power_index(proj, managers)
+
+    # each manager's ACTUAL fielded XI + captain (synced starters when a full 11, else
+    # the model's best XI), so EVERY rank/rating/projection below — SPI, the card's
+    # 'proj pts', team_rating and 'Avg XI rank' — describes the same XI the pitch draws.
+    def _fielded(m):
+        ow = proj.loc[[pid for pid in (m.get("squad") or []) if pid in proj.index]]
+        if len(ow) < 11:
+            return None
+        best = optimizer.best_xi(ow, "xp_next")
+        starters = [pid for pid in (m.get("starter_ids") or []) if pid in ow.index]
+        xi_ids = starters if len(starters) == 11 else best["xi_ids"]
+        cap_id = m.get("captain_id") if m.get("captain_id") in ow.index else best["captain_id"]
+        return (xi_ids, cap_id)
+    fielded_full = {m["squad_name"]: _fielded(m) for _, m in members.iterrows() if m["squad"]}
+    fielded_xi = {k: (v[0] if v else []) for k, v in fielded_full.items()}
+    spi = analytics.squad_power_index(proj, managers, fielded=fielded_full)
 
     # ---- whose games matter most in the LIVE round (not-yet-kicked-off games) ----
     st.subheader(f"🗓️ Whose games matter most — round {live} (live)")
@@ -502,7 +526,7 @@ if proj is not None and have_squads:
     a, b = st.columns(2)
     qual_rows = []
     for mgr in managers:
-        tr = analytics.team_rating(proj, mgr["squad"], ranks)
+        tr = analytics.team_rating(proj, mgr["squad"], ranks, xi_ids=fielded_xi.get(mgr["squad_name"]))
         owned_m = proj.loc[[i for i in mgr["squad"] if i in proj.index]]
         cost = max(float(owned_m["price"].sum()), 0.1)
         qual_rows.append({"squad_name": mgr["squad_name"], "is_me": mgr["is_me"],
@@ -524,7 +548,8 @@ if proj is not None and have_squads:
         st.plotly_chart(qf, width="stretch", config={"displayModeBar": False})
     with b:
         st.markdown("**💸 Squad ROI** — points per million spent: actual so far (solid) and expected "
-                    "for the whole cup (faded)")
+                    "for the whole cup (faded). **Sorted by expected cup ROI**, so the solid 'actual' bars "
+                    "needn't decrease in step.")
         r = qd.sort_values("proj_roi")
         labels = [f"{'🟢 ' if me else ''}{s}" for s, me in zip(r["squad_name"], r["is_me"])]
         rf = go.Figure()
@@ -586,9 +611,9 @@ if proj is not None and have_squads:
     if not spi.empty and not spi.iloc[0]["is_me"]:
         with st.expander("🤔 Why isn't my team #1 on the projection?"):
             st.markdown(
-                f"This board ranks **the points your current team is projected to score on round {live}'s "
-                "fixtures** — not who could build the best team today. Three reasons you can sit "
-                "behind a rival here and it's still fine:\n\n"
+                f"This board ranks teams by the **Squad Power Index** — a blend of your projected round-{live} "
+                "XI (60%), whole-cup durability (25%) and value-per-million (15%) — not who could build the "
+                "best team today. Three reasons you can sit behind a rival here and it's still fine:\n\n"
                 "1. **You're rules-locked.** Each round you only get **2 free transfers** (a 3rd "
                 "costs −4 pts), so you can't rebuild to the current optimum in one week — a small gap is often "
                 "less than a single −4 hit.\n"
@@ -621,7 +646,7 @@ if proj is not None and have_squads:
             vice_id = _cand.index[0] if len(_cand) else None
         bench = m.get("bench_ids") or [pid for pid in m["squad"] if pid not in xi_ids]
         formation = m.get("formation") or (xi["formation"] if xi else "?")
-        rating = analytics.team_rating(proj, m["squad"], ranks)
+        rating = analytics.team_rating(proj, m["squad"], ranks, xi_ids=xi_ids)
         with cols[i % 2]:
             st.markdown(f"### {'🟢 ' if m['is_me'] else ''}{m['squad_name']}")
             st.caption(f"**{m['manager']}** · SPI {m['SPI']:.0f} · {formation} · {m['proj_next']:.0f} proj pts · "

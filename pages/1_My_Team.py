@@ -27,7 +27,7 @@ from src import data_access as _da
 
 proj = proj_live = d["proj"]                  # LIVE round — this page's focus
 proj_plan = d["proj_plan"]                    # editable round (used only for the planning pointer)
-my, ranks = d["my_team"], d["ranks"]
+my, ranks = d["my_team"], d["ranks_live"]     # live-round ranks — this is the live tab
 target, live = d["target_round"], d["next_round"]
 
 # my live-league member: live scores during matches if a token is set, else the synced file
@@ -53,7 +53,7 @@ if vice_id is None:
 _formation = _rd.get("formation") or _best["formation"]
 xi = {"xi_ids": xi_ids, "captain_id": cap_id, "formation": _formation}   # downstream compatibility
 
-rating_live = analytics.team_rating(proj, my["squad"], ranks)
+rating_live = analytics.team_rating(proj, my["squad"], ranks, xi_ids=xi_ids)
 squad_rating_live = analytics.squad_quality(proj, my["squad"])
 points_so_far = int(_my_total) if _my_total is not None else int(owned["total_points"].sum())
 
@@ -275,15 +275,24 @@ st.subheader("🧯 Squad risk — how exposed is your round?")
 st.caption(f"Diversification check on your **round {live} (live)** XI: how many independent 'bets' you really "
            "have, how much rides on a single match, and — given the league table — whether you should spread "
            "risk or chase variance. One bad game shouldn't tank your whole round.")
-_my_total = next((mm.get("total_points", 0) for L in (_league or {}).get("leagues", [])
-                  for mm in L.get("members", []) if mm.get("squad_name") == my.get("squad_name")), 0)
-_rivals = [mm.get("total_points", 0) for L in (_league or {}).get("leagues", [])
-           for mm in L.get("members", [])
-           if mm.get("squad_name") != my.get("squad_name") and mm.get("total_points") is not None
-           and (mm.get("squad") or mm.get("rounds"))]
-_gap = (_my_total - max(_rivals)) if _rivals else None
-risk = analytics.squad_risk(proj_live, my["squad"], _capid, "xp_next",
-                            gap_to_field=_gap, rounds_left=max(1, 9 - live))
+# one source of truth for the regime band: the same gap + rounds-left the autopilot
+# and Transfers use (so My Team's 'League-state call' can't contradict them). Falls
+# back to a local computation only when the live league isn't loaded.
+_ls_state = services.get_league_state()
+if _ls_state:
+    _gap, _rounds_left = _ls_state["gap_to_field"], _ls_state["rounds_left"]
+else:
+    _my_total = next((mm.get("total_points", 0) for L in (_league or {}).get("leagues", [])
+                      for mm in L.get("members", []) if mm.get("squad_name") == my.get("squad_name")), 0)
+    _rivals = [mm.get("total_points", 0) for L in (_league or {}).get("leagues", [])
+               for mm in L.get("members", [])
+               if mm.get("squad_name") != my.get("squad_name") and mm.get("total_points") is not None
+               and (mm.get("squad") or mm.get("rounds"))]
+    _gap = (_my_total - max(_rivals)) if _rivals else None
+    _rounds_left = max(1, 9 - live)
+# analyse the SAME fielded XI + captain shown on the pitch above (not a recomputed best XI)
+risk = analytics.squad_risk(proj_live, my["squad"], cap_id, "xp_next",
+                            gap_to_field=_gap, rounds_left=_rounds_left, xi_ids=xi_ids)
 if not risk:
     st.caption("Risk metrics appear once your full XI is set.")
 else:
@@ -319,14 +328,14 @@ _over = _nat[_nat > _cap]
 _stack_txt = ", ".join(f"🇺🇳 **{t}** ({n})" for t, n in _nat.items() if n >= 2) or "no nation with 2+"
 st.subheader("🌍 Country concentration")
 if len(_over):
-    st.warning(f"Cap this round is **{_cap} per nation** "
+    st.warning(f"Cap when you plan **round {target}** is **{_cap} per nation** "
                f"({'group stage — diversify early' if _cap < _cfg.MAX_PER_TEAM else 'knockouts — TV2 max 3'}). "
                f"You're **over** on: " + ", ".join(f"**{t}** ({n})" for t, n in _over.items())
                + ". Three from one country is a correlated bet (all blank, or the clean sheet a winning team "
                "still concedes). The model won't add to these and will **trim them back to "
                f"{_cap}** as soon as it can without hurting your win odds.")
 else:
-    st.caption(f"Cap this round: **{_cap} per nation** "
+    st.caption(f"Cap when you plan **round {target}**: **{_cap} per nation** "
                f"({'group stage' if _cap < _cfg.MAX_PER_TEAM else 'knockouts'}). Your stacks: {_stack_txt}. "
                "✅ Within the early-diversification limit — no single nation can sink your round.")
 
@@ -429,9 +438,9 @@ else:
     for r in completed:
         mine_r = histr.get(r)
         if mine_r is None:
-            xi_ids = my.get("starting_xi") or my["squad"][:11]
+            _rxi = my.get("starting_xi") or my["squad"][:11]      # local: don't clobber the fielded xi_ids
             cap = my.get("captain_id")
-            mine_r = sum(proj.loc[i, "round_points"].get(r, 0) for i in xi_ids if i in proj.index)
+            mine_r = sum(proj.loc[i, "round_points"].get(r, 0) for i in _rxi if i in proj.index)
             mine_r += proj.loc[cap, "round_points"].get(r, 0) if cap in proj.index else 0
         idx_r = template_team.index_round_actual(proj, r)
         mine_cum += mine_r

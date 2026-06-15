@@ -154,7 +154,8 @@ def motm_probabilities(weights: dict) -> dict:
 
 
 def squad_risk(proj: pd.DataFrame, squad_ids: list[str], captain_id=None,
-               value_col: str = "xp_next", gap_to_field=None, rounds_left=None) -> dict | None:
+               value_col: str = "xp_next", gap_to_field=None, rounds_left=None,
+               xi_ids: list | None = None) -> dict | None:
     """Concentration / variance risk of the scoring XI, so one bad match can't
     quietly tank a round. All from existing proj columns. Returns:
       enb_match        effective number of independent 'bets' (matches your points
@@ -171,9 +172,12 @@ def squad_risk(proj: pd.DataFrame, squad_ids: list[str], captain_id=None,
     owned = proj.loc[[i for i in squad_ids if i in proj.index]]
     if len(owned) < 11:
         return None
-    xi = optimizer.best_xi(owned, value_col)
-    x = owned.loc[[i for i in xi["xi_ids"] if i in owned.index]].copy()
-    cap = captain_id if captain_id in set(x.index) else xi["captain_id"]
+    # analyse the ACTUAL fielded XI when one is supplied (so the risk numbers match
+    # the pitch / contributions shown alongside), else fall back to the model's best XI.
+    fielded = [i for i in (xi_ids or []) if i in owned.index]
+    xi_list = fielded if len(fielded) == 11 else optimizer.best_xi(owned, value_col)["xi_ids"]
+    x = owned.loc[[i for i in xi_list if i in owned.index]].copy()
+    cap = captain_id if captain_id in set(x.index) else x[value_col].idxmax()
     mult = pd.Series(1.0, index=x.index)
     if cap in mult.index:
         mult[cap] = float(config.CAPTAIN_MULTIPLIER)
@@ -243,20 +247,33 @@ def squad_risk(proj: pd.DataFrame, squad_ids: list[str], captain_id=None,
             "flags": flags, "regime": regime, "regime_msg": regime_msg}
 
 
-def squad_power_index(proj: pd.DataFrame, managers: list[dict]) -> pd.DataFrame:
+def squad_power_index(proj: pd.DataFrame, managers: list[dict],
+                      fielded: dict | None = None) -> pd.DataFrame:
     """Squad Power Index (0-100) across a field of managers: a blend of this
     round's projected XI (60%), whole-cup durability (25%) and value-per-million
-    (15%), each min-max normalised across the field (robust for small leagues)."""
+    (15%), each min-max normalised across the field (robust for small leagues).
+
+    Pass `fielded` = {squad_name: (xi_ids, captain_id)} to score each manager's
+    ACTUAL fielded XI (captain doubled) instead of the model's best XI, so SPI and
+    the projected-points it exposes describe the same XI drawn on the pitch."""
     rows = []
     for m in managers:
         owned = proj.loc[[i for i in m["squad"] if i in proj.index]]
         if len(owned) < 11:
             continue
         cost = max(float(owned["price"].sum()), 0.1)
-        rows.append({**m,
-                     "proj_next": optimizer.squad_xp(owned, "xp_next"),
-                     "proj_tour": optimizer.squad_xp(owned, "xp_tournament"),
-                     "cost": cost})
+        fx = (fielded or {}).get(m["squad_name"])
+        xi_ids = [i for i in fx[0] if i in owned.index] if fx else []
+        if len(xi_ids) == 11:                       # the fielded XI (captain doubled), matching the pitch
+            cap_id = fx[1]
+            def _val(col, _xi=xi_ids, _cap=cap_id):
+                v = float(owned.loc[_xi, col].sum())
+                return v + (float(owned.loc[_cap, col]) if _cap in set(_xi) else 0.0)
+            proj_next, proj_tour = _val("xp_next"), _val("xp_tournament")
+        else:                                       # no fielded XI available → model's best XI
+            proj_next = optimizer.squad_xp(owned, "xp_next")
+            proj_tour = optimizer.squad_xp(owned, "xp_tournament")
+        rows.append({**m, "proj_next": proj_next, "proj_tour": proj_tour, "cost": cost})
     df = pd.DataFrame(rows)
     if df.empty:
         return df
@@ -317,18 +334,22 @@ def squad_quality(proj: pd.DataFrame, squad_ids: list) -> dict:
             "avg_rank": round(float(owned["pos_rank"].mean()), 1) if len(owned) else None}
 
 
-def team_rating(proj: pd.DataFrame, squad_ids: list, ranks: dict, n_pool: dict | None = None) -> dict:
+def team_rating(proj: pd.DataFrame, squad_ids: list, ranks: dict, n_pool: dict | None = None,
+                xi_ids: list | None = None) -> dict:
     """A headline 0-100 team rating + per-position average rank.
 
     Per-position percentile: a player ranked r of N in his position scores
-    100*(1 - (r-1)/N). The team rating is the best-XI's average percentile,
-    lightly tilted by captain quality. Lower avg-rank-number is better.
+    100*(1 - (r-1)/N). The team rating is the XI's average percentile, lightly
+    tilted by captain quality. Lower avg-rank-number is better. Pass `xi_ids` to
+    rate the ACTUAL fielded XI (so the rating matches the pitch shown beside it);
+    otherwise the model's best XI is used.
     """
     if n_pool is None:
         n_pool = {p: max(1, int((proj["position"] == p).sum())) for p in POS}
     owned = proj.loc[[i for i in squad_ids if i in proj.index]]
-    xi = optimizer.best_xi(owned, "xp_next")
-    xi_ids = [i for i in xi["xi_ids"] if i in owned.index]
+    fielded = [i for i in (xi_ids or []) if i in owned.index]
+    xi_ids = fielded if len(fielded) == 11 else [i for i in optimizer.best_xi(owned, "xp_next")["xi_ids"]
+                                                 if i in owned.index]
 
     pct, pos_ranks = [], {p: [] for p in POS}
     for idx in xi_ids:

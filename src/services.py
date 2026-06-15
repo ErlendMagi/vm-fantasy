@@ -63,9 +63,15 @@ def _computed(sig: tuple, weather_bucket: str) -> dict:
         proj_plan, fixtures_plan = proj, fixtures_next
     else:
         proj_plan, fixtures_plan = _project_round(b, p_plays, b["target_round"])
+    # ranks for PLANNING tabs (editable round) and a separate set for LIVE tabs.
+    # The live round and the editable round rank players differently, so a live
+    # display (My Team pitch, Home 'Everyone's team') must use ranks_live or the
+    # rank badges contradict the round the element claims to show.
     ranks = analytics.position_ranks(proj_plan, "xp_tournament")
+    ranks_live = ranks if proj_plan is proj else analytics.position_ranks(proj, "xp_tournament")
     return {"proj": proj, "proj_plan": proj_plan, "adv": adv,
-            "fixtures_next": fixtures_next, "fixtures_plan": fixtures_plan, "ranks": ranks}
+            "fixtures_next": fixtures_next, "fixtures_plan": fixtures_plan,
+            "ranks": ranks, "ranks_live": ranks_live}
 
 
 def get_data() -> dict:
@@ -112,14 +118,20 @@ def _plans(sig: tuple, weather_bucket: str, squad: tuple, bank: float, free: int
 
 @st.cache_data(ttl=180, show_spinner=False)
 def _win_prob(sig: tuple, weather_bucket: str, squad: tuple) -> float | None:
-    from src import rank_sim
+    from src import analytics, rank_sim
     comp = _computed(sig, weather_bucket)
     proj, fx = comp["proj_plan"], comp["fixtures_plan"]
-    _, rivals, _, state = _regime_for(sig, weather_bucket, squad)
+    regime, rivals, _, state = _regime_for(sig, weather_bucket, squad)
     if not rivals or not fx:
         return None
+    # same regime + effective-ownership inputs as _plans, so Home's headline win
+    # probability and the Transfers keep-plan p_win are computed identically in every
+    # regime (not just coinflip, where the regime tilt happens to vanish) — bar tiny
+    # Monte-Carlo noise from the shared-RNG draw order.
+    fo = analytics.field_effective_ownership(rivals, (state or {}).get("rival_captains"))
     ranked = rank_sim.rank_plans_by_win(proj, [{"out_ids": [], "in_ids": []}], list(squad), rivals,
-                                        (state or {}).get("rival_captains"), fixtures=fx)
+                                        (state or {}).get("rival_captains"), regime=regime,
+                                        field_own=fo, fixtures=fx)
     return ranked[0].get("p_win") if ranked else None
 
 

@@ -160,7 +160,15 @@ def main() -> None:
 
     owned = proj.loc[[i for i in my["squad"] if i in proj.index]]
     xi = optimizer.best_xi(owned, "xp_next")
-    tr = analytics.team_rating(proj, my["squad"], ranks)
+    # rate the XI you ACTUALLY fielded this round (live feed), so the history chart's
+    # 'Starting XI' line matches the My Team headline + pitch; fall back to best XI.
+    _league = data_access.load_league()
+    _me = next((mm for lg in (_league or {}).get("leagues", []) for mm in lg.get("members", [])
+                if mm.get("squad_name") == my.get("squad_name")), None)
+    _rd = next((r for r in ((_me or {}).get("rounds") or []) if r.get("number") == live_round), {})
+    _fielded = [p for p in (_rd.get("starter_ids") or []) if p in owned.index]
+    xi_ids = _fielded if len(_fielded) == 11 else xi["xi_ids"]
+    tr = analytics.team_rating(proj, my["squad"], ranks, xi_ids=xi_ids)
     sq = analytics.squad_quality(proj, my["squad"])
 
     today = datetime.now(timezone.utc).date().isoformat()

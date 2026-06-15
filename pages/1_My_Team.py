@@ -368,14 +368,18 @@ def _player_total(pid):
     return sum((r.get("scores") or {}).get(pid, 0) for r in ((_me or {}).get("rounds") or []))
 
 
+_SRC_ICON = {"lineup✓": "✅ confirmed XI", "lineup~": "🔮 predicted XI",
+             "minutes": "📊 observed mins", "prior": "~ estimate"}
 prep = []
 for pid, r in owned.iterrows():
     played = pid in _scores
     exp = float(r["xp_next"]) * (2 if pid == cap_id else 1)
     act = _scores.get(pid)
     tag = " (C)" if pid == cap_id else (" (V)" if pid == vice_id else "")
+    src = _SRC_ICON.get(r.get("p_start_src", "prior"), "~")
     prep.append({"flag": viz.flag(r["team"]), "name": r["name"] + tag, "pos": r["position"],
-                 "price": float(r["price"]), "expected": round(exp, 1),
+                 "price": float(r["price"]), "start": f"{r['p_start'] * 100:.0f}%  {src}",
+                 "expected": round(exp, 1),
                  "actual": (f"{act:.0f}" if played else "— to play"),
                  "Δ": (f"{(act or 0) - exp:+.1f}" if played else ""),
                  "total": int(_player_total(pid)), "_sort": ((act or 0) - exp if played else -99)})
@@ -384,8 +388,15 @@ st.dataframe(
     [{k: v for k, v in row.items() if k != "_sort"} for row in prep],
     hide_index=True, width="stretch",
     column_config={"flag": "", "pos": "pos", "price": st.column_config.NumberColumn("price", format="%.1fM"),
+                   "start": st.column_config.TextColumn("start chance",
+                                                        help="Probability this player STARTS, and where it "
+                                                             "comes from: ✅ confirmed XI / 🔮 predicted XI / "
+                                                             "📊 observed minutes / ~ pre-game estimate."),
                    "expected": st.column_config.NumberColumn(f"expected R{live}", format="%.1f"),
                    "actual": f"actual R{live}", "Δ": "Δ", "total": "total (all rounds)"})
+st.caption("**start chance** is the model's playtime read — it now drives every projection, so a player seen "
+           "getting cameo minutes (📊) is downweighted and benched/transferred automatically. ✅/🔮 come from "
+           "FotMob's published XIs near kickoff; before that it's observed minutes, then a pre-game estimate.")
 
 # ---------------------------------------------------------------- contributions chart
 st.subheader(f"Top point sources — round {live} (live)")

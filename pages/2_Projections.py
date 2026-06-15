@@ -27,6 +27,15 @@ st.caption(
     "(from betting odds), assists, clean sheets, Man-of-the-Match, saves and set-piece duty — "
     "adjusted for opponent, venue heat, stage and form."
 )
+st.caption(
+    "▶️ **Playtime drives everything** — each rating is scaled by the player's **start chance** (shown per "
+    "player below and on My Team). The model learns it from **observed minutes** (a 17-min cameo is "
+    "downweighted automatically) and from **FotMob's published XIs** near kickoff. No free API gives a clean "
+    "start-probability days ahead, so to eyeball predicted lineups yourself check "
+    "[FotMob](https://www.fotmob.com/), [RotoWire](https://www.rotowire.com/soccer/lineups.php?league=WOC) or "
+    "[TheFantasyTool](https://thefantasytool.com/predicted-lineups-wc) — but the app already folds the live "
+    "lineup feed in for you."
+)
 
 horizon = st.radio("Rate players by…", [f"Round {target} (planning)", "Whole tournament"], horizontal=True,
                    help="Whole tournament weights every remaining round by the team's survival odds — "
@@ -65,11 +74,16 @@ if who:
     rank_tour = int((pos_peers["xp_tournament"] > r["xp_tournament"]).sum()) + 1
     pct_tour = 100 * r["xp_tournament"] / max(float(pos_peers["xp_tournament"].max()), 0.01)
 
-    c1, c2, c3, c4 = st.columns(4)
+    c1, c2, c3, c4, c5 = st.columns(5)
     c1.metric(f"Rating round {target}", f"{r['xp_next']:.1f} pts", f"#{rank_next} of {viz.POS_LABEL[r['position']].lower()}")
     c2.metric("Rating whole cup", f"{r['xp_tournament']:.1f} pts", f"#{rank_tour} · {pct_tour:.0f}% of best")
-    c3.metric("Price", f"{r['price']}M")
-    c4.metric("Owned by", f"{(r['ownership_pct'] or 0):.0f}%" if r["ownership_pct"] == r["ownership_pct"] else "–")
+    _srcmap = {"lineup✓": "confirmed XI", "lineup~": "predicted XI", "minutes": "observed minutes",
+               "prior": "pre-game estimate"}
+    c3.metric("▶️ Start chance", f"{r['p_start'] * 100:.0f}%",
+              help="Probability this player STARTS — it scales his whole projection (no minutes, no points). "
+                   f"Source: {_srcmap.get(r.get('p_start_src', 'prior'), 'estimate')}.")
+    c4.metric("Price", f"{r['price']}M")
+    c5.metric("Owned by", f"{(r['ownership_pct'] or 0):.0f}%" if r["ownership_pct"] == r["ownership_pct"] else "–")
 
     a, b = st.columns(2)
     with a:
@@ -147,12 +161,15 @@ with st.expander("🤓 Full data table (all players, all columns)"):
         view = view[view["name"].str.contains(search, case=False, na=False)]
     st.dataframe(
         view.sort_values(value_col, ascending=False)[
-            ["name", "team", "position", "price", "ownership_pct", "opponent",
+            ["name", "team", "position", "price", "ownership_pct", "p_start", "opponent",
              "pts_goals", "pts_assists", "pts_cs", "pts_motm", "pts_appear", "pts_duty", "form_mult",
              "rotation_risk", "xp_next", "xp_tournament", "p_plays_after"]
         ],
         column_config={
             "ownership_pct": st.column_config.NumberColumn("owned %", format="%.1f"),
+            "p_start": st.column_config.NumberColumn("start %", format="percent",
+                                                     help="Probability of starting — scales the whole "
+                                                          "projection (observed minutes + published lineups)."),
             "pts_goals": st.column_config.NumberColumn("goals", format="%.2f"),
             "pts_assists": st.column_config.NumberColumn("assists", format="%.2f"),
             "pts_cs": st.column_config.NumberColumn("clean sheet", format="%.2f"),

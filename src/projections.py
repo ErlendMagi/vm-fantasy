@@ -82,6 +82,7 @@ def start_probabilities(players: pd.DataFrame, completed: list[int],
     prior = pd.Series(np.where(rank <= slots, config.STARTER_PRIOR,
                                np.where(rank <= slots + 2, config.FRINGE_PRIOR, config.DEEP_PRIOR)),
                       index=df.index)
+    df["p_start_src"] = "prior"          # where the start prob came from (for display)
     obs_min, n_games = player_profile.minutes_start_prob(df, completed) if completed else (None, None)
     if obs_min is not None:
         # primary signal: observed minutes (nailed starter vs cameo vs benched).
@@ -92,6 +93,7 @@ def start_probabilities(players: pd.DataFrame, completed: list[int],
         # players whose match hasn't been played/enriched yet keep the price-rank
         # prior (NOT a crushed fallback) — we just don't have evidence on them yet
         df["p_start"] = blended.where(obs_min.notna(), prior)
+        df.loc[obs_min.notna(), "p_start_src"] = "minutes"
     else:
         df["p_start"] = prior
 
@@ -102,10 +104,12 @@ def start_probabilities(players: pd.DataFrame, completed: list[int],
         for pid, rec in lp.items():
             if pid not in df.index or rec.get("round") != for_round:
                 continue
-            table = config.LINEUP_PSTART if rec.get("type") == "standard" else config.PREDICTED_LINEUP_PSTART
+            confirmed = rec.get("type") == "standard"
+            table = config.LINEUP_PSTART if confirmed else config.PREDICTED_LINEUP_PSTART
             ps = table.get(rec.get("role"))
             if ps is not None:
                 df.loc[pid, "p_start"] = ps
+                df.loc[pid, "p_start_src"] = "lineup✓" if confirmed else "lineup~"
 
     df["p_play"] = np.minimum(1.0, df["p_start"] + config.SUB_BUMP)
     return df

@@ -310,6 +310,26 @@ else:
     if risk["regime_msg"]:
         st.info("📐 **League-state call:** " + risk["regime_msg"])
 
+# ---------------------------------------------------------------- country concentration
+from src import config as _cfg
+
+_cap = _cfg.soft_team_cap(target)        # the cap transfers will enforce (planning round)
+_nat = owned["team"].value_counts()
+_over = _nat[_nat > _cap]
+_stack_txt = ", ".join(f"🇺🇳 **{t}** ({n})" for t, n in _nat.items() if n >= 2) or "no nation with 2+"
+st.subheader("🌍 Country concentration")
+if len(_over):
+    st.warning(f"Cap this round is **{_cap} per nation** "
+               f"({'group stage — diversify early' if _cap < _cfg.MAX_PER_TEAM else 'knockouts — TV2 max 3'}). "
+               f"You're **over** on: " + ", ".join(f"**{t}** ({n})" for t, n in _over.items())
+               + ". Three from one country is a correlated bet (all blank, or the clean sheet a winning team "
+               "still concedes). The model won't add to these and will **trim them back to "
+               f"{_cap}** as soon as it can without hurting your win odds.")
+else:
+    st.caption(f"Cap this round: **{_cap} per nation** "
+               f"({'group stage' if _cap < _cfg.MAX_PER_TEAM else 'knockouts'}). Your stacks: {_stack_txt}. "
+               "✅ Within the early-diversification limit — no single nation can sink your round.")
+
 # ---------------------------------------------------------------- my upcoming matches
 st.subheader("📅 Your upcoming matches")
 my_teams = set(owned["team"])

@@ -86,7 +86,15 @@ MOTM_POSITION_PRIOR = {"FWD": 0.20, "MID": 0.15, "GK": 0.10, "DEF": 0.03}
 SQUAD_SIZE = 15
 SQUAD_SHAPE = {"GK": 2, "DEF": 5, "MID": 5, "FWD": 3}
 BUDGET = 100.0
-MAX_PER_TEAM = 3              # verify vs TV 2; optimizer grandfathers existing excess
+MAX_PER_TEAM = 3              # TV 2 hard cap; optimizer grandfathers existing excess
+# Self-imposed diversification: in the GROUP STAGE cap at 2 players per nation
+# (three-from-one-country is a correlated bet — all blank, or the clean sheet a
+# winning team still doesn't keep). Relaxes to the TV2 max (3) in the knockouts,
+# where surviving teams are few and you may HAVE to stack. Existing 3-stacks are
+# grandfathered (never invalidated); the model just won't ADD to them early and
+# is gently rewarded for trimming them back to 2.
+SOFT_TEAM_CAP_GROUP = 2
+CONCENTRATION_CREDIT = 0.8   # ranking credit per over-cap player a plan removes
 FREE_TRANSFERS_PER_ROUND = 2  # confirmed by TV 2 game description
 EXTRA_TRANSFER_COST = 4       # points per extra transfer
 # the 7 formations the game actually accepts (DEF, MID, FWD), always 1 GK.
@@ -172,6 +180,12 @@ TRANSFER_VALUE_COL = "xp_tournament"  # plan transfers on whole-tournament value
 # full-90 bonus is more reliable. Evidence: WC CS rate ~0.34 group -> ~0.42 KO.
 STAGE_OF_ROUND = {1: "group", 2: "group", 3: "group", 4: "R32", 5: "R16",
                   6: "QF", 7: "SF", 8: "F"}
+
+
+def soft_team_cap(rnd) -> int:
+    """Self-imposed per-nation cap for the round being planned: 2 in the group
+    stage, the TV2 max (3) from the knockouts on."""
+    return SOFT_TEAM_CAP_GROUP if STAGE_OF_ROUND.get(rnd, "group") == "group" else MAX_PER_TEAM
 STAGE_GOAL_SCALE = {"group": 1.00, "R32": 0.93, "R16": 0.90, "QF": 0.88, "SF": 0.86, "F": 0.85}
 STAGE_FULL90_P = {"group": 0.70, "R32": 0.82, "R16": 0.84, "QF": 0.86, "SF": 0.88, "F": 0.90}
 KNOCKOUT_BASE_MU = 1.15      # avg goals-per-team in a generic knockout tie (vs ~1.35 group)

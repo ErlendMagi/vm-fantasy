@@ -38,7 +38,8 @@ def build_target(value_col: str) -> dict:
     pp = advancement.p_plays_lookup(adv)
     proj = projections.project(players, fixtures, mo, ou,
                                data_access.completed_rounds(fixtures), nr, pp)
-    res = squad_builder.build_optimal_squad(proj, value_col=value_col)
+    res = squad_builder.build_optimal_squad(proj, value_col=value_col,
+                                            team_cap=config.soft_team_cap(nr))   # 2/nation in the group stage
     return {**compose_lineup(proj, res["squad_ids"]), "proj": proj, "res": res, "value_col": value_col}
 
 

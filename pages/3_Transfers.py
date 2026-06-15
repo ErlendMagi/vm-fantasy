@@ -93,8 +93,10 @@ if best and best["n_transfers"] > 0:
     _pw = (f" It lifts your **win probability to {best['p_win'] * 100:.0f}%**"
            + (f" (from {_keep_pw * 100:.0f}% if you keep)." if _keep_pw is not None else ".")
            if best.get("p_win") is not None else "")
+    _div = (" It also **trims a 3-from-one-country stack** (a correlated risk in the group stage)."
+            if best.get("diversify_credit", 0) > 0 else "")
     st.caption(f"Best plan: **+{best['net_gain']:.1f}** points over the rest of the cup"
-               + (f" after a −{best['hit_cost']} hit." if best["hit_cost"] else ".") + _pw + f" {auto_note}")
+               + (f" after a −{best['hit_cost']} hit." if best["hit_cost"] else ".") + _pw + _div + f" {auto_note}")
     per = best["net_gain"] / best["n_transfers"]
     for (on, ot), (inn, it) in zip(best["outs"], best["ins"]):
         o_row, i_row = row_of(on, ot), row_of(inn, it)
@@ -118,24 +120,34 @@ else:
 
 import plotly.graph_objects as go
 st.subheader("All plans, ranked")
-labels, gains = [], []
+# plans arrive in the model's true order (win-probability, which folds in EV +
+# diversification + variance). Plot that so the bars are monotonic and the order
+# matches the move the model actually makes; show EV (and any stack-trim) as text.
+_has_pw = any(p.get("p_win") is not None for p in plans[:8])
+labels, vals, txt = [], [], []
 for p in plans[:8]:
-    if p["n_transfers"] == 0:
-        labels.append("Keep squad (baseline)")
+    lab = "Keep squad" if p["n_transfers"] == 0 else \
+        " + ".join(f"{viz_short(on)}→{viz_short(inn)}" for (on, _), (inn, _) in zip(p["outs"], p["ins"]))
+    labels.append(lab + (f"  [−{p['hit_cost']}]" if p["hit_cost"] else ""))
+    trim = " · trims stack" if p.get("diversify_credit", 0) > 0 else ""
+    if _has_pw:
+        vals.append(round((p.get("p_win") or 0) * 100, 1))
+        txt.append(f"{(p.get('p_win') or 0) * 100:.0f}% · {p['net_gain']:+.1f} pts{trim}")
     else:
-        labels.append(" + ".join(f"{viz_short(on)}→{viz_short(inn)}" for (on, _), (inn, _) in zip(p["outs"], p["ins"]))
-                      + (f"  [−{p['hit_cost']}]" if p["hit_cost"] else ""))
-    gains.append(p["net_gain"])
+        vals.append(p["net_gain"])
+        txt.append(f"{p['net_gain']:+.1f}{trim}")
 figp = go.Figure(go.Bar(
-    x=gains[::-1], y=labels[::-1], orientation="h",
-    marker_color=[viz_gain if g > 0 else viz_neutral for g in gains[::-1]],
-    text=[f"{g:+.1f}" for g in gains[::-1]], textposition="outside", cliponaxis=False))
-figp.update_layout(height=90 + 36 * len(labels), xaxis_title="Expected points gained vs keeping the squad",
-                   margin=dict(l=10, r=10, t=10, b=10))
+    x=vals[::-1], y=labels[::-1], orientation="h",
+    marker_color=[viz_gain if p["net_gain"] >= 0 else viz_neutral for p in plans[:8]][::-1],
+    text=txt[::-1], textposition="outside", cliponaxis=False))
+figp.update_layout(height=90 + 36 * len(labels), margin=dict(l=10, r=10, t=10, b=10),
+                   xaxis_title=("Win probability % — the objective (EV + diversification + variance)"
+                                if _has_pw else "Expected points gained vs keeping the squad"))
 st.plotly_chart(figp, width="stretch", config={"displayModeBar": False})
-st.caption("Gains are net of any −4 hit, valued over the rest of the tournament (so swapping out a player "
-           "whose country is likely eliminated counts their lost future games). A hit is only proposed "
-           "when it clearly pays for itself.")
+st.caption("Ranked by the model's true objective — **win probability** when rivals' squads are known, else raw "
+           "points. The text shows each plan's raw EV gain (net of any −4 hit, over the rest of the cup) and "
+           "flags when a plan **trims a 3-from-one-country stack** (group-stage diversification). The top plan "
+           "isn't always the most points — it's the most likely to win you the round.")
 
 a, b = st.columns(2)
 with a:

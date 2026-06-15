@@ -99,8 +99,9 @@ def _plans(sig: tuple, weather_bucket: str, squad: tuple, bank: float, free: int
     comp = _computed(sig, weather_bucket)
     proj, fx = comp["proj_plan"], comp["fixtures_plan"]
     regime, rivals, hit_margin, state = _regime_for(sig, weather_bucket, squad)
-    plans = optimizer.transfer_plans(proj, list(squad), bank, free_transfers=free,
-                                     rival_squads=rivals, regime=regime, hit_margin=hit_margin, cover=True)
+    team_cap = config.soft_team_cap(_bundle(sig)["target_round"])   # 2 per nation in the group stage
+    plans = optimizer.transfer_plans(proj, list(squad), bank, free_transfers=free, rival_squads=rivals,
+                                     regime=regime, hit_margin=hit_margin, cover=True, team_cap=team_cap)
     if rivals and fx:
         fo = analytics.field_effective_ownership(rivals, (state or {}).get("rival_captains"))
         plans = rank_sim.rank_plans_by_win(proj, plans, list(squad), rivals,
@@ -147,7 +148,8 @@ def _optimal(sig: tuple, weather_bucket: str, value_col: str) -> dict:
     proj = _computed(sig, weather_bucket)["proj"]
     if proj is None:
         return {}
-    return squad_builder.build_optimal_squad(proj, value_col=value_col)
+    team_cap = config.soft_team_cap(_bundle(sig)["target_round"])
+    return squad_builder.build_optimal_squad(proj, value_col=value_col, team_cap=team_cap)
 
 
 def get_optimal_squad(value_col: str = "xp_tournament") -> dict:

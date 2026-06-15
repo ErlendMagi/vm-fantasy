@@ -102,14 +102,17 @@ def main() -> None:
         hit_margin = config.HIT_MARGIN_BY_REGIME.get(regime)
         print(f"league regime: {regime} (gap {ls['gap_to_field']:+d} vs field, {ls['rounds_left']} rounds left)")
 
+    team_cap = config.soft_team_cap(next_rnd)   # self-imposed: max 2 per nation in the group stage
+    print(f"per-nation cap this round: {team_cap} ({'group - diversify' if team_cap < config.MAX_PER_TEAM else 'knockout - TV2 max'})")
     if ti.get("unlimitedTransfers"):
         print("transfers are unlimited - rebuilding the optimal squad from scratch")
-        res = squad_builder.build_optimal_squad(proj, value_col="xp_tournament")
+        res = squad_builder.build_optimal_squad(proj, value_col="xp_tournament", team_cap=team_cap)
         target_ids = res["squad_ids"]
     else:
         free = my_team["free_transfers"]
         plans = optimizer.transfer_plans(proj, my_team["squad"], my_team["bank"], free_transfers=free,
-                                         rival_squads=rivals, regime=regime, hit_margin=hit_margin, cover=True)
+                                         rival_squads=rivals, regime=regime, hit_margin=hit_margin,
+                                         cover=True, team_cap=team_cap)
         # principled re-rank: pick the plan that maximises simulated P(finish 1st)
         # vs the field's actual squads (the objective the heuristics approximate)
         if rivals:

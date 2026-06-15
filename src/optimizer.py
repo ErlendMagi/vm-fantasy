@@ -123,7 +123,7 @@ def transfer_plans(players: pd.DataFrame, my_squad_ids: list[str], bank: float,
                    xp_col: str = config.TRANSFER_VALUE_COL, top_n: int = 10,
                    shortlist_size: int = 14, rival_squads: list[set] | None = None,
                    regime: str | None = None, hit_margin: float | None = None,
-                   cover: bool = False) -> list[dict]:
+                   cover: bool = False, team_cap: int = config.MAX_PER_TEAM) -> list[dict]:
     """Plans sorted by net gain = (squad value gain on `xp_col`) - (−4 hits), vs
     no transfers. `xp_col` defaults to whole-tournament value, so swapping out a
     player whose country is likely eliminated correctly counts their lost future
@@ -169,36 +169,44 @@ def transfer_plans(players: pd.DataFrame, my_squad_ids: list[str], bank: float,
     def hit_cost(n_transfers: int) -> int:
         return max(0, n_transfers - free_transfers) * config.EXTRA_TRANSFER_COST
 
+    cur_counts = current_counts.to_dict()
+    base_over = sum(max(0, c - team_cap) for c in cur_counts.values())   # players over the soft cap now
+
     def evaluate(outs: list[str], ins: list[str]) -> dict | None:
         out_price = sum(info[o][2] for o in outs)
         in_price = sum(info[i][2] for i in ins)
         if in_price > out_price + bank + 1e-9:
             return None
-        counts = current_counts.to_dict()
+        counts = dict(cur_counts)
         for o in outs:
             counts[info[o][3]] = counts.get(info[o][3], 0) - 1
         for i in ins:
             team = info[i][3]
             counts[team] = counts.get(team, 0) + 1
-            # any team you buy INTO must end within the cap; teams not receiving
-            # an "in" are never checked, so existing excess stays grandfathered
-            if counts[team] > config.MAX_PER_TEAM:
+            # a team you buy INTO must end within the SOFT cap, but never below
+            # its current count — so existing 3-stacks stay valid (you can keep or
+            # swap within them) yet you can't open a NEW one early. TV2's hard 3
+            # is always respected because soft_cap <= 3.
+            if counts[team] > max(team_cap, cur_counts.get(team, 0)):
                 return None
         new_ids = [pid for pid in owned_ids if pid not in outs] + ins
         value = _fast_squad_value(new_ids, info)
         cost = hit_cost(len(outs))
         net = round(value - cost - base_value, 2)
+        new_over = sum(max(0, c - team_cap) for c in counts.values())
+        diversify = round(config.CONCENTRATION_CREDIT * (base_over - new_over), 2)   # >0 if it trims a stack
         return {
             "outs": [(players.loc[o, "name"], players.loc[o, "team"]) for o in outs],
             "ins": [(players.loc[i, "name"], players.loc[i, "team"]) for i in ins],
             "out_ids": outs, "in_ids": ins,
             "n_transfers": len(outs), "hit_cost": cost,
-            "net_gain": net, "league_gain": round(net + league_tilt(outs, ins), 2),
+            "net_gain": net, "diversify_credit": diversify,
+            "league_gain": round(net + league_tilt(outs, ins) + diversify, 2),
             "new_bank": round(bank + out_price - in_price, 1),
         }
 
-    plans = [{"outs": [], "ins": [], "out_ids": [], "in_ids": [], "n_transfers": 0,
-              "hit_cost": 0, "net_gain": 0.0, "league_gain": 0.0, "new_bank": round(bank, 1)}]
+    plans = [{"outs": [], "ins": [], "out_ids": [], "in_ids": [], "n_transfers": 0, "hit_cost": 0,
+              "net_gain": 0.0, "diversify_credit": 0.0, "league_gain": 0.0, "new_bank": round(bank, 1)}]
 
     singles: list[dict] = []
     for out_id in owned.index:
@@ -222,7 +230,7 @@ def transfer_plans(players: pd.DataFrame, my_squad_ids: list[str], bank: float,
             if plan:
                 plans.append(plan)
 
-    _key = "league_gain" if regime in ("leader", "chaser") else "net_gain"
+    _key = "league_gain"   # = net_gain + league tilt + diversify credit (diversify=0 at cap 3)
     plans.sort(key=lambda p: p[_key], reverse=True)
 
     # Greedily extend toward more transfers (each an extra -4 hit). Keep adding

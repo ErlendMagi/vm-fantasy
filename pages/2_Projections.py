@@ -4,7 +4,7 @@ import streamlit as st
 
 st.set_page_config(page_title="Player Ratings", page_icon="📈", layout="wide")
 
-from src import nav, optimizer, services, viz
+from src import config, nav, optimizer, services, viz
 
 nav.render("Players")
 d = services.get_data()
@@ -87,12 +87,14 @@ if who:
             base = optimizer.squad_xp(owned, "xp_tournament")
             bank = float(my.get("bank", 0))
             best_swap, best_gain = None, None
+            _cap = config.soft_team_cap(target)
+            _own_t = int((owned["team"] == r["team"]).sum())     # grandfather an existing stack
             for out_id, out_row in owned[owned["position"] == r["position"]].iterrows():
                 if r["price"] > out_row["price"] + bank + 1e-9:
                     continue
                 trial = owned.drop(index=out_id)
                 counts = trial["team"].value_counts()
-                if counts.get(r["team"], 0) + 1 > 3:
+                if counts.get(r["team"], 0) + 1 > max(_cap, _own_t):
                     continue
                 val = optimizer.squad_xp(pd.concat([trial, proj.loc[[r["id"]]]]), "xp_tournament")
                 gain = val - base
@@ -102,7 +104,7 @@ if who:
             if best_swap is None:
                 st.warning(f"**He doesn't fit the budget/rules right now.** At {r['price']}M, no single "
                            f"same-position swap is affordable with {bank:.1f}M in the bank (or the "
-                           "3-per-country cap blocks it).")
+                           f"{_cap}-per-country cap blocks it{' — group-stage diversification' if _cap < config.MAX_PER_TEAM else ''}).")
             elif best_gain > 0.05:
                 st.info(f"**He actually would help.** Best swap: {best_swap} → {name}, "
                         f"worth **+{best_gain:.1f}** team points over the rest of the tournament. "
@@ -114,7 +116,7 @@ if who:
                     f"**The team is better without him.** Best possible swap ({best_swap} → {name}) "
                     f"would change the TEAM's expected total by **{best_gain:+.1f}** points. "
                     f"The optimiser maximises the *team's* total under the 100M budget and "
-                    f"3-per-country cap — a star's price has to beat what the same money buys elsewhere."
+                    f"{_cap}-per-country cap — a star's price has to beat what the same money buys elsewhere."
                 )
         else:
             st.caption("No squad loaded yet.")

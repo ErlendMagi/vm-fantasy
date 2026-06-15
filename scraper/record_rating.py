@@ -110,6 +110,38 @@ def _update_calibration(acc: dict) -> None:
           f"| positional {pos_scale}")
 
 
+def _update_motm_calibration(players) -> None:
+    """Learn how often each position ACTUALLY wins Man-of-the-Match (FotMob
+    is_potm) vs the model's MOTM_POSITION_PRIOR, and write a shrunk per-position
+    multiplier. Needs only realised POTMs (no predicted-weight persistence)."""
+    store = data_access.load_player_stats().get("rounds", {})
+    pos_of = players["position"].to_dict() if players is not None else {}
+    from collections import Counter
+    potm = Counter()
+    for rd in store.values():
+        for pid, rec in (rd.get("players") or {}).items():
+            if rec.get("is_potm") and pos_of.get(pid):
+                potm[pos_of[pid]] += 1
+    total = sum(potm.values())
+    if total < config.MOTM_CAL_MIN_AWARDS:                 # too few awards to trust
+        print(f"motm calibration: only {total} POTM(s) observed - staying at 1.0")
+        return
+    prior = config.MOTM_POSITION_PRIOR
+    psum = sum(prior.values())
+    mult = {}
+    plo, phi = config.MOTM_CAL_BOUNDS
+    for pos in ("GK", "DEF", "MID", "FWD"):
+        realised = potm.get(pos, 0) / total
+        model = prior[pos] / psum
+        if model > 0:
+            rel = realised / model
+            m = (total * rel + config.MOTM_CAL_K) / (total + config.MOTM_CAL_K)   # shrink to 1.0
+            mult[pos] = round(min(phi, max(plo, m)), 3)
+    out = {"prior_mult": mult, "n_potm": total, "updated_at": datetime.now(timezone.utc).isoformat()}
+    (ROOT / "data" / "tv2" / "motm_calibration.json").write_text(json.dumps(out, indent=1), encoding="utf-8")
+    print(f"motm calibration ({total} POTMs): prior_mult {mult}")
+
+
 def main() -> None:
     players = data_access.load_players()
     my = data_access.load_my_team()
@@ -146,6 +178,7 @@ def main() -> None:
     print(f"rating snapshot {today}: squad {sq['rating']} | XI {tr['rating']} | "
           f"pos {tr['pos_rating']}")
     _record_accuracy(proj, my, live_round)
+    _update_motm_calibration(players)
 
 
 if __name__ == "__main__":

@@ -121,6 +121,12 @@ def load_calibration() -> dict:
     return _read_json(config.TV2_DIR / "calibration.json") or {"global_scale": 1.0, "positional": {}}
 
 
+def load_motm_calibration() -> dict:
+    """Learned per-position MotM-prior multiplier (how often each position really
+    wins Man-of-the-Match). Default no-op until enough awards are observed."""
+    return _read_json(config.TV2_DIR / "motm_calibration.json") or {"prior_mult": {}}
+
+
 def load_duties() -> dict[str, dict]:
     data = _read_json(config.STATIC_DIR / "duties.json")
     return (data or {}).get("duties", {})

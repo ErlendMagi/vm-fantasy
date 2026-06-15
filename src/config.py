@@ -68,6 +68,12 @@ CALIBRATION_K0 = 33                          # global shrink (~3 rounds of an 11
 CALIBRATION_BOUNDS = (0.6, 1.4)
 POSITION_CALIBRATION_K = 20
 POSITION_CALIBRATION_BOUNDS = (0.8, 1.25)
+# MotM position-prior calibration: learn how often each position ACTUALLY wins
+# Man-of-the-Match (FotMob is_potm) vs the model's MOTM_POSITION_PRIOR, and nudge
+# the prior toward reality — shrunk HARD (one award per match = very noisy).
+MOTM_CAL_K = 40              # in POTM awards; very hard shrink (1-per-match, noisy)
+MOTM_CAL_BOUNDS = (0.85, 1.20)
+MOTM_CAL_MIN_AWARDS = 20     # stay a no-op until a solid sample (~into the knockouts)
 # MotM modelling: each match distributes 6 bonus points (3+2+1). Research on
 # 2022 WC MotM awards: heavily attacker-biased (~28 FWD / 22 MID / 9 GK / 5 DEF
 # of 64) - a defender essentially only wins it by scoring. So the standout

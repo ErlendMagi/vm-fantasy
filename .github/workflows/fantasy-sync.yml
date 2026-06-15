@@ -65,7 +65,7 @@ jobs:
       - name: Record daily team-rating history
         run: |
           python scraper/record_rating.py || echo "rating snapshot failed - skipping"
-          git add data/tv2/rating_history.json data/tv2/model_accuracy.json data/tv2/calibration.json
+          git add data/tv2/rating_history.json data/tv2/model_accuracy.json data/tv2/calibration.json data/tv2/motm_calibration.json
           git diff --cached --quiet || (git commit -m "rating snapshot $(date -u +%F)" && git push)
 
       # Pre-deadline lineup signal: FotMob predicted/confirmed XIs for the

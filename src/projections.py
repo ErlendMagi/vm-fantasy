@@ -239,6 +239,8 @@ def _team_xp(df: pd.DataFrame, mu_team: float, mu_opp: float, multiplier: float,
     # standout weight ~ what wins a high match rating: dominated by attacking
     # output (goals/assists), small per-position prior, GK clean-sheet heroics
     prior = df["position"].map(config.MOTM_POSITION_PRIOR)
+    if "motm_prior_mult" in df.columns:                  # learned position calibration
+        prior = prior * df["motm_prior_mult"]
     w = (3.0 * xg + 2.0 * xa + prior * df["p_start"] + 0.4 * p_cs * df["p_start"] * is_gk) * rot_mult
     return pd.DataFrame({
         "xp_base": xp_base, "xg": xg, "xa": xa, "p_cs": p_cs, "heat_mult": multiplier, "w": w,
@@ -357,6 +359,9 @@ def project(players: pd.DataFrame, fixtures: list[dict], match_odds: dict | None
 
     df["xg_boost"] = _boost("xg_per90", config.POSITION_XG_BASELINE)
     df["xa_boost"] = _boost("xa_per90", config.POSITION_XA_BASELINE)
+    # learned MotM position-prior multiplier (1.0 until enough POTM awards seen)
+    _mcal = (data_access.load_motm_calibration().get("prior_mult") or {})
+    df["motm_prior_mult"] = df["position"].map(lambda p: _mcal.get(p, 1.0))
 
     # one bulk weather call for every outdoor venue across the projected rounds
     if temp_fn is weather.apparent_temp_at_kickoff:

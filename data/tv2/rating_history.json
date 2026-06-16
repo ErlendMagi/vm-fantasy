@@ -56,14 +56,14 @@
    "squad_rating": 82.0,
    "xi_rating": 92.4,
    "pos_rating": {
-    "GK": 94.5,
+    "GK": 93.8,
     "DEF": 89.0,
-    "MID": 97.4,
+    "MID": 97.5,
     "FWD": 87.7
    },
-   "exp_next": 45.6,
+   "exp_next": 45.5,
    "points_so_far": 0,
-   "recorded_at": "2026-06-16T21:37:55.916722+00:00"
+   "recorded_at": "2026-06-16T23:16:10.504892+00:00"
   }
  }
 }

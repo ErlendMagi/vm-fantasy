@@ -1,7 +1,7 @@
 {
  "rounds": {
   "2": {
-   "synced_at": "2026-06-16T18:50:54.133130+00:00",
+   "synced_at": "2026-06-16T21:37:38.919853+00:00",
    "members": {
     "USTAB IL": {
      "manager": "julle",
@@ -37,6 +37,42 @@
      ],
      "captain_id": "3aaa39f5-9908-454d-97d0-b5806a65e3ac",
      "formation": "4-3-3",
+     "total_points": 48
+    },
+    "Republikken Jonaland": {
+     "manager": "Jonathan",
+     "squad": [
+      "bbc5a321-66a2-4285-9fe4-822f064efec7",
+      "7a06da13-07bf-4c98-8b0d-d70889165c70",
+      "37083f32-812e-43de-ab1b-aa999648b146",
+      "02e74c9d-ccc0-4521-aa7b-dc3f490ae7a5",
+      "d204c4d5-8691-4019-9556-517f50f44bc5",
+      "21b15e87-3a84-4b47-9d94-7f808fe40e94",
+      "5f842533-aa68-4659-8f0c-6d3a68946a5f",
+      "b5e2ee3e-eb94-4460-827f-32f2f39db023",
+      "cd2b9e05-c249-4c21-9717-da200132d043",
+      "8bb75dec-6ccb-462f-b33c-6740e99567be",
+      "5fe056ca-5166-40e6-9f93-ae6f3471ff4d",
+      "21af8d29-db66-49ba-ac07-eea18b504e53",
+      "c859b383-0941-47e3-ba24-f61d8d2b8e35",
+      "c5426c55-9dee-4b81-a249-369c5afac644",
+      "c46375fa-4dfc-4e94-a590-5b61842477ae"
+     ],
+     "starter_ids": [
+      "bbc5a321-66a2-4285-9fe4-822f064efec7",
+      "7a06da13-07bf-4c98-8b0d-d70889165c70",
+      "37083f32-812e-43de-ab1b-aa999648b146",
+      "02e74c9d-ccc0-4521-aa7b-dc3f490ae7a5",
+      "d204c4d5-8691-4019-9556-517f50f44bc5",
+      "21b15e87-3a84-4b47-9d94-7f808fe40e94",
+      "5f842533-aa68-4659-8f0c-6d3a68946a5f",
+      "b5e2ee3e-eb94-4460-827f-32f2f39db023",
+      "cd2b9e05-c249-4c21-9717-da200132d043",
+      "8bb75dec-6ccb-462f-b33c-6740e99567be",
+      "5fe056ca-5166-40e6-9f93-ae6f3471ff4d"
+     ],
+     "captain_id": "cd2b9e05-c249-4c21-9717-da200132d043",
+     "formation": "3-4-3",
      "total_points": 45
     },
     "Cabrones": {
@@ -75,41 +111,41 @@
      "formation": "3-4-3",
      "total_points": 36
     },
-    "Republikken Jonaland": {
-     "manager": "Jonathan",
+    "Brødrene Dahl": {
+     "manager": "Preben",
      "squad": [
-      "bbc5a321-66a2-4285-9fe4-822f064efec7",
-      "7a06da13-07bf-4c98-8b0d-d70889165c70",
-      "37083f32-812e-43de-ab1b-aa999648b146",
-      "02e74c9d-ccc0-4521-aa7b-dc3f490ae7a5",
-      "d204c4d5-8691-4019-9556-517f50f44bc5",
-      "21b15e87-3a84-4b47-9d94-7f808fe40e94",
-      "5f842533-aa68-4659-8f0c-6d3a68946a5f",
+      "3c1f2aaf-86af-4a0f-a712-9ea9f54fd5ef",
+      "e03a7a83-d61e-405c-9a2e-718155701424",
+      "64b3ec51-1cf4-449b-860f-d4a2cee93727",
       "b5e2ee3e-eb94-4460-827f-32f2f39db023",
-      "cd2b9e05-c249-4c21-9717-da200132d043",
+      "066d88ff-5642-4acc-8878-5bba4efd2329",
+      "3aaa39f5-9908-454d-97d0-b5806a65e3ac",
       "8bb75dec-6ccb-462f-b33c-6740e99567be",
-      "5fe056ca-5166-40e6-9f93-ae6f3471ff4d",
-      "21af8d29-db66-49ba-ac07-eea18b504e53",
-      "c859b383-0941-47e3-ba24-f61d8d2b8e35",
-      "c5426c55-9dee-4b81-a249-369c5afac644",
+      "7a06da13-07bf-4c98-8b0d-d70889165c70",
+      "bbc5a321-66a2-4285-9fe4-822f064efec7",
+      "f4170747-2c28-4daa-b766-48cfcc6e3906",
+      "b19a765c-bdac-460e-a3c0-b588c5feedab",
+      "635dd97c-987e-473c-9a7e-eba67ad2edef",
+      "753caed2-2027-4cf4-af65-26f554b96263",
+      "cb6156b9-aa0c-4341-9e97-3785532cc888",
       "c46375fa-4dfc-4e94-a590-5b61842477ae"
      ],
      "starter_ids": [
-      "bbc5a321-66a2-4285-9fe4-822f064efec7",
-      "7a06da13-07bf-4c98-8b0d-d70889165c70",
-      "37083f32-812e-43de-ab1b-aa999648b146",
-      "02e74c9d-ccc0-4521-aa7b-dc3f490ae7a5",
-      "d204c4d5-8691-4019-9556-517f50f44bc5",
-      "21b15e87-3a84-4b47-9d94-7f808fe40e94",
-      "5f842533-aa68-4659-8f0c-6d3a68946a5f",
+      "3c1f2aaf-86af-4a0f-a712-9ea9f54fd5ef",
+      "e03a7a83-d61e-405c-9a2e-718155701424",
+      "64b3ec51-1cf4-449b-860f-d4a2cee93727",
       "b5e2ee3e-eb94-4460-827f-32f2f39db023",
-      "cd2b9e05-c249-4c21-9717-da200132d043",
+      "066d88ff-5642-4acc-8878-5bba4efd2329",
+      "3aaa39f5-9908-454d-97d0-b5806a65e3ac",
       "8bb75dec-6ccb-462f-b33c-6740e99567be",
-      "5fe056ca-5166-40e6-9f93-ae6f3471ff4d"
+      "7a06da13-07bf-4c98-8b0d-d70889165c70",
+      "bbc5a321-66a2-4285-9fe4-822f064efec7",
+      "f4170747-2c28-4daa-b766-48cfcc6e3906",
+      "b19a765c-bdac-460e-a3c0-b588c5feedab"
      ],
-     "captain_id": "cd2b9e05-c249-4c21-9717-da200132d043",
+     "captain_id": "3c1f2aaf-86af-4a0f-a712-9ea9f54fd5ef",
      "formation": "3-4-3",
-     "total_points": 34
+     "total_points": 36
     },
     "Erlend er best": {
      "manager": "Erlend",
@@ -146,42 +182,6 @@
      "captain_id": "8984e3ae-fd88-484b-8fb4-470f2bcb2f6c",
      "formation": "5-4-1",
      "total_points": 26
-    },
-    "Brødrene Dahl": {
-     "manager": "Preben",
-     "squad": [
-      "3c1f2aaf-86af-4a0f-a712-9ea9f54fd5ef",
-      "e03a7a83-d61e-405c-9a2e-718155701424",
-      "64b3ec51-1cf4-449b-860f-d4a2cee93727",
-      "b5e2ee3e-eb94-4460-827f-32f2f39db023",
-      "066d88ff-5642-4acc-8878-5bba4efd2329",
-      "3aaa39f5-9908-454d-97d0-b5806a65e3ac",
-      "8bb75dec-6ccb-462f-b33c-6740e99567be",
-      "7a06da13-07bf-4c98-8b0d-d70889165c70",
-      "bbc5a321-66a2-4285-9fe4-822f064efec7",
-      "f4170747-2c28-4daa-b766-48cfcc6e3906",
-      "b19a765c-bdac-460e-a3c0-b588c5feedab",
-      "635dd97c-987e-473c-9a7e-eba67ad2edef",
-      "753caed2-2027-4cf4-af65-26f554b96263",
-      "cb6156b9-aa0c-4341-9e97-3785532cc888",
-      "c46375fa-4dfc-4e94-a590-5b61842477ae"
-     ],
-     "starter_ids": [
-      "3c1f2aaf-86af-4a0f-a712-9ea9f54fd5ef",
-      "e03a7a83-d61e-405c-9a2e-718155701424",
-      "64b3ec51-1cf4-449b-860f-d4a2cee93727",
-      "b5e2ee3e-eb94-4460-827f-32f2f39db023",
-      "066d88ff-5642-4acc-8878-5bba4efd2329",
-      "3aaa39f5-9908-454d-97d0-b5806a65e3ac",
-      "8bb75dec-6ccb-462f-b33c-6740e99567be",
-      "7a06da13-07bf-4c98-8b0d-d70889165c70",
-      "bbc5a321-66a2-4285-9fe4-822f064efec7",
-      "f4170747-2c28-4daa-b766-48cfcc6e3906",
-      "b19a765c-bdac-460e-a3c0-b588c5feedab"
-     ],
-     "captain_id": "3c1f2aaf-86af-4a0f-a712-9ea9f54fd5ef",
-     "formation": "3-4-3",
-     "total_points": 25
     },
     "I dont know what I am doing": {
      "manager": "Jostein",

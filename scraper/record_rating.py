@@ -45,7 +45,11 @@ def _record_accuracy(proj, my, live_round: int) -> None:
     expected = round(sum(xp_of(p) for p in starters), 1)                 # full XI
     expected_played = round(sum(xp_of(p) for p in starters if p in scores), 1)  # finished games only
     actual = rd.get("points")
-    played = sum(1 for v in scores.values() if v is not None)
+    # count only STARTERS whose match has finished — `scores` also carries bench
+    # players, so counting all of scores would push `played` past the 11-starter
+    # threshold and mark the round finalized early, folding a partial round into
+    # calibration (which scales every player's xP).
+    played = sum(1 for p in starters if scores.get(p) is not None)
     finalized = played >= len(starters)
     # per-position expected vs actual (captain un-doubled, for a clean level signal)
     by_pos = {}

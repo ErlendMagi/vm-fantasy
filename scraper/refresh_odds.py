@@ -225,10 +225,20 @@ def fetch_outrights(key: str, sport_key: str) -> dict:
 
 
 def _fresh(path: Path, max_age_hours: float) -> bool:
+    """Throttle by the snapshot's OWN fetched_at, not the file mtime — in CI the repo
+    is checked out fresh every run, so mtime is always 'now' and an mtime check would
+    make the scheduled sync skip the refresh forever (odds only ever refreshed when the
+    autopilot forced it near a deadline). fetched_at is the true age and survives checkout."""
     if not path.exists():
         return False
-    age = (datetime.now(timezone.utc).timestamp() - path.stat().st_mtime) / 3600
-    return age < max_age_hours
+    try:
+        ts = json.loads(path.read_text(encoding="utf-8")).get("fetched_at")
+        if not ts:
+            return False
+        age = (datetime.now(timezone.utc) - datetime.fromisoformat(ts)).total_seconds() / 3600
+        return age < max_age_hours
+    except (ValueError, OSError, json.JSONDecodeError):
+        return False
 
 
 def main() -> None:
@@ -260,9 +270,10 @@ def main() -> None:
     odds_dir = ROOT / "data" / "odds"
     odds_dir.mkdir(parents=True, exist_ok=True)
 
-    # throttle by file age so the frequent sync doesn't burn the monthly budget
-    if not args.force and _fresh(odds_dir / "match_odds.json", 8.0):
-        print("match odds still fresh (<8h) - skipping")
+    # throttle so the frequent sync doesn't burn the monthly budget: refresh match
+    # odds ~2x/week (the autopilot bypasses this with --force right before each deadline)
+    if not args.force and _fresh(odds_dir / "match_odds.json", config.ODDS_REFRESH_HOURS):
+        print(f"match odds still fresh (<{config.ODDS_REFRESH_HOURS}h) - skipping")
     else:
         data = fetch_match_odds(key, match_key)
         if not data["matches"]:

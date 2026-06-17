@@ -106,6 +106,17 @@ EXTRA_TRANSFER_COST = 4       # points per extra transfer
 # the 7 formations the game actually accepts (DEF, MID, FWD), always 1 GK.
 # Restricted to this confirmed set so an auto-applied lineup is never rejected.
 FORMATIONS = [(3, 4, 3), (3, 5, 2), (4, 3, 3), (4, 4, 2), (4, 5, 1), (5, 3, 2), (5, 4, 1)]
+# When two formations project within FORMATION_TIE_EPS points of each other, prefer
+# the more AGGRESSIVE one (more forwards, then midfielders) — equal expected points
+# but a higher ceiling, which is what you want when you need swings. The EV-maximal
+# squad is still chosen first; this only breaks genuine ties, so it never trades real
+# points for variance. (Transfers stay Monte-Carlo-ranked on win probability.)
+FORMATION_TIE_EPS = 0.25
+
+
+def formation_aggression(d: int, m: int, f: int) -> int:
+    """Higher = more attacking. Forwards dominate, midfielders break further ties."""
+    return f * 10 + m
 
 # ---------------------------------------------------------------- heat model
 # Evidence: Chmura et al. 2017 (2014 WC); PMC11436032 narrative review.
@@ -158,6 +169,13 @@ MAX_ASSIST_SHARE = {"FWD": 0.35, "MID": 0.40, "DEF": 0.25, "GK": 0.05}
 
 # ---------------------------------------------------------------- optimizer
 HIT_MARGIN = 1.0             # safety margin (pts) an extra -4 hit must clear to be taken
+# Budget reallocation: the transfer search also shortlists cheap "enabler" buys — the
+# cheapest LIKELY STARTERS per position — so a plan can DOWNGRADE one position to free
+# money for a big upgrade in another (think in terms of the whole budget, not same-price
+# swaps). Enablers must be likely to play (no dead-weight) — points lost on the downgrade
+# are netted against the upgrade, so a reallocation is only taken when it nets positive.
+ENABLER_MIN_PSTART = 0.60    # an enabler must be at least this likely to start
+ENABLER_COUNT = 6            # cheapest N likely-starters per position added to the shortlist
 
 # ---------------------------------------------------------------- win-probability play
 # In a small winner-takes-all league the objective is P(finish 1st), not raw EV.
@@ -214,6 +232,8 @@ LEAGUE_SQUAD_FETCH_MAX = 16
 
 # ---------------------------------------------------------------- staleness
 STALE_AFTER_HOURS = 36
-# Odds refresh less often than the squad sync (credit budget), so a softer bar —
-# but warn when projections lean on a market snapshot more than a few days old.
-ODDS_STALE_AFTER_HOURS = 72
+# Odds refresh ~twice a week on the scheduled sync (credit budget); the autopilot
+# also force-refreshes right before each transfer deadline. So warn only when the
+# market snapshot is older than the whole cycle — i.e. the refresh is actually failing.
+ODDS_REFRESH_HOURS = 84       # ~2x/week scheduled match-odds refresh (3.5 days)
+ODDS_STALE_AFTER_HOURS = 96   # banner only when odds outlive the refresh cycle (something's wrong)

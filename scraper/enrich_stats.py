@@ -59,11 +59,16 @@ _MATCHES_ON_DATE: dict = {}    # date -> FotMob /matches listing; match IDs are 
 def _wc_matches_on(date_yyyymmdd: str) -> dict:
     """The FotMob /matches listing for a date, fetched once per date per process
     (several fixtures share a kickoff date, and the listing only resolves stable
-    match IDs — scores come from /matchDetails, which is never cached here)."""
-    if date_yyyymmdd not in _MATCHES_ON_DATE:
-        data, _ = fetch_json(f"{FM}/matches", {"date": date_yyyymmdd}, timeout=20)
-        _MATCHES_ON_DATE[date_yyyymmdd] = data or {}
-    return _MATCHES_ON_DATE[date_yyyymmdd]
+    match IDs — scores come from /matchDetails, which is never cached here). Only
+    NON-EMPTY listings are cached: a transient empty/failed fetch must retry on the
+    next call, else a long-lived Streamlit process would show no live cards all day."""
+    cached = _MATCHES_ON_DATE.get(date_yyyymmdd)
+    if cached:
+        return cached
+    data, _ = fetch_json(f"{FM}/matches", {"date": date_yyyymmdd}, timeout=20)
+    if data:
+        _MATCHES_ON_DATE[date_yyyymmdd] = data
+    return data or {}
 
 
 def find_match(date_yyyymmdd: str, home: str, away: str) -> int | None:

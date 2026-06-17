@@ -428,6 +428,7 @@ def project(players: pd.DataFrame, fixtures: list[dict], match_odds: dict | None
     cal_mult = float(cal.get("global_scale", 1.0)) * df["position"].map(
         lambda p, ps=(cal.get("positional") or {}): ps.get(p, 1.0))
     adj = form * cal_mult
+    out["cal_adj"] = adj          # the per-player calibration the rank-sim must also apply to scoreline terms
     for label in ("next", "after"):
         per_match[label] = per_match[label] * adj
     if comps_next is not None:

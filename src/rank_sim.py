@@ -79,12 +79,16 @@ def simulate_player_points(proj, fixtures_next, ids, n_sims=6000, seed=12345) ->
                 pos = proj.loc[i, "position"]
                 ps = _f(i, "p_start")
                 hm = _f(i, "heat_mult") or 1.0          # heat scales attacking output
+                adj = _f(i, "cal_adj") or 1.0           # SAME calibration the projection applies
                 low = _f(i, "pts_appear") + _f(i, "pts_saves") + _f(i, "pts_duty") + _f(i, "pts_motm") - 0.25
+                # `low` is read from already-calibrated columns; the scoreline terms are
+                # recomputed from raw xg/xa, so scale only those by adj to match xp_next
+                # (else the sim carries a position-systematic bias vs the rest of the model).
                 pts[i] = (pts[i] + low
-                          + goals[i] * _GOAL.get(pos, 0) * hm
-                          + assists[i] * _ASSIST * hm
-                          + cs * ps * _CS.get(pos, 0)
-                          - conceded * _CONC.get(pos, 0) * ps)
+                          + adj * (goals[i] * _GOAL.get(pos, 0) * hm
+                                   + assists[i] * _ASSIST * hm
+                                   + cs * ps * _CS.get(pos, 0)
+                                   - conceded * _CONC.get(pos, 0) * ps))
     return pts
 
 
@@ -123,7 +127,10 @@ def rank_plans_by_win(proj, plans, my_squad_ids, rival_squads, rival_captains,
         all_ids.update(p.get("in_ids", []))
     for s in rival_sets:
         all_ids.update(s)
-    pts = simulate_player_points(proj, fixtures_next, list(all_ids), n_sims)
+    # sorted, not list(set): UUID set order is hash-randomised per process (no pinned
+    # PYTHONHASHSEED), so list() would make the win-prob non-reproducible across the
+    # autopilot's runs on byte-identical data. sorted() pins the draw order.
+    pts = simulate_player_points(proj, fixtures_next, sorted(all_ids), n_sims)
     if not pts:
         return plans
 
@@ -148,7 +155,10 @@ def rank_plans_by_win(proj, plans, my_squad_ids, rival_squads, rival_captains,
         xidf = owned.loc[[i for i in xi["xi_ids"] if i in owned.index]]
         cap, _ = optimizer.choose_captain(xidf, regime, field_own, "xp_next")
         cap = cap or xi["captain_id"]
-        my_total = _squad_total(pts, xi["xi_ids"], cap, n_sims)
+        # deduct the plan's −4 hits from MY total before scoring P(win): the hit is a
+        # real points cost, and without it the autopilot (picks max p_win) would auto-
+        # apply a win-prob-negative −4 the bank-threshold guard can't catch.
+        my_total = _squad_total(pts, xi["xi_ids"], cap, n_sims) - p.get("hit_cost", 0)
         p["p_win"] = round(win_probability(my_total, rival_totals), 4)
     ranked = sorted([p for p in plans if p.get("p_win") is not None],
                     key=lambda p: p["p_win"], reverse=True)

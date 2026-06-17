@@ -65,6 +65,73 @@ with st.expander(f"How each position earns points (round {target} averages)"):
                        legend=dict(orientation="h", y=-0.2))
     st.plotly_chart(figc, width="stretch", config={"displayModeBar": False})
 
+# ---------------------------------------------------------------- player points across the BPG league
+from collections import defaultdict
+
+from src import data_access as _da
+
+_league = services.get_live_league() or _da.load_league()
+_myname = my.get("squad_name")
+_bpg = next((L for L in (_league or {}).get("leagues", [])
+             if any(m.get("squad_name") == _myname for m in L.get("members", []))
+             and any(m.get("rounds") for m in L.get("members", []))), None)
+if _bpg:
+    st.subheader("🏅 Who's cashed in — actual player points across your league")
+    st.caption(f"Real fantasy points each player has banked **for each manager who owns them** in "
+               f"**{_bpg['name']}**. **Captaincy counts double**, so the same player can show twice the points "
+               "for whoever armbanded him. It's the differential map — who held the hauls, who missed them. "
+               "Your column is highlighted 🟢.")
+    _mgrs = sorted([m for m in _bpg["members"] if m.get("rounds") or m.get("squad")],
+                   key=lambda m: -(m.get("total_points") or 0))
+    _mnames = [m["squad_name"] for m in _mgrs]
+    _pts = defaultdict(lambda: defaultdict(float))
+    for _m in _mgrs:
+        for _r in (_m.get("rounds") or []):
+            # only points that were actually BANKED count — the starting XI (TV2 folds
+            # auto-subs into starter_ids). The raw scores dict also carries bench players,
+            # whose points were never earned, so summing them would inflate the totals
+            # past each manager's real standings figure.
+            _st = set(_r.get("starter_ids") or [])
+            for _pid, _v in (_r.get("scores") or {}).items():
+                if _st and _pid not in _st:
+                    continue
+                _pts[_pid][_m["squad_name"]] += (_v or 0)
+    if _pts:
+        def _pname(pid):
+            return proj.loc[pid, "name"] if pid in proj.index else str(pid)[:8]
+
+        def _pteam(pid):
+            return proj.loc[pid, "team"] if pid in proj.index else ""
+        _ordered = sorted(_pts.items(), key=lambda kv: -sum(kv[1].values()))   # most league impact first
+        _top = _ordered[:24]
+        _ynames = [f"{viz.flag(_pteam(p))} {viz.short_name(_pname(p))}" for p, _ in _top][::-1]
+        _z = [[row.get(mn, 0) for mn in _mnames] for _, row in _top][::-1]
+        _xlab = [(f"🟢 {mn}" if mn == _myname else mn) for mn in _mnames]
+        hm = go.Figure(go.Heatmap(
+            z=_z, x=_xlab, y=_ynames, colorscale="YlGn", colorbar=dict(title="pts"),
+            text=[[(f"{v:.0f}" if v else "") for v in r] for r in _z], texttemplate="%{text}",
+            textfont=dict(size=10), hovertemplate="%{y}<br>%{x}<br>%{z:.0f} pts<extra></extra>"))
+        hm.update_layout(height=140 + 26 * len(_top), margin=dict(l=10, r=10, t=10, b=10),
+                         xaxis=dict(side="top", tickangle=-25))
+        st.plotly_chart(hm, width="stretch", config={"displayModeBar": False})
+        if len(_ordered) > len(_top):
+            st.caption(f"Showing the **{len(_top)}** highest-impact players; the other "
+                       f"**{len(_ordered) - len(_top)}** are in the full table below.")
+        with st.expander("Full table — every owned player, points delivered to each manager"):
+            _tbl = []
+            for _p, _row in _ordered:
+                _rec = {"flag": viz.flag(_pteam(_p)), "player": _pname(_p), "team": _pteam(_p),
+                        "Σ league": int(sum(_row.values()))}
+                for mn in _mnames:
+                    _rec[mn] = int(_row.get(mn, 0))
+                _tbl.append(_rec)
+            st.dataframe(_tbl, hide_index=True, width="stretch", column_config={"flag": ""})
+        st.caption("A bright cell only **one** manager has is a haul nobody else caught (a winning differential); "
+                   "a full bright row is a **template** player everyone owns. A column that's mostly dark is a "
+                   "manager whose picks haven't paid yet.")
+    else:
+        st.caption("Per-player league scores appear here once a round has been scored.")
+
 # ---------------------------------------------------------------- why (not) this player
 st.subheader("🔍 Player check: why is he (not) in my team?")
 pick_list = proj.sort_values("xp_next", ascending=False)

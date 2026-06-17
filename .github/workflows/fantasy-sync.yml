@@ -47,6 +47,9 @@ jobs:
         run: python scraper/check_token.py || true
 
       - name: Sync TV 2 data + odds + player props and push
+        continue-on-error: true        # a bad-payload exit or a push race must NOT skip the
+                                        # deadline autopilot below — it re-fetches its own live
+                                        # data and force-refreshes odds, so it runs fine regardless
         env:
           TV2_TOKEN: ${{ secrets.TV2_TOKEN }}
           ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}

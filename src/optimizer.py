@@ -19,20 +19,23 @@ def best_xi(squad: pd.DataFrame, xp_col: str = "xp_next") -> dict:
         pos: squad[squad["position"] == pos].sort_values(xp_col, ascending=False)
         for pos in ("GK", "DEF", "MID", "FWD")
     }
-    best = None
+    cands = []
     for d, m, f in config.FORMATIONS:
         if len(by_pos["DEF"]) < d or len(by_pos["MID"]) < m or len(by_pos["FWD"]) < f or by_pos["GK"].empty:
             continue
         xi = pd.concat([by_pos["GK"].head(1), by_pos["DEF"].head(d),
                         by_pos["MID"].head(m), by_pos["FWD"].head(f)])
-        total = float(xi[xp_col].sum())
-        if best is None or total > best["xi_xp"]:
-            best = {"xi_ids": list(xi["id"]), "formation": f"{d}-{m}-{f}", "xi_xp": total,
-                    "captain_id": xi.loc[xi[xp_col].idxmax(), "id"],
-                    "captain_xp": float(xi[xp_col].max())}
-    if best is None:
+        cands.append((float(xi[xp_col].sum()), config.formation_aggression(d, m, f), d, m, f, xi))
+    if not cands:
         return {"xi_ids": [], "formation": "-", "xi_xp": 0.0, "captain_id": None,
                 "captain_xp": 0.0, "total": 0.0}
+    # EV-max first; among formations within FORMATION_TIE_EPS of the best, take the
+    # most aggressive (equal points, higher ceiling) — never sacrificing real EV.
+    best_total = max(c[0] for c in cands)
+    total, _aggr, d, m, f, xi = max((c for c in cands if c[0] >= best_total - config.FORMATION_TIE_EPS),
+                                    key=lambda c: (c[1], c[0]))
+    best = {"xi_ids": list(xi["id"]), "formation": f"{d}-{m}-{f}", "xi_xp": total,
+            "captain_id": xi.loc[xi[xp_col].idxmax(), "id"], "captain_xp": float(xi[xp_col].max())}
     best["total"] = best["xi_xp"] + (config.CAPTAIN_MULTIPLIER - 1) * best["captain_xp"]
     return best
 
@@ -56,10 +59,19 @@ def formation_options(squad: pd.DataFrame, xp_col: str = "xp_next") -> list[dict
                         by_pos["MID"].head(m), by_pos["FWD"].head(f)])
         xi_xp = float(xi[xp_col].sum())
         cap_xp = float(xi[xp_col].max())
+        _t = xi_xp + (config.CAPTAIN_MULTIPLIER - 1) * cap_xp     # UNROUNDED total, for banding
         out.append({"formation": f"{d}-{m}-{f}", "xi_xp": round(xi_xp, 2),
-                    "total": round(xi_xp + (config.CAPTAIN_MULTIPLIER - 1) * cap_xp, 2),
-                    "xi_ids": list(xi["id"])})
-    return sorted(out, key=lambda r: -r["total"])
+                    "total": round(_t, 2), "_t": _t,
+                    "aggression": config.formation_aggression(d, m, f), "xi_ids": list(xi["id"])})
+    out.sort(key=lambda r: -r["_t"])
+    if not out:
+        return out
+    # band + aggression-float on the SAME unrounded total best_xi uses, so the headlined
+    # formation always equals the shape best_xi fields (rounding could otherwise disagree).
+    top = out[0]["_t"]
+    lead = sorted([r for r in out if r["_t"] >= top - config.FORMATION_TIE_EPS],
+                  key=lambda r: -r["aggression"])
+    return lead + [r for r in out if r["_t"] < top - config.FORMATION_TIE_EPS]
 
 
 def captain_options(squad: pd.DataFrame, xp_col: str = "xp_next", n: int = 3,
@@ -118,9 +130,18 @@ def choose_captain(xi: pd.DataFrame, regime: str | None = None, field_own: dict 
         return (xi.loc[i, "team"], xi.loc[i].get("opponent") if "opponent" in xi.columns else None)
     cap_match = _match(cap)
     order = score.drop(index=cap).sort_values(ascending=False)
-    vice = next((i for i in order.index if _match(i) != cap_match and pp.get(i, 0) >= 0.5), None)
-    if vice is None:
-        vice = order.index[0] if len(order) else None
+    # vice must clear the SAME play floor as the captain (it inherits the armband if
+    # the captain is a late scratch — a sub-floor vice reintroduces the zero-double
+    # risk). Prefer a different match (so one flat fixture can't kill both), then
+    # degrade safely rather than ever defaulting to a doubtful starter.
+    floor = config.CAPTAIN_PPLAY_FLOOR
+
+    def _pick(pred):
+        return next((i for i in order.index if pred(i)), None)
+    vice = (_pick(lambda i: _match(i) != cap_match and pp.get(i, 0) >= floor)
+            or _pick(lambda i: pp.get(i, 0) >= floor)
+            or _pick(lambda i: _match(i) != cap_match)
+            or (order.index[0] if len(order) else None))
     return cap, vice
 
 
@@ -174,10 +195,17 @@ def transfer_plans(players: pd.DataFrame, my_squad_ids: list[str], bank: float,
         raise ValueError(f"only {len(owned)}/{config.SQUAD_SIZE} squad ids found in player data")
     current_counts = owned["team"].value_counts()
     pool = players[~players.index.isin(owned.index) & (players.get("status", "available") != "out")]
-    shortlist = {
-        pos: pool[pool["position"] == pos].sort_values(xp_col, ascending=False).head(shortlist_size)
-        for pos in ("GK", "DEF", "MID", "FWD")
-    }
+
+    def _candidates(pos):
+        sub = pool[pool["position"] == pos]
+        top = sub.sort_values(xp_col, ascending=False).head(shortlist_size)   # the upgrade targets
+        # cheap ENABLERS: the cheapest likely starters, so the search can DOWNGRADE a
+        # position to free budget for a big upgrade elsewhere — budget reallocation, not
+        # just same-price swaps. Must be likely to play (no dead-weight buys).
+        pstart = sub["p_start"] if "p_start" in sub.columns else pd.Series(1.0, index=sub.index)
+        enablers = sub[pstart >= config.ENABLER_MIN_PSTART].sort_values("price").head(config.ENABLER_COUNT)
+        return pd.concat([top, enablers]).loc[lambda df: ~df.index.duplicated()]
+    shortlist = {pos: _candidates(pos) for pos in ("GK", "DEF", "MID", "FWD")}
 
     info = {pid: (row["position"], float(row[xp_col]), float(row["price"]), row["team"])
             for pid, row in pd.concat([owned, *shortlist.values()]).iterrows()}
@@ -286,11 +314,21 @@ def transfer_plans(players: pd.DataFrame, my_squad_ids: list[str], bank: float,
     while anchor["n_transfers"] < config.MAX_PLAN_TRANSFERS:
         remaining = [i for i in owned.index if i not in anchor["out_ids"]]
         best_ext = None
+        paid = (anchor["n_transfers"] + 1) > free_transfers      # the new transfer costs a -4
         for out_id in remaining:
             pos = owned.loc[out_id, "position"]
             for in_id in shortlist[pos].index:
                 if in_id in anchor["in_ids"]:
                     continue
+                # a PAID extra swap must repay the -4 in the round you pay it: gate on the
+                # NEXT-round marginal, not whole-cup value. You get this swap for free next
+                # round anyway, so a -4 only buys this round's edge. (Eliminated-player
+                # dumps still pass: their xp_next ~0 keeps the marginal large.)
+                if paid:
+                    marg = (float(players.loc[in_id, "xp_next"]) - float(players.loc[out_id, "xp_next"])
+                            if in_id in players.index and out_id in players.index else 0.0)
+                    if marg <= config.EXTRA_TRANSFER_COST + hitm:
+                        continue
                 ext = evaluate(anchor["out_ids"] + [out_id], anchor["in_ids"] + [in_id])
                 if ext and (best_ext is None or ext["net_gain"] > best_ext["net_gain"]):
                     best_ext = ext

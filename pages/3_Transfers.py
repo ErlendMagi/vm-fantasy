@@ -173,6 +173,15 @@ if _demo:
     st.caption(f"Here it nets **{_net:+.1f}** rest-of-cup points"
                + (f" and **trims {_n_trim} over-cap player(s)** back inside the {_capn}-per-team limit."
                   if _n_trim > 0 else "."))
+    # per-swap player-value deltas, so the gross ΔEV is legible at the player level
+    _swaps = []
+    for (on, ot), (inn, it) in zip(_demo["outs"], _demo["ins"]):
+        _o, _i = row_of(on, ot), row_of(inn, it)
+        _swaps.append(f"{viz_short(on)} → {viz_short(inn)} **{_i['xp_tournament'] - _o['xp_tournament']:+.1f}**")
+    if _swaps:
+        st.caption("Each swap's rest-of-cup value (whole-tournament xP, in − out):  " + "   ·   ".join(_swaps)
+                   + ".  These roughly sum to the gross ΔEV; the exact figure re-picks your best XI after the "
+                   "swaps, so it isn't a straight total.")
 
 import plotly.graph_objects as go
 st.subheader("All plans, ranked")
@@ -255,7 +264,7 @@ if _forms:
     st.plotly_chart(_ff, width="stretch", config={"displayModeBar": False})
     _gap = _bestf["total"] - (_forms[1]["total"] if len(_forms) > 1 else _bestf["total"])
     if len(_forms) > 1 and round(_gap, 1) <= 0.0:
-        _edge = f", **essentially tied** with **{_forms[1]['formation']}** (within 0.1 pt — either is fine)."
+        _edge = f", **essentially tied** with **{_forms[1]['formation']}** — within 0.1 pt, either is fine)."
     elif len(_forms) > 1:
         _edge = f", **+{_gap:.1f}** ahead of the next-best **{_forms[1]['formation']}**)."
     else:
@@ -266,5 +275,16 @@ if _forms:
         " The model **always fields the top formation automatically** — on TV2 you set it simply by choosing "
         "which 11 you start (the suggested XI above already uses this shape). It isn't a fixed choice: it can "
         "change round to round as fixtures, form and your transfers move, so check here each week.")
+    # joint optimisation: the transfer search values every candidate squad at ITS own
+    # best formation, so the recommended plan is the best transfers + shape together.
+    if best and best["n_transfers"] > 0:
+        _post = proj.loc[[i for i in ([j for j in my["squad"] if j not in best["out_ids"]] + best["in_ids"])
+                          if i in proj.index]]
+        _pf = optimizer.formation_options(_post, "xp_next")
+        if _pf:
+            st.info(f"🔁 **After the model's recommended transfers**, your best round-{target} shape is "
+                    f"**{_pf[0]['formation']}** (**{_pf[0]['total']:.1f}** pts). The transfer search already "
+                    "values **every candidate squad at its own best formation**, so transfers and shape are "
+                    f"chosen together — this box just shows the round-{target} XI you'd field after them.")
 else:
     st.caption("Not enough players to form a valid XI yet.")

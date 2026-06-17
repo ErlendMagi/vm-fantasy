@@ -1,7 +1,7 @@
 {
  "rounds": {
   "2": {
-   "synced_at": "2026-06-17T04:40:46.618262+00:00",
+   "synced_at": "2026-06-17T09:53:12.635151+00:00",
    "members": {
     "I dont know what I am doing": {
      "manager": "Jostein",
@@ -73,7 +73,7 @@
      ],
      "captain_id": "3c1f2aaf-86af-4a0f-a712-9ea9f54fd5ef",
      "formation": "3-4-3",
-     "total_points": 52
+     "total_points": 55
     },
     "USTAB IL": {
      "manager": "julle",
@@ -145,7 +145,7 @@
      ],
      "captain_id": "cd2b9e05-c249-4c21-9717-da200132d043",
      "formation": "3-4-3",
-     "total_points": 49
+     "total_points": 50
     },
     "Brødrene Dahl": {
      "manager": "Preben",

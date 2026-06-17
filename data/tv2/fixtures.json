@@ -647,7 +647,7 @@
    "away": "Norway",
    "kickoff_utc": "2026-06-16T22:00:00.000Z",
    "venue_id": "Boston (Foxborough)",
-   "status": "scheduled",
+   "status": "finished",
    "score_home": 1,
    "score_away": 4
   },
@@ -712,9 +712,9 @@
    "away": "Algeria",
    "kickoff_utc": "2026-06-17T01:00:00.000Z",
    "venue_id": "Kansas City",
-   "status": "scheduled",
-   "score_home": null,
-   "score_away": null
+   "status": "finished",
+   "score_home": 3,
+   "score_away": 0
   },
   {
    "match_id": "M056",
@@ -725,9 +725,9 @@
    "away": "Jordan",
    "kickoff_utc": "2026-06-17T04:00:00.000Z",
    "venue_id": "San Francisco Bay Area (Santa Clara)",
-   "status": "scheduled",
-   "score_home": null,
-   "score_away": null
+   "status": "finished",
+   "score_home": 3,
+   "score_away": 1
   },
   {
    "match_id": "M057",

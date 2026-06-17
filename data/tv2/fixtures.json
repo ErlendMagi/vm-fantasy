@@ -478,9 +478,9 @@
    "away": "Egypt",
    "kickoff_utc": "2026-06-15T19:00:00.000Z",
    "venue_id": "Seattle",
-   "status": "scheduled",
-   "score_home": null,
-   "score_away": null
+   "status": "finished",
+   "score_home": 1,
+   "score_away": 1
   },
   {
    "match_id": "M038",
@@ -491,9 +491,9 @@
    "away": "New Zealand",
    "kickoff_utc": "2026-06-16T01:00:00.000Z",
    "venue_id": "Los Angeles (Inglewood)",
-   "status": "scheduled",
-   "score_home": null,
-   "score_away": null
+   "status": "finished",
+   "score_home": 2,
+   "score_away": 2
   },
   {
    "match_id": "M039",
@@ -556,9 +556,9 @@
    "away": "Cape Verde",
    "kickoff_utc": "2026-06-15T16:00:00.000Z",
    "venue_id": "Atlanta",
-   "status": "scheduled",
-   "score_home": null,
-   "score_away": null
+   "status": "finished",
+   "score_home": 0,
+   "score_away": 0
   },
   {
    "match_id": "M044",
@@ -569,9 +569,9 @@
    "away": "Uruguay",
    "kickoff_utc": "2026-06-15T22:00:00.000Z",
    "venue_id": "Miami (Miami Gardens)",
-   "status": "scheduled",
-   "score_home": null,
-   "score_away": null
+   "status": "finished",
+   "score_home": 1,
+   "score_away": 1
   },
   {
    "match_id": "M045",
@@ -634,9 +634,9 @@
    "away": "Senegal",
    "kickoff_utc": "2026-06-16T19:00:00.000Z",
    "venue_id": "New York/New Jersey (East Rutherford)",
-   "status": "scheduled",
-   "score_home": null,
-   "score_away": null
+   "status": "finished",
+   "score_home": 3,
+   "score_away": 1
   },
   {
    "match_id": "M050",
@@ -648,8 +648,8 @@
    "kickoff_utc": "2026-06-16T22:00:00.000Z",
    "venue_id": "Boston (Foxborough)",
    "status": "scheduled",
-   "score_home": null,
-   "score_away": null
+   "score_home": 1,
+   "score_away": 4
   },
   {
    "match_id": "M051",

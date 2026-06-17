@@ -247,12 +247,15 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--outrights", action="store_true", help="also fetch tournament winner odds (1 credit)")
     parser.add_argument("--props", action="store_true", help="also fetch player goalscorer/assist props")
-    parser.add_argument("--props-min-age", type=float, default=48.0,
-                        help="skip props if player_odds.json is younger than this many hours")
+    parser.add_argument("--props-min-age", type=float, default=None,
+                        help="skip props if player_odds.json is younger than this many hours "
+                             "(default: config.PROPS_REFRESH_HOURS — weekly, to protect the credit budget)")
     parser.add_argument("--force", action="store_true",
                         help="ignore freshness throttles (used right before transfer decisions); "
                              "the credit floor still applies")
     args = parser.parse_args()
+    if args.props_min_age is None:
+        args.props_min_age = config.PROPS_REFRESH_HOURS
     if args.force:
         args.props_min_age = 0.0
 

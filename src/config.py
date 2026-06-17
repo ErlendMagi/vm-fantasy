@@ -237,3 +237,8 @@ STALE_AFTER_HOURS = 36
 # market snapshot is older than the whole cycle — i.e. the refresh is actually failing.
 ODDS_REFRESH_HOURS = 84       # ~2x/week scheduled match-odds refresh (3.5 days)
 ODDS_STALE_AFTER_HOURS = 96   # banner only when odds outlive the refresh cycle (something's wrong)
+# Player props (goalscorer/assist) are the expensive call (~1-2 credits PER match, so
+# ~45 credits/refresh in the group stage with 16 games in 3 days). Refresh them only
+# WEEKLY on the schedule to stay inside the 500/month free tier — the autopilot still
+# force-refreshes props right before each deadline, when they actually drive decisions.
+PROPS_REFRESH_HOURS = 168

@@ -88,13 +88,19 @@ SQUAD_SHAPE = {"GK": 2, "DEF": 5, "MID": 5, "FWD": 3}
 BUDGET = 100.0
 MAX_PER_TEAM = 3              # TV 2 hard cap; optimizer grandfathers existing excess
 # Self-imposed diversification: in the GROUP STAGE cap at 2 players per nation
-# (three-from-one-country is a correlated bet — all blank, or the clean sheet a
-# winning team still doesn't keep). Relaxes to the TV2 max (3) in the knockouts,
-# where surviving teams are few and you may HAVE to stack. Existing 3-stacks are
-# grandfathered (never invalidated); the model just won't ADD to them early and
-# is gently rewarded for trimming them back to 2.
+# (three-from-one-country is a correlated bet — all blank together, or the clean
+# sheet a winning team still doesn't keep — and a concentrated round that goes
+# wrong sinks the whole week). Relaxes to the TV2 max (3) in the knockouts, where
+# surviving teams are few and you may HAVE to stack.
+#   HARD rule (group stage): you may never BUY a player into a team that would
+#   finish above the soft cap. Existing 3-stacks (set before the cap) are still
+#   grandfathered — you can hold or trim them — but you can't ADD to one and you
+#   can't CHURN within it (sell one, buy another of the same team to stay at 3).
+#   So any transfer touching an over-stacked team must REDUCE it.
+#   SOFT incentive: a standing credit per over-cap player a plan removes, so the
+#   model actively trims 3-stacks back to 2 whenever it isn't badly EV-negative.
 SOFT_TEAM_CAP_GROUP = 2
-CONCENTRATION_CREDIT = 0.8   # ranking credit per over-cap player a plan removes
+CONCENTRATION_CREDIT = 2.0   # ranking credit per over-cap player a plan removes (was 0.8 — trim harder)
 FREE_TRANSFERS_PER_ROUND = 2  # confirmed by TV 2 game description
 EXTRA_TRANSFER_COST = 4       # points per extra transfer
 # the 7 formations the game actually accepts (DEF, MID, FWD), always 1 GK.
@@ -208,3 +214,6 @@ LEAGUE_SQUAD_FETCH_MAX = 16
 
 # ---------------------------------------------------------------- staleness
 STALE_AFTER_HOURS = 36
+# Odds refresh less often than the squad sync (credit budget), so a softer bar —
+# but warn when projections lean on a market snapshot more than a few days old.
+ODDS_STALE_AFTER_HOURS = 72

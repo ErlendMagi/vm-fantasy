@@ -221,7 +221,10 @@ def _live_stats(sig: tuple, fixtures_key: tuple) -> dict:
             started = bool(status.get("started"))
             teams = header.get("teams") or []
             score = None
-            if len(teams) >= 2 and teams[0].get("score") is not None and teams[1].get("score") is not None:
+            # only trust a score once the match has STARTED — FotMob reports score 0
+            # (non-None) for scheduled games, which would render a fake 0–0 LIVE card.
+            if started and len(teams) >= 2 and teams[0].get("score") is not None \
+                    and teams[1].get("score") is not None:
                 t0 = teams[0].get("name", "")
                 if _sim(t0, home) >= _sim(t0, away):       # orient to our home/away
                     score = (teams[0].get("score"), teams[1].get("score"))
@@ -344,6 +347,19 @@ def render_banners(d: dict) -> None:
         age = meta.get("age_hours")
         st.error(f"🕐 Data is stale ({age if age is not None else '?'}h old). "
                  "Run `python scraper/sync.py` on your PC.")
+    # odds drive every projection — warn when the market snapshot they're priced off
+    # is more than a few days old (the squad sync can be fresh while odds lag).
+    odds = d.get("match_odds")
+    if odds and odds.get("fetched_at"):
+        try:
+            age_o = (datetime.now(timezone.utc)
+                     - datetime.fromisoformat(odds["fetched_at"])).total_seconds() / 3600
+            if age_o > config.ODDS_STALE_AFTER_HOURS:
+                st.info(f"📊 Betting odds were last fetched **{age_o:.0f}h ago** ({odds['fetched_at'][:10]}). "
+                        "Upcoming-match projections are priced off this snapshot; it refreshes as each round "
+                        "approaches, so late team-news swings may not be in yet.")
+        except (ValueError, TypeError):
+            pass
     if not config.SCORING_VERIFIED:
         st.info("ℹ️ Scoring table is FPL-style **default, not yet verified against TV 2's rules**. "
                 "Verify after the first sync (see README) - projections may shift slightly.")

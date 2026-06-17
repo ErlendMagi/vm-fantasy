@@ -53,8 +53,21 @@ def _stat(stats_blocks, key):
     return None
 
 
+_MATCHES_ON_DATE: dict = {}    # date -> FotMob /matches listing; match IDs are stable, so cache it
+
+
+def _wc_matches_on(date_yyyymmdd: str) -> dict:
+    """The FotMob /matches listing for a date, fetched once per date per process
+    (several fixtures share a kickoff date, and the listing only resolves stable
+    match IDs — scores come from /matchDetails, which is never cached here)."""
+    if date_yyyymmdd not in _MATCHES_ON_DATE:
+        data, _ = fetch_json(f"{FM}/matches", {"date": date_yyyymmdd}, timeout=20)
+        _MATCHES_ON_DATE[date_yyyymmdd] = data or {}
+    return _MATCHES_ON_DATE[date_yyyymmdd]
+
+
 def find_match(date_yyyymmdd: str, home: str, away: str) -> int | None:
-    data, _ = fetch_json(f"{FM}/matches", {"date": date_yyyymmdd}, timeout=20)
+    data = _wc_matches_on(date_yyyymmdd)
     if not data:
         return None
     best, best_id = 0.55, None

@@ -94,12 +94,15 @@ def row_of(name, team):
 
 
 _keep_pw = next((p.get("p_win") for p in plans if p["n_transfers"] == 0), None)
+if _keep_pw is None:                       # baseline always available, even if the keep plan ranks low
+    _keep_pw = services.get_win_probability()
 if best and best["n_transfers"] > 0:
     _pw = (f" It lifts your **win probability to {best['p_win'] * 100:.0f}%**"
            + (f" (from {_keep_pw * 100:.0f}% if you keep)." if _keep_pw is not None else ".")
            if best.get("p_win") is not None else "")
-    _div = (" It also **trims a 3-from-one-country stack** (a correlated risk in the group stage)."
-            if best.get("diversify_credit", 0) > 0 else "")
+    _n_trim = int(round(best.get("diversify_credit", 0) / config.CONCENTRATION_CREDIT))
+    _div = (f" It also **trims {_n_trim} over-cap player(s)** back inside the {config.soft_team_cap(target)}-"
+            "per-team limit (a correlated group-stage risk)." if _n_trim > 0 else "")
     st.caption(f"Best plan: **+{best['net_gain']:.1f}** points over the rest of the cup"
                + (f" after a −{best['hit_cost']} hit." if best["hit_cost"] else ".") + _pw + _div + f" {auto_note}")
     per = best["net_gain"] / best["n_transfers"]
@@ -122,6 +125,54 @@ if best and best["n_transfers"] > 0:
                        f"{i_row['xp_tournament']:.1f} vs {o_row['xp_tournament']:.1f}.")
 else:
     st.success(f"**Keep the squad** — no transfer clears the bar this round. {auto_note}")
+
+# ---------------------------------------------------------------- the transfer formula, with numbers
+st.subheader("🧮 How transfers are decided — the formula")
+_capn = config.soft_team_cap(target)
+_stage_lbl = "group stage" if _capn < config.MAX_PER_TEAM else "knockouts"
+st.markdown(
+    "The model scores **every** plan that fits your budget (all single, double and triple swaps), then "
+    "re-simulates the shortlist for **win probability**. The rules it applies, in order:\n\n"
+    "1. **Playtime first** — every rating is scaled by **P(start)**, so a benched/cameo player is worth little "
+    "and a nailed starter keeps full value *(no minutes → no points)*.\n"
+    f"2. **Max {_capn} per team** ({_stage_lbl}) — a plan can **never** take a team above {_capn}, and any swap "
+    "touching an over-cap team **must reduce it** (the correlated-risk guard you asked for).\n"
+    "3. **Sell dead weight** — low-playtime players carry a low rating, so transferring them out is a positive "
+    "gain on its own.\n"
+    "4. **Buy the best** — replacements maximise **whole-tournament** expected points within budget and the cap "
+    "*(a single elite player can outscore your entire bench)*.")
+st.markdown("**Plan score** = ΔEV − transfer hits + diversification credit + league tilt&nbsp;&nbsp;→&nbsp;&nbsp;"
+            "then the top plans are ranked by **simulated win probability**.")
+_demo = best if (best and best["n_transfers"] > 0) else next((p for p in plans if p["n_transfers"] > 0), None)
+if _demo:
+    # round every term to 1dp and derive each subtotal FROM the rounded terms, so the
+    # displayed column always adds up (no 2dp-vs-1dp drift in any regime).
+    _hit = _demo["hit_cost"]
+    _net = round(_demo["net_gain"], 1)
+    _gross = round(_net + _hit, 1)
+    _divc = round(_demo.get("diversify_credit", 0), 1)
+    _tilt = round(_demo["league_gain"] - _demo["net_gain"] - _demo.get("diversify_credit", 0), 1)
+    _score = round(_net + _divc + _tilt, 1)
+    _n_trim = int(round(_demo.get("diversify_credit", 0) / config.CONCENTRATION_CREDIT))
+    _extra = max(0, _demo["n_transfers"] - free)
+    _moves = " + ".join(f"{viz_short(on)}→{viz_short(inn)}" for (on, _), (inn, _) in zip(_demo["outs"], _demo["ins"]))
+    _rows = [
+        ("Gross ΔEV — rest-of-cup best-XI value gained", f"{_gross:+.1f}"),
+        (f"− transfer hits (−{config.EXTRA_TRANSFER_COST} × {_extra} beyond {free} free)",
+         f"{-_hit:+.1f}" if _hit else "0.0"),
+        ("**= net points gain**", f"**{_net:+.1f}**"),
+        (f"+ diversification credit ({config.CONCENTRATION_CREDIT:g} × over-cap players trimmed)", f"{_divc:+.1f}"),
+        (f"+ league tilt ({(_ls or {}).get('regime', 'coinflip')})", f"{_tilt:+.1f}"),
+        ("**= plan score**", f"**{_score:+.1f}**"),
+    ]
+    if _demo.get("p_win") is not None:
+        _rows.append(("**→ simulated win probability**", f"**{_demo['p_win'] * 100:.0f}%**"))
+    _lbl = "the top plan" if _demo is best else "the best transfer plan (the model is keeping the squad this round)"
+    st.caption(f"Worked example — {_lbl} ({_moves}):")
+    st.markdown("| term | value |\n|:--|--:|\n" + "\n".join(f"| {t} | {v} |" for t, v in _rows))
+    st.caption(f"Here it nets **{_net:+.1f}** rest-of-cup points"
+               + (f" and **trims {_n_trim} over-cap player(s)** back inside the {_capn}-per-team limit."
+                  if _n_trim > 0 else "."))
 
 import plotly.graph_objects as go
 st.subheader("All plans, ranked")
@@ -187,3 +238,33 @@ with b:
     st.write(f"Formation **{xi['formation']}** — projected **{xi['total']:.1f}** pts for round {target}")
     st.dataframe(xi_df[["name", "team", "position", "xp_next"]], hide_index=True, width="stretch",
                  column_config={"xp_next": st.column_config.NumberColumn(f"xP R{target}", format="%.2f")})
+
+# ---------------------------------------------------------------- formation finder
+st.subheader(f"🔷 Which formation should I use? — round {target}")
+_forms = optimizer.formation_options(owned, "xp_next")
+if _forms:
+    _bestf = _forms[0]
+    _ff = go.Figure(go.Bar(
+        x=[f["total"] for f in _forms][::-1], y=[f["formation"] for f in _forms][::-1], orientation="h",
+        marker_color=["#00b894" if f["formation"] == _bestf["formation"] else viz_neutral
+                      for f in _forms][::-1],
+        text=[f"{f['total']:.1f}" for f in _forms][::-1], textposition="outside", cliponaxis=False))
+    _ff.update_layout(height=80 + 32 * len(_forms), margin=dict(l=10, r=10, t=10, b=10),
+                      xaxis=dict(title=f"Projected XI points (round {target}, captain ×2)",
+                                 range=[0, max(f["total"] for f in _forms) * 1.12]))
+    st.plotly_chart(_ff, width="stretch", config={"displayModeBar": False})
+    _gap = _bestf["total"] - (_forms[1]["total"] if len(_forms) > 1 else _bestf["total"])
+    if len(_forms) > 1 and round(_gap, 1) <= 0.0:
+        _edge = f", **essentially tied** with **{_forms[1]['formation']}** (within 0.1 pt — either is fine)."
+    elif len(_forms) > 1:
+        _edge = f", **+{_gap:.1f}** ahead of the next-best **{_forms[1]['formation']}**)."
+    else:
+        _edge = ")."
+    st.caption(
+        f"**Best formation for your squad this round: {_bestf['formation']}** "
+        f"({_bestf['total']:.1f} projected pts{_edge}"
+        " The model **always fields the top formation automatically** — on TV2 you set it simply by choosing "
+        "which 11 you start (the suggested XI above already uses this shape). It isn't a fixed choice: it can "
+        "change round to round as fixtures, form and your transfers move, so check here each week.")
+else:
+    st.caption("Not enough players to form a valid XI yet.")

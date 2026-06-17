@@ -41,6 +41,27 @@ def squad_xp(squad: pd.DataFrame, xp_col: str = "xp_next") -> float:
     return best_xi(squad, xp_col)["total"]
 
 
+def formation_options(squad: pd.DataFrame, xp_col: str = "xp_next") -> list[dict]:
+    """Projected points of the best XI under EVERY formation the game accepts that
+    this squad can actually field, captain doubled — so you can SEE which shape wins
+    and by how much. The model always fields the top one; you set it on TV2 simply
+    by which 11 you start. Sorted best-first."""
+    by_pos = {pos: squad[squad["position"] == pos].sort_values(xp_col, ascending=False)
+              for pos in ("GK", "DEF", "MID", "FWD")}
+    out = []
+    for d, m, f in config.FORMATIONS:
+        if len(by_pos["DEF"]) < d or len(by_pos["MID"]) < m or len(by_pos["FWD"]) < f or by_pos["GK"].empty:
+            continue
+        xi = pd.concat([by_pos["GK"].head(1), by_pos["DEF"].head(d),
+                        by_pos["MID"].head(m), by_pos["FWD"].head(f)])
+        xi_xp = float(xi[xp_col].sum())
+        cap_xp = float(xi[xp_col].max())
+        out.append({"formation": f"{d}-{m}-{f}", "xi_xp": round(xi_xp, 2),
+                    "total": round(xi_xp + (config.CAPTAIN_MULTIPLIER - 1) * cap_xp, 2),
+                    "xi_ids": list(xi["id"])})
+    return sorted(out, key=lambda r: -r["total"])
+
+
 def captain_options(squad: pd.DataFrame, xp_col: str = "xp_next", n: int = 3,
                     regime: str | None = None, field_own: dict | None = None) -> pd.DataFrame:
     """Top captain candidates ranked the way the autopilot ACTUALLY picks the
@@ -198,14 +219,20 @@ def transfer_plans(players: pd.DataFrame, my_squad_ids: list[str], bank: float,
         counts = dict(cur_counts)
         for o in outs:
             counts[info[o][3]] = counts.get(info[o][3], 0) - 1
+        in_teams = set()
         for i in ins:
             team = info[i][3]
             counts[team] = counts.get(team, 0) + 1
-            # a team you buy INTO must end within the SOFT cap, but never below
-            # its current count — so existing 3-stacks stay valid (you can keep or
-            # swap within them) yet you can't open a NEW one early. TV2's hard 3
-            # is always respected because soft_cap <= 3.
-            if counts[team] > max(team_cap, cur_counts.get(team, 0)):
+            in_teams.add(team)
+        # HARD rule: any team you BUY INTO must finish within the soft cap. Existing
+        # over-stacks (set before the cap) are grandfathered — you may HOLD or TRIM
+        # them — but you can't ADD to one and you can't CHURN within it (sell one,
+        # buy another of the same team to stay at 3). So a transfer touching an
+        # over-stacked team must reduce it. (Teams you don't buy into can only fall
+        # via `outs`, so they never exceed their grandfathered count.) In the
+        # knockouts soft_cap == TV2 max (3), so this naturally relaxes.
+        for team in in_teams:
+            if counts[team] > team_cap:
                 return None
         new_ids = [pid for pid in owned_ids if pid not in outs] + ins
         value = _fast_squad_value(new_ids, info)
@@ -297,4 +324,12 @@ def transfer_plans(players: pd.DataFrame, my_squad_ids: list[str], bank: float,
                 adj += config.COVER_WEIGHT * cov
             p["adj_gain"] = round(adj, 2)
         plans[:head] = sorted(plans[:head], key=lambda p: p.get("adj_gain", p["league_gain"]), reverse=True)
-    return plans[:top_n]
+    out = plans[:top_n]
+    # always keep the no-transfer baseline in the returned set, even when many
+    # positive swaps outrank it — the UI needs its win-prob ('from X% if you keep')
+    # and a 'Keep squad' reference bar, and rank_sim only scores plans it's handed.
+    if not any(p["n_transfers"] == 0 for p in out):
+        keep = next((p for p in plans if p["n_transfers"] == 0), None)
+        if keep is not None:
+            out = out[:max(0, top_n - 1)] + [keep]
+    return out

@@ -1,4215 +1,5146 @@
 {
- "fetched_at": "2026-06-11T17:26:05.628110+00:00",
- "credits_remaining": 454,
- "matches_covered": 13,
+ "fetched_at": "2026-06-17T23:26:49.351203+00:00",
+ "credits_remaining": 415,
+ "matches_covered": 16,
  "stopped_at_credit_floor": false,
  "players": [
   {
-   "name": "Thalente Mbatha",
-   "home": "Mexico",
+   "name": "Akmal Mozgovoy",
+   "home": "Uzbekistan",
+   "away": "Colombia",
+   "anytime_goal": 11.0,
+   "assist": null
+  },
+  {
+   "name": "Igor Sergeev",
+   "home": "Uzbekistan",
+   "away": "Colombia",
+   "anytime_goal": 5.0,
+   "assist": null
+  },
+  {
+   "name": "Carlos Andres Gomez",
+   "home": "Uzbekistan",
+   "away": "Colombia",
+   "anytime_goal": 3.2,
+   "assist": null
+  },
+  {
+   "name": "Farrukh Sayfiev",
+   "home": "Uzbekistan",
+   "away": "Colombia",
+   "anytime_goal": 19.0,
+   "assist": null
+  },
+  {
+   "name": "Daniel Munoz",
+   "home": "Uzbekistan",
+   "away": "Colombia",
+   "anytime_goal": 11.0,
+   "assist": null
+  },
+  {
+   "name": "Avazbek Ulmasaliev",
+   "home": "Uzbekistan",
+   "away": "Colombia",
+   "anytime_goal": 15.0,
+   "assist": null
+  },
+  {
+   "name": "Jhon Cordoba",
+   "home": "Uzbekistan",
+   "away": "Colombia",
+   "anytime_goal": 2.62,
+   "assist": null
+  },
+  {
+   "name": "Kevin Castano",
+   "home": "Uzbekistan",
+   "away": "Colombia",
+   "anytime_goal": 7.5,
+   "assist": null
+  },
+  {
+   "name": "Sherzod Nasrullayev",
+   "home": "Uzbekistan",
+   "away": "Colombia",
+   "anytime_goal": 16.0,
+   "assist": null
+  },
+  {
+   "name": "Juan Camilo Hernandez Suarez",
+   "home": "Uzbekistan",
+   "away": "Colombia",
+   "anytime_goal": 2.2,
+   "assist": null
+  },
+  {
+   "name": "Odiljon Khamrobekov",
+   "home": "Uzbekistan",
+   "away": "Colombia",
+   "anytime_goal": 12.5,
+   "assist": null
+  },
+  {
+   "name": "Abdulla Kahramonjon ogly Abdullaev",
+   "home": "Uzbekistan",
+   "away": "Colombia",
+   "anytime_goal": 17.0,
+   "assist": null
+  },
+  {
+   "name": "Jhon Lucumi",
+   "home": "Uzbekistan",
+   "away": "Colombia",
+   "anytime_goal": 10.5,
+   "assist": null
+  },
+  {
+   "name": "Juan Quintero",
+   "home": "Uzbekistan",
+   "away": "Colombia",
+   "anytime_goal": 3.5,
+   "assist": null
+  },
+  {
+   "name": "Oston Urunov",
+   "home": "Uzbekistan",
+   "away": "Colombia",
+   "anytime_goal": 7.0,
+   "assist": null
+  },
+  {
+   "name": "Azizjon Ganiev",
+   "home": "Uzbekistan",
+   "away": "Colombia",
+   "anytime_goal": 7.0,
+   "assist": null
+  },
+  {
+   "name": "Juan Camilo Portilla",
+   "home": "Uzbekistan",
+   "away": "Colombia",
+   "anytime_goal": 5.5,
+   "assist": null
+  },
+  {
+   "name": "Luis Fernando Diaz Marulanda",
+   "home": "Uzbekistan",
+   "away": "Colombia",
+   "anytime_goal": 2.25,
+   "assist": null
+  },
+  {
+   "name": "Odiljon Xamrobekov",
+   "home": "Uzbekistan",
+   "away": "Colombia",
+   "anytime_goal": 25.0,
+   "assist": null
+  },
+  {
+   "name": "Otabek Shukurov",
+   "home": "Uzbekistan",
+   "away": "Colombia",
+   "anytime_goal": 11.0,
+   "assist": null
+  },
+  {
+   "name": "Jakhongir Urozov",
+   "home": "Uzbekistan",
+   "away": "Colombia",
+   "anytime_goal": 21.0,
+   "assist": null
+  },
+  {
+   "name": "Dostonbek Hamdamov",
+   "home": "Uzbekistan",
+   "away": "Colombia",
+   "anytime_goal": 7.5,
+   "assist": null
+  },
+  {
+   "name": "Yerry Mina",
+   "home": "Uzbekistan",
+   "away": "Colombia",
+   "anytime_goal": 11.0,
+   "assist": null
+  },
+  {
+   "name": "Rustamjon Ashurmatov",
+   "home": "Uzbekistan",
+   "away": "Colombia",
+   "anytime_goal": 21.0,
+   "assist": null
+  },
+  {
+   "name": "Jorge Carrascal",
+   "home": "Uzbekistan",
+   "away": "Colombia",
+   "anytime_goal": 3.75,
+   "assist": null
+  },
+  {
+   "name": "Jaminton Campaz",
+   "home": "Uzbekistan",
+   "away": "Colombia",
+   "anytime_goal": 3.3,
+   "assist": null
+  },
+  {
+   "name": "Azizbek Amonov",
+   "home": "Uzbekistan",
+   "away": "Colombia",
+   "anytime_goal": 6.0,
+   "assist": null
+  },
+  {
+   "name": "Khojiakbar Alijonov",
+   "home": "Uzbekistan",
+   "away": "Colombia",
+   "anytime_goal": 11.0,
+   "assist": null
+  },
+  {
+   "name": "Bekhruz Karimov",
+   "home": "Uzbekistan",
+   "away": "Colombia",
+   "anytime_goal": 19.0,
+   "assist": null
+  },
+  {
+   "name": "Willer Ditta",
+   "home": "Uzbekistan",
+   "away": "Colombia",
+   "anytime_goal": 13.0,
+   "assist": null
+  },
+  {
+   "name": "Luis Javier Suarez Charris",
+   "home": "Uzbekistan",
+   "away": "Colombia",
+   "anytime_goal": 2.28,
+   "assist": null
+  },
+  {
+   "name": "Jhon Arias",
+   "home": "Uzbekistan",
+   "away": "Colombia",
+   "anytime_goal": 4.1,
+   "assist": null
+  },
+  {
+   "name": "Santiago Arias",
+   "home": "Uzbekistan",
+   "away": "Colombia",
+   "anytime_goal": 13.0,
+   "assist": null
+  },
+  {
+   "name": "Jefferson Lerma",
+   "home": "Uzbekistan",
+   "away": "Colombia",
+   "anytime_goal": 5.8,
+   "assist": null
+  },
+  {
+   "name": "Eldor Shomurodov",
+   "home": "Uzbekistan",
+   "away": "Colombia",
+   "anytime_goal": 4.95,
+   "assist": null
+  },
+  {
+   "name": "James Rodriguez",
+   "home": "Uzbekistan",
+   "away": "Colombia",
+   "anytime_goal": 3.25,
+   "assist": null
+  },
+  {
+   "name": "Jamshid Iskanderov",
+   "home": "Uzbekistan",
+   "away": "Colombia",
+   "anytime_goal": 7.5,
+   "assist": null
+  },
+  {
+   "name": "Johan Mojica",
+   "home": "Uzbekistan",
+   "away": "Colombia",
+   "anytime_goal": 11.0,
+   "assist": null
+  },
+  {
+   "name": "Deiver Machado",
+   "home": "Uzbekistan",
+   "away": "Colombia",
+   "anytime_goal": 9.0,
+   "assist": null
+  },
+  {
+   "name": "Abdukodir Khusanov",
+   "home": "Uzbekistan",
+   "away": "Colombia",
+   "anytime_goal": 36.0,
+   "assist": null
+  },
+  {
+   "name": "Abbosbek Fayzullaev",
+   "home": "Uzbekistan",
+   "away": "Colombia",
+   "anytime_goal": 8.0,
+   "assist": null
+  },
+  {
+   "name": "Richard Rios Montoya",
+   "home": "Uzbekistan",
+   "away": "Colombia",
+   "anytime_goal": 5.75,
+   "assist": null
+  },
+  {
+   "name": "Davinson Sanchez",
+   "home": "Uzbekistan",
+   "away": "Colombia",
+   "anytime_goal": 9.0,
+   "assist": null
+  },
+  {
+   "name": "Sherzod Esanov",
+   "home": "Uzbekistan",
+   "away": "Colombia",
+   "anytime_goal": 9.0,
+   "assist": null
+  },
+  {
+   "name": "Gustavo Puerta",
+   "home": "Uzbekistan",
+   "away": "Colombia",
+   "anytime_goal": 5.8,
+   "assist": null
+  },
+  {
+   "name": "Jaloliddin Masharipov",
+   "home": "Uzbekistan",
+   "away": "Colombia",
+   "anytime_goal": 8.5,
+   "assist": null
+  },
+  {
+   "name": "Umar Eshmurodov",
+   "home": "Uzbekistan",
+   "away": "Colombia",
+   "anytime_goal": 29.0,
+   "assist": null
+  },
+  {
+   "name": "Tomas Chory",
+   "home": "Czech Republic",
    "away": "South Africa",
-   "anytime_goal": 12.0,
-   "assist": 13.0
+   "anytime_goal": 2.88,
+   "assist": null
+  },
+  {
+   "name": "Thalente Mbatha",
+   "home": "Czech Republic",
+   "away": "South Africa",
+   "anytime_goal": 9.5,
+   "assist": null
+  },
+  {
+   "name": "Khulumani Ndamane",
+   "home": "Czech Republic",
+   "away": "South Africa",
+   "anytime_goal": 29.0,
+   "assist": null
+  },
+  {
+   "name": "Pavel Sulc",
+   "home": "Czech Republic",
+   "away": "South Africa",
+   "anytime_goal": 4.2,
+   "assist": null
+  },
+  {
+   "name": "Khuliso Mudau",
+   "home": "Czech Republic",
+   "away": "South Africa",
+   "anytime_goal": 13.0,
+   "assist": null
   },
   {
    "name": "Jayden Adams",
-   "home": "Mexico",
+   "home": "Czech Republic",
    "away": "South Africa",
-   "anytime_goal": 11.5,
+   "anytime_goal": 9.2,
+   "assist": null
+  },
+  {
+   "name": "Tomas Holes",
+   "home": "Czech Republic",
+   "away": "South Africa",
+   "anytime_goal": 8.5,
+   "assist": null
+  },
+  {
+   "name": "Vladimir Darida",
+   "home": "Czech Republic",
+   "away": "South Africa",
+   "anytime_goal": 5.1,
+   "assist": null
+  },
+  {
+   "name": "Jan Kuchta",
+   "home": "Czech Republic",
+   "away": "South Africa",
+   "anytime_goal": 3.0,
+   "assist": null
+  },
+  {
+   "name": "Vladimir Coufal",
+   "home": "Czech Republic",
+   "away": "South Africa",
+   "anytime_goal": 11.0,
+   "assist": null
+  },
+  {
+   "name": "Tholo Thabang Matuludi",
+   "home": "Czech Republic",
+   "away": "South Africa",
+   "anytime_goal": 11.0,
+   "assist": null
+  },
+  {
+   "name": "Denis Visinsky",
+   "home": "Czech Republic",
+   "away": "South Africa",
+   "anytime_goal": 3.75,
+   "assist": null
+  },
+  {
+   "name": "Ime Okon",
+   "home": "Czech Republic",
+   "away": "South Africa",
+   "anytime_goal": 15.0,
+   "assist": null
+  },
+  {
+   "name": "Olwethu Makhanya",
+   "home": "Czech Republic",
+   "away": "South Africa",
+   "anytime_goal": 23.0,
+   "assist": null
+  },
+  {
+   "name": "David Doudera",
+   "home": "Czech Republic",
+   "away": "South Africa",
+   "anytime_goal": 7.0,
+   "assist": null
+  },
+  {
+   "name": "David Jurasek",
+   "home": "Czech Republic",
+   "away": "South Africa",
+   "anytime_goal": 7.0,
+   "assist": null
+  },
+  {
+   "name": "Stepan Chaloupek",
+   "home": "Czech Republic",
+   "away": "South Africa",
+   "anytime_goal": 6.5,
+   "assist": null
+  },
+  {
+   "name": "Relebohile Mofokeng",
+   "home": "Czech Republic",
+   "away": "South Africa",
+   "anytime_goal": 7.5,
+   "assist": null
+  },
+  {
+   "name": "Patrik Schick",
+   "home": "Czech Republic",
+   "away": "South Africa",
+   "anytime_goal": 2.43,
+   "assist": null
+  },
+  {
+   "name": "Bradley Cross",
+   "home": "Czech Republic",
+   "away": "South Africa",
+   "anytime_goal": 23.0,
+   "assist": null
+  },
+  {
+   "name": "Adam Hlozek",
+   "home": "Czech Republic",
+   "away": "South Africa",
+   "anytime_goal": 3.1,
+   "assist": null
+  },
+  {
+   "name": "Nkosinathi Sibisi",
+   "home": "Czech Republic",
+   "away": "South Africa",
+   "anytime_goal": 21.0,
+   "assist": null
+  },
+  {
+   "name": "Lukas Provod",
+   "home": "Czech Republic",
+   "away": "South Africa",
+   "anytime_goal": 4.7,
+   "assist": null
+  },
+  {
+   "name": "Tomas Soucek",
+   "home": "Czech Republic",
+   "away": "South Africa",
+   "anytime_goal": 4.9,
+   "assist": null
+  },
+  {
+   "name": "Ladislav Krejci 1999",
+   "home": "Czech Republic",
+   "away": "South Africa",
+   "anytime_goal": 5.8,
+   "assist": null
+  },
+  {
+   "name": "Mojmir Chytil",
+   "home": "Czech Republic",
+   "away": "South Africa",
+   "anytime_goal": 3.0,
+   "assist": null
+  },
+  {
+   "name": "David Zima",
+   "home": "Czech Republic",
+   "away": "South Africa",
+   "anytime_goal": 15.0,
+   "assist": null
+  },
+  {
+   "name": "Kamogelo Sebelebele",
+   "home": "Czech Republic",
+   "away": "South Africa",
+   "anytime_goal": 10.0,
+   "assist": null
+  },
+  {
+   "name": "Oswin Appollis",
+   "home": "Czech Republic",
+   "away": "South Africa",
+   "anytime_goal": 5.5,
+   "assist": null
+  },
+  {
+   "name": "Jaroslav Zeleny",
+   "home": "Czech Republic",
+   "away": "South Africa",
+   "anytime_goal": 11.0,
+   "assist": null
+  },
+  {
+   "name": "Michal Sadilek",
+   "home": "Czech Republic",
+   "away": "South Africa",
+   "anytime_goal": 8.5,
+   "assist": null
+  },
+  {
+   "name": "Aubrey Modiba",
+   "home": "Czech Republic",
+   "away": "South Africa",
+   "anytime_goal": 12.0,
+   "assist": null
+  },
+  {
+   "name": "Thapelo Maseko",
+   "home": "Czech Republic",
+   "away": "South Africa",
+   "anytime_goal": 9.5,
+   "assist": null
+  },
+  {
+   "name": "Evidence Makgopa",
+   "home": "Czech Republic",
+   "away": "South Africa",
+   "anytime_goal": 5.0,
+   "assist": null
+  },
+  {
+   "name": "Lyle Foster",
+   "home": "Czech Republic",
+   "away": "South Africa",
+   "anytime_goal": 4.6,
+   "assist": null
+  },
+  {
+   "name": "Samukelo Kabini",
+   "home": "Czech Republic",
+   "away": "South Africa",
+   "anytime_goal": 17.0,
+   "assist": null
+  },
+  {
+   "name": "Hugo Sochurek",
+   "home": "Czech Republic",
+   "away": "South Africa",
+   "anytime_goal": 6.5,
+   "assist": null
+  },
+  {
+   "name": "Robin Hranac",
+   "home": "Czech Republic",
+   "away": "South Africa",
+   "anytime_goal": 13.0,
+   "assist": null
+  },
+  {
+   "name": "Alexandr Sojka",
+   "home": "Czech Republic",
+   "away": "South Africa",
+   "anytime_goal": 7.0,
+   "assist": null
+  },
+  {
+   "name": "Mbekezeli Mbokazi",
+   "home": "Czech Republic",
+   "away": "South Africa",
+   "anytime_goal": 21.0,
+   "assist": null
+  },
+  {
+   "name": "Tshepang Moremi",
+   "home": "Czech Republic",
+   "away": "South Africa",
+   "anytime_goal": 7.5,
+   "assist": null
+  },
+  {
+   "name": "Lukas Cerv",
+   "home": "Czech Republic",
+   "away": "South Africa",
+   "anytime_goal": 5.0,
+   "assist": null
+  },
+  {
+   "name": "Teboho Mokoena",
+   "home": "Czech Republic",
+   "away": "South Africa",
+   "anytime_goal": 7.5,
+   "assist": null
+  },
+  {
+   "name": "Iqraam Rayners",
+   "home": "Czech Republic",
+   "away": "South Africa",
+   "anytime_goal": 4.5,
+   "assist": null
+  },
+  {
+   "name": "Aurele Amenda",
+   "home": "Switzerland",
+   "away": "Bosnia & Herzegovina",
+   "anytime_goal": 13.0,
+   "assist": null
+  },
+  {
+   "name": "Sead Kolasinac",
+   "home": "Switzerland",
+   "away": "Bosnia & Herzegovina",
+   "anytime_goal": 20.0,
+   "assist": null
+  },
+  {
+   "name": "Dan Ndoye",
+   "home": "Switzerland",
+   "away": "Bosnia & Herzegovina",
+   "anytime_goal": 3.3,
+   "assist": null
+  },
+  {
+   "name": "Ivan Sunjic",
+   "home": "Switzerland",
+   "away": "Bosnia & Herzegovina",
+   "anytime_goal": 13.0,
+   "assist": null
+  },
+  {
+   "name": "Christian Fassnacht",
+   "home": "Switzerland",
+   "away": "Bosnia & Herzegovina",
+   "anytime_goal": 3.5,
+   "assist": null
+  },
+  {
+   "name": "Benjamin Tahirovic",
+   "home": "Switzerland",
+   "away": "Bosnia & Herzegovina",
+   "anytime_goal": 13.0,
+   "assist": null
+  },
+  {
+   "name": "Johan Manzambi",
+   "home": "Switzerland",
+   "away": "Bosnia & Herzegovina",
+   "anytime_goal": 3.75,
+   "assist": null
+  },
+  {
+   "name": "Ruben Vargas",
+   "home": "Switzerland",
+   "away": "Bosnia & Herzegovina",
+   "anytime_goal": 3.25,
+   "assist": null
+  },
+  {
+   "name": "Amar Dedic",
+   "home": "Switzerland",
+   "away": "Bosnia & Herzegovina",
+   "anytime_goal": 18.0,
+   "assist": null
+  },
+  {
+   "name": "Fabian Rieder",
+   "home": "Switzerland",
+   "away": "Bosnia & Herzegovina",
+   "anytime_goal": 4.6,
+   "assist": null
+  },
+  {
+   "name": "Granit Xhaka",
+   "home": "Switzerland",
+   "away": "Bosnia & Herzegovina",
+   "anytime_goal": 5.08,
+   "assist": null
+  },
+  {
+   "name": "Miro Muheim",
+   "home": "Switzerland",
+   "away": "Bosnia & Herzegovina",
+   "anytime_goal": 11.0,
+   "assist": null
+  },
+  {
+   "name": "Cedric Itten",
+   "home": "Switzerland",
+   "away": "Bosnia & Herzegovina",
+   "anytime_goal": 2.5,
+   "assist": null
+  },
+  {
+   "name": "Kerim Alajbegovic",
+   "home": "Switzerland",
+   "away": "Bosnia & Herzegovina",
+   "anytime_goal": 6.5,
+   "assist": null
+  },
+  {
+   "name": "Ricardo Rodríguez",
+   "home": "Switzerland",
+   "away": "Bosnia & Herzegovina",
+   "anytime_goal": 9.2,
+   "assist": null
+  },
+  {
+   "name": "Ermin Mahmic",
+   "home": "Switzerland",
+   "away": "Bosnia & Herzegovina",
+   "anytime_goal": 7.0,
+   "assist": null
+  },
+  {
+   "name": "Noah Okafor",
+   "home": "Switzerland",
+   "away": "Bosnia & Herzegovina",
+   "anytime_goal": 3.0,
+   "assist": null
+  },
+  {
+   "name": "Manuel Akanji",
+   "home": "Switzerland",
+   "away": "Bosnia & Herzegovina",
+   "anytime_goal": 10.5,
+   "assist": null
+  },
+  {
+   "name": "Eray Cumart",
+   "home": "Switzerland",
+   "away": "Bosnia & Herzegovina",
+   "anytime_goal": 12.0,
+   "assist": null
+  },
+  {
+   "name": "Tarik Muharemovic",
+   "home": "Switzerland",
+   "away": "Bosnia & Herzegovina",
+   "anytime_goal": 18.0,
+   "assist": null
+  },
+  {
+   "name": "Arjan Malic",
+   "home": "Switzerland",
+   "away": "Bosnia & Herzegovina",
+   "anytime_goal": 19.0,
+   "assist": null
+  },
+  {
+   "name": "Stjepan Radeljic",
+   "home": "Switzerland",
+   "away": "Bosnia & Herzegovina",
+   "anytime_goal": 19.0,
+   "assist": null
+  },
+  {
+   "name": "Nico Elvedi",
+   "home": "Switzerland",
+   "away": "Bosnia & Herzegovina",
+   "anytime_goal": 11.0,
+   "assist": null
+  },
+  {
+   "name": "Amar Memic",
+   "home": "Switzerland",
+   "away": "Bosnia & Herzegovina",
+   "anytime_goal": 10.5,
+   "assist": null
+  },
+  {
+   "name": "Dennis Hadzikadunic",
+   "home": "Switzerland",
+   "away": "Bosnia & Herzegovina",
+   "anytime_goal": 21.0,
+   "assist": null
+  },
+  {
+   "name": "Breel Embolo",
+   "home": "Switzerland",
+   "away": "Bosnia & Herzegovina",
+   "anytime_goal": 2.4,
+   "assist": null
+  },
+  {
+   "name": "Silvan Widmer",
+   "home": "Switzerland",
+   "away": "Bosnia & Herzegovina",
+   "anytime_goal": 7.5,
+   "assist": null
+  },
+  {
+   "name": "Remo Freuler",
+   "home": "Switzerland",
+   "away": "Bosnia & Herzegovina",
+   "anytime_goal": 6.2,
+   "assist": null
+  },
+  {
+   "name": "Michel Aebischer",
+   "home": "Switzerland",
+   "away": "Bosnia & Herzegovina",
+   "anytime_goal": 7.5,
+   "assist": null
+  },
+  {
+   "name": "Armin Gigovic",
+   "home": "Switzerland",
+   "away": "Bosnia & Herzegovina",
+   "anytime_goal": 10.0,
+   "assist": null
+  },
+  {
+   "name": "Nikola Katic",
+   "home": "Switzerland",
+   "away": "Bosnia & Herzegovina",
+   "anytime_goal": 18.0,
+   "assist": null
+  },
+  {
+   "name": "Nihad Mujakic",
+   "home": "Switzerland",
+   "away": "Bosnia & Herzegovina",
+   "anytime_goal": 21.0,
+   "assist": null
+  },
+  {
+   "name": "Denis Zakaria",
+   "home": "Switzerland",
+   "away": "Bosnia & Herzegovina",
+   "anytime_goal": 8.5,
+   "assist": null
+  },
+  {
+   "name": "Haris Tabakovic",
+   "home": "Switzerland",
+   "away": "Bosnia & Herzegovina",
+   "anytime_goal": 4.75,
+   "assist": null
+  },
+  {
+   "name": "Ermedin Demirovic",
+   "home": "Switzerland",
+   "away": "Bosnia & Herzegovina",
+   "anytime_goal": 5.2,
+   "assist": null
+  },
+  {
+   "name": "Mohamed Zeki Amdouni",
+   "home": "Switzerland",
+   "away": "Bosnia & Herzegovina",
+   "anytime_goal": 2.7,
+   "assist": null
+  },
+  {
+   "name": "Jovo Lukic",
+   "home": "Switzerland",
+   "away": "Bosnia & Herzegovina",
+   "anytime_goal": 5.75,
+   "assist": null
+  },
+  {
+   "name": "Dzenis Burnic",
+   "home": "Switzerland",
+   "away": "Bosnia & Herzegovina",
+   "anytime_goal": 15.0,
+   "assist": null
+  },
+  {
+   "name": "Luca Jaquez",
+   "home": "Switzerland",
+   "away": "Bosnia & Herzegovina",
+   "anytime_goal": 12.0,
+   "assist": null
+  },
+  {
+   "name": "Ivan Basic",
+   "home": "Switzerland",
+   "away": "Bosnia & Herzegovina",
+   "anytime_goal": 12.0,
+   "assist": null
+  },
+  {
+   "name": "Ardon Jashari",
+   "home": "Switzerland",
+   "away": "Bosnia & Herzegovina",
+   "anytime_goal": 9.5,
+   "assist": null
+  },
+  {
+   "name": "Edin Dzeko",
+   "home": "Switzerland",
+   "away": "Bosnia & Herzegovina",
+   "anytime_goal": 4.1,
+   "assist": null
+  },
+  {
+   "name": "Esmir Bajraktarevic",
+   "home": "Switzerland",
+   "away": "Bosnia & Herzegovina",
+   "anytime_goal": 7.0,
+   "assist": null
+  },
+  {
+   "name": "Amir Hadziahmetovic",
+   "home": "Switzerland",
+   "away": "Bosnia & Herzegovina",
+   "anytime_goal": 19.0,
+   "assist": null
+  },
+  {
+   "name": "Samed Bazdar",
+   "home": "Switzerland",
+   "away": "Bosnia & Herzegovina",
+   "anytime_goal": 5.5,
+   "assist": null
+  },
+  {
+   "name": "Djibril Sow",
+   "home": "Switzerland",
+   "away": "Bosnia & Herzegovina",
+   "anytime_goal": 7.0,
+   "assist": null
+  },
+  {
+   "name": "Mathieu Choiniere",
+   "home": "Canada",
+   "away": "Qatar",
+   "anytime_goal": 6.5,
+   "assist": null
+  },
+  {
+   "name": "Ahmed Al Aaeldin",
+   "home": "Canada",
+   "away": "Qatar",
+   "anytime_goal": 6.0,
+   "assist": null
+  },
+  {
+   "name": "Niko Kristian Sigur",
+   "home": "Canada",
+   "away": "Qatar",
+   "anytime_goal": 7.5,
+   "assist": null
+  },
+  {
+   "name": "Alistair Johnston",
+   "home": "Canada",
+   "away": "Qatar",
+   "anytime_goal": 9.0,
+   "assist": null
+  },
+  {
+   "name": "Liam Millar",
+   "home": "Canada",
+   "away": "Qatar",
+   "anytime_goal": 3.8,
+   "assist": null
+  },
+  {
+   "name": "Abdulaziz Hatem",
+   "home": "Canada",
+   "away": "Qatar",
+   "anytime_goal": 12.0,
+   "assist": null
+  },
+  {
+   "name": "Alphonso Davies",
+   "home": "Canada",
+   "away": "Qatar",
+   "anytime_goal": 2.9,
+   "assist": null
+  },
+  {
+   "name": "Boualem Khoukhi",
+   "home": "Canada",
+   "away": "Qatar",
+   "anytime_goal": 17.0,
+   "assist": null
+  },
+  {
+   "name": "Jacob Shaffelburg",
+   "home": "Canada",
+   "away": "Qatar",
+   "anytime_goal": 3.1,
+   "assist": null
+  },
+  {
+   "name": "Jayden Nelson",
+   "home": "Canada",
+   "away": "Qatar",
+   "anytime_goal": 3.1,
+   "assist": null
+  },
+  {
+   "name": "Edmilson Junior",
+   "home": "Canada",
+   "away": "Qatar",
+   "anytime_goal": 7.8,
+   "assist": null
+  },
+  {
+   "name": "Yusuf Abdurisag",
+   "home": "Canada",
+   "away": "Qatar",
+   "anytime_goal": 10.5,
+   "assist": null
+  },
+  {
+   "name": "Cyle Larin",
+   "home": "Canada",
+   "away": "Qatar",
+   "anytime_goal": 2.1,
+   "assist": null
+  },
+  {
+   "name": "Promise Oluwatobi Emmanuel David",
+   "home": "Canada",
+   "away": "Qatar",
+   "anytime_goal": 2.17,
+   "assist": null
+  },
+  {
+   "name": "Pedro Miguel",
+   "home": "Canada",
+   "away": "Qatar",
+   "anytime_goal": 20.0,
+   "assist": null
+  },
+  {
+   "name": "Alfie Jones",
+   "home": "Canada",
+   "away": "Qatar",
+   "anytime_goal": 8.0,
+   "assist": null
+  },
+  {
+   "name": "Hassan Khalid Al Haidos",
+   "home": "Canada",
+   "away": "Qatar",
+   "anytime_goal": 7.5,
+   "assist": null
+  },
+  {
+   "name": "Ismael Kone",
+   "home": "Canada",
+   "away": "Qatar",
+   "anytime_goal": 4.8,
+   "assist": null
+  },
+  {
+   "name": "Jassem Gaber Abdulsallam",
+   "home": "Canada",
+   "away": "Qatar",
+   "anytime_goal": 21.0,
+   "assist": null
+  },
+  {
+   "name": "Ali Ahmed",
+   "home": "Canada",
+   "away": "Qatar",
+   "anytime_goal": 4.0,
+   "assist": null
+  },
+  {
+   "name": "Tajon Buchanan",
+   "home": "Canada",
+   "away": "Qatar",
+   "anytime_goal": 3.8,
+   "assist": null
+  },
+  {
+   "name": "Sultan Al Brake",
+   "home": "Canada",
+   "away": "Qatar",
+   "anytime_goal": 23.0,
+   "assist": null
+  },
+  {
+   "name": "Akram Afif",
+   "home": "Canada",
+   "away": "Qatar",
+   "anytime_goal": 6.16,
+   "assist": null
+  },
+  {
+   "name": "Moise Bombito",
+   "home": "Canada",
+   "away": "Qatar",
+   "anytime_goal": 11.0,
+   "assist": null
+  },
+  {
+   "name": "Tani Oluwaseyi",
+   "home": "Canada",
+   "away": "Qatar",
+   "anytime_goal": 2.55,
+   "assist": null
+  },
+  {
+   "name": "Homam Ahmed",
+   "home": "Canada",
+   "away": "Qatar",
+   "anytime_goal": 21.0,
+   "assist": null
+  },
+  {
+   "name": "Derek Cornelius",
+   "home": "Canada",
+   "away": "Qatar",
+   "anytime_goal": 8.9,
+   "assist": null
+  },
+  {
+   "name": "Al Hashmi Al Hussain",
+   "home": "Canada",
+   "away": "Qatar",
+   "anytime_goal": 23.0,
+   "assist": null
+  },
+  {
+   "name": "Gueye Laye",
+   "home": "Canada",
+   "away": "Qatar",
+   "anytime_goal": 25.0,
+   "assist": null
+  },
+  {
+   "name": "Mohammed Muntari",
+   "home": "Canada",
+   "away": "Qatar",
+   "anytime_goal": 6.0,
+   "assist": null
+  },
+  {
+   "name": "Tahsin Mohammed Jamshid",
+   "home": "Canada",
+   "away": "Qatar",
+   "anytime_goal": 9.5,
+   "assist": null
+  },
+  {
+   "name": "Jonathan Osorio",
+   "home": "Canada",
+   "away": "Qatar",
+   "anytime_goal": 3.3,
+   "assist": null
+  },
+  {
+   "name": "Ayoub Al-Oui",
+   "home": "Canada",
+   "away": "Qatar",
+   "anytime_goal": 19.0,
+   "assist": null
+  },
+  {
+   "name": "Luc De Fougerolles",
+   "home": "Canada",
+   "away": "Qatar",
+   "anytime_goal": 9.9,
+   "assist": null
+  },
+  {
+   "name": "Mohamed Al-Mannai",
+   "home": "Canada",
+   "away": "Qatar",
+   "anytime_goal": 9.5,
+   "assist": null
+  },
+  {
+   "name": "Lucas Michel Mendes",
+   "home": "Canada",
+   "away": "Qatar",
+   "anytime_goal": 19.0,
+   "assist": null
+  },
+  {
+   "name": "Nathan-Dylan Saliba",
+   "home": "Canada",
+   "away": "Qatar",
+   "anytime_goal": 5.0,
+   "assist": null
+  },
+  {
+   "name": "Ahmed Alganehi",
+   "home": "Canada",
+   "away": "Qatar",
+   "anytime_goal": 8.5,
+   "assist": null
+  },
+  {
+   "name": "Jonathan David",
+   "home": "Canada",
+   "away": "Qatar",
+   "anytime_goal": 1.88,
+   "assist": null
+  },
+  {
+   "name": "Stephen Eustaquio",
+   "home": "Canada",
+   "away": "Qatar",
+   "anytime_goal": 7.5,
+   "assist": null
+  },
+  {
+   "name": "Richie Laryea",
+   "home": "Canada",
+   "away": "Qatar",
+   "anytime_goal": 8.0,
+   "assist": null
+  },
+  {
+   "name": "Joel Waterman",
+   "home": "Canada",
+   "away": "Qatar",
+   "anytime_goal": 10.0,
+   "assist": null
+  },
+  {
+   "name": "Ali Almoez",
+   "home": "Canada",
+   "away": "Qatar",
+   "anytime_goal": 5.0,
+   "assist": null
+  },
+  {
+   "name": "Assim Madibo",
+   "home": "Canada",
+   "away": "Qatar",
+   "anytime_goal": 23.0,
+   "assist": null
+  },
+  {
+   "name": "Ahmed Fathi",
+   "home": "Canada",
+   "away": "Qatar",
+   "anytime_goal": 15.0,
+   "assist": null
+  },
+  {
+   "name": "Karim Boudiaf",
+   "home": "Canada",
+   "away": "Qatar",
+   "anytime_goal": 13.0,
+   "assist": null
+  },
+  {
+   "name": "El Hashmi El Hussain Mohi Aldin",
+   "home": "Canada",
+   "away": "Qatar",
+   "anytime_goal": 23.0,
+   "assist": null
+  },
+  {
+   "name": "Hwang Hee-Chan",
+   "home": "Mexico",
+   "away": "South Korea",
+   "anytime_goal": 5.5,
+   "assist": null
+  },
+  {
+   "name": "Cho Gue-sung",
+   "home": "Mexico",
+   "away": "South Korea",
+   "anytime_goal": 4.5,
+   "assist": null
+  },
+  {
+   "name": "Mateo Chavez Garcia",
+   "home": "Mexico",
+   "away": "South Korea",
+   "anytime_goal": 15.0,
+   "assist": null
+  },
+  {
+   "name": "Hyeon-gyu Oh",
+   "home": "Mexico",
+   "away": "South Korea",
+   "anytime_goal": 4.5,
+   "assist": null
+  },
+  {
+   "name": "Kim Min-Jae",
+   "home": "Mexico",
+   "away": "South Korea",
+   "anytime_goal": 17.0,
+   "assist": null
+  },
+  {
+   "name": "Armando Gonzalez Alba",
+   "home": "Mexico",
+   "away": "South Korea",
+   "anytime_goal": 2.9,
+   "assist": null
+  },
+  {
+   "name": "Johan Vasquez",
+   "home": "Mexico",
+   "away": "South Korea",
+   "anytime_goal": 12.5,
    "assist": null
   },
   {
    "name": "Erik Lira",
    "home": "Mexico",
-   "away": "South Africa",
-   "anytime_goal": 7.8,
-   "assist": 12.0
-  },
-  {
-   "name": "Relebohile Mofokeng",
-   "home": "Mexico",
-   "away": "South Africa",
-   "anytime_goal": 9.85,
-   "assist": 9.5
-  },
-  {
-   "name": "Guillermo Martinez",
-   "home": "Mexico",
-   "away": "South Africa",
-   "anytime_goal": 2.5,
-   "assist": 5.8
-  },
-  {
-   "name": "Edson Alvarez",
-   "home": "Mexico",
-   "away": "South Africa",
+   "away": "South Korea",
    "anytime_goal": 10.0,
-   "assist": 7.5
-  },
-  {
-   "name": "Lyle Foster",
-   "home": "Mexico",
-   "away": "South Africa",
-   "anytime_goal": 5.9,
-   "assist": 10.0
-  },
-  {
-   "name": "Obed Vargas",
-   "home": "Mexico",
-   "away": "South Africa",
-   "anytime_goal": 12.0,
-   "assist": 5.8
-  },
-  {
-   "name": "Teboho Mokoena",
-   "home": "Mexico",
-   "away": "South Africa",
-   "anytime_goal": 10.5,
-   "assist": 12.0
-  },
-  {
-   "name": "Olwethu Makhanya",
-   "home": "Mexico",
-   "away": "South Africa",
-   "anytime_goal": 29.0,
-   "assist": 19.0
-  },
-  {
-   "name": "Khulumani Ndamane",
-   "home": "Mexico",
-   "away": "South Africa",
-   "anytime_goal": 34.0,
-   "assist": 21.0
-  },
-  {
-   "name": "Orbelin Pineda",
-   "home": "Mexico",
-   "away": "South Africa",
-   "anytime_goal": 3.7,
-   "assist": 4.75
-  },
-  {
-   "name": "Evidence Makgopa",
-   "home": "Mexico",
-   "away": "South Africa",
-   "anytime_goal": 6.5,
-   "assist": 10.0
-  },
-  {
-   "name": "Jorge Eduardo Sanchez Ramos",
-   "home": "Mexico",
-   "away": "South Africa",
-   "anytime_goal": 12.0,
-   "assist": 7.5
-  },
-  {
-   "name": "Armando Gonzalez Alba",
-   "home": "Mexico",
-   "away": "South Africa",
-   "anytime_goal": 3.0,
-   "assist": 4.8
-  },
-  {
-   "name": "Thapelo Maseko",
-   "home": "Mexico",
-   "away": "South Africa",
-   "anytime_goal": 10.0,
-   "assist": 11.0
-  },
-  {
-   "name": "Tshepang Moremi",
-   "home": "Mexico",
-   "away": "South Africa",
-   "anytime_goal": 9.5,
-   "assist": 10.0
-  },
-  {
-   "name": "Cesar Montes",
-   "home": "Mexico",
-   "away": "South Africa",
-   "anytime_goal": 10.48,
-   "assist": 11.0
-  },
-  {
-   "name": "Oswin Appollis",
-   "home": "Mexico",
-   "away": "South Africa",
-   "anytime_goal": 8.3,
-   "assist": 9.0
-  },
-  {
-   "name": "Raul Jimenez",
-   "home": "Mexico",
-   "away": "South Africa",
-   "anytime_goal": 2.36,
-   "assist": 5.5
-  },
-  {
-   "name": "Cesar Saul Huerta Valera",
-   "home": "Mexico",
-   "away": "South Africa",
-   "anytime_goal": 3.5,
-   "assist": 4.8
-  },
-  {
-   "name": "Aubrey Modiba",
-   "home": "Mexico",
-   "away": "South Africa",
-   "anytime_goal": 15.0,
-   "assist": 10.0
-  },
-  {
-   "name": "Santiago Gimenez",
-   "home": "Mexico",
-   "away": "South Africa",
-   "anytime_goal": 2.5,
-   "assist": 6.5
-  },
-  {
-   "name": "Johan Vasquez",
-   "home": "Mexico",
-   "away": "South Africa",
-   "anytime_goal": 11.0,
-   "assist": 11.0
-  },
-  {
-   "name": "Ime Okon",
-   "home": "Mexico",
-   "away": "South Africa",
-   "anytime_goal": 19.0,
-   "assist": 21.0
-  },
-  {
-   "name": "Tholo Thabang Matuludi",
-   "home": "Mexico",
-   "away": "South Africa",
-   "anytime_goal": 13.0,
-   "assist": 12.0
-  },
-  {
-   "name": "Luis Francisco Romo Barron",
-   "home": "Mexico",
-   "away": "South Africa",
-   "anytime_goal": 7.0,
-   "assist": 4.0
-  },
-  {
-   "name": "Brian Gutierrez",
-   "home": "Mexico",
-   "away": "South Africa",
-   "anytime_goal": 4.0,
-   "assist": 4.4
-  },
-  {
-   "name": "Iqraam Rayners",
-   "home": "Mexico",
-   "away": "South Africa",
-   "anytime_goal": 5.5,
-   "assist": 12.0
-  },
-  {
-   "name": "Luis Chavez",
-   "home": "Mexico",
-   "away": "South Africa",
-   "anytime_goal": 4.8,
-   "assist": 5.8
-  },
-  {
-   "name": "Mateo Chavez Garcia",
-   "home": "Mexico",
-   "away": "South Africa",
-   "anytime_goal": 12.0,
-   "assist": 8.5
-  },
-  {
-   "name": "Ernesto Alexis Vega",
-   "home": "Mexico",
-   "away": "South Africa",
-   "anytime_goal": 3.3,
-   "assist": 3.9
-  },
-  {
-   "name": "Nkosinathi Sibisi",
-   "home": "Mexico",
-   "away": "South Africa",
-   "anytime_goal": 21.0,
-   "assist": 15.0
-  },
-  {
-   "name": "Bradley Cross",
-   "home": "Mexico",
-   "away": "South Africa",
-   "anytime_goal": 23.0,
    "assist": null
-  },
-  {
-   "name": "Samukelo Kabini",
-   "home": "Mexico",
-   "away": "South Africa",
-   "anytime_goal": 21.0,
-   "assist": 11.0
-  },
-  {
-   "name": "Roberto Alvarado",
-   "home": "Mexico",
-   "away": "South Africa",
-   "anytime_goal": 4.3,
-   "assist": 4.6
-  },
-  {
-   "name": "Themba Zwane",
-   "home": "Mexico",
-   "away": "South Africa",
-   "anytime_goal": 7.5,
-   "assist": 9.0
-  },
-  {
-   "name": "Mbekezeli Mbokazi",
-   "home": "Mexico",
-   "away": "South Africa",
-   "anytime_goal": 21.0,
-   "assist": 19.0
-  },
-  {
-   "name": "Sphephelo Sithole",
-   "home": "Mexico",
-   "away": "South Africa",
-   "anytime_goal": 21.0,
-   "assist": 15.0
   },
   {
    "name": "Jesus Gallardo",
    "home": "Mexico",
-   "away": "South Africa",
-   "anytime_goal": 8.5,
-   "assist": 5.0
-  },
-  {
-   "name": "Kamogelo Sebelebele",
-   "home": "Mexico",
-   "away": "South Africa",
-   "anytime_goal": 12.0,
-   "assist": 10.0
-  },
-  {
-   "name": "Gilberto Rafael Mora Zambrano",
-   "home": "Mexico",
-   "away": "South Africa",
-   "anytime_goal": 4.3,
-   "assist": 4.6
-  },
-  {
-   "name": "Julian Quinones",
-   "home": "Mexico",
-   "away": "South Africa",
-   "anytime_goal": 3.1,
-   "assist": 3.9
-  },
-  {
-   "name": "Alvaro Fidalgo",
-   "home": "Mexico",
-   "away": "South Africa",
-   "anytime_goal": 5.9,
-   "assist": 5.8
-  },
-  {
-   "name": "Khuliso Mudau",
-   "home": "Mexico",
-   "away": "South Africa",
-   "anytime_goal": 19.0,
-   "assist": 13.0
-  },
-  {
-   "name": "Israel Reyes",
-   "home": "Mexico",
-   "away": "South Africa",
-   "anytime_goal": 9.0,
-   "assist": 11.0
-  },
-  {
-   "name": "Kim Tae-Hyeon",
-   "home": "South Korea",
-   "away": "Czech Republic",
-   "anytime_goal": 19.0,
-   "assist": 13.0
-  },
-  {
-   "name": "Hyeon-gyu Oh",
-   "home": "South Korea",
-   "away": "Czech Republic",
-   "anytime_goal": 3.4,
-   "assist": 6.5
-  },
-  {
-   "name": "Lukas Provod",
-   "home": "South Korea",
-   "away": "Czech Republic",
-   "anytime_goal": 6.4,
-   "assist": 4.8
-  },
-  {
-   "name": "Vladimir Coufal",
-   "home": "South Korea",
-   "away": "Czech Republic",
-   "anytime_goal": 14.0,
-   "assist": 6.5
-  },
-  {
-   "name": "Jaroslav Zeleny",
-   "home": "South Korea",
-   "away": "Czech Republic",
-   "anytime_goal": 13.5,
-   "assist": 10.0
-  },
-  {
-   "name": "Stepan Chaloupek",
-   "home": "South Korea",
-   "away": "Czech Republic",
-   "anytime_goal": 8.5,
-   "assist": 10.0
-  },
-  {
-   "name": "Tomas Holes",
-   "home": "South Korea",
-   "away": "Czech Republic",
-   "anytime_goal": 11.0,
-   "assist": 15.0
-  },
-  {
-   "name": "Alexandr Sojka",
-   "home": "South Korea",
-   "away": "Czech Republic",
-   "anytime_goal": 9.0,
-   "assist": 8.5
-  },
-  {
-   "name": "Ladislav Krejci 1999",
-   "home": "South Korea",
-   "away": "Czech Republic",
-   "anytime_goal": 8.0,
-   "assist": 10.0
-  },
-  {
-   "name": "Hyun-jun Yang",
-   "home": "South Korea",
-   "away": "Czech Republic",
-   "anytime_goal": 5.0,
-   "assist": 7.5
+   "away": "South Korea",
+   "anytime_goal": 10.5,
+   "assist": null
   },
   {
    "name": "Lee Dong-gyeong",
-   "home": "South Korea",
-   "away": "Czech Republic",
-   "anytime_goal": 4.5,
-   "assist": 5.8
+   "home": "Mexico",
+   "away": "South Korea",
+   "anytime_goal": 6.0,
+   "assist": null
   },
   {
-   "name": "David Zima",
-   "home": "South Korea",
-   "away": "Czech Republic",
-   "anytime_goal": 19.0,
-   "assist": 13.0
-  },
-  {
-   "name": "Tomas Chory",
-   "home": "South Korea",
-   "away": "Czech Republic",
-   "anytime_goal": 3.7,
-   "assist": 6.5
-  },
-  {
-   "name": "Michal Sadilek",
-   "home": "South Korea",
-   "away": "Czech Republic",
+   "name": "Edson Alvarez",
+   "home": "Mexico",
+   "away": "South Korea",
    "anytime_goal": 11.0,
-   "assist": 8.5
+   "assist": null
+  },
+  {
+   "name": "Obed Vargas",
+   "home": "Mexico",
+   "away": "South Korea",
+   "anytime_goal": 15.0,
+   "assist": null
   },
   {
    "name": "Eom Ji-sung",
-   "home": "South Korea",
-   "away": "Czech Republic",
-   "anytime_goal": 5.0,
-   "assist": 5.8
-  },
-  {
-   "name": "Gi-hyuk Lee",
-   "home": "South Korea",
-   "away": "Czech Republic",
-   "anytime_goal": 23.0,
-   "assist": 12.0
-  },
-  {
-   "name": "Yu-Min Cho",
-   "home": "South Korea",
-   "away": "Czech Republic",
-   "anytime_goal": 13.0,
-   "assist": 13.0
-  },
-  {
-   "name": "Kangin Lee",
-   "home": "South Korea",
-   "away": "Czech Republic",
-   "anytime_goal": 4.4,
-   "assist": 4.8
-  },
-  {
-   "name": "Robin Hranac",
-   "home": "South Korea",
-   "away": "Czech Republic",
-   "anytime_goal": 17.0,
-   "assist": 12.0
-  },
-  {
-   "name": "Cho Gue-sung",
-   "home": "South Korea",
-   "away": "Czech Republic",
-   "anytime_goal": 3.7,
-   "assist": 5.8
-  },
-  {
-   "name": "Jae-Sung Lee",
-   "home": "South Korea",
-   "away": "Czech Republic",
-   "anytime_goal": 5.4,
-   "assist": 6.5
-  },
-  {
-   "name": "Paik Seung-ho",
-   "home": "South Korea",
-   "away": "Czech Republic",
-   "anytime_goal": 10.0,
-   "assist": 8.0
-  },
-  {
-   "name": "Denis Visinsky",
-   "home": "South Korea",
-   "away": "Czech Republic",
-   "anytime_goal": 4.6,
-   "assist": 6.0
-  },
-  {
-   "name": "Tae-seok Lee",
-   "home": "South Korea",
-   "away": "Czech Republic",
-   "anytime_goal": 10.0,
-   "assist": 11.0
-  },
-  {
-   "name": "David Doudera",
-   "home": "South Korea",
-   "away": "Czech Republic",
-   "anytime_goal": 9.0,
-   "assist": 7.0
-  },
-  {
-   "name": "Heung-Min Son",
-   "home": "South Korea",
-   "away": "Czech Republic",
-   "anytime_goal": 3.0,
-   "assist": 4.8
-  },
-  {
-   "name": "Kim Min-Jae",
-   "home": "South Korea",
-   "away": "Czech Republic",
-   "anytime_goal": 13.0,
-   "assist": 12.0
-  },
-  {
-   "name": "Lukas Cerv",
-   "home": "South Korea",
-   "away": "Czech Republic",
-   "anytime_goal": 6.5,
-   "assist": 10.0
-  },
-  {
-   "name": "Mojmir Chytil",
-   "home": "South Korea",
-   "away": "Czech Republic",
-   "anytime_goal": 3.7,
-   "assist": 9.0
-  },
-  {
-   "name": "Adam Hlozek",
-   "home": "South Korea",
-   "away": "Czech Republic",
-   "anytime_goal": 5.5,
-   "assist": 5.8
-  },
-  {
-   "name": "Jens Castrop",
-   "home": "South Korea",
-   "away": "Czech Republic",
-   "anytime_goal": 8.0,
-   "assist": 7.5
-  },
-  {
-   "name": "Jin-seob Park",
-   "home": "South Korea",
-   "away": "Czech Republic",
-   "anytime_goal": 9.0,
-   "assist": 9.5
-  },
-  {
-   "name": "Han-beom Lee",
-   "home": "South Korea",
-   "away": "Czech Republic",
-   "anytime_goal": 19.0,
-   "assist": 12.0
+   "home": "Mexico",
+   "away": "South Korea",
+   "anytime_goal": 7.0,
+   "assist": null
   },
   {
    "name": "Moon Hwan Kim",
-   "home": "South Korea",
-   "away": "Czech Republic",
+   "home": "Mexico",
+   "away": "South Korea",
+   "anytime_goal": 12.0,
+   "assist": null
+  },
+  {
+   "name": "Jae-Sung Lee",
+   "home": "Mexico",
+   "away": "South Korea",
+   "anytime_goal": 7.1,
+   "assist": null
+  },
+  {
+   "name": "Bae Jun-ho",
+   "home": "Mexico",
+   "away": "South Korea",
+   "anytime_goal": 7.0,
+   "assist": null
+  },
+  {
+   "name": "Brian Gutierrez",
+   "home": "Mexico",
+   "away": "South Korea",
+   "anytime_goal": 5.1,
+   "assist": null
+  },
+  {
+   "name": "Jens Castrop",
+   "home": "Mexico",
+   "away": "South Korea",
    "anytime_goal": 10.0,
    "assist": null
   },
   {
-   "name": "David Jurasek",
-   "home": "South Korea",
-   "away": "Czech Republic",
-   "anytime_goal": 9.0,
-   "assist": 9.0
+   "name": "Paik Seung-ho",
+   "home": "Mexico",
+   "away": "South Korea",
+   "anytime_goal": 13.0,
+   "assist": null
   },
   {
-   "name": "Hugo Sochurek",
-   "home": "South Korea",
-   "away": "Czech Republic",
-   "anytime_goal": 8.5,
-   "assist": 10.0
+   "name": "Tae-seok Lee",
+   "home": "Mexico",
+   "away": "South Korea",
+   "anytime_goal": 18.0,
+   "assist": null
+  },
+  {
+   "name": "Guillermo Martinez",
+   "home": "Mexico",
+   "away": "South Korea",
+   "anytime_goal": 3.0,
+   "assist": null
+  },
+  {
+   "name": "Julian Quinones",
+   "home": "Mexico",
+   "away": "South Korea",
+   "anytime_goal": 3.6,
+   "assist": null
+  },
+  {
+   "name": "Cesar Saul Huerta Valera",
+   "home": "Mexico",
+   "away": "South Korea",
+   "anytime_goal": 4.33,
+   "assist": null
+  },
+  {
+   "name": "Gilberto Rafael Mora Zambrano",
+   "home": "Mexico",
+   "away": "South Korea",
+   "anytime_goal": 4.0,
+   "assist": null
   },
   {
    "name": "Young-Woo Seol",
-   "home": "South Korea",
-   "away": "Czech Republic",
-   "anytime_goal": 12.0,
-   "assist": 8.5
+   "home": "Mexico",
+   "away": "South Korea",
+   "anytime_goal": 15.5,
+   "assist": null
   },
   {
-   "name": "Hwang Hee-Chan",
-   "home": "South Korea",
-   "away": "Czech Republic",
-   "anytime_goal": 4.6,
-   "assist": 6.0
-  },
-  {
-   "name": "Tomas Soucek",
-   "home": "South Korea",
-   "away": "Czech Republic",
-   "anytime_goal": 6.0,
-   "assist": 7.5
-  },
-  {
-   "name": "Jan Kuchta",
-   "home": "South Korea",
-   "away": "Czech Republic",
-   "anytime_goal": 3.7,
-   "assist": 6.5
-  },
-  {
-   "name": "Hwang In-beom",
-   "home": "South Korea",
-   "away": "Czech Republic",
-   "anytime_goal": 8.0,
-   "assist": 4.8
+   "name": "Roberto Alvarado",
+   "home": "Mexico",
+   "away": "South Korea",
+   "anytime_goal": 4.9,
+   "assist": null
   },
   {
    "name": "Jin-gyu Kim",
-   "home": "South Korea",
-   "away": "Czech Republic",
-   "anytime_goal": 6.0,
-   "assist": 8.0
+   "home": "Mexico",
+   "away": "South Korea",
+   "anytime_goal": 7.5,
+   "assist": null
   },
   {
-   "name": "Patrik Schick",
-   "home": "South Korea",
-   "away": "Czech Republic",
-   "anytime_goal": 3.1,
-   "assist": 8.5
-  },
-  {
-   "name": "Pavel Sulc",
-   "home": "South Korea",
-   "away": "Czech Republic",
-   "anytime_goal": 5.0,
-   "assist": 5.8
-  },
-  {
-   "name": "Bae Jun-ho",
-   "home": "South Korea",
-   "away": "Czech Republic",
-   "anytime_goal": 5.5,
-   "assist": 6.5
-  },
-  {
-   "name": "Vladimir Darida",
-   "home": "South Korea",
-   "away": "Czech Republic",
-   "anytime_goal": 6.8,
-   "assist": 5.8
-  },
-  {
-   "name": "Tajon Buchanan",
-   "home": "Canada",
-   "away": "Bosnia & Herzegovina",
-   "anytime_goal": 4.9,
-   "assist": 6.0
-  },
-  {
-   "name": "Tarik Muharemovic",
-   "home": "Canada",
-   "away": "Bosnia & Herzegovina",
-   "anytime_goal": 15.0,
-   "assist": 11.0
-  },
-  {
-   "name": "Amir Hadziahmetovic",
-   "home": "Canada",
-   "away": "Bosnia & Herzegovina",
-   "anytime_goal": 17.0,
-   "assist": 8.5
-  },
-  {
-   "name": "Dzenis Burnic",
-   "home": "Canada",
-   "away": "Bosnia & Herzegovina",
-   "anytime_goal": 13.0,
-   "assist": 10.0
-  },
-  {
-   "name": "Esmir Bajraktarevic",
-   "home": "Canada",
-   "away": "Bosnia & Herzegovina",
-   "anytime_goal": 8.1,
-   "assist": 7.5
-  },
-  {
-   "name": "Benjamin Tahirovic",
-   "home": "Canada",
-   "away": "Bosnia & Herzegovina",
-   "anytime_goal": 12.0,
-   "assist": 9.5
-  },
-  {
-   "name": "Samed Bazdar",
-   "home": "Canada",
-   "away": "Bosnia & Herzegovina",
-   "anytime_goal": 4.8,
-   "assist": 9.5
-  },
-  {
-   "name": "Amar Dedic",
-   "home": "Canada",
-   "away": "Bosnia & Herzegovina",
-   "anytime_goal": 16.0,
-   "assist": 11.0
-  },
-  {
-   "name": "Jovo Lukic",
-   "home": "Canada",
-   "away": "Bosnia & Herzegovina",
-   "anytime_goal": 5.2,
-   "assist": 10.0
-  },
-  {
-   "name": "Haris Tabakovic",
-   "home": "Canada",
-   "away": "Bosnia & Herzegovina",
-   "anytime_goal": 4.6,
-   "assist": 7.5
-  },
-  {
-   "name": "Ivan Sunjic",
-   "home": "Canada",
-   "away": "Bosnia & Herzegovina",
-   "anytime_goal": 13.0,
-   "assist": 8.0
-  },
-  {
-   "name": "Mathieu Choiniere",
-   "home": "Canada",
-   "away": "Bosnia & Herzegovina",
-   "anytime_goal": 9.0,
-   "assist": 7.5
-  },
-  {
-   "name": "Amar Memic",
-   "home": "Canada",
-   "away": "Bosnia & Herzegovina",
-   "anytime_goal": 9.4,
-   "assist": 7.0
-  },
-  {
-   "name": "Sead Kolasinac",
-   "home": "Canada",
-   "away": "Bosnia & Herzegovina",
-   "anytime_goal": 17.0,
-   "assist": 13.0
-  },
-  {
-   "name": "Nidal Celik",
-   "home": "Canada",
-   "away": "Bosnia & Herzegovina",
-   "anytime_goal": 19.0,
-   "assist": 12.0
-  },
-  {
-   "name": "Jonathan Osorio",
-   "home": "Canada",
-   "away": "Bosnia & Herzegovina",
-   "anytime_goal": 4.75,
-   "assist": 6.5
-  },
-  {
-   "name": "Niko Kristian Sigur",
-   "home": "Canada",
-   "away": "Bosnia & Herzegovina",
-   "anytime_goal": 9.5,
-   "assist": 5.0
-  },
-  {
-   "name": "Derek Cornelius",
-   "home": "Canada",
-   "away": "Bosnia & Herzegovina",
+   "name": "Jin-seob Park",
+   "home": "Mexico",
+   "away": "South Korea",
    "anytime_goal": 11.0,
-   "assist": 10.0
+   "assist": null
   },
   {
-   "name": "Liam Millar",
-   "home": "Canada",
-   "away": "Bosnia & Herzegovina",
-   "anytime_goal": 5.3,
-   "assist": 5.8
+   "name": "Alvaro Fidalgo",
+   "home": "Mexico",
+   "away": "South Korea",
+   "anytime_goal": 7.5,
+   "assist": null
   },
   {
-   "name": "Armin Gigovic",
-   "home": "Canada",
-   "away": "Bosnia & Herzegovina",
-   "anytime_goal": 9.5,
-   "assist": 10.0
-  },
-  {
-   "name": "Edin Dzeko",
-   "home": "Canada",
-   "away": "Bosnia & Herzegovina",
-   "anytime_goal": 3.88,
-   "assist": 8.0
-  },
-  {
-   "name": "Alfie Jones",
-   "home": "Canada",
-   "away": "Bosnia & Herzegovina",
-   "anytime_goal": 10.0,
-   "assist": 10.0
-  },
-  {
-   "name": "Moise Bombito",
-   "home": "Canada",
-   "away": "Bosnia & Herzegovina",
-   "anytime_goal": 13.0,
-   "assist": 13.0
-  },
-  {
-   "name": "Nihad Mujakic",
-   "home": "Canada",
-   "away": "Bosnia & Herzegovina",
-   "anytime_goal": 19.0,
-   "assist": 13.0
-  },
-  {
-   "name": "Tani Oluwaseyi",
-   "home": "Canada",
-   "away": "Bosnia & Herzegovina",
-   "anytime_goal": 3.3,
-   "assist": 5.0
-  },
-  {
-   "name": "Stjepan Radeljic",
-   "home": "Canada",
-   "away": "Bosnia & Herzegovina",
-   "anytime_goal": 17.0,
-   "assist": 15.0
-  },
-  {
-   "name": "Cyle Larin",
-   "home": "Canada",
-   "away": "Bosnia & Herzegovina",
-   "anytime_goal": 3.2,
-   "assist": 5.8
-  },
-  {
-   "name": "Ermin Mahmic",
-   "home": "Canada",
-   "away": "Bosnia & Herzegovina",
-   "anytime_goal": 6.5,
-   "assist": 11.0
-  },
-  {
-   "name": "Alphonso Davies",
-   "home": "Canada",
-   "away": "Bosnia & Herzegovina",
-   "anytime_goal": 4.3,
-   "assist": 4.0
-  },
-  {
-   "name": "Promise Oluwatobi Emmanuel David",
-   "home": "Canada",
-   "away": "Bosnia & Herzegovina",
-   "anytime_goal": 2.9,
-   "assist": 7.0
-  },
-  {
-   "name": "Ismael Kone",
-   "home": "Canada",
-   "away": "Bosnia & Herzegovina",
-   "anytime_goal": 6.7,
-   "assist": 5.8
-  },
-  {
-   "name": "Ermedin Demirovic",
-   "home": "Canada",
-   "away": "Bosnia & Herzegovina",
-   "anytime_goal": 4.7,
-   "assist": 8.0
-  },
-  {
-   "name": "Nathan-Dylan Saliba",
-   "home": "Canada",
-   "away": "Bosnia & Herzegovina",
-   "anytime_goal": 7.0,
-   "assist": 8.5
-  },
-  {
-   "name": "Nikola Katic",
-   "home": "Canada",
-   "away": "Bosnia & Herzegovina",
-   "anytime_goal": 16.0,
-   "assist": 17.0
-  },
-  {
-   "name": "Richie Laryea",
-   "home": "Canada",
-   "away": "Bosnia & Herzegovina",
-   "anytime_goal": 10.0,
-   "assist": 5.8
-  },
-  {
-   "name": "Stephen Eustaquio",
-   "home": "Canada",
-   "away": "Bosnia & Herzegovina",
-   "anytime_goal": 9.5,
-   "assist": 6.5
-  },
-  {
-   "name": "Jacob Shaffelburg",
-   "home": "Canada",
-   "away": "Bosnia & Herzegovina",
+   "name": "Orbelin Pineda",
+   "home": "Mexico",
+   "away": "South Korea",
    "anytime_goal": 4.5,
-   "assist": 4.8
+   "assist": null
   },
   {
-   "name": "Jonathan David",
-   "home": "Canada",
-   "away": "Bosnia & Herzegovina",
-   "anytime_goal": 2.6,
-   "assist": 4.75
+   "name": "Hyun-jun Yang",
+   "home": "Mexico",
+   "away": "South Korea",
+   "anytime_goal": 7.0,
+   "assist": null
   },
   {
-   "name": "Kerim Alajbegovic",
-   "home": "Canada",
-   "away": "Bosnia & Herzegovina",
-   "anytime_goal": 5.8,
-   "assist": 7.5
-  },
-  {
-   "name": "Alistair Johnston",
-   "home": "Canada",
-   "away": "Bosnia & Herzegovina",
-   "anytime_goal": 11.5,
-   "assist": 8.5
-  },
-  {
-   "name": "Joel Waterman",
-   "home": "Canada",
-   "away": "Bosnia & Herzegovina",
-   "anytime_goal": 12.0,
-   "assist": 8.0
-  },
-  {
-   "name": "Dennis Hadzikadunic",
-   "home": "Canada",
-   "away": "Bosnia & Herzegovina",
-   "anytime_goal": 19.0,
-   "assist": 13.0
-  },
-  {
-   "name": "Luc De Fougerolles",
-   "home": "Canada",
-   "away": "Bosnia & Herzegovina",
-   "anytime_goal": 13.0,
-   "assist": 12.0
-  },
-  {
-   "name": "Ali Ahmed",
-   "home": "Canada",
-   "away": "Bosnia & Herzegovina",
-   "anytime_goal": 5.0,
-   "assist": 4.8
-  },
-  {
-   "name": "Ivan Basic",
-   "home": "Canada",
-   "away": "Bosnia & Herzegovina",
-   "anytime_goal": 10.0,
-   "assist": 9.5
-  },
-  {
-   "name": "Ricardo Pepi",
-   "home": "USA",
-   "away": "Paraguay",
-   "anytime_goal": 3.1,
-   "assist": 7.0
-  },
-  {
-   "name": "Timothy Weah",
-   "home": "USA",
-   "away": "Paraguay",
-   "anytime_goal": 4.6,
-   "assist": 6.5
-  },
-  {
-   "name": "Maximilian Arfsten",
-   "home": "USA",
-   "away": "Paraguay",
-   "anytime_goal": 8.0,
-   "assist": 4.6
-  },
-  {
-   "name": "Auston Trusty",
-   "home": "USA",
-   "away": "Paraguay",
-   "anytime_goal": 13.0,
-   "assist": 15.0
-  },
-  {
-   "name": "Antonee Robinson",
-   "home": "USA",
-   "away": "Paraguay",
-   "anytime_goal": 11.5,
-   "assist": 7.0
-  },
-  {
-   "name": "Gustavo Caballero",
-   "home": "USA",
-   "away": "Paraguay",
+   "name": "Luis Chavez",
+   "home": "Mexico",
+   "away": "South Korea",
    "anytime_goal": 6.0,
-   "assist": 9.5
+   "assist": null
   },
   {
-   "name": "Ramon Sosa Acosta",
-   "home": "USA",
-   "away": "Paraguay",
-   "anytime_goal": 6.5,
-   "assist": 6.0
+   "name": "Santiago Gimenez",
+   "home": "Mexico",
+   "away": "South Korea",
+   "anytime_goal": 3.0,
+   "assist": null
   },
   {
-   "name": "Brendan Aaronson",
-   "home": "USA",
-   "away": "Paraguay",
-   "anytime_goal": 4.8,
-   "assist": 6.0
+   "name": "Heung-Min Son",
+   "home": "Mexico",
+   "away": "South Korea",
+   "anytime_goal": 3.54,
+   "assist": null
   },
   {
-   "name": "Sebastian Berhalter",
-   "home": "USA",
-   "away": "Paraguay",
-   "anytime_goal": 6.5,
-   "assist": 6.5
+   "name": "Hwang In-beom",
+   "home": "Mexico",
+   "away": "South Korea",
+   "anytime_goal": 10.5,
+   "assist": null
   },
   {
-   "name": "Cristian Roldan",
-   "home": "USA",
-   "away": "Paraguay",
-   "anytime_goal": 10.0,
-   "assist": 7.0
-  },
-  {
-   "name": "Folarin Balogun",
-   "home": "USA",
-   "away": "Paraguay",
-   "anytime_goal": 3.03,
-   "assist": 6.0
-  },
-  {
-   "name": "Junior Alonso",
-   "home": "USA",
-   "away": "Paraguay",
-   "anytime_goal": 17.0,
-   "assist": 15.0
-  },
-  {
-   "name": "Miguel Almiron",
-   "home": "USA",
-   "away": "Paraguay",
-   "anytime_goal": 5.8,
-   "assist": 8.0
-  },
-  {
-   "name": "Haji Wright",
-   "home": "USA",
-   "away": "Paraguay",
-   "anytime_goal": 3.3,
-   "assist": 7.0
-  },
-  {
-   "name": "Antonio Sanabria",
-   "home": "USA",
-   "away": "Paraguay",
-   "anytime_goal": 4.9,
-   "assist": 10.0
-  },
-  {
-   "name": "Diego Alexander Gomez Amarilla",
-   "home": "USA",
-   "away": "Paraguay",
-   "anytime_goal": 7.1,
-   "assist": 7.5
-  },
-  {
-   "name": "Fabian Balbuena",
-   "home": "USA",
-   "away": "Paraguay",
-   "anytime_goal": 15.0,
-   "assist": 15.0
-  },
-  {
-   "name": "Weston McKennie",
-   "home": "USA",
-   "away": "Paraguay",
-   "anytime_goal": 6.5,
-   "assist": 6.0
-  },
-  {
-   "name": "Miles Robinson",
-   "home": "USA",
-   "away": "Paraguay",
-   "anytime_goal": 13.0,
-   "assist": 15.0
-  },
-  {
-   "name": "Malik Tillman",
-   "home": "USA",
-   "away": "Paraguay",
-   "anytime_goal": 4.9,
-   "assist": 5.8
-  },
-  {
-   "name": "Alex Adrian Arce Barrios",
-   "home": "USA",
-   "away": "Paraguay",
-   "anytime_goal": 4.4,
-   "assist": 9.5
-  },
-  {
-   "name": "Mark Alexander McKenzie",
-   "home": "USA",
-   "away": "Paraguay",
+   "name": "Israel Reyes",
+   "home": "Mexico",
+   "away": "South Korea",
    "anytime_goal": 11.0,
-   "assist": 9.0
+   "assist": null
   },
   {
-   "name": "Timothy Ream",
-   "home": "USA",
-   "away": "Paraguay",
-   "anytime_goal": 17.0,
-   "assist": 15.0
+   "name": "Cho Wi-je",
+   "home": "Mexico",
+   "away": "South Korea",
+   "anytime_goal": 15.0,
+   "assist": null
+  },
+  {
+   "name": "Han-beom Lee",
+   "home": "Mexico",
+   "away": "South Korea",
+   "anytime_goal": 23.0,
+   "assist": null
+  },
+  {
+   "name": "Jorge Eduardo Sanchez Ramos",
+   "home": "Mexico",
+   "away": "South Korea",
+   "anytime_goal": 15.0,
+   "assist": null
+  },
+  {
+   "name": "Luis Francisco Romo Barron",
+   "home": "Mexico",
+   "away": "South Korea",
+   "anytime_goal": 8.5,
+   "assist": null
+  },
+  {
+   "name": "Gi-hyuk Lee",
+   "home": "Mexico",
+   "away": "South Korea",
+   "anytime_goal": 29.0,
+   "assist": null
+  },
+  {
+   "name": "Kangin Lee",
+   "home": "Mexico",
+   "away": "South Korea",
+   "anytime_goal": 6.0,
+   "assist": null
+  },
+  {
+   "name": "Kim Tae-Hyeon",
+   "home": "Mexico",
+   "away": "South Korea",
+   "anytime_goal": 23.0,
+   "assist": null
+  },
+  {
+   "name": "Ernesto Alexis Vega",
+   "home": "Mexico",
+   "away": "South Korea",
+   "anytime_goal": 4.33,
+   "assist": null
+  },
+  {
+   "name": "Raul Jimenez",
+   "home": "Mexico",
+   "away": "South Korea",
+   "anytime_goal": 2.9,
+   "assist": null
   },
   {
    "name": "Alex Freeman",
    "home": "USA",
-   "away": "Paraguay",
+   "away": "Australia",
    "anytime_goal": 10.0,
-   "assist": 6.5
+   "assist": null
   },
   {
-   "name": "Matias Galarza Fonda",
+   "name": "Jackson Irvine",
    "home": "USA",
-   "away": "Paraguay",
-   "anytime_goal": 8.5,
-   "assist": 8.5
+   "away": "Australia",
+   "anytime_goal": 7.0,
+   "assist": null
   },
   {
-   "name": "Adrian Cubas",
+   "name": "Harry Souttar",
    "home": "USA",
-   "away": "Paraguay",
-   "anytime_goal": 18.0,
+   "away": "Australia",
+   "anytime_goal": 19.0,
+   "assist": null
+  },
+  {
+   "name": "Nestory Irankunda",
+   "home": "USA",
+   "away": "Australia",
+   "anytime_goal": 5.0,
+   "assist": null
+  },
+  {
+   "name": "Alejandro Zendejas",
+   "home": "USA",
+   "away": "Australia",
+   "anytime_goal": 3.3,
+   "assist": null
+  },
+  {
+   "name": "Jason Geria",
+   "home": "USA",
+   "away": "Australia",
+   "anytime_goal": 23.0,
+   "assist": null
+  },
+  {
+   "name": "Mathew Leckie",
+   "home": "USA",
+   "away": "Australia",
+   "anytime_goal": 5.0,
+   "assist": null
+  },
+  {
+   "name": "Timothy Weah",
+   "home": "USA",
+   "away": "Australia",
+   "anytime_goal": 3.9,
+   "assist": null
+  },
+  {
+   "name": "Cameron Devlin",
+   "home": "USA",
+   "away": "Australia",
+   "anytime_goal": 15.0,
+   "assist": null
+  },
+  {
+   "name": "Antonee Robinson",
+   "home": "USA",
+   "away": "Australia",
+   "anytime_goal": 10.0,
+   "assist": null
+  },
+  {
+   "name": "Weston McKennie",
+   "home": "USA",
+   "away": "Australia",
+   "anytime_goal": 5.5,
+   "assist": null
+  },
+  {
+   "name": "Nishan Velupillay",
+   "home": "USA",
+   "away": "Australia",
+   "anytime_goal": 6.0,
+   "assist": null
+  },
+  {
+   "name": "Aiden O'Neill",
+   "home": "USA",
+   "away": "Australia",
+   "anytime_goal": 19.0,
+   "assist": null
+  },
+  {
+   "name": "Conor Metcalfe",
+   "home": "USA",
+   "away": "Australia",
+   "anytime_goal": 12.5,
+   "assist": null
+  },
+  {
+   "name": "Timothy Ream",
+   "home": "USA",
+   "away": "Australia",
+   "anytime_goal": 13.0,
    "assist": null
   },
   {
    "name": "Chris Richards",
    "home": "USA",
-   "away": "Paraguay",
+   "away": "Australia",
    "anytime_goal": 10.0,
-   "assist": 12.0
+   "assist": null
   },
   {
    "name": "Christian Pulisic",
    "home": "USA",
-   "away": "Paraguay",
-   "anytime_goal": 3.2,
-   "assist": 4.8
+   "away": "Australia",
+   "anytime_goal": 2.68,
+   "assist": null
   },
   {
-   "name": "Alejandro Romero Gamarra",
+   "name": "Cristian Volpato",
    "home": "USA",
-   "away": "Paraguay",
+   "away": "Australia",
    "anytime_goal": 5.5,
+   "assist": null
+  },
+  {
+   "name": "Ricardo Pepi",
+   "home": "USA",
+   "away": "Australia",
+   "anytime_goal": 2.5,
+   "assist": null
+  },
+  {
+   "name": "Cameron Burgess",
+   "home": "USA",
+   "away": "Australia",
+   "anytime_goal": 21.0,
+   "assist": null
+  },
+  {
+   "name": "Brendan Aaronson",
+   "home": "USA",
+   "away": "Australia",
+   "anytime_goal": 3.5,
+   "assist": null
+  },
+  {
+   "name": "Awer Mabil",
+   "home": "USA",
+   "away": "Australia",
+   "anytime_goal": 5.0,
+   "assist": null
+  },
+  {
+   "name": "Milos Degenek",
+   "home": "USA",
+   "away": "Australia",
+   "anytime_goal": 23.0,
+   "assist": null
+  },
+  {
+   "name": "Sergino Dest",
+   "home": "USA",
+   "away": "Australia",
+   "anytime_goal": 10.0,
+   "assist": null
+  },
+  {
+   "name": "Alessandro Circati",
+   "home": "USA",
+   "away": "Australia",
+   "anytime_goal": 21.0,
+   "assist": null
+  },
+  {
+   "name": "Tete Yengi",
+   "home": "USA",
+   "away": "Australia",
+   "anytime_goal": 4.5,
+   "assist": null
+  },
+  {
+   "name": "Jordan Bos",
+   "home": "USA",
+   "away": "Australia",
+   "anytime_goal": 12.5,
+   "assist": null
+  },
+  {
+   "name": "Sebastian Berhalter",
+   "home": "USA",
+   "away": "Australia",
+   "anytime_goal": 5.0,
+   "assist": null
+  },
+  {
+   "name": "Jacob Italiano",
+   "home": "USA",
+   "away": "Australia",
+   "anytime_goal": 14.0,
+   "assist": null
+  },
+  {
+   "name": "Joseph Scally",
+   "home": "USA",
+   "away": "Australia",
+   "anytime_goal": 13.0,
+   "assist": null
+  },
+  {
+   "name": "Mohamed Toure",
+   "home": "USA",
+   "away": "Australia",
+   "anytime_goal": 4.69,
+   "assist": null
+  },
+  {
+   "name": "Ajdin Hrustic",
+   "home": "USA",
+   "away": "Australia",
+   "anytime_goal": 5.5,
+   "assist": null
+  },
+  {
+   "name": "Mark Alexander McKenzie",
+   "home": "USA",
+   "away": "Australia",
+   "anytime_goal": 11.0,
+   "assist": null
+  },
+  {
+   "name": "Folarin Balogun",
+   "home": "USA",
+   "away": "Australia",
+   "anytime_goal": 2.53,
+   "assist": null
+  },
+  {
+   "name": "Haji Wright",
+   "home": "USA",
+   "away": "Australia",
+   "anytime_goal": 2.6,
+   "assist": null
+  },
+  {
+   "name": "Miles Robinson",
+   "home": "USA",
+   "away": "Australia",
+   "anytime_goal": 13.0,
+   "assist": null
+  },
+  {
+   "name": "Cristian Roldan",
+   "home": "USA",
+   "away": "Australia",
+   "anytime_goal": 8.5,
+   "assist": null
+  },
+  {
+   "name": "Maximilian Arfsten",
+   "home": "USA",
+   "away": "Australia",
+   "anytime_goal": 6.5,
+   "assist": null
+  },
+  {
+   "name": "Auston Trusty",
+   "home": "USA",
+   "away": "Australia",
+   "anytime_goal": 11.0,
+   "assist": null
+  },
+  {
+   "name": "Paul Okon",
+   "home": "USA",
+   "away": "Australia",
+   "anytime_goal": 19.0,
+   "assist": null
+  },
+  {
+   "name": "Kai Trewin",
+   "home": "USA",
+   "away": "Australia",
+   "anytime_goal": 13.0,
+   "assist": null
+  },
+  {
+   "name": "Giovanni Reyna",
+   "home": "USA",
+   "away": "Australia",
+   "anytime_goal": 3.2,
    "assist": null
   },
   {
    "name": "Tyler Adams",
    "home": "USA",
-   "away": "Paraguay",
-   "anytime_goal": 11.0,
-   "assist": 10.0
-  },
-  {
-   "name": "Alejandro Zendejas",
-   "home": "USA",
-   "away": "Paraguay",
-   "anytime_goal": 4.2,
-   "assist": 4.4
-  },
-  {
-   "name": "Mauricio Magalhaes Prado",
-   "home": "USA",
-   "away": "Paraguay",
-   "anytime_goal": 5.8,
-   "assist": 7.0
-  },
-  {
-   "name": "Sergino Dest",
-   "home": "USA",
-   "away": "Paraguay",
-   "anytime_goal": 7.5,
-   "assist": 6.0
-  },
-  {
-   "name": "Giovanni Reyna",
-   "home": "USA",
-   "away": "Paraguay",
-   "anytime_goal": 5.2,
-   "assist": 6.0
-  },
-  {
-   "name": "Alexandro Maidana",
-   "home": "USA",
-   "away": "Paraguay",
-   "anytime_goal": 11.0,
-   "assist": 9.5
-  },
-  {
-   "name": "Isidro Pitta",
-   "home": "USA",
-   "away": "Paraguay",
-   "anytime_goal": 4.4,
-   "assist": 8.5
-  },
-  {
-   "name": "Gustavo Gomez",
-   "home": "USA",
-   "away": "Paraguay",
-   "anytime_goal": 13.0,
-   "assist": 12.0
-  },
-  {
-   "name": "Jose Maria Canale Dominguez",
-   "home": "USA",
-   "away": "Paraguay",
-   "anytime_goal": 17.0,
-   "assist": 19.0
-  },
-  {
-   "name": "Gabriel Avalos",
-   "home": "USA",
-   "away": "Paraguay",
-   "anytime_goal": 4.4,
-   "assist": 8.5
-  },
-  {
-   "name": "Juan Jose Caceres",
-   "home": "USA",
-   "away": "Paraguay",
-   "anytime_goal": 18.0,
-   "assist": 10.0
-  },
-  {
-   "name": "Omar Alderete",
-   "home": "USA",
-   "away": "Paraguay",
-   "anytime_goal": 13.0,
-   "assist": 19.0
-  },
-  {
-   "name": "Joseph Scally",
-   "home": "USA",
-   "away": "Paraguay",
-   "anytime_goal": 12.0,
-   "assist": 8.5
-  },
-  {
-   "name": "Victor Gustavo Velazquez",
-   "home": "USA",
-   "away": "Paraguay",
-   "anytime_goal": 12.0,
-   "assist": 15.0
-  },
-  {
-   "name": "Braian Ojeda",
-   "home": "USA",
-   "away": "Paraguay",
-   "anytime_goal": 13.0,
-   "assist": 10.0
-  },
-  {
-   "name": "Damian Bobadilla",
-   "home": "USA",
-   "away": "Paraguay",
-   "anytime_goal": 9.5,
-   "assist": 10.0
-  },
-  {
-   "name": "Julio Cesar Enciso",
-   "home": "USA",
-   "away": "Paraguay",
-   "anytime_goal": 5.0,
-   "assist": 7.0
-  },
-  {
-   "name": "Ricardo Rodríguez",
-   "home": "Qatar",
-   "away": "Switzerland",
-   "anytime_goal": 6.8,
-   "assist": 5.5
-  },
-  {
-   "name": "Eray Cumart",
-   "home": "Qatar",
-   "away": "Switzerland",
-   "anytime_goal": 9.0,
-   "assist": 10.0
-  },
-  {
-   "name": "Ahmed Alganehi",
-   "home": "Qatar",
-   "away": "Switzerland",
-   "anytime_goal": 8.5,
-   "assist": 9.5
-  },
-  {
-   "name": "Sultan Al Brake",
-   "home": "Qatar",
-   "away": "Switzerland",
-   "anytime_goal": 21.0,
-   "assist": 11.0
-  },
-  {
-   "name": "Denis Zakaria",
-   "home": "Qatar",
-   "away": "Switzerland",
-   "anytime_goal": 6.0,
-   "assist": 5.5
-  },
-  {
-   "name": "Lucas Michel Mendes",
-   "home": "Qatar",
-   "away": "Switzerland",
-   "anytime_goal": 17.0,
-   "assist": 12.0
-  },
-  {
-   "name": "Djibril Sow",
-   "home": "Qatar",
-   "away": "Switzerland",
-   "anytime_goal": 5.0,
-   "assist": 4.75
-  },
-  {
-   "name": "Ardon Jashari",
-   "home": "Qatar",
-   "away": "Switzerland",
-   "anytime_goal": 6.5,
-   "assist": 5.5
-  },
-  {
-   "name": "Mohamed Zeki Amdouni",
-   "home": "Qatar",
-   "away": "Switzerland",
-   "anytime_goal": 2.05,
-   "assist": 3.8
-  },
-  {
-   "name": "Akram Afif",
-   "home": "Qatar",
-   "away": "Switzerland",
-   "anytime_goal": 6.2,
-   "assist": 6.5
-  },
-  {
-   "name": "Breel Embolo",
-   "home": "Qatar",
-   "away": "Switzerland",
-   "anytime_goal": 1.91,
-   "assist": 4.33
-  },
-  {
-   "name": "Miro Muheim",
-   "home": "Qatar",
-   "away": "Switzerland",
-   "anytime_goal": 8.5,
-   "assist": 3.75
-  },
-  {
-   "name": "Assim Madibo",
-   "home": "Qatar",
-   "away": "Switzerland",
-   "anytime_goal": 21.0,
-   "assist": 12.0
-  },
-  {
-   "name": "Ayoub Al-Oui",
-   "home": "Qatar",
-   "away": "Switzerland",
-   "anytime_goal": 17.0,
-   "assist": 11.0
-  },
-  {
-   "name": "Dan Ndoye",
-   "home": "Qatar",
-   "away": "Switzerland",
-   "anytime_goal": 3.1,
-   "assist": 3.8
-  },
-  {
-   "name": "Noah Okafor",
-   "home": "Qatar",
-   "away": "Switzerland",
-   "anytime_goal": 2.6,
-   "assist": 3.8
-  },
-  {
-   "name": "Mohammed Muntari",
-   "home": "Qatar",
-   "away": "Switzerland",
-   "anytime_goal": 6.5,
-   "assist": 10.0
-  },
-  {
-   "name": "Luca Jaquez",
-   "home": "Qatar",
-   "away": "Switzerland",
-   "anytime_goal": 9.0,
-   "assist": 9.5
-  },
-  {
-   "name": "Manuel Akanji",
-   "home": "Qatar",
-   "away": "Switzerland",
-   "anytime_goal": 7.6,
-   "assist": 11.0
-  },
-  {
-   "name": "Pedro Miguel",
-   "home": "Qatar",
-   "away": "Switzerland",
-   "anytime_goal": 17.0,
-   "assist": 13.0
-  },
-  {
-   "name": "Granit Xhaka",
-   "home": "Qatar",
-   "away": "Switzerland",
-   "anytime_goal": 4.2,
-   "assist": 4.0
-  },
-  {
-   "name": "Michel Aebischer",
-   "home": "Qatar",
-   "away": "Switzerland",
-   "anytime_goal": 5.25,
-   "assist": 4.75
-  },
-  {
-   "name": "Edmilson Junior",
-   "home": "Qatar",
-   "away": "Switzerland",
-   "anytime_goal": 8.0,
-   "assist": 8.5
-  },
-  {
-   "name": "Ali Almoez",
-   "home": "Qatar",
-   "away": "Switzerland",
-   "anytime_goal": 7.0,
-   "assist": 9.0
-  },
-  {
-   "name": "Karim Boudiaf",
-   "home": "Qatar",
-   "away": "Switzerland",
-   "anytime_goal": 19.0,
-   "assist": 10.0
-  },
-  {
-   "name": "Silvan Widmer",
-   "home": "Qatar",
-   "away": "Switzerland",
-   "anytime_goal": 6.0,
-   "assist": 4.5
-  },
-  {
-   "name": "Aurele Amenda",
-   "home": "Qatar",
-   "away": "Switzerland",
+   "away": "Australia",
    "anytime_goal": 10.0,
-   "assist": 10.0
-  },
-  {
-   "name": "Abdulaziz Hatem",
-   "home": "Qatar",
-   "away": "Switzerland",
-   "anytime_goal": 11.0,
-   "assist": 9.5
-  },
-  {
-   "name": "Tahsin Mohammed Jamshid",
-   "home": "Qatar",
-   "away": "Switzerland",
-   "anytime_goal": 9.0,
-   "assist": 9.5
-  },
-  {
-   "name": "Christian Fassnacht",
-   "home": "Qatar",
-   "away": "Switzerland",
-   "anytime_goal": 2.75,
-   "assist": 4.2
-  },
-  {
-   "name": "Ahmed Al Aaeldin",
-   "home": "Qatar",
-   "away": "Switzerland",
-   "anytime_goal": 6.5,
-   "assist": 9.0
-  },
-  {
-   "name": "Fabian Rieder",
-   "home": "Qatar",
-   "away": "Switzerland",
-   "anytime_goal": 3.9,
-   "assist": 3.75
-  },
-  {
-   "name": "Cedric Itten",
-   "home": "Qatar",
-   "away": "Switzerland",
-   "anytime_goal": 1.91,
-   "assist": 3.8
-  },
-  {
-   "name": "Johan Manzambi",
-   "home": "Qatar",
-   "away": "Switzerland",
-   "anytime_goal": 3.2,
-   "assist": 4.4
-  },
-  {
-   "name": "Boualem Khoukhi",
-   "home": "Qatar",
-   "away": "Switzerland",
-   "anytime_goal": 12.0,
-   "assist": 10.0
-  },
-  {
-   "name": "Al Hashmi Al Hussain",
-   "home": "Qatar",
-   "away": "Switzerland",
-   "anytime_goal": 21.0,
-   "assist": 11.0
-  },
-  {
-   "name": "Jassem Gaber Abdulsallam",
-   "home": "Qatar",
-   "away": "Switzerland",
-   "anytime_goal": 13.0,
-   "assist": 10.0
-  },
-  {
-   "name": "Ahmed Fathi",
-   "home": "Qatar",
-   "away": "Switzerland",
-   "anytime_goal": 13.0,
-   "assist": 15.0
-  },
-  {
-   "name": "Remo Freuler",
-   "home": "Qatar",
-   "away": "Switzerland",
-   "anytime_goal": 4.6,
-   "assist": 5.5
-  },
-  {
-   "name": "Hassan Khalid Al Haidos",
-   "home": "Qatar",
-   "away": "Switzerland",
-   "anytime_goal": 7.9,
    "assist": null
   },
   {
-   "name": "Youssef Abdel Razak Youssef",
-   "home": "Qatar",
-   "away": "Switzerland",
-   "anytime_goal": 6.5,
+   "name": "Malik Tillman",
+   "home": "USA",
+   "away": "Australia",
+   "anytime_goal": 4.3,
    "assist": null
   },
   {
-   "name": "Mohamed Al-Mannai",
-   "home": "Qatar",
-   "away": "Switzerland",
-   "anytime_goal": 9.0,
-   "assist": 9.5
-  },
-  {
-   "name": "Nico Elvedi",
-   "home": "Qatar",
-   "away": "Switzerland",
-   "anytime_goal": 8.4,
-   "assist": 11.0
-  },
-  {
-   "name": "Ruben Vargas",
-   "home": "Qatar",
-   "away": "Switzerland",
-   "anytime_goal": 2.88,
-   "assist": 3.1
-  },
-  {
-   "name": "Homam Ahmed",
-   "home": "Qatar",
-   "away": "Switzerland",
-   "anytime_goal": 20.0,
-   "assist": null
-  },
-  {
-   "name": "Gueye Laye",
-   "home": "Qatar",
-   "away": "Switzerland",
+   "name": "Aziz Eraltay Behich",
+   "home": "USA",
+   "away": "Australia",
    "anytime_goal": 13.0,
    "assist": null
   },
   {
-   "name": "Leonardo Pereira",
-   "home": "Brazil",
-   "away": "Morocco",
-   "anytime_goal": 12.0,
-   "assist": 12.0
-  },
-  {
-   "name": "Redouane Halhal",
-   "home": "Brazil",
-   "away": "Morocco",
-   "anytime_goal": 26.0,
-   "assist": 13.0
-  },
-  {
-   "name": "Azzedine Ounahi",
-   "home": "Brazil",
-   "away": "Morocco",
-   "anytime_goal": 8.0,
-   "assist": 8.0
-  },
-  {
-   "name": "Ayoube Amaimouni-Echghouyab",
-   "home": "Brazil",
-   "away": "Morocco",
-   "anytime_goal": 8.0,
-   "assist": 7.5
-  },
-  {
-   "name": "Lucas Paqueta",
-   "home": "Brazil",
-   "away": "Morocco",
-   "anytime_goal": 4.2,
-   "assist": 4.4
-  },
-  {
-   "name": "Mohamed Amine Sbai",
-   "home": "Brazil",
-   "away": "Morocco",
-   "anytime_goal": 7.0,
-   "assist": null
-  },
-  {
-   "name": "Sofyan Amrabat",
-   "home": "Brazil",
-   "away": "Morocco",
-   "anytime_goal": 15.0,
-   "assist": 10.0
-  },
-  {
-   "name": "Chemsdine Talbi",
-   "home": "Brazil",
-   "away": "Morocco",
-   "anytime_goal": 8.0,
-   "assist": 8.5
-  },
-  {
-   "name": "Chadi Riad",
-   "home": "Brazil",
-   "away": "Morocco",
-   "anytime_goal": 26.0,
-   "assist": 19.0
-  },
-  {
-   "name": "Fabio Henrique Tavares",
-   "home": "Brazil",
-   "away": "Morocco",
-   "anytime_goal": 9.5,
+   "name": "Lucas Herrington",
+   "home": "USA",
+   "away": "Australia",
+   "anytime_goal": 17.0,
    "assist": null
   },
   {
    "name": "Samir El Mourabet",
-   "home": "Brazil",
+   "home": "Scotland",
    "away": "Morocco",
-   "anytime_goal": 12.0,
-   "assist": 9.5
+   "anytime_goal": 7.0,
+   "assist": null
   },
   {
-   "name": "Neymar",
-   "home": "Brazil",
+   "name": "Anthony Ralston",
+   "home": "Scotland",
    "away": "Morocco",
-   "anytime_goal": 2.88,
-   "assist": 3.3
+   "anytime_goal": 15.0,
+   "assist": null
   },
   {
-   "name": "Noussair Mazraoui",
-   "home": "Brazil",
+   "name": "Issa Diop",
+   "home": "Scotland",
+   "away": "Morocco",
+   "anytime_goal": 11.5,
+   "assist": null
+  },
+  {
+   "name": "Ayyoub Bouaddi",
+   "home": "Scotland",
+   "away": "Morocco",
+   "anytime_goal": 9.5,
+   "assist": null
+  },
+  {
+   "name": "Neil El Aynaoui",
+   "home": "Scotland",
+   "away": "Morocco",
+   "anytime_goal": 6.1,
+   "assist": null
+  },
+  {
+   "name": "Lewis Ferguson",
+   "home": "Scotland",
+   "away": "Morocco",
+   "anytime_goal": 11.5,
+   "assist": null
+  },
+  {
+   "name": "Chadi Riad",
+   "home": "Scotland",
+   "away": "Morocco",
+   "anytime_goal": 15.0,
+   "assist": null
+  },
+  {
+   "name": "Aaron Hickey",
+   "home": "Scotland",
    "away": "Morocco",
    "anytime_goal": 19.0,
-   "assist": 12.0
+   "assist": null
+  },
+  {
+   "name": "Lyndon Dykes",
+   "home": "Scotland",
+   "away": "Morocco",
+   "anytime_goal": 4.5,
+   "assist": null
+  },
+  {
+   "name": "Dominic Hyam",
+   "home": "Scotland",
+   "away": "Morocco",
+   "anytime_goal": 15.0,
+   "assist": null
+  },
+  {
+   "name": "Azzedine Ounahi",
+   "home": "Scotland",
+   "away": "Morocco",
+   "anytime_goal": 4.6,
+   "assist": null
   },
   {
    "name": "Brahim Diaz",
-   "home": "Brazil",
+   "home": "Scotland",
    "away": "Morocco",
-   "anytime_goal": 5.0,
-   "assist": 6.0
+   "anytime_goal": 3.1,
+   "assist": null
   },
   {
-   "name": "Ayoub El Kaabi",
-   "home": "Brazil",
+   "name": "Sofyan Amrabat",
+   "home": "Scotland",
    "away": "Morocco",
-   "anytime_goal": 5.0,
-   "assist": 7.5
+   "anytime_goal": 9.0,
+   "assist": null
   },
   {
-   "name": "Danilo dos Santos de Oliveira",
-   "home": "Brazil",
+   "name": "Ayoube Amaimouni-Echghouyab",
+   "home": "Scotland",
+   "away": "Morocco",
+   "anytime_goal": 4.5,
+   "assist": null
+  },
+  {
+   "name": "Soufiane Rahimi",
+   "home": "Scotland",
+   "away": "Morocco",
+   "anytime_goal": 3.4,
+   "assist": null
+  },
+  {
+   "name": "Ismael Saibari",
+   "home": "Scotland",
+   "away": "Morocco",
+   "anytime_goal": 2.8,
+   "assist": null
+  },
+  {
+   "name": "Tyler Fletcher",
+   "home": "Scotland",
+   "away": "Morocco",
+   "anytime_goal": 10.0,
+   "assist": null
+  },
+  {
+   "name": "Scott McKenna",
+   "home": "Scotland",
+   "away": "Morocco",
+   "anytime_goal": 17.0,
+   "assist": null
+  },
+  {
+   "name": "Lawrence Shankland",
+   "home": "Scotland",
    "away": "Morocco",
    "anytime_goal": 5.0,
+   "assist": null
+  },
+  {
+   "name": "Bilal El Khannous",
+   "home": "Scotland",
+   "away": "Morocco",
+   "anytime_goal": 5.8,
+   "assist": null
+  },
+  {
+   "name": "Zakaria El Ouahdi",
+   "home": "Scotland",
+   "away": "Morocco",
+   "anytime_goal": 9.0,
+   "assist": null
+  },
+  {
+   "name": "Youssef Belammari",
+   "home": "Scotland",
+   "away": "Morocco",
+   "anytime_goal": 10.0,
    "assist": null
   },
   {
    "name": "Gessime Yassine",
-   "home": "Brazil",
+   "home": "Scotland",
    "away": "Morocco",
-   "anytime_goal": 9.0,
-   "assist": 9.5
-  },
-  {
-   "name": "Alex Sandro Lobo",
-   "home": "Brazil",
-   "away": "Morocco",
-   "anytime_goal": 12.5,
-   "assist": 5.0
-  },
-  {
-   "name": "Issa Diop",
-   "home": "Brazil",
-   "away": "Morocco",
-   "anytime_goal": 26.0,
-   "assist": 21.0
-  },
-  {
-   "name": "Raphael Dias Belloli",
-   "home": "Brazil",
-   "away": "Morocco",
-   "anytime_goal": 2.75,
+   "anytime_goal": 4.75,
    "assist": null
   },
   {
-   "name": "Ederson Moraes",
-   "home": "Brazil",
-   "away": "Morocco",
-   "anytime_goal": 5.5,
-   "assist": 9.0
-  },
-  {
-   "name": "Igor Thiago Nascimento Rodrigues",
-   "home": "Brazil",
-   "away": "Morocco",
-   "anytime_goal": 2.75,
-   "assist": 4.2
-  },
-  {
-   "name": "Youssef Belammari",
-   "home": "Brazil",
-   "away": "Morocco",
-   "anytime_goal": 19.0,
-   "assist": 8.0
-  },
-  {
-   "name": "Gabriel Martinelli",
-   "home": "Brazil",
-   "away": "Morocco",
-   "anytime_goal": 3.75,
-   "assist": 4.6
-  },
-  {
-   "name": "Carlos Casemiro",
-   "home": "Brazil",
-   "away": "Morocco",
-   "anytime_goal": 7.0,
-   "assist": 6.0
-  },
-  {
-   "name": "Wesley Vinicius Franca Lima",
-   "home": "Brazil",
-   "away": "Morocco",
-   "anytime_goal": 12.0,
-   "assist": null
-  },
-  {
-   "name": "Abdessamad Ezzalzouli",
-   "home": "Brazil",
-   "away": "Morocco",
-   "anytime_goal": 6.4,
-   "assist": 7.5
-  },
-  {
-   "name": "Marcos Aoas Correa",
-   "home": "Brazil",
-   "away": "Morocco",
-   "anytime_goal": 16.0,
-   "assist": null
-  },
-  {
-   "name": "Danilo Luiz da Silva",
-   "home": "Brazil",
-   "away": "Morocco",
-   "anytime_goal": 12.0,
-   "assist": 10.0
-  },
-  {
-   "name": "Neil El Aynaoui",
-   "home": "Brazil",
-   "away": "Morocco",
-   "anytime_goal": 10.0,
-   "assist": 8.5
-  },
-  {
-   "name": "Roger Ibanez da Silva",
-   "home": "Brazil",
-   "away": "Morocco",
-   "anytime_goal": 8.0,
-   "assist": 9.5
-  },
-  {
-   "name": "Anass Salah-Eddine",
-   "home": "Brazil",
-   "away": "Morocco",
-   "anytime_goal": 26.0,
-   "assist": 10.0
-  },
-  {
-   "name": "Zakaria El Ouahdi",
-   "home": "Brazil",
+   "name": "Kieran Tierney",
+   "home": "Scotland",
    "away": "Morocco",
    "anytime_goal": 15.0,
-   "assist": 9.5
+   "assist": null
+  },
+  {
+   "name": "Ryan Christie",
+   "home": "Scotland",
+   "away": "Morocco",
+   "anytime_goal": 8.0,
+   "assist": null
+  },
+  {
+   "name": "Findlay Curtis",
+   "home": "Scotland",
+   "away": "Morocco",
+   "anytime_goal": 6.0,
+   "assist": null
+  },
+  {
+   "name": "Jack Hendry",
+   "home": "Scotland",
+   "away": "Morocco",
+   "anytime_goal": 18.0,
+   "assist": null
+  },
+  {
+   "name": "Grant Hanley",
+   "home": "Scotland",
+   "away": "Morocco",
+   "anytime_goal": 23.0,
+   "assist": null
+  },
+  {
+   "name": "Kenny Mclean",
+   "home": "Scotland",
+   "away": "Morocco",
+   "anytime_goal": 10.0,
+   "assist": null
+  },
+  {
+   "name": "Andrew Robertson",
+   "home": "Scotland",
+   "away": "Morocco",
+   "anytime_goal": 19.0,
+   "assist": null
+  },
+  {
+   "name": "George Hirst",
+   "home": "Scotland",
+   "away": "Morocco",
+   "anytime_goal": 5.0,
+   "assist": null
+  },
+  {
+   "name": "Ben Doak",
+   "home": "Scotland",
+   "away": "Morocco",
+   "anytime_goal": 8.4,
+   "assist": null
+  },
+  {
+   "name": "Ayoub El Kaabi",
+   "home": "Scotland",
+   "away": "Morocco",
+   "anytime_goal": 2.8,
+   "assist": null
+  },
+  {
+   "name": "Redouane Halhal",
+   "home": "Scotland",
+   "away": "Morocco",
+   "anytime_goal": 12.0,
+   "assist": null
+  },
+  {
+   "name": "Che Adams",
+   "home": "Scotland",
+   "away": "Morocco",
+   "anytime_goal": 5.2,
+   "assist": null
+  },
+  {
+   "name": "Scott McTominay",
+   "home": "Scotland",
+   "away": "Morocco",
+   "anytime_goal": 5.4,
+   "assist": null
+  },
+  {
+   "name": "John McGinn",
+   "home": "Scotland",
+   "away": "Morocco",
+   "anytime_goal": 6.5,
+   "assist": null
+  },
+  {
+   "name": "Ross Stewart",
+   "home": "Scotland",
+   "away": "Morocco",
+   "anytime_goal": 5.0,
+   "assist": null
   },
   {
    "name": "Achraf Hakimi",
-   "home": "Brazil",
+   "home": "Scotland",
    "away": "Morocco",
-   "anytime_goal": 10.5,
-   "assist": 6.0
+   "anytime_goal": 6.0,
+   "assist": null
   },
   {
-   "name": "Bruno Guimaraes",
-   "home": "Brazil",
+   "name": "Chemsdine Talbi",
+   "home": "Scotland",
    "away": "Morocco",
-   "anytime_goal": 8.5,
-   "assist": 5.5
+   "anytime_goal": 4.5,
+   "assist": null
+  },
+  {
+   "name": "Marwane Saadane",
+   "home": "Scotland",
+   "away": "Morocco",
+   "anytime_goal": 10.0,
+   "assist": null
+  },
+  {
+   "name": "John Souttar",
+   "home": "Scotland",
+   "away": "Morocco",
+   "anytime_goal": 15.0,
+   "assist": null
+  },
+  {
+   "name": "Anass Salah-Eddine",
+   "home": "Scotland",
+   "away": "Morocco",
+   "anytime_goal": 13.0,
+   "assist": null
+  },
+  {
+   "name": "Mohamed Amine Sbai",
+   "home": "Scotland",
+   "away": "Morocco",
+   "anytime_goal": 3.75,
+   "assist": null
+  },
+  {
+   "name": "Nathan Patterson",
+   "home": "Scotland",
+   "away": "Morocco",
+   "anytime_goal": 21.0,
+   "assist": null
+  },
+  {
+   "name": "Noussair Mazraoui",
+   "home": "Scotland",
+   "away": "Morocco",
+   "anytime_goal": 11.0,
+   "assist": null
   },
   {
    "name": "Matheus Cunha",
    "home": "Brazil",
-   "away": "Morocco",
-   "anytime_goal": 3.4,
-   "assist": 3.75
+   "away": "Haiti",
+   "anytime_goal": 2.22,
+   "assist": null
   },
   {
-   "name": "Soufiane Rahimi",
+   "name": "Raphael Dias Belloli",
    "home": "Brazil",
-   "away": "Morocco",
-   "anytime_goal": 4.6,
-   "assist": 7.5
+   "away": "Haiti",
+   "anytime_goal": 1.81,
+   "assist": null
   },
   {
-   "name": "Ayyoub Bouaddi",
+   "name": "Alex Sandro Lobo",
    "home": "Brazil",
-   "away": "Morocco",
-   "anytime_goal": 15.0,
-   "assist": 9.5
+   "away": "Haiti",
+   "anytime_goal": 8.5,
+   "assist": null
   },
   {
-   "name": "Nayef Aguerd",
+   "name": "Wilguens Paugain",
    "home": "Brazil",
-   "away": "Morocco",
-   "anytime_goal": 15.0,
-   "assist": 13.0
+   "away": "Haiti",
+   "anytime_goal": 23.0,
+   "assist": null
   },
   {
-   "name": "Rayan Vitor",
+   "name": "Derrick Etienne",
    "home": "Brazil",
-   "away": "Morocco",
-   "anytime_goal": 3.75,
-   "assist": 4.6
-  },
-  {
-   "name": "Luiz Henrique Andre Rosa da Silva",
-   "home": "Brazil",
-   "away": "Morocco",
-   "anytime_goal": 3.5,
-   "assist": 4.8
-  },
-  {
-   "name": "Gleison Bremer Silva Nascimento",
-   "home": "Brazil",
-   "away": "Morocco",
-   "anytime_goal": 10.0,
-   "assist": 15.0
-  },
-  {
-   "name": "Magalhaes Gabriel",
-   "home": "Brazil",
-   "away": "Morocco",
-   "anytime_goal": 12.0,
-   "assist": 13.0
-  },
-  {
-   "name": "Bilal El Khannous",
-   "home": "Brazil",
-   "away": "Morocco",
-   "anytime_goal": 9.0,
-   "assist": 6.0
-  },
-  {
-   "name": "Vinicius Junior",
-   "home": "Brazil",
-   "away": "Morocco",
-   "anytime_goal": 2.5,
-   "assist": 3.7
-  },
-  {
-   "name": "Ismael Saibari",
-   "home": "Brazil",
-   "away": "Morocco",
-   "anytime_goal": 5.8,
-   "assist": 6.5
-  },
-  {
-   "name": "Douglas Santos de Melo",
-   "home": "Brazil",
-   "away": "Morocco",
-   "anytime_goal": 13.0,
-   "assist": 6.5
-  },
-  {
-   "name": "Marwane Saadane",
-   "home": "Brazil",
-   "away": "Morocco",
-   "anytime_goal": 19.0,
+   "away": "Haiti",
+   "anytime_goal": 7.5,
    "assist": null
   },
   {
    "name": "Ederson Jose dos Santos Lourenco da Silva",
    "home": "Brazil",
-   "away": "Morocco",
+   "away": "Haiti",
+   "anytime_goal": 3.4,
+   "assist": null
+  },
+  {
+   "name": "Gabriel Martinelli",
+   "home": "Brazil",
+   "away": "Haiti",
+   "anytime_goal": 2.4,
+   "assist": null
+  },
+  {
+   "name": "Jeanricner Bellegarde",
+   "home": "Brazil",
+   "away": "Haiti",
+   "anytime_goal": 12.0,
+   "assist": null
+  },
+  {
+   "name": "Duckens Nazon",
+   "home": "Brazil",
+   "away": "Haiti",
    "anytime_goal": 6.0,
+   "assist": null
+  },
+  {
+   "name": "Yassin Fortune",
+   "home": "Brazil",
+   "away": "Haiti",
+   "anytime_goal": 6.5,
+   "assist": null
+  },
+  {
+   "name": "Garven-Michee Metusala",
+   "home": "Brazil",
+   "away": "Haiti",
+   "anytime_goal": 34.0,
+   "assist": null
+  },
+  {
+   "name": "Luiz Henrique Andre Rosa da Silva",
+   "home": "Brazil",
+   "away": "Haiti",
+   "anytime_goal": 2.46,
+   "assist": null
+  },
+  {
+   "name": "Rayan Vitor",
+   "home": "Brazil",
+   "away": "Haiti",
+   "anytime_goal": 2.5,
+   "assist": null
+  },
+  {
+   "name": "Keeto Thermoncy",
+   "home": "Brazil",
+   "away": "Haiti",
+   "anytime_goal": 21.0,
+   "assist": null
+  },
+  {
+   "name": "Bruno Guimaraes",
+   "home": "Brazil",
+   "away": "Haiti",
+   "anytime_goal": 4.5,
+   "assist": null
+  },
+  {
+   "name": "Wilson Isidor",
+   "home": "Brazil",
+   "away": "Haiti",
+   "anytime_goal": 6.32,
+   "assist": null
+  },
+  {
+   "name": "Vinicius Junior",
+   "home": "Brazil",
+   "away": "Haiti",
+   "anytime_goal": 1.73,
+   "assist": null
+  },
+  {
+   "name": "Carlens Arcus",
+   "home": "Brazil",
+   "away": "Haiti",
+   "anytime_goal": 34.0,
+   "assist": null
+  },
+  {
+   "name": "Roger Ibanez da Silva",
+   "home": "Brazil",
+   "away": "Haiti",
+   "anytime_goal": 6.0,
+   "assist": null
+  },
+  {
+   "name": "Neymar",
+   "home": "Brazil",
+   "away": "Haiti",
+   "anytime_goal": 1.83,
+   "assist": null
+  },
+  {
+   "name": "Frantzdy Pierrot",
+   "home": "Brazil",
+   "away": "Haiti",
+   "anytime_goal": 8.0,
+   "assist": null
+  },
+  {
+   "name": "Marcos Aoas Correa",
+   "home": "Brazil",
+   "away": "Haiti",
+   "anytime_goal": 9.6,
+   "assist": null
+  },
+  {
+   "name": "Magalhaes Gabriel",
+   "home": "Brazil",
+   "away": "Haiti",
+   "anytime_goal": 7.5,
+   "assist": null
+  },
+  {
+   "name": "Hannes Delcroix",
+   "home": "Brazil",
+   "away": "Haiti",
+   "anytime_goal": 34.0,
+   "assist": null
+  },
+  {
+   "name": "Gleison Bremer Silva Nascimento",
+   "home": "Brazil",
+   "away": "Haiti",
+   "anytime_goal": 6.0,
+   "assist": null
+  },
+  {
+   "name": "Ruben Providence",
+   "home": "Brazil",
+   "away": "Haiti",
+   "anytime_goal": 9.47,
+   "assist": null
+  },
+  {
+   "name": "Danley Jean Jacques",
+   "home": "Brazil",
+   "away": "Haiti",
+   "anytime_goal": 17.0,
+   "assist": null
+  },
+  {
+   "name": "Dominique Simon",
+   "home": "Brazil",
+   "away": "Haiti",
+   "anytime_goal": 10.0,
+   "assist": null
+  },
+  {
+   "name": "Lucas Paqueta",
+   "home": "Brazil",
+   "away": "Haiti",
+   "anytime_goal": 2.4,
+   "assist": null
+  },
+  {
+   "name": "Danilo Luiz da Silva",
+   "home": "Brazil",
+   "away": "Haiti",
+   "anytime_goal": 7.5,
+   "assist": null
+  },
+  {
+   "name": "Lenny Joseph",
+   "home": "Brazil",
+   "away": "Haiti",
+   "anytime_goal": 8.5,
+   "assist": null
+  },
+  {
+   "name": "Louicius Don Deedson",
+   "home": "Brazil",
+   "away": "Haiti",
+   "anytime_goal": 8.2,
+   "assist": null
+  },
+  {
+   "name": "Carl Fred Sainte",
+   "home": "Brazil",
+   "away": "Haiti",
+   "anytime_goal": 21.0,
    "assist": null
   },
   {
    "name": "Endrick Felipe Moreira de Sousa",
    "home": "Brazil",
-   "away": "Morocco",
-   "anytime_goal": 2.88,
-   "assist": 4.2
-  },
-  {
-   "name": "Keeto Thermoncy",
-   "home": "Haiti",
-   "away": "Scotland",
-   "anytime_goal": 20.0,
+   "away": "Haiti",
+   "anytime_goal": 1.85,
    "assist": null
   },
   {
-   "name": "John Souttar",
-   "home": "Haiti",
-   "away": "Scotland",
-   "anytime_goal": 10.0,
-   "assist": 11.0
-  },
-  {
-   "name": "Leverton Pierre",
-   "home": "Haiti",
-   "away": "Scotland",
-   "anytime_goal": 12.0,
-   "assist": 10.0
-  },
-  {
-   "name": "Scott McTominay",
-   "home": "Haiti",
-   "away": "Scotland",
-   "anytime_goal": 2.65,
-   "assist": 5.0
-  },
-  {
-   "name": "George Hirst",
-   "home": "Haiti",
-   "away": "Scotland",
-   "anytime_goal": 2.7,
-   "assist": 4.75
-  },
-  {
-   "name": "John McGinn",
-   "home": "Haiti",
-   "away": "Scotland",
-   "anytime_goal": 3.6,
-   "assist": 4.4
-  },
-  {
-   "name": "Ruben Providence",
-   "home": "Haiti",
-   "away": "Scotland",
-   "anytime_goal": 6.5,
-   "assist": 8.5
-  },
-  {
-   "name": "Carlens Arcus",
-   "home": "Haiti",
-   "away": "Scotland",
-   "anytime_goal": 17.0,
-   "assist": 9.0
-  },
-  {
-   "name": "Ben Doak",
-   "home": "Haiti",
-   "away": "Scotland",
-   "anytime_goal": 3.9,
+   "name": "Fabio Henrique Tavares",
+   "home": "Brazil",
+   "away": "Haiti",
+   "anytime_goal": 5.5,
    "assist": null
   },
   {
-   "name": "Yassin Fortune",
-   "home": "Haiti",
-   "away": "Scotland",
-   "anytime_goal": 4.5,
-   "assist": 9.0
-  },
-  {
-   "name": "Frantzdy Pierrot",
-   "home": "Haiti",
-   "away": "Scotland",
-   "anytime_goal": 5.9,
-   "assist": 8.5
-  },
-  {
-   "name": "Wilguens Paugain",
-   "home": "Haiti",
-   "away": "Scotland",
-   "anytime_goal": 13.0,
-   "assist": 9.5
-  },
-  {
-   "name": "Dominic Hyam",
-   "home": "Haiti",
-   "away": "Scotland",
-   "anytime_goal": 9.5,
-   "assist": 11.0
-  },
-  {
-   "name": "Lyndon Dykes",
-   "home": "Haiti",
-   "away": "Scotland",
-   "anytime_goal": 2.62,
-   "assist": 5.0
-  },
-  {
-   "name": "Wilson Isidor",
-   "home": "Haiti",
-   "away": "Scotland",
-   "anytime_goal": 4.33,
-   "assist": 10.0
-  },
-  {
-   "name": "Grant Hanley",
-   "home": "Haiti",
-   "away": "Scotland",
-   "anytime_goal": 12.0,
-   "assist": 11.0
-  },
-  {
-   "name": "Duke Lacroix",
-   "home": "Haiti",
-   "away": "Scotland",
-   "anytime_goal": 12.0,
-   "assist": 9.0
-  },
-  {
-   "name": "Lewis Ferguson",
-   "home": "Haiti",
-   "away": "Scotland",
-   "anytime_goal": 4.5,
-   "assist": 6.0
-  },
-  {
-   "name": "Che Adams",
-   "home": "Haiti",
-   "away": "Scotland",
-   "anytime_goal": 2.55,
-   "assist": 4.8
-  },
-  {
-   "name": "Aaron Hickey",
-   "home": "Haiti",
-   "away": "Scotland",
-   "anytime_goal": 10.0,
-   "assist": 8.0
-  },
-  {
-   "name": "Danley Jean Jacques",
-   "home": "Haiti",
-   "away": "Scotland",
-   "anytime_goal": 13.0,
-   "assist": 9.0
-  },
-  {
-   "name": "Derrick Etienne",
-   "home": "Haiti",
-   "away": "Scotland",
-   "anytime_goal": 4.6,
-   "assist": 6.5
-  },
-  {
-   "name": "Jeanricner Bellegarde",
-   "home": "Haiti",
-   "away": "Scotland",
-   "anytime_goal": 8.0,
-   "assist": 7.5
-  },
-  {
-   "name": "Scott McKenna",
-   "home": "Haiti",
-   "away": "Scotland",
-   "anytime_goal": 10.0,
-   "assist": 12.0
-  },
-  {
-   "name": "Tyler Fletcher",
-   "home": "Haiti",
-   "away": "Scotland",
-   "anytime_goal": 6.0,
-   "assist": 5.5
-  },
-  {
-   "name": "Findlay Curtis",
-   "home": "Haiti",
-   "away": "Scotland",
-   "anytime_goal": 3.5,
-   "assist": 4.6
-  },
-  {
-   "name": "Ross Stewart",
-   "home": "Haiti",
-   "away": "Scotland",
-   "anytime_goal": 2.62,
-   "assist": 5.5
+   "name": "Carlos Casemiro",
+   "home": "Brazil",
+   "away": "Haiti",
+   "anytime_goal": 3.7,
+   "assist": null
   },
   {
    "name": "Olivier Pierre Woodensky",
-   "home": "Haiti",
-   "away": "Scotland",
-   "anytime_goal": 11.0,
-   "assist": 10.0
-  },
-  {
-   "name": "Hannes Delcroix",
-   "home": "Haiti",
-   "away": "Scotland",
-   "anytime_goal": 19.0,
-   "assist": 17.0
-  },
-  {
-   "name": "Kieran Tierney",
-   "home": "Haiti",
-   "away": "Scotland",
-   "anytime_goal": 9.5,
-   "assist": 4.6
-  },
-  {
-   "name": "Jean-Kevin Duverne",
-   "home": "Haiti",
-   "away": "Scotland",
-   "anytime_goal": 15.0,
-   "assist": 13.0
-  },
-  {
-   "name": "Dominique Simon",
-   "home": "Haiti",
-   "away": "Scotland",
-   "anytime_goal": 6.5,
-   "assist": 8.5
-  },
-  {
-   "name": "Josue Casimir",
-   "home": "Haiti",
-   "away": "Scotland",
-   "anytime_goal": 7.0,
-   "assist": 7.0
-  },
-  {
-   "name": "Anthony Ralston",
-   "home": "Haiti",
-   "away": "Scotland",
-   "anytime_goal": 9.5,
-   "assist": 5.0
-  },
-  {
-   "name": "Lenny Joseph",
-   "home": "Haiti",
-   "away": "Scotland",
-   "anytime_goal": 5.5,
-   "assist": 6.5
-  },
-  {
-   "name": "Louicius Don Deedson",
-   "home": "Haiti",
-   "away": "Scotland",
-   "anytime_goal": 6.4,
-   "assist": 7.5
-  },
-  {
-   "name": "Duckens Nazon",
-   "home": "Haiti",
-   "away": "Scotland",
-   "anytime_goal": 4.4,
-   "assist": 9.5
-  },
-  {
-   "name": "Carl Fred Sainte",
-   "home": "Haiti",
-   "away": "Scotland",
-   "anytime_goal": 12.0,
-   "assist": 12.0
-  },
-  {
-   "name": "Lawrence Shankland",
-   "home": "Haiti",
-   "away": "Scotland",
-   "anytime_goal": 2.47,
-   "assist": 4.2
-  },
-  {
-   "name": "Andrew Robertson",
-   "home": "Haiti",
-   "away": "Scotland",
-   "anytime_goal": 11.0,
-   "assist": 4.4
-  },
-  {
-   "name": "Ryan Christie",
-   "home": "Haiti",
-   "away": "Scotland",
-   "anytime_goal": 4.33,
-   "assist": 4.5
-  },
-  {
-   "name": "Jack Hendry",
-   "home": "Haiti",
-   "away": "Scotland",
-   "anytime_goal": 10.0,
-   "assist": 10.0
-  },
-  {
-   "name": "Martin Experience",
-   "home": "Haiti",
-   "away": "Scotland",
-   "anytime_goal": 13.0,
-   "assist": 12.0
-  },
-  {
-   "name": "Ricardo Ade",
-   "home": "Haiti",
-   "away": "Scotland",
-   "anytime_goal": 19.0,
-   "assist": 13.0
-  },
-  {
-   "name": "Nathan Patterson",
-   "home": "Haiti",
-   "away": "Scotland",
-   "anytime_goal": 12.0,
-   "assist": 5.8
-  },
-  {
-   "name": "Kenny Mclean",
-   "home": "Haiti",
-   "away": "Scotland",
-   "anytime_goal": 6.0,
-   "assist": 5.8
-  },
-  {
-   "name": "Can Yilmaz Uzun",
-   "home": "Australia",
-   "away": "Turkey",
-   "anytime_goal": 3.3,
-   "assist": 4.6
-  },
-  {
-   "name": "Ismail Yuksek",
-   "home": "Australia",
-   "away": "Turkey",
-   "anytime_goal": 9.6,
-   "assist": 5.5
-  },
-  {
-   "name": "Yunus Akgun",
-   "home": "Australia",
-   "away": "Turkey",
-   "anytime_goal": 3.3,
-   "assist": 4.2
-  },
-  {
-   "name": "Baris Alper Yilmaz",
-   "home": "Australia",
-   "away": "Turkey",
-   "anytime_goal": 3.3,
-   "assist": 4.75
-  },
-  {
-   "name": "Kenan Yildiz",
-   "home": "Australia",
-   "away": "Turkey",
-   "anytime_goal": 3.25,
-   "assist": 4.33
-  },
-  {
-   "name": "Abdulkerim Bardakci",
-   "home": "Australia",
-   "away": "Turkey",
-   "anytime_goal": 11.0,
-   "assist": 10.0
-  },
-  {
-   "name": "Jacob Italiano",
-   "home": "Australia",
-   "away": "Turkey",
-   "anytime_goal": 11.0,
-   "assist": 9.0
-  },
-  {
-   "name": "Mehmet Zeki Celik",
-   "home": "Australia",
-   "away": "Turkey",
-   "anytime_goal": 11.0,
-   "assist": 7.0
-  },
-  {
-   "name": "Kai Trewin",
-   "home": "Australia",
-   "away": "Turkey",
-   "anytime_goal": 12.0,
-   "assist": 10.0
-  },
-  {
-   "name": "Hakan Calhanoglu",
-   "home": "Australia",
-   "away": "Turkey",
-   "anytime_goal": 4.3,
-   "assist": 4.0
-  },
-  {
-   "name": "Conor Metcalfe",
-   "home": "Australia",
-   "away": "Turkey",
-   "anytime_goal": 7.0,
-   "assist": 8.0
-  },
-  {
-   "name": "Aziz Eraltay Behich",
-   "home": "Australia",
-   "away": "Turkey",
-   "anytime_goal": 11.0,
-   "assist": 9.0
-  },
-  {
-   "name": "Nestory Irankunda",
-   "home": "Australia",
-   "away": "Turkey",
-   "anytime_goal": 4.5,
-   "assist": 6.5
-  },
-  {
-   "name": "Cristian Volpato",
-   "home": "Australia",
-   "away": "Turkey",
-   "anytime_goal": 5.8,
-   "assist": 5.8
-  },
-  {
-   "name": "Samet Akaydin",
-   "home": "Australia",
-   "away": "Turkey",
-   "anytime_goal": 11.0,
-   "assist": 11.0
-  },
-  {
-   "name": "Alessandro Circati",
-   "home": "Australia",
-   "away": "Turkey",
-   "anytime_goal": 18.0,
-   "assist": 12.0
-  },
-  {
-   "name": "Orkun Kokcu",
-   "home": "Australia",
-   "away": "Turkey",
-   "anytime_goal": 4.5,
-   "assist": 4.4
-  },
-  {
-   "name": "Awer Mabil",
-   "home": "Australia",
-   "away": "Turkey",
-   "anytime_goal": 5.5,
-   "assist": 5.5
-  },
-  {
-   "name": "Cameron Burgess",
-   "home": "Australia",
-   "away": "Turkey",
-   "anytime_goal": 18.0,
-   "assist": 15.0
-  },
-  {
-   "name": "Ozan Kabak",
-   "home": "Australia",
-   "away": "Turkey",
-   "anytime_goal": 10.0,
-   "assist": 11.0
-  },
-  {
-   "name": "Muhammed Akturkoglu",
-   "home": "Australia",
-   "away": "Turkey",
-   "anytime_goal": 2.8,
+   "home": "Brazil",
+   "away": "Haiti",
+   "anytime_goal": 17.0,
    "assist": null
   },
   {
-   "name": "Jason Geria",
-   "home": "Australia",
-   "away": "Turkey",
-   "anytime_goal": 19.0,
-   "assist": 9.0
+   "name": "Ricardo Ade",
+   "home": "Brazil",
+   "away": "Haiti",
+   "anytime_goal": 34.0,
+   "assist": null
   },
   {
-   "name": "Eren Elmali",
-   "home": "Australia",
-   "away": "Turkey",
-   "anytime_goal": 12.0,
-   "assist": 6.5
+   "name": "Leonardo Pereira",
+   "home": "Brazil",
+   "away": "Haiti",
+   "anytime_goal": 8.0,
+   "assist": null
   },
   {
-   "name": "Deniz Gul",
-   "home": "Australia",
-   "away": "Turkey",
-   "anytime_goal": 2.75,
-   "assist": 5.8
+   "name": "Danilo dos Santos de Oliveira",
+   "home": "Brazil",
+   "away": "Haiti",
+   "anytime_goal": 3.2,
+   "assist": null
   },
   {
-   "name": "Paul Okon",
-   "home": "Australia",
-   "away": "Turkey",
-   "anytime_goal": 12.0,
-   "assist": 9.0
-  },
-  {
-   "name": "Tete Yengi",
-   "home": "Australia",
-   "away": "Turkey",
-   "anytime_goal": 4.33,
-   "assist": 7.0
-  },
-  {
-   "name": "Harry Souttar",
-   "home": "Australia",
-   "away": "Turkey",
-   "anytime_goal": 9.5,
-   "assist": 15.0
-  },
-  {
-   "name": "Aiden O'Neill",
-   "home": "Australia",
-   "away": "Turkey",
-   "anytime_goal": 13.0,
-   "assist": 10.0
-  },
-  {
-   "name": "Arda Guler",
-   "home": "Australia",
-   "away": "Turkey",
-   "anytime_goal": 3.1,
-   "assist": 3.4
-  },
-  {
-   "name": "Ferdi Kadioglu",
-   "home": "Australia",
-   "away": "Turkey",
-   "anytime_goal": 10.0,
-   "assist": 5.8
-  },
-  {
-   "name": "Irfan Can Kahveci",
-   "home": "Australia",
-   "away": "Turkey",
-   "anytime_goal": 3.3,
-   "assist": 4.75
-  },
-  {
-   "name": "Mathew Leckie",
-   "home": "Australia",
-   "away": "Turkey",
-   "anytime_goal": 5.0,
-   "assist": 8.0
-  },
-  {
-   "name": "Milos Degenek",
-   "home": "Australia",
-   "away": "Turkey",
+   "name": "Jean-Kevin Duverne",
+   "home": "Brazil",
+   "away": "Haiti",
    "anytime_goal": 23.0,
-   "assist": 17.0
+   "assist": null
+  },
+  {
+   "name": "Douglas Santos de Melo",
+   "home": "Brazil",
+   "away": "Haiti",
+   "anytime_goal": 8.5,
+   "assist": null
+  },
+  {
+   "name": "Josue Casimir",
+   "home": "Brazil",
+   "away": "Haiti",
+   "anytime_goal": 10.0,
+   "assist": null
+  },
+  {
+   "name": "Martin Experience",
+   "home": "Brazil",
+   "away": "Haiti",
+   "anytime_goal": 23.0,
+   "assist": null
+  },
+  {
+   "name": "Igor Thiago Nascimento Rodrigues",
+   "home": "Brazil",
+   "away": "Haiti",
+   "anytime_goal": 1.76,
+   "assist": null
+  },
+  {
+   "name": "Duke Lacroix",
+   "home": "Brazil",
+   "away": "Haiti",
+   "anytime_goal": 21.0,
+   "assist": null
   },
   {
    "name": "Caglar Soyuncu",
-   "home": "Australia",
-   "away": "Turkey",
-   "anytime_goal": 10.0,
-   "assist": 10.0
+   "home": "Turkey",
+   "away": "Paraguay",
+   "anytime_goal": 13.0,
+   "assist": null
   },
   {
-   "name": "Oguz Aydin",
-   "home": "Australia",
-   "away": "Turkey",
-   "anytime_goal": 3.5,
-   "assist": 4.2
+   "name": "Mehmet Zeki Celik",
+   "home": "Turkey",
+   "away": "Paraguay",
+   "anytime_goal": 13.0,
+   "assist": null
   },
   {
-   "name": "Jackson Irvine",
-   "home": "Australia",
-   "away": "Turkey",
-   "anytime_goal": 7.5,
-   "assist": 6.5
+   "name": "Deniz Gul",
+   "home": "Turkey",
+   "away": "Paraguay",
+   "anytime_goal": 3.1,
+   "assist": null
   },
   {
-   "name": "Cameron Devlin",
-   "home": "Australia",
-   "away": "Turkey",
-   "anytime_goal": 12.0,
-   "assist": 10.0
+   "name": "Gabriel Avalos",
+   "home": "Turkey",
+   "away": "Paraguay",
+   "anytime_goal": 4.0,
+   "assist": null
   },
   {
-   "name": "Mert Muldur",
-   "home": "Australia",
-   "away": "Turkey",
-   "anytime_goal": 10.0,
-   "assist": 8.5
+   "name": "Baris Alper Yilmaz",
+   "home": "Turkey",
+   "away": "Paraguay",
+   "anytime_goal": 3.84,
+   "assist": null
   },
   {
-   "name": "Jordan Bos",
-   "home": "Australia",
-   "away": "Turkey",
-   "anytime_goal": 8.6,
-   "assist": 7.5
+   "name": "Irfan Can Kahveci",
+   "home": "Turkey",
+   "away": "Paraguay",
+   "anytime_goal": 3.75,
+   "assist": null
+  },
+  {
+   "name": "Ismail Yuksek",
+   "home": "Turkey",
+   "away": "Paraguay",
+   "anytime_goal": 11.5,
+   "assist": null
+  },
+  {
+   "name": "Adrian Cubas",
+   "home": "Turkey",
+   "away": "Paraguay",
+   "anytime_goal": 16.5,
+   "assist": null
+  },
+  {
+   "name": "Alex Adrian Arce Barrios",
+   "home": "Turkey",
+   "away": "Paraguay",
+   "anytime_goal": 4.0,
+   "assist": null
+  },
+  {
+   "name": "Alejandro Romero Gamarra",
+   "home": "Turkey",
+   "away": "Paraguay",
+   "anytime_goal": 5.0,
+   "assist": null
+  },
+  {
+   "name": "Junior Alonso",
+   "home": "Turkey",
+   "away": "Paraguay",
+   "anytime_goal": 16.0,
+   "assist": null
+  },
+  {
+   "name": "Yunus Akgun",
+   "home": "Turkey",
+   "away": "Paraguay",
+   "anytime_goal": 3.75,
+   "assist": null
+  },
+  {
+   "name": "Hakan Calhanoglu",
+   "home": "Turkey",
+   "away": "Paraguay",
+   "anytime_goal": 4.8,
+   "assist": null
+  },
+  {
+   "name": "Can Yilmaz Uzun",
+   "home": "Turkey",
+   "away": "Paraguay",
+   "anytime_goal": 3.75,
+   "assist": null
+  },
+  {
+   "name": "Antonio Sanabria",
+   "home": "Turkey",
+   "away": "Paraguay",
+   "anytime_goal": 4.4,
+   "assist": null
   },
   {
    "name": "Merih Demiral",
-   "home": "Australia",
-   "away": "Turkey",
-   "anytime_goal": 8.0,
-   "assist": 12.0
+   "home": "Turkey",
+   "away": "Paraguay",
+   "anytime_goal": 10.0,
+   "assist": null
   },
   {
-   "name": "Lucas Herrington",
-   "home": "Australia",
-   "away": "Turkey",
+   "name": "Orkun Kokcu",
+   "home": "Turkey",
+   "away": "Paraguay",
+   "anytime_goal": 5.0,
+   "assist": null
+  },
+  {
+   "name": "Julio Cesar Enciso",
+   "home": "Turkey",
+   "away": "Paraguay",
+   "anytime_goal": 5.1,
+   "assist": null
+  },
+  {
+   "name": "Samet Akaydin",
+   "home": "Turkey",
+   "away": "Paraguay",
+   "anytime_goal": 13.0,
+   "assist": null
+  },
+  {
+   "name": "Fabian Balbuena",
+   "home": "Turkey",
+   "away": "Paraguay",
+   "anytime_goal": 15.0,
+   "assist": null
+  },
+  {
+   "name": "Juan Jose Caceres",
+   "home": "Turkey",
+   "away": "Paraguay",
+   "anytime_goal": 16.5,
+   "assist": null
+  },
+  {
+   "name": "Oguz Aydin",
+   "home": "Turkey",
+   "away": "Paraguay",
+   "anytime_goal": 4.0,
+   "assist": null
+  },
+  {
+   "name": "Ferdi Kadioglu",
+   "home": "Turkey",
+   "away": "Paraguay",
    "anytime_goal": 12.0,
-   "assist": 13.0
+   "assist": null
   },
   {
-   "name": "Nishan Velupillay",
-   "home": "Australia",
-   "away": "Turkey",
-   "anytime_goal": 4.75,
-   "assist": 6.5
-  },
-  {
-   "name": "Salih Ozcan",
-   "home": "Australia",
-   "away": "Turkey",
-   "anytime_goal": 8.5,
-   "assist": 7.5
+   "name": "Arda Guler",
+   "home": "Turkey",
+   "away": "Paraguay",
+   "anytime_goal": 3.47,
+   "assist": null
   },
   {
    "name": "Kaan Ayhan",
-   "home": "Australia",
-   "away": "Turkey",
-   "anytime_goal": 8.5,
-   "assist": 6.0
-  },
-  {
-   "name": "Mohamed Toure",
-   "home": "Australia",
-   "away": "Turkey",
-   "anytime_goal": 4.2,
-   "assist": 6.5
-  },
-  {
-   "name": "Ajdin Hrustic",
-   "home": "Australia",
-   "away": "Turkey",
-   "anytime_goal": 8.5,
-   "assist": 5.5
-  },
-  {
-   "name": "Armando Obispo",
-   "home": "Germany",
-   "away": "Curacao",
-   "anytime_goal": 21.0,
-   "assist": 23.0
-  },
-  {
-   "name": "Leroy Sane",
-   "home": "Germany",
-   "away": "Curacao",
-   "anytime_goal": 1.83,
-   "assist": 2.38
-  },
-  {
-   "name": "Tyrese Noslin",
-   "home": "Germany",
-   "away": "Curacao",
-   "anytime_goal": 15.0,
-   "assist": 10.0
-  },
-  {
-   "name": "Felix Nmecha",
-   "home": "Germany",
-   "away": "Curacao",
-   "anytime_goal": 3.1,
-   "assist": 3.5
-  },
-  {
-   "name": "Joshua Brenet",
-   "home": "Germany",
-   "away": "Curacao",
-   "anytime_goal": 19.0,
-   "assist": 11.0
-  },
-  {
-   "name": "Roshon van Eijma",
-   "home": "Germany",
-   "away": "Curacao",
-   "anytime_goal": 21.0,
-   "assist": 21.0
-  },
-  {
-   "name": "Jonathan Tah",
-   "home": "Germany",
-   "away": "Curacao",
-   "anytime_goal": 6.0,
-   "assist": 9.5
-  },
-  {
-   "name": "Jamal Musiala",
-   "home": "Germany",
-   "away": "Curacao",
-   "anytime_goal": 1.75,
-   "assist": 2.15
-  },
-  {
-   "name": "Tahith Chong",
-   "home": "Germany",
-   "away": "Curacao",
-   "anytime_goal": 14.0,
-   "assist": 11.0
-  },
-  {
-   "name": "Maximilian Beier",
-   "home": "Germany",
-   "away": "Curacao",
-   "anytime_goal": 1.67,
-   "assist": 3.0
-  },
-  {
-   "name": "Brandley Kuwas",
-   "home": "Germany",
-   "away": "Curacao",
-   "anytime_goal": 13.0,
-   "assist": 9.5
-  },
-  {
-   "name": "Sontje Hansen",
-   "home": "Germany",
-   "away": "Curacao",
-   "anytime_goal": 8.0,
-   "assist": 9.5
-  },
-  {
-   "name": "Deniz Undav",
-   "home": "Germany",
-   "away": "Curacao",
-   "anytime_goal": 1.49,
-   "assist": 2.2
-  },
-  {
-   "name": "Shurandy Sambo",
-   "home": "Germany",
-   "away": "Curacao",
-   "anytime_goal": 23.0,
-   "assist": 12.0
-  },
-  {
-   "name": "Waldemar Anton",
-   "home": "Germany",
-   "away": "Curacao",
-   "anytime_goal": 8.0,
-   "assist": 5.8
-  },
-  {
-   "name": "Malick Thiaw",
-   "home": "Germany",
-   "away": "Curacao",
-   "anytime_goal": 7.0,
-   "assist": 9.5
-  },
-  {
-   "name": "Nico Schlotterbeck",
-   "home": "Germany",
-   "away": "Curacao",
-   "anytime_goal": 5.5,
-   "assist": 4.8
-  },
-  {
-   "name": "Juninho Bacuna",
-   "home": "Germany",
-   "away": "Curacao",
-   "anytime_goal": 14.0,
-   "assist": 9.5
-  },
-  {
-   "name": "Nick Woltemade",
-   "home": "Germany",
-   "away": "Curacao",
-   "anytime_goal": 1.55,
-   "assist": 3.25
-  },
-  {
-   "name": "Joshua Kimmich",
-   "home": "Germany",
-   "away": "Curacao",
-   "anytime_goal": 3.8,
-   "assist": 2.45
-  },
-  {
-   "name": "David Raum",
-   "home": "Germany",
-   "away": "Curacao",
-   "anytime_goal": 5.0,
-   "assist": 2.45
-  },
-  {
-   "name": "Godfried Roemeratoe",
-   "home": "Germany",
-   "away": "Curacao",
-   "anytime_goal": 21.0,
-   "assist": 13.0
-  },
-  {
-   "name": "Gervane Kastaneer",
-   "home": "Germany",
-   "away": "Curacao",
-   "anytime_goal": 6.75,
-   "assist": 11.0
-  },
-  {
-   "name": "Antonio Rudiger",
-   "home": "Germany",
-   "away": "Curacao",
-   "anytime_goal": 7.5,
-   "assist": 9.5
-  },
-  {
-   "name": "Nadiem Amiri",
-   "home": "Germany",
-   "away": "Curacao",
-   "anytime_goal": 2.8,
-   "assist": 2.7
-  },
-  {
-   "name": "Deveron Fonville",
-   "home": "Germany",
-   "away": "Curacao",
-   "anytime_goal": 19.0,
-   "assist": 12.0
-  },
-  {
-   "name": "Kenji Gorre",
-   "home": "Germany",
-   "away": "Curacao",
-   "anytime_goal": 9.0,
-   "assist": 9.5
-  },
-  {
-   "name": "Jurgen Locadia",
-   "home": "Germany",
-   "away": "Curacao",
-   "anytime_goal": 8.3,
-   "assist": 11.0
-  },
-  {
-   "name": "Riechedly Bazoer",
-   "home": "Germany",
-   "away": "Curacao",
-   "anytime_goal": 21.0,
-   "assist": 19.0
-  },
-  {
-   "name": "Jamie Leweling",
-   "home": "Germany",
-   "away": "Curacao",
-   "anytime_goal": 2.38,
-   "assist": 2.7
-  },
-  {
-   "name": "Aleksandar Pavlovic",
-   "home": "Germany",
-   "away": "Curacao",
-   "anytime_goal": 4.3,
-   "assist": 4.75
-  },
-  {
-   "name": "Angelo Stiller",
-   "home": "Germany",
-   "away": "Curacao",
-   "anytime_goal": 6.0,
-   "assist": 3.0
-  },
-  {
-   "name": "Jearl Margaritha",
-   "home": "Germany",
-   "away": "Curacao",
-   "anytime_goal": 7.0,
-   "assist": 9.0
-  },
-  {
-   "name": "Jeremy Antonisse",
-   "home": "Germany",
-   "away": "Curacao",
-   "anytime_goal": 9.0,
-   "assist": 10.0
-  },
-  {
-   "name": "Livano Comenencia",
-   "home": "Germany",
-   "away": "Curacao",
-   "anytime_goal": 21.0,
-   "assist": 11.0
-  },
-  {
-   "name": "Leandro Bacuna",
-   "home": "Germany",
-   "away": "Curacao",
-   "anytime_goal": 14.0,
-   "assist": 11.0
-  },
-  {
-   "name": "Kevin Felida",
-   "home": "Germany",
-   "away": "Curacao",
+   "home": "Turkey",
+   "away": "Paraguay",
    "anytime_goal": 11.0,
-   "assist": 12.0
+   "assist": null
   },
   {
-   "name": "Jurien Gaari",
-   "home": "Germany",
-   "away": "Curacao",
-   "anytime_goal": 26.0,
-   "assist": 21.0
+   "name": "Ramon Sosa Acosta",
+   "home": "Turkey",
+   "away": "Paraguay",
+   "anytime_goal": 6.0,
+   "assist": null
   },
   {
-   "name": "Kai Havertz",
-   "home": "Germany",
-   "away": "Curacao",
-   "anytime_goal": 1.5,
-   "assist": 2.75
-  },
-  {
-   "name": "Nathaniel Brown",
-   "home": "Germany",
-   "away": "Curacao",
-   "anytime_goal": 4.6,
-   "assist": 2.6
-  },
-  {
-   "name": "Arjany Martha",
-   "home": "Germany",
-   "away": "Curacao",
-   "anytime_goal": 11.0,
-   "assist": 10.0
-  },
-  {
-   "name": "Pascal Gross",
-   "home": "Germany",
-   "away": "Curacao",
-   "anytime_goal": 4.33,
-   "assist": 2.38
-  },
-  {
-   "name": "Leon Goretzka",
-   "home": "Germany",
-   "away": "Curacao",
-   "anytime_goal": 2.88,
-   "assist": 3.6
-  },
-  {
-   "name": "Forzan Assan Ouedraogo",
-   "home": "Germany",
-   "away": "Curacao",
-   "anytime_goal": 2.38,
-   "assist": 2.7
-  },
-  {
-   "name": "Sherel Floranus",
-   "home": "Germany",
-   "away": "Curacao",
-   "anytime_goal": 21.0,
-   "assist": 13.0
-  },
-  {
-   "name": "Florian Wirtz",
-   "home": "Germany",
-   "away": "Curacao",
-   "anytime_goal": 1.65,
-   "assist": 2.0
-  },
-  {
-   "name": "Brian Brobbey",
-   "home": "Netherlands",
-   "away": "Japan",
-   "anytime_goal": 3.0,
-   "assist": 6.5
-  },
-  {
-   "name": "Mats Wieffer",
-   "home": "Netherlands",
-   "away": "Japan",
-   "anytime_goal": 8.5,
-   "assist": 6.5
-  },
-  {
-   "name": "Yuito Suzuki",
-   "home": "Netherlands",
-   "away": "Japan",
-   "anytime_goal": 4.75,
-   "assist": 8.0
-  },
-  {
-   "name": "Cody Gakpo",
-   "home": "Netherlands",
-   "away": "Japan",
-   "anytime_goal": 2.88,
-   "assist": 3.9
-  },
-  {
-   "name": "Takefusa Kubo",
-   "home": "Netherlands",
-   "away": "Japan",
-   "anytime_goal": 5.5,
-   "assist": 5.8
-  },
-  {
-   "name": "Kento Shiogai",
-   "home": "Netherlands",
-   "away": "Japan",
-   "anytime_goal": 3.75,
-   "assist": 10.0
-  },
-  {
-   "name": "Keisuke Goto",
-   "home": "Netherlands",
-   "away": "Japan",
-   "anytime_goal": 3.75,
-   "assist": 7.5
-  },
-  {
-   "name": "Takehiro Tomiyasu",
-   "home": "Netherlands",
-   "away": "Japan",
-   "anytime_goal": 13.0,
-   "assist": 12.0
-  },
-  {
-   "name": "Yuto Nagatomo",
-   "home": "Netherlands",
-   "away": "Japan",
-   "anytime_goal": 13.0,
-   "assist": 15.0
-  },
-  {
-   "name": "Nathan Ake",
-   "home": "Netherlands",
-   "away": "Japan",
-   "anytime_goal": 9.0,
-   "assist": 7.5
-  },
-  {
-   "name": "Daizen Maeda",
-   "home": "Netherlands",
-   "away": "Japan",
-   "anytime_goal": 4.75,
-   "assist": 7.5
-  },
-  {
-   "name": "Koki Ogawa",
-   "home": "Netherlands",
-   "away": "Japan",
-   "anytime_goal": 3.5,
-   "assist": 7.5
-  },
-  {
-   "name": "Marten de Roon",
-   "home": "Netherlands",
-   "away": "Japan",
-   "anytime_goal": 10.0,
-   "assist": 7.5
-  },
-  {
-   "name": "Jorrel Hato",
-   "home": "Netherlands",
-   "away": "Japan",
-   "anytime_goal": 13.0,
-   "assist": 9.5
-  },
-  {
-   "name": "Daichi Kamada",
-   "home": "Netherlands",
-   "away": "Japan",
-   "anytime_goal": 7.0,
-   "assist": 7.5
-  },
-  {
-   "name": "Ko Itakura",
-   "home": "Netherlands",
-   "away": "Japan",
-   "anytime_goal": 13.0,
-   "assist": 13.0
-  },
-  {
-   "name": "Ryan Gravenberch",
-   "home": "Netherlands",
-   "away": "Japan",
-   "anytime_goal": 10.5,
-   "assist": 6.0
-  },
-  {
-   "name": "Tsuyoshi Watanabe",
-   "home": "Netherlands",
-   "away": "Japan",
-   "anytime_goal": 15.0,
-   "assist": 11.0
-  },
-  {
-   "name": "Junya Ito",
-   "home": "Netherlands",
-   "away": "Japan",
-   "anytime_goal": 5.0,
-   "assist": 4.6
-  },
-  {
-   "name": "Shogo Taniguchi",
-   "home": "Netherlands",
-   "away": "Japan",
-   "anytime_goal": 15.0,
-   "assist": 13.0
-  },
-  {
-   "name": "Jan Paul van Hecke",
-   "home": "Netherlands",
-   "away": "Japan",
-   "anytime_goal": 12.0,
-   "assist": 12.0
-  },
-  {
-   "name": "Yukinari Sugawara",
-   "home": "Netherlands",
-   "away": "Japan",
-   "anytime_goal": 12.0,
-   "assist": 10.0
-  },
-  {
-   "name": "Crysencio Summerville",
-   "home": "Netherlands",
-   "away": "Japan",
-   "anytime_goal": 3.8,
-   "assist": 4.0
-  },
-  {
-   "name": "Wout Weghorst",
-   "home": "Netherlands",
-   "away": "Japan",
+   "name": "Muhammed Akturkoglu",
+   "home": "Turkey",
+   "away": "Paraguay",
    "anytime_goal": 3.2,
-   "assist": 5.8
+   "assist": null
   },
   {
-   "name": "Frenkie de Jong",
-   "home": "Netherlands",
-   "away": "Japan",
+   "name": "Abdulkerim Bardakci",
+   "home": "Turkey",
+   "away": "Paraguay",
+   "anytime_goal": 12.5,
+   "assist": null
+  },
+  {
+   "name": "Eren Elmali",
+   "home": "Turkey",
+   "away": "Paraguay",
+   "anytime_goal": 15.0,
+   "assist": null
+  },
+  {
+   "name": "Jose Maria Canale Dominguez",
+   "home": "Turkey",
+   "away": "Paraguay",
+   "anytime_goal": 15.0,
+   "assist": null
+  },
+  {
+   "name": "Kenan Yildiz",
+   "home": "Turkey",
+   "away": "Paraguay",
+   "anytime_goal": 3.6,
+   "assist": null
+  },
+  {
+   "name": "Damian Bobadilla",
+   "home": "Turkey",
+   "away": "Paraguay",
+   "anytime_goal": 9.5,
+   "assist": null
+  },
+  {
+   "name": "Braian Ojeda",
+   "home": "Turkey",
+   "away": "Paraguay",
+   "anytime_goal": 13.0,
+   "assist": null
+  },
+  {
+   "name": "Victor Gustavo Velazquez",
+   "home": "Turkey",
+   "away": "Paraguay",
+   "anytime_goal": 15.0,
+   "assist": null
+  },
+  {
+   "name": "Mert Muldur",
+   "home": "Turkey",
+   "away": "Paraguay",
+   "anytime_goal": 13.0,
+   "assist": null
+  },
+  {
+   "name": "Diego Alexander Gomez Amarilla",
+   "home": "Turkey",
+   "away": "Paraguay",
+   "anytime_goal": 6.5,
+   "assist": null
+  },
+  {
+   "name": "Alexandro Maidana",
+   "home": "Turkey",
+   "away": "Paraguay",
    "anytime_goal": 10.0,
-   "assist": 5.8
+   "assist": null
   },
   {
-   "name": "Keito Nakamura",
-   "home": "Netherlands",
-   "away": "Japan",
-   "anytime_goal": 4.7,
-   "assist": 6.0
+   "name": "Omar Alderete",
+   "home": "Turkey",
+   "away": "Paraguay",
+   "anytime_goal": 16.0,
+   "assist": null
   },
   {
-   "name": "Memphis Depay",
-   "home": "Netherlands",
-   "away": "Japan",
-   "anytime_goal": 2.5,
-   "assist": 4.2
+   "name": "Gustavo Caballero",
+   "home": "Turkey",
+   "away": "Paraguay",
+   "anytime_goal": 6.0,
+   "assist": null
   },
   {
-   "name": "Guus Til",
-   "home": "Netherlands",
-   "away": "Japan",
-   "anytime_goal": 4.2,
-   "assist": 4.8
-  },
-  {
-   "name": "Ayase Ueda",
-   "home": "Netherlands",
-   "away": "Japan",
-   "anytime_goal": 3.5,
-   "assist": 10.0
-  },
-  {
-   "name": "Wataru Endo",
-   "home": "Netherlands",
-   "away": "Japan",
-   "anytime_goal": 13.0,
-   "assist": 12.0
-  },
-  {
-   "name": "Justin Kluivert",
-   "home": "Netherlands",
-   "away": "Japan",
-   "anytime_goal": 4.33,
-   "assist": 5.0
-  },
-  {
-   "name": "Quinten Timber",
-   "home": "Netherlands",
-   "away": "Japan",
-   "anytime_goal": 9.0,
-   "assist": 6.5
-  },
-  {
-   "name": "Ao Tanaka",
-   "home": "Netherlands",
-   "away": "Japan",
-   "anytime_goal": 9.0,
-   "assist": 10.0
-  },
-  {
-   "name": "Tijjani Reijnders",
-   "home": "Netherlands",
-   "away": "Japan",
-   "anytime_goal": 4.75,
-   "assist": 5.5
-  },
-  {
-   "name": "Junnosuke Suzuki",
-   "home": "Netherlands",
-   "away": "Japan",
-   "anytime_goal": 13.0,
-   "assist": 9.0
-  },
-  {
-   "name": "Kaishu Sano",
-   "home": "Netherlands",
-   "away": "Japan",
-   "anytime_goal": 13.0,
-   "assist": 11.0
-  },
-  {
-   "name": "Lutsharel Geertruida",
-   "home": "Netherlands",
-   "away": "Japan",
-   "anytime_goal": 10.0,
-   "assist": 8.5
-  },
-  {
-   "name": "Donyell Malen",
-   "home": "Netherlands",
-   "away": "Japan",
-   "anytime_goal": 2.9,
-   "assist": 4.33
-  },
-  {
-   "name": "Ritsu Doan",
-   "home": "Netherlands",
-   "away": "Japan",
+   "name": "Mauricio Magalhaes Prado",
+   "home": "Turkey",
+   "away": "Paraguay",
    "anytime_goal": 5.5,
-   "assist": 5.8
+   "assist": null
   },
   {
-   "name": "Noa Lang",
-   "home": "Netherlands",
-   "away": "Japan",
-   "anytime_goal": 4.75,
-   "assist": 4.8
+   "name": "Salih Ozcan",
+   "home": "Turkey",
+   "away": "Paraguay",
+   "anytime_goal": 11.0,
+   "assist": null
   },
   {
-   "name": "Jurrien Timber",
-   "home": "Netherlands",
-   "away": "Japan",
+   "name": "Matias Galarza Fonda",
+   "home": "Turkey",
+   "away": "Paraguay",
+   "anytime_goal": 8.0,
+   "assist": null
+  },
+  {
+   "name": "Gustavo Gomez",
+   "home": "Turkey",
+   "away": "Paraguay",
+   "anytime_goal": 10.5,
+   "assist": null
+  },
+  {
+   "name": "Isidro Pitta",
+   "home": "Turkey",
+   "away": "Paraguay",
+   "anytime_goal": 4.0,
+   "assist": null
+  },
+  {
+   "name": "Ozan Kabak",
+   "home": "Turkey",
+   "away": "Paraguay",
    "anytime_goal": 12.0,
+   "assist": null
+  },
+  {
+   "name": "Miguel Almiron",
+   "home": "Turkey",
+   "away": "Paraguay",
+   "anytime_goal": 5.0,
    "assist": null
   },
   {
    "name": "Teun Koopmeiners",
    "home": "Netherlands",
-   "away": "Japan",
-   "anytime_goal": 4.8,
-   "assist": 4.8
-  },
-  {
-   "name": "Hiroki Ito",
-   "home": "Netherlands",
-   "away": "Japan",
-   "anytime_goal": 18.0,
-   "assist": 11.0
-  },
-  {
-   "name": "Denzel Dumfries",
-   "home": "Netherlands",
-   "away": "Japan",
-   "anytime_goal": 6.5,
-   "assist": 5.5
-  },
-  {
-   "name": "Micky van de Ven",
-   "home": "Netherlands",
-   "away": "Japan",
-   "anytime_goal": 13.0,
-   "assist": 8.5
-  },
-  {
-   "name": "Ayumu Seko",
-   "home": "Netherlands",
-   "away": "Japan",
-   "anytime_goal": 15.0,
-   "assist": 12.0
-  },
-  {
-   "name": "Virgil van Dijk",
-   "home": "Netherlands",
-   "away": "Japan",
-   "anytime_goal": 7.5,
-   "assist": 10.0
-  },
-  {
-   "name": "Piero Hincapie",
-   "home": "Ivory Coast",
-   "away": "Ecuador",
-   "anytime_goal": 15.0,
-   "assist": 11.0
-  },
-  {
-   "name": "Felix Torres",
-   "home": "Ivory Coast",
-   "away": "Ecuador",
-   "anytime_goal": 19.0,
-   "assist": 13.0
-  },
-  {
-   "name": "Kevin Jose Rodriguez Cortez",
-   "home": "Ivory Coast",
-   "away": "Ecuador",
-   "anytime_goal": 3.5,
-   "assist": 8.0
-  },
-  {
-   "name": "Gonzalo Plata",
-   "home": "Ivory Coast",
-   "away": "Ecuador",
-   "anytime_goal": 5.5,
-   "assist": 6.5
-  },
-  {
-   "name": "Yahia Fofana",
-   "home": "Ivory Coast",
-   "away": "Ecuador",
-   "anytime_goal": 8.5,
+   "away": "Sweden",
+   "anytime_goal": 4.33,
    "assist": null
   },
   {
-   "name": "Christopher Operi",
-   "home": "Ivory Coast",
-   "away": "Ecuador",
-   "anytime_goal": 11.0,
-   "assist": 12.0
-  },
-  {
-   "name": "Evan Ndicka",
-   "home": "Ivory Coast",
-   "away": "Ecuador",
+   "name": "Gabriel Gudmundsson",
+   "home": "Netherlands",
+   "away": "Sweden",
    "anytime_goal": 17.0,
-   "assist": 15.0
-  },
-  {
-   "name": "Alan Steven Franco Palma",
-   "home": "Ivory Coast",
-   "away": "Ecuador",
-   "anytime_goal": 11.0,
-   "assist": 7.5
-  },
-  {
-   "name": "Emmanuel Agbadou",
-   "home": "Ivory Coast",
-   "away": "Ecuador",
-   "anytime_goal": 13.0,
-   "assist": 19.0
-  },
-  {
-   "name": "Jordy Alcivar",
-   "home": "Ivory Coast",
-   "away": "Ecuador",
-   "anytime_goal": 8.0,
-   "assist": 8.5
-  },
-  {
-   "name": "Oumar Diakite",
-   "home": "Ivory Coast",
-   "away": "Ecuador",
-   "anytime_goal": 5.2,
-   "assist": 9.0
-  },
-  {
-   "name": "Ibrahim Sangare",
-   "home": "Ivory Coast",
-   "away": "Ecuador",
-   "anytime_goal": 9.5,
-   "assist": 10.0
-  },
-  {
-   "name": "Ghislain Niclomande Konan",
-   "home": "Ivory Coast",
-   "away": "Ecuador",
-   "anytime_goal": 12.0,
-   "assist": 10.0
-  },
-  {
-   "name": "Sepe Elye Wahi",
-   "home": "Ivory Coast",
-   "away": "Ecuador",
-   "anytime_goal": 4.8,
-   "assist": 9.5
-  },
-  {
-   "name": "Franck Kessie",
-   "home": "Ivory Coast",
-   "away": "Ecuador",
-   "anytime_goal": 8.5,
-   "assist": 7.5
-  },
-  {
-   "name": "Yaimar Medina",
-   "home": "Ivory Coast",
-   "away": "Ecuador",
-   "anytime_goal": 15.0,
-   "assist": 7.5
-  },
-  {
-   "name": "Jeremy Arevalo",
-   "home": "Ivory Coast",
-   "away": "Ecuador",
-   "anytime_goal": 3.9,
-   "assist": 7.5
-  },
-  {
-   "name": "Kendry Paez",
-   "home": "Ivory Coast",
-   "away": "Ecuador",
-   "anytime_goal": 5.5,
-   "assist": 7.5
-  },
-  {
-   "name": "Guela Doue",
-   "home": "Ivory Coast",
-   "away": "Ecuador",
-   "anytime_goal": 13.0,
-   "assist": 9.5
-  },
-  {
-   "name": "Angelo Preciado",
-   "home": "Ivory Coast",
-   "away": "Ecuador",
-   "anytime_goal": 9.0,
-   "assist": 7.5
-  },
-  {
-   "name": "Yan Diomande",
-   "home": "Ivory Coast",
-   "away": "Ecuador",
-   "anytime_goal": 5.0,
-   "assist": 8.0
-  },
-  {
-   "name": "Jackson Gabriel Porozo Vernaza",
-   "home": "Ivory Coast",
-   "away": "Ecuador",
-   "anytime_goal": 15.0,
-   "assist": 15.0
-  },
-  {
-   "name": "Ousmane Diomande",
-   "home": "Ivory Coast",
-   "away": "Ecuador",
-   "anytime_goal": 17.0,
-   "assist": 19.0
-  },
-  {
-   "name": "Pedro Vite",
-   "home": "Ivory Coast",
-   "away": "Ecuador",
-   "anytime_goal": 8.5,
-   "assist": 7.0
-  },
-  {
-   "name": "Moises Caicedo",
-   "home": "Ivory Coast",
-   "away": "Ecuador",
-   "anytime_goal": 10.0,
-   "assist": 7.5
-  },
-  {
-   "name": "Ange-Yoan Bonny",
-   "home": "Ivory Coast",
-   "away": "Ecuador",
-   "anytime_goal": 4.2,
-   "assist": 8.5
-  },
-  {
-   "name": "Amad Diallo",
-   "home": "Ivory Coast",
-   "away": "Ecuador",
-   "anytime_goal": 5.0,
-   "assist": 6.5
-  },
-  {
-   "name": "Odilon Kossounou",
-   "home": "Ivory Coast",
-   "away": "Ecuador",
-   "anytime_goal": 13.0,
-   "assist": 17.0
-  },
-  {
-   "name": "Christ Ravynel Inao Oulai",
-   "home": "Ivory Coast",
-   "away": "Ecuador",
-   "anytime_goal": 7.5,
-   "assist": 9.0
-  },
-  {
-   "name": "Wilfried Stephane Singo",
-   "home": "Ivory Coast",
-   "away": "Ecuador",
-   "anytime_goal": 21.0,
-   "assist": 11.0
-  },
-  {
-   "name": "Jordy Josue Caicedo Medina",
-   "home": "Ivory Coast",
-   "away": "Ecuador",
-   "anytime_goal": 4.2,
-   "assist": 7.5
-  },
-  {
-   "name": "Nicolas Pepe",
-   "home": "Ivory Coast",
-   "away": "Ecuador",
-   "anytime_goal": 5.0,
-   "assist": 6.5
-  },
-  {
-   "name": "Evann Guessand",
-   "home": "Ivory Coast",
-   "away": "Ecuador",
-   "anytime_goal": 4.2,
-   "assist": 7.5
-  },
-  {
-   "name": "Alan Steve Minda Garcia",
-   "home": "Ivory Coast",
-   "away": "Ecuador",
-   "anytime_goal": 5.0,
-   "assist": 7.5
-  },
-  {
-   "name": "Anthony Valencia",
-   "home": "Ivory Coast",
-   "away": "Ecuador",
-   "anytime_goal": 6.0,
-   "assist": 8.5
-  },
-  {
-   "name": "William Joel Pacho Tenorio",
-   "home": "Ivory Coast",
-   "away": "Ecuador",
-   "anytime_goal": 19.0,
    "assist": null
-  },
-  {
-   "name": "Seko Fofana",
-   "home": "Ivory Coast",
-   "away": "Ecuador",
-   "anytime_goal": 9.3,
-   "assist": 9.0
-  },
-  {
-   "name": "Nilson David Angulo Ramirez",
-   "home": "Ivory Coast",
-   "away": "Ecuador",
-   "anytime_goal": 6.5,
-   "assist": 8.0
-  },
-  {
-   "name": "Denil Castillo",
-   "home": "Ivory Coast",
-   "away": "Ecuador",
-   "anytime_goal": 10.0,
-   "assist": 8.5
-  },
-  {
-   "name": "Jean Michael Seri",
-   "home": "Ivory Coast",
-   "away": "Ecuador",
-   "anytime_goal": 10.0,
-   "assist": 7.0
-  },
-  {
-   "name": "Enner Valencia",
-   "home": "Ivory Coast",
-   "away": "Ecuador",
-   "anytime_goal": 3.1,
-   "assist": 5.8
-  },
-  {
-   "name": "Bazoumana Toure",
-   "home": "Ivory Coast",
-   "away": "Ecuador",
-   "anytime_goal": 7.5,
-   "assist": 7.5
-  },
-  {
-   "name": "Parfait Guiagon",
-   "home": "Ivory Coast",
-   "away": "Ecuador",
-   "anytime_goal": 5.0,
-   "assist": 9.5
-  },
-  {
-   "name": "Simon Adingra",
-   "home": "Ivory Coast",
-   "away": "Ecuador",
-   "anytime_goal": 6.5,
-   "assist": 6.5
-  },
-  {
-   "name": "Joel Ordonez",
-   "home": "Ivory Coast",
-   "away": "Ecuador",
-   "anytime_goal": 15.0,
-   "assist": 13.0
-  },
-  {
-   "name": "John Yeboah",
-   "home": "Ivory Coast",
-   "away": "Ecuador",
-   "anytime_goal": 5.3,
-   "assist": 6.0
-  },
-  {
-   "name": "Pervis Estupinan",
-   "home": "Ivory Coast",
-   "away": "Ecuador",
-   "anytime_goal": 9.5,
-   "assist": 7.5
-  },
-  {
-   "name": "Besfort Zeneli",
-   "home": "Sweden",
-   "away": "Tunisia",
-   "anytime_goal": 6.5,
-   "assist": 6.5
-  },
-  {
-   "name": "Victor Lindelof",
-   "home": "Sweden",
-   "away": "Tunisia",
-   "anytime_goal": 14.5,
-   "assist": 17.0
-  },
-  {
-   "name": "Mohamed Achouri",
-   "home": "Sweden",
-   "away": "Tunisia",
-   "anytime_goal": 5.5,
-   "assist": null
-  },
-  {
-   "name": "Raed Chikhaoui",
-   "home": "Sweden",
-   "away": "Tunisia",
-   "anytime_goal": 17.0,
-   "assist": 19.0
-  },
-  {
-   "name": "Eric Smith",
-   "home": "Sweden",
-   "away": "Tunisia",
-   "anytime_goal": 11.0,
-   "assist": 8.0
-  },
-  {
-   "name": "Hazem Mastouri",
-   "home": "Sweden",
-   "away": "Tunisia",
-   "anytime_goal": 4.2,
-   "assist": 8.0
-  },
-  {
-   "name": "Viktor Gyokeres",
-   "home": "Sweden",
-   "away": "Tunisia",
-   "anytime_goal": 2.45,
-   "assist": 6.5
-  },
-  {
-   "name": "Montassar Talbi",
-   "home": "Sweden",
-   "away": "Tunisia",
-   "anytime_goal": 17.0,
-   "assist": 13.0
-  },
-  {
-   "name": "Adam Arous",
-   "home": "Sweden",
-   "away": "Tunisia",
-   "anytime_goal": 23.0,
-   "assist": 21.0
-  },
-  {
-   "name": "Daniel Svensson",
-   "home": "Sweden",
-   "away": "Tunisia",
-   "anytime_goal": 12.0,
-   "assist": 7.5
-  },
-  {
-   "name": "Rayan Elloumi",
-   "home": "Sweden",
-   "away": "Tunisia",
-   "anytime_goal": 4.6,
-   "assist": 9.5
-  },
-  {
-   "name": "Moutaz Neffati",
-   "home": "Sweden",
-   "away": "Tunisia",
-   "anytime_goal": 12.0,
-   "assist": 12.0
-  },
-  {
-   "name": "Ismael Gharbi",
-   "home": "Sweden",
-   "away": "Tunisia",
-   "anytime_goal": 4.8,
-   "assist": 7.5
-  },
-  {
-   "name": "Gustaf Nilsson",
-   "home": "Sweden",
-   "away": "Tunisia",
-   "anytime_goal": 3.4,
-   "assist": 5.5
-  },
-  {
-   "name": "Lucas Bergvall",
-   "home": "Sweden",
-   "away": "Tunisia",
-   "anytime_goal": 7.5,
-   "assist": 7.5
-  },
-  {
-   "name": "Mohamed Amine Ben Hamida",
-   "home": "Sweden",
-   "away": "Tunisia",
-   "anytime_goal": 19.0,
-   "assist": 12.0
-  },
-  {
-   "name": "Gustaf Lagerbielke",
-   "home": "Sweden",
-   "away": "Tunisia",
-   "anytime_goal": 12.5,
-   "assist": 12.0
-  },
-  {
-   "name": "Jesper Karlstrom",
-   "home": "Sweden",
-   "away": "Tunisia",
-   "anytime_goal": 12.0,
-   "assist": 9.5
-  },
-  {
-   "name": "Carl Starfelt",
-   "home": "Sweden",
-   "away": "Tunisia",
-   "anytime_goal": 15.0,
-   "assist": 15.0
-  },
-  {
-   "name": "Herman Johansson",
-   "home": "Sweden",
-   "away": "Tunisia",
-   "anytime_goal": 6.5,
-   "assist": 6.5
-  },
-  {
-   "name": "Ken Sema",
-   "home": "Sweden",
-   "away": "Tunisia",
-   "anytime_goal": 7.5,
-   "assist": 7.5
-  },
-  {
-   "name": "Yasin Ayari",
-   "home": "Sweden",
-   "away": "Tunisia",
-   "anytime_goal": 6.75,
-   "assist": 5.5
-  },
-  {
-   "name": "Anthony Elanga",
-   "home": "Sweden",
-   "away": "Tunisia",
-   "anytime_goal": 3.9,
-   "assist": 4.8
-  },
-  {
-   "name": "Elias Saad",
-   "home": "Sweden",
-   "away": "Tunisia",
-   "anytime_goal": 4.75,
-   "assist": 7.5
-  },
-  {
-   "name": "Mattias Svanberg",
-   "home": "Sweden",
-   "away": "Tunisia",
-   "anytime_goal": 6.0,
-   "assist": 6.0
-  },
-  {
-   "name": "Elliot Stroud",
-   "home": "Sweden",
-   "away": "Tunisia",
-   "anytime_goal": 4.8,
-   "assist": 5.8
-  },
-  {
-   "name": "Khalil Ayari",
-   "home": "Sweden",
-   "away": "Tunisia",
-   "anytime_goal": 7.0,
-   "assist": 9.5
-  },
-  {
-   "name": "Ellyes Skhiri",
-   "home": "Sweden",
-   "away": "Tunisia",
-   "anytime_goal": 12.0,
-   "assist": 10.0
   },
   {
    "name": "Hjalmar Ekdal",
-   "home": "Sweden",
-   "away": "Tunisia",
+   "home": "Netherlands",
+   "away": "Sweden",
+   "anytime_goal": 21.0,
+   "assist": null
+  },
+  {
+   "name": "Quinten Timber",
+   "home": "Netherlands",
+   "away": "Sweden",
+   "anytime_goal": 8.0,
+   "assist": null
+  },
+  {
+   "name": "Nathan Ake",
+   "home": "Netherlands",
+   "away": "Sweden",
+   "anytime_goal": 9.5,
+   "assist": null
+  },
+  {
+   "name": "Isak Hien",
+   "home": "Netherlands",
+   "away": "Sweden",
+   "anytime_goal": 26.0,
+   "assist": null
+  },
+  {
+   "name": "Memphis Depay",
+   "home": "Netherlands",
+   "away": "Sweden",
+   "anytime_goal": 2.6,
+   "assist": null
+  },
+  {
+   "name": "Elliot Stroud",
+   "home": "Netherlands",
+   "away": "Sweden",
+   "anytime_goal": 8.0,
+   "assist": null
+  },
+  {
+   "name": "Mats Wieffer",
+   "home": "Netherlands",
+   "away": "Sweden",
+   "anytime_goal": 7.5,
+   "assist": null
+  },
+  {
+   "name": "Donyell Malen",
+   "home": "Netherlands",
+   "away": "Sweden",
+   "anytime_goal": 2.6,
+   "assist": null
+  },
+  {
+   "name": "Viktor Gyokeres",
+   "home": "Netherlands",
+   "away": "Sweden",
+   "anytime_goal": 3.3,
+   "assist": null
+  },
+  {
+   "name": "Herman Johansson",
+   "home": "Netherlands",
+   "away": "Sweden",
+   "anytime_goal": 12.0,
+   "assist": null
+  },
+  {
+   "name": "Ryan Gravenberch",
+   "home": "Netherlands",
+   "away": "Sweden",
+   "anytime_goal": 8.1,
+   "assist": null
+  },
+  {
+   "name": "Carl Starfelt",
+   "home": "Netherlands",
+   "away": "Sweden",
+   "anytime_goal": 21.0,
+   "assist": null
+  },
+  {
+   "name": "Crysencio Summerville",
+   "home": "Netherlands",
+   "away": "Sweden",
+   "anytime_goal": 2.83,
+   "assist": null
+  },
+  {
+   "name": "Gustaf Nilsson",
+   "home": "Netherlands",
+   "away": "Sweden",
+   "anytime_goal": 4.5,
+   "assist": null
+  },
+  {
+   "name": "Daniel Svensson",
+   "home": "Netherlands",
+   "away": "Sweden",
    "anytime_goal": 15.0,
-   "assist": 12.0
+   "assist": null
   },
   {
-   "name": "Rani Khedira",
-   "home": "Sweden",
-   "away": "Tunisia",
-   "anytime_goal": 12.5,
-   "assist": 13.0
+   "name": "Guus Til",
+   "home": "Netherlands",
+   "away": "Sweden",
+   "anytime_goal": 3.3,
+   "assist": null
   },
   {
-   "name": "Mohamed Belhaj Mahmoud",
-   "home": "Sweden",
-   "away": "Tunisia",
-   "anytime_goal": 10.0,
+   "name": "Brian Brobbey",
+   "home": "Netherlands",
+   "away": "Sweden",
+   "anytime_goal": 2.75,
    "assist": null
   },
   {
    "name": "Alexander Bernhardsson",
-   "home": "Sweden",
-   "away": "Tunisia",
-   "anytime_goal": 7.5,
-   "assist": 5.8
-  },
-  {
-   "name": "Omar Rekik",
-   "home": "Sweden",
-   "away": "Tunisia",
-   "anytime_goal": 13.0,
-   "assist": 13.0
-  },
-  {
-   "name": "Benjamin Nygren",
-   "home": "Sweden",
-   "away": "Tunisia",
-   "anytime_goal": 4.4,
-   "assist": 5.0
-  },
-  {
-   "name": "Dylan Bronn",
-   "home": "Sweden",
-   "away": "Tunisia",
-   "anytime_goal": 12.0,
-   "assist": 15.0
-  },
-  {
-   "name": "Gabriel Gudmundsson",
-   "home": "Sweden",
-   "away": "Tunisia",
-   "anytime_goal": 11.0,
-   "assist": 7.5
-  },
-  {
-   "name": "Firas Chaouat",
-   "home": "Sweden",
-   "away": "Tunisia",
-   "anytime_goal": 4.33,
-   "assist": 8.0
-  },
-  {
-   "name": "Yan Valery",
-   "home": "Sweden",
-   "away": "Tunisia",
-   "anytime_goal": 17.0,
-   "assist": 9.5
-  },
-  {
-   "name": "Hannibal Mejbri",
-   "home": "Sweden",
-   "away": "Tunisia",
+   "home": "Netherlands",
+   "away": "Sweden",
    "anytime_goal": 8.0,
-   "assist": 8.0
-  },
-  {
-   "name": "Anis Slimane",
-   "home": "Sweden",
-   "away": "Tunisia",
-   "anytime_goal": 6.0,
-   "assist": 8.5
-  },
-  {
-   "name": "Isak Hien",
-   "home": "Sweden",
-   "away": "Tunisia",
-   "anytime_goal": 15.0,
-   "assist": 10.0
-  },
-  {
-   "name": "Alexander Isak",
-   "home": "Sweden",
-   "away": "Tunisia",
-   "anytime_goal": 2.55,
-   "assist": 6.0
-  },
-  {
-   "name": "Sebastian Tounekti",
-   "home": "Sweden",
-   "away": "Tunisia",
-   "anytime_goal": 5.0,
-   "assist": 6.5
-  },
-  {
-   "name": "Mortadha Ben Ouannes",
-   "home": "Sweden",
-   "away": "Tunisia",
-   "anytime_goal": 8.5,
-   "assist": 7.5
-  },
-  {
-   "name": "Dani Olmo",
-   "home": "Spain",
-   "away": "Cape Verde",
-   "anytime_goal": 2.15,
-   "assist": 2.62
-  },
-  {
-   "name": "Pedro Gonzalez Lopez",
-   "home": "Spain",
-   "away": "Cape Verde",
-   "anytime_goal": 4.8,
    "assist": null
   },
   {
-   "name": "Martin Zubimendi Ibanez",
-   "home": "Spain",
-   "away": "Cape Verde",
+   "name": "Benjamin Nygren",
+   "home": "Netherlands",
+   "away": "Sweden",
+   "anytime_goal": 6.0,
+   "assist": null
+  },
+  {
+   "name": "Noa Lang",
+   "home": "Netherlands",
+   "away": "Sweden",
+   "anytime_goal": 4.33,
+   "assist": null
+  },
+  {
+   "name": "Mattias Svanberg",
+   "home": "Netherlands",
+   "away": "Sweden",
+   "anytime_goal": 7.5,
+   "assist": null
+  },
+  {
+   "name": "Tijjani Reijnders",
+   "home": "Netherlands",
+   "away": "Sweden",
+   "anytime_goal": 4.4,
+   "assist": null
+  },
+  {
+   "name": "Eric Smith",
+   "home": "Netherlands",
+   "away": "Sweden",
+   "anytime_goal": 15.0,
+   "assist": null
+  },
+  {
+   "name": "Wout Weghorst",
+   "home": "Netherlands",
+   "away": "Sweden",
+   "anytime_goal": 2.65,
+   "assist": null
+  },
+  {
+   "name": "Lucas Bergvall",
+   "home": "Netherlands",
+   "away": "Sweden",
+   "anytime_goal": 10.0,
+   "assist": null
+  },
+  {
+   "name": "Jan Paul van Hecke",
+   "home": "Netherlands",
+   "away": "Sweden",
+   "anytime_goal": 12.0,
+   "assist": null
+  },
+  {
+   "name": "Virgil van Dijk",
+   "home": "Netherlands",
+   "away": "Sweden",
+   "anytime_goal": 6.5,
+   "assist": null
+  },
+  {
+   "name": "Frenkie de Jong",
+   "home": "Netherlands",
+   "away": "Sweden",
+   "anytime_goal": 10.0,
+   "assist": null
+  },
+  {
+   "name": "Anthony Elanga",
+   "home": "Netherlands",
+   "away": "Sweden",
+   "anytime_goal": 6.0,
+   "assist": null
+  },
+  {
+   "name": "Yasin Ayari",
+   "home": "Netherlands",
+   "away": "Sweden",
+   "anytime_goal": 8.1,
+   "assist": null
+  },
+  {
+   "name": "Justin Kluivert",
+   "home": "Netherlands",
+   "away": "Sweden",
+   "anytime_goal": 3.75,
+   "assist": null
+  },
+  {
+   "name": "Victor Lindelof",
+   "home": "Netherlands",
+   "away": "Sweden",
+   "anytime_goal": 21.0,
+   "assist": null
+  },
+  {
+   "name": "Micky van de Ven",
+   "home": "Netherlands",
+   "away": "Sweden",
+   "anytime_goal": 10.25,
+   "assist": null
+  },
+  {
+   "name": "Lutsharel Geertruida",
+   "home": "Netherlands",
+   "away": "Sweden",
+   "anytime_goal": 9.5,
+   "assist": null
+  },
+  {
+   "name": "Besfort Zeneli",
+   "home": "Netherlands",
+   "away": "Sweden",
+   "anytime_goal": 10.0,
+   "assist": null
+  },
+  {
+   "name": "Gustaf Lagerbielke",
+   "home": "Netherlands",
+   "away": "Sweden",
+   "anytime_goal": 16.0,
+   "assist": null
+  },
+  {
+   "name": "Jorrel Hato",
+   "home": "Netherlands",
+   "away": "Sweden",
+   "anytime_goal": 13.0,
+   "assist": null
+  },
+  {
+   "name": "Cody Gakpo",
+   "home": "Netherlands",
+   "away": "Sweden",
+   "anytime_goal": 2.75,
+   "assist": null
+  },
+  {
+   "name": "Alexander Isak",
+   "home": "Netherlands",
+   "away": "Sweden",
+   "anytime_goal": 3.61,
+   "assist": null
+  },
+  {
+   "name": "Ken Sema",
+   "home": "Netherlands",
+   "away": "Sweden",
+   "anytime_goal": 10.0,
+   "assist": null
+  },
+  {
+   "name": "Taha Abdi Ali",
+   "home": "Netherlands",
+   "away": "Sweden",
+   "anytime_goal": 8.0,
+   "assist": null
+  },
+  {
+   "name": "Marten de Roon",
+   "home": "Netherlands",
+   "away": "Sweden",
+   "anytime_goal": 9.5,
+   "assist": null
+  },
+  {
+   "name": "Jesper Karlstrom",
+   "home": "Netherlands",
+   "away": "Sweden",
+   "anytime_goal": 17.0,
+   "assist": null
+  },
+  {
+   "name": "Denzel Dumfries",
+   "home": "Netherlands",
+   "away": "Sweden",
+   "anytime_goal": 5.5,
+   "assist": null
+  },
+  {
+   "name": "Odilon Kossounou",
+   "home": "Germany",
+   "away": "Ivory Coast",
+   "anytime_goal": 17.0,
+   "assist": null
+  },
+  {
+   "name": "Leon Goretzka",
+   "home": "Germany",
+   "away": "Ivory Coast",
+   "anytime_goal": 5.0,
+   "assist": null
+  },
+  {
+   "name": "Amad Diallo",
+   "home": "Germany",
+   "away": "Ivory Coast",
    "anytime_goal": 4.5,
-   "assist": 5.8
+   "assist": null
+  },
+  {
+   "name": "Wilfried Stephane Singo",
+   "home": "Germany",
+   "away": "Ivory Coast",
+   "anytime_goal": 18.04,
+   "assist": null
+  },
+  {
+   "name": "Emmanuel Agbadou",
+   "home": "Germany",
+   "away": "Ivory Coast",
+   "anytime_goal": 17.04,
+   "assist": null
+  },
+  {
+   "name": "Ange-Yoan Bonny",
+   "home": "Germany",
+   "away": "Ivory Coast",
+   "anytime_goal": 4.0,
+   "assist": null
+  },
+  {
+   "name": "Jonathan Tah",
+   "home": "Germany",
+   "away": "Ivory Coast",
+   "anytime_goal": 9.52,
+   "assist": null
+  },
+  {
+   "name": "Antonio Rudiger",
+   "home": "Germany",
+   "away": "Ivory Coast",
+   "anytime_goal": 12.0,
+   "assist": null
+  },
+  {
+   "name": "Kai Havertz",
+   "home": "Germany",
+   "away": "Ivory Coast",
+   "anytime_goal": 2.32,
+   "assist": null
+  },
+  {
+   "name": "Oumar Diakite",
+   "home": "Germany",
+   "away": "Ivory Coast",
+   "anytime_goal": 4.33,
+   "assist": null
+  },
+  {
+   "name": "Nick Woltemade",
+   "home": "Germany",
+   "away": "Ivory Coast",
+   "anytime_goal": 2.6,
+   "assist": null
+  },
+  {
+   "name": "Nico Schlotterbeck",
+   "home": "Germany",
+   "away": "Ivory Coast",
+   "anytime_goal": 8.9,
+   "assist": null
+  },
+  {
+   "name": "Florian Wirtz",
+   "home": "Germany",
+   "away": "Ivory Coast",
+   "anytime_goal": 2.81,
+   "assist": null
+  },
+  {
+   "name": "Aleksandar Pavlovic",
+   "home": "Germany",
+   "away": "Ivory Coast",
+   "anytime_goal": 7.6,
+   "assist": null
+  },
+  {
+   "name": "Jean Michael Seri",
+   "home": "Germany",
+   "away": "Ivory Coast",
+   "anytime_goal": 11.0,
+   "assist": null
+  },
+  {
+   "name": "Bazoumana Toure",
+   "home": "Germany",
+   "away": "Ivory Coast",
+   "anytime_goal": 6.51,
+   "assist": null
+  },
+  {
+   "name": "Malick Thiaw",
+   "home": "Germany",
+   "away": "Ivory Coast",
+   "anytime_goal": 12.0,
+   "assist": null
+  },
+  {
+   "name": "Leroy Sane",
+   "home": "Germany",
+   "away": "Ivory Coast",
+   "anytime_goal": 3.11,
+   "assist": null
+  },
+  {
+   "name": "Joshua Kimmich",
+   "home": "Germany",
+   "away": "Ivory Coast",
+   "anytime_goal": 6.5,
+   "assist": null
+  },
+  {
+   "name": "Pascal Gross",
+   "home": "Germany",
+   "away": "Ivory Coast",
+   "anytime_goal": 7.5,
+   "assist": null
+  },
+  {
+   "name": "Christopher Operi",
+   "home": "Germany",
+   "away": "Ivory Coast",
+   "anytime_goal": 11.0,
+   "assist": null
+  },
+  {
+   "name": "Waldemar Anton",
+   "home": "Germany",
+   "away": "Ivory Coast",
+   "anytime_goal": 13.0,
+   "assist": null
+  },
+  {
+   "name": "Evann Guessand",
+   "home": "Germany",
+   "away": "Ivory Coast",
+   "anytime_goal": 4.0,
+   "assist": null
+  },
+  {
+   "name": "Seko Fofana",
+   "home": "Germany",
+   "away": "Ivory Coast",
+   "anytime_goal": 9.0,
+   "assist": null
+  },
+  {
+   "name": "Christ Ravynel Inao Oulai",
+   "home": "Germany",
+   "away": "Ivory Coast",
+   "anytime_goal": 8.0,
+   "assist": null
+  },
+  {
+   "name": "Ghislain Niclomande Konan",
+   "home": "Germany",
+   "away": "Ivory Coast",
+   "anytime_goal": 15.0,
+   "assist": null
+  },
+  {
+   "name": "Maximilian Beier",
+   "home": "Germany",
+   "away": "Ivory Coast",
+   "anytime_goal": 2.8,
+   "assist": null
+  },
+  {
+   "name": "Yan Diomande",
+   "home": "Germany",
+   "away": "Ivory Coast",
+   "anytime_goal": 4.61,
+   "assist": null
+  },
+  {
+   "name": "Parfait Guiagon",
+   "home": "Germany",
+   "away": "Ivory Coast",
+   "anytime_goal": 5.0,
+   "assist": null
+  },
+  {
+   "name": "Nadiem Amiri",
+   "home": "Germany",
+   "away": "Ivory Coast",
+   "anytime_goal": 5.0,
+   "assist": null
+  },
+  {
+   "name": "Nathaniel Brown",
+   "home": "Germany",
+   "away": "Ivory Coast",
+   "anytime_goal": 7.52,
+   "assist": null
+  },
+  {
+   "name": "Franck Kessie",
+   "home": "Germany",
+   "away": "Ivory Coast",
+   "anytime_goal": 7.9,
+   "assist": null
+  },
+  {
+   "name": "Nicolas Pepe",
+   "home": "Germany",
+   "away": "Ivory Coast",
+   "anytime_goal": 5.0,
+   "assist": null
+  },
+  {
+   "name": "Angelo Stiller",
+   "home": "Germany",
+   "away": "Ivory Coast",
+   "anytime_goal": 10.0,
+   "assist": null
+  },
+  {
+   "name": "Simon Adingra",
+   "home": "Germany",
+   "away": "Ivory Coast",
+   "anytime_goal": 5.0,
+   "assist": null
+  },
+  {
+   "name": "Ousmane Diomande",
+   "home": "Germany",
+   "away": "Ivory Coast",
+   "anytime_goal": 17.0,
+   "assist": null
+  },
+  {
+   "name": "Sepe Elye Wahi",
+   "home": "Germany",
+   "away": "Ivory Coast",
+   "anytime_goal": 4.5,
+   "assist": null
+  },
+  {
+   "name": "Ibrahim Sangare",
+   "home": "Germany",
+   "away": "Ivory Coast",
+   "anytime_goal": 10.0,
+   "assist": null
+  },
+  {
+   "name": "Guela Doue",
+   "home": "Germany",
+   "away": "Ivory Coast",
+   "anytime_goal": 16.04,
+   "assist": null
+  },
+  {
+   "name": "Jamal Musiala",
+   "home": "Germany",
+   "away": "Ivory Coast",
+   "anytime_goal": 2.91,
+   "assist": null
+  },
+  {
+   "name": "Jamie Leweling",
+   "home": "Germany",
+   "away": "Ivory Coast",
+   "anytime_goal": 4.0,
+   "assist": null
+  },
+  {
+   "name": "Evan Ndicka",
+   "home": "Germany",
+   "away": "Ivory Coast",
+   "anytime_goal": 17.0,
+   "assist": null
+  },
+  {
+   "name": "Felix Nmecha",
+   "home": "Germany",
+   "away": "Ivory Coast",
+   "anytime_goal": 5.01,
+   "assist": null
+  },
+  {
+   "name": "Deniz Undav",
+   "home": "Germany",
+   "away": "Ivory Coast",
+   "anytime_goal": 2.4,
+   "assist": null
+  },
+  {
+   "name": "David Raum",
+   "home": "Germany",
+   "away": "Ivory Coast",
+   "anytime_goal": 9.5,
+   "assist": null
+  },
+  {
+   "name": "Enner Valencia",
+   "home": "Ecuador",
+   "away": "Curacao",
+   "anytime_goal": 1.53,
+   "assist": null
+  },
+  {
+   "name": "Alan Steve Minda Garcia",
+   "home": "Ecuador",
+   "away": "Curacao",
+   "anytime_goal": 2.85,
+   "assist": null
+  },
+  {
+   "name": "Sherel Floranus",
+   "home": "Ecuador",
+   "away": "Curacao",
+   "anytime_goal": 34.0,
+   "assist": null
+  },
+  {
+   "name": "Alan Steven Franco Palma",
+   "home": "Ecuador",
+   "away": "Curacao",
+   "anytime_goal": 5.5,
+   "assist": null
+  },
+  {
+   "name": "Anthony Valencia",
+   "home": "Ecuador",
+   "away": "Curacao",
+   "anytime_goal": 2.75,
+   "assist": null
+  },
+  {
+   "name": "Kenji Gorre",
+   "home": "Ecuador",
+   "away": "Curacao",
+   "anytime_goal": 12.0,
+   "assist": null
+  },
+  {
+   "name": "Jurgen Locadia",
+   "home": "Ecuador",
+   "away": "Curacao",
+   "anytime_goal": 8.0,
+   "assist": null
+  },
+  {
+   "name": "Sontje Hansen",
+   "home": "Ecuador",
+   "away": "Curacao",
+   "anytime_goal": 11.0,
+   "assist": null
+  },
+  {
+   "name": "Godfried Roemeratoe",
+   "home": "Ecuador",
+   "away": "Curacao",
+   "anytime_goal": 34.0,
+   "assist": null
+  },
+  {
+   "name": "Moises Caicedo",
+   "home": "Ecuador",
+   "away": "Curacao",
+   "anytime_goal": 5.4,
+   "assist": null
+  },
+  {
+   "name": "Angelo Preciado",
+   "home": "Ecuador",
+   "away": "Curacao",
+   "anytime_goal": 4.33,
+   "assist": null
+  },
+  {
+   "name": "John Yeboah",
+   "home": "Ecuador",
+   "away": "Curacao",
+   "anytime_goal": 2.4,
+   "assist": null
+  },
+  {
+   "name": "Jordy Alcivar",
+   "home": "Ecuador",
+   "away": "Curacao",
+   "anytime_goal": 4.0,
+   "assist": null
+  },
+  {
+   "name": "Kendry Paez",
+   "home": "Ecuador",
+   "away": "Curacao",
+   "anytime_goal": 2.5,
+   "assist": null
+  },
+  {
+   "name": "Brandley Kuwas",
+   "home": "Ecuador",
+   "away": "Curacao",
+   "anytime_goal": 8.5,
+   "assist": null
+  },
+  {
+   "name": "Joshua Brenet",
+   "home": "Ecuador",
+   "away": "Curacao",
+   "anytime_goal": 26.0,
+   "assist": null
+  },
+  {
+   "name": "Jordy Josue Caicedo Medina",
+   "home": "Ecuador",
+   "away": "Curacao",
+   "anytime_goal": 1.95,
+   "assist": null
+  },
+  {
+   "name": "Kevin Felida",
+   "home": "Ecuador",
+   "away": "Curacao",
+   "anytime_goal": 15.0,
+   "assist": null
+  },
+  {
+   "name": "William Joel Pacho Tenorio",
+   "home": "Ecuador",
+   "away": "Curacao",
+   "anytime_goal": 9.9,
+   "assist": null
+  },
+  {
+   "name": "Gonzalo Plata",
+   "home": "Ecuador",
+   "away": "Curacao",
+   "anytime_goal": 2.36,
+   "assist": null
+  },
+  {
+   "name": "Denil Castillo",
+   "home": "Ecuador",
+   "away": "Curacao",
+   "anytime_goal": 5.0,
+   "assist": null
+  },
+  {
+   "name": "Jeremy Arevalo",
+   "home": "Ecuador",
+   "away": "Curacao",
+   "anytime_goal": 1.85,
+   "assist": null
+  },
+  {
+   "name": "Tahith Chong",
+   "home": "Ecuador",
+   "away": "Curacao",
+   "anytime_goal": 14.5,
+   "assist": null
+  },
+  {
+   "name": "Riechedly Bazoer",
+   "home": "Ecuador",
+   "away": "Curacao",
+   "anytime_goal": 41.0,
+   "assist": null
+  },
+  {
+   "name": "Juninho Bacuna",
+   "home": "Ecuador",
+   "away": "Curacao",
+   "anytime_goal": 14.5,
+   "assist": null
+  },
+  {
+   "name": "Roshon van Eijma",
+   "home": "Ecuador",
+   "away": "Curacao",
+   "anytime_goal": 41.0,
+   "assist": null
+  },
+  {
+   "name": "Deveron Fonville",
+   "home": "Ecuador",
+   "away": "Curacao",
+   "anytime_goal": 26.0,
+   "assist": null
+  },
+  {
+   "name": "Jackson Gabriel Porozo Vernaza",
+   "home": "Ecuador",
+   "away": "Curacao",
+   "anytime_goal": 8.0,
+   "assist": null
+  },
+  {
+   "name": "Piero Hincapie",
+   "home": "Ecuador",
+   "away": "Curacao",
+   "anytime_goal": 7.5,
+   "assist": null
+  },
+  {
+   "name": "Leandro Bacuna",
+   "home": "Ecuador",
+   "away": "Curacao",
+   "anytime_goal": 14.5,
+   "assist": null
+  },
+  {
+   "name": "Yaimar Medina",
+   "home": "Ecuador",
+   "away": "Curacao",
+   "anytime_goal": 8.0,
+   "assist": null
+  },
+  {
+   "name": "Tyrese Noslin",
+   "home": "Ecuador",
+   "away": "Curacao",
+   "anytime_goal": 23.0,
+   "assist": null
+  },
+  {
+   "name": "Livano Comenencia",
+   "home": "Ecuador",
+   "away": "Curacao",
+   "anytime_goal": 21.0,
+   "assist": null
+  },
+  {
+   "name": "Pervis Estupinan",
+   "home": "Ecuador",
+   "away": "Curacao",
+   "anytime_goal": 4.5,
+   "assist": null
+  },
+  {
+   "name": "Jurien Gaari",
+   "home": "Ecuador",
+   "away": "Curacao",
+   "anytime_goal": 41.0,
+   "assist": null
+  },
+  {
+   "name": "Jeremy Antonisse",
+   "home": "Ecuador",
+   "away": "Curacao",
+   "anytime_goal": 12.0,
+   "assist": null
+  },
+  {
+   "name": "Armando Obispo",
+   "home": "Ecuador",
+   "away": "Curacao",
+   "anytime_goal": 26.0,
+   "assist": null
+  },
+  {
+   "name": "Kevin Jose Rodriguez Cortez",
+   "home": "Ecuador",
+   "away": "Curacao",
+   "anytime_goal": 1.67,
+   "assist": null
+  },
+  {
+   "name": "Arjany Martha",
+   "home": "Ecuador",
+   "away": "Curacao",
+   "anytime_goal": 15.0,
+   "assist": null
+  },
+  {
+   "name": "Shurandy Sambo",
+   "home": "Ecuador",
+   "away": "Curacao",
+   "anytime_goal": 41.0,
+   "assist": null
+  },
+  {
+   "name": "Felix Torres",
+   "home": "Ecuador",
+   "away": "Curacao",
+   "anytime_goal": 11.0,
+   "assist": null
+  },
+  {
+   "name": "Joel Ordonez",
+   "home": "Ecuador",
+   "away": "Curacao",
+   "anytime_goal": 8.0,
+   "assist": null
+  },
+  {
+   "name": "Nilson David Angulo Ramirez",
+   "home": "Ecuador",
+   "away": "Curacao",
+   "anytime_goal": 2.88,
+   "assist": null
+  },
+  {
+   "name": "Gervane Kastaneer",
+   "home": "Ecuador",
+   "away": "Curacao",
+   "anytime_goal": 8.0,
+   "assist": null
+  },
+  {
+   "name": "Pedro Vite",
+   "home": "Ecuador",
+   "away": "Curacao",
+   "anytime_goal": 3.3,
+   "assist": null
+  },
+  {
+   "name": "Jearl Margaritha",
+   "home": "Ecuador",
+   "away": "Curacao",
+   "anytime_goal": 9.0,
+   "assist": null
+  },
+  {
+   "name": "Rayan Elloumi",
+   "home": "Tunisia",
+   "away": "Japan",
+   "anytime_goal": 5.5,
+   "assist": null
+  },
+  {
+   "name": "Shogo Taniguchi",
+   "home": "Tunisia",
+   "away": "Japan",
+   "anytime_goal": 12.0,
+   "assist": null
+  },
+  {
+   "name": "Khalil Ayari",
+   "home": "Tunisia",
+   "away": "Japan",
+   "anytime_goal": 8.5,
+   "assist": null
+  },
+  {
+   "name": "Daizen Maeda",
+   "home": "Tunisia",
+   "away": "Japan",
+   "anytime_goal": 3.25,
+   "assist": null
+  },
+  {
+   "name": "Montassar Talbi",
+   "home": "Tunisia",
+   "away": "Japan",
+   "anytime_goal": 17.0,
+   "assist": null
+  },
+  {
+   "name": "Rani Khedira",
+   "home": "Tunisia",
+   "away": "Japan",
+   "anytime_goal": 15.5,
+   "assist": null
+  },
+  {
+   "name": "Kento Shiogai",
+   "home": "Tunisia",
+   "away": "Japan",
+   "anytime_goal": 2.7,
+   "assist": null
+  },
+  {
+   "name": "Ritsu Doan",
+   "home": "Tunisia",
+   "away": "Japan",
+   "anytime_goal": 4.33,
+   "assist": null
+  },
+  {
+   "name": "Junya Ito",
+   "home": "Tunisia",
+   "away": "Japan",
+   "anytime_goal": 3.3,
+   "assist": null
+  },
+  {
+   "name": "Ayumu Seko",
+   "home": "Tunisia",
+   "away": "Japan",
+   "anytime_goal": 13.0,
+   "assist": null
+  },
+  {
+   "name": "Mohamed Amine Ben Hamida",
+   "home": "Tunisia",
+   "away": "Japan",
+   "anytime_goal": 23.0,
+   "assist": null
+  },
+  {
+   "name": "Raed Chikhaoui",
+   "home": "Tunisia",
+   "away": "Japan",
+   "anytime_goal": 21.0,
+   "assist": null
+  },
+  {
+   "name": "Keito Nakamura",
+   "home": "Tunisia",
+   "away": "Japan",
+   "anytime_goal": 5.0,
+   "assist": null
+  },
+  {
+   "name": "Ali Abdi",
+   "home": "Tunisia",
+   "away": "Japan",
+   "anytime_goal": 11.0,
+   "assist": null
+  },
+  {
+   "name": "Tsuyoshi Watanabe",
+   "home": "Tunisia",
+   "away": "Japan",
+   "anytime_goal": 12.0,
+   "assist": null
+  },
+  {
+   "name": "Moutaz Neffati",
+   "home": "Tunisia",
+   "away": "Japan",
+   "anytime_goal": 19.0,
+   "assist": null
+  },
+  {
+   "name": "Yuito Suzuki",
+   "home": "Tunisia",
+   "away": "Japan",
+   "anytime_goal": 3.25,
+   "assist": null
+  },
+  {
+   "name": "Mohamed Belhaj Mahmoud",
+   "home": "Tunisia",
+   "away": "Japan",
+   "anytime_goal": 15.0,
+   "assist": null
+  },
+  {
+   "name": "Takefusa Kubo",
+   "home": "Tunisia",
+   "away": "Japan",
+   "anytime_goal": 3.6,
+   "assist": null
+  },
+  {
+   "name": "Ao Tanaka",
+   "home": "Tunisia",
+   "away": "Japan",
+   "anytime_goal": 6.0,
+   "assist": null
+  },
+  {
+   "name": "Hannibal Mejbri",
+   "home": "Tunisia",
+   "away": "Japan",
+   "anytime_goal": 12.0,
+   "assist": null
+  },
+  {
+   "name": "Yukinari Sugawara",
+   "home": "Tunisia",
+   "away": "Japan",
+   "anytime_goal": 7.5,
+   "assist": null
+  },
+  {
+   "name": "Ellyes Skhiri",
+   "home": "Tunisia",
+   "away": "Japan",
+   "anytime_goal": 14.5,
+   "assist": null
+  },
+  {
+   "name": "Daichi Kamada",
+   "home": "Tunisia",
+   "away": "Japan",
+   "anytime_goal": 6.0,
+   "assist": null
+  },
+  {
+   "name": "Elias Saad",
+   "home": "Tunisia",
+   "away": "Japan",
+   "anytime_goal": 5.0,
+   "assist": null
+  },
+  {
+   "name": "Ayase Ueda",
+   "home": "Tunisia",
+   "away": "Japan",
+   "anytime_goal": 2.4,
+   "assist": null
+  },
+  {
+   "name": "Hazem Mastouri",
+   "home": "Tunisia",
+   "away": "Japan",
+   "anytime_goal": 5.0,
+   "assist": null
+  },
+  {
+   "name": "Anis Slimane",
+   "home": "Tunisia",
+   "away": "Japan",
+   "anytime_goal": 9.3,
+   "assist": null
+  },
+  {
+   "name": "Dylan Bronn",
+   "home": "Tunisia",
+   "away": "Japan",
+   "anytime_goal": 17.0,
+   "assist": null
+  },
+  {
+   "name": "Keisuke Goto",
+   "home": "Tunisia",
+   "away": "Japan",
+   "anytime_goal": 2.8,
+   "assist": null
+  },
+  {
+   "name": "Kaishu Sano",
+   "home": "Tunisia",
+   "away": "Japan",
+   "anytime_goal": 15.5,
+   "assist": null
+  },
+  {
+   "name": "Firas Chaouat",
+   "home": "Tunisia",
+   "away": "Japan",
+   "anytime_goal": 5.4,
+   "assist": null
+  },
+  {
+   "name": "Sebastian Tounekti",
+   "home": "Tunisia",
+   "away": "Japan",
+   "anytime_goal": 7.5,
+   "assist": null
+  },
+  {
+   "name": "Shuto Machino",
+   "home": "Tunisia",
+   "away": "Japan",
+   "anytime_goal": 3.0,
+   "assist": null
+  },
+  {
+   "name": "Adam Arous",
+   "home": "Tunisia",
+   "away": "Japan",
+   "anytime_goal": 26.0,
+   "assist": null
+  },
+  {
+   "name": "Omar Rekik",
+   "home": "Tunisia",
+   "away": "Japan",
+   "anytime_goal": 17.0,
+   "assist": null
+  },
+  {
+   "name": "Ko Itakura",
+   "home": "Tunisia",
+   "away": "Japan",
+   "anytime_goal": 9.5,
+   "assist": null
+  },
+  {
+   "name": "Koki Ogawa",
+   "home": "Tunisia",
+   "away": "Japan",
+   "anytime_goal": 2.6,
+   "assist": null
+  },
+  {
+   "name": "Ismael Gharbi",
+   "home": "Tunisia",
+   "away": "Japan",
+   "anytime_goal": 6.5,
+   "assist": null
+  },
+  {
+   "name": "Yuto Nagatomo",
+   "home": "Tunisia",
+   "away": "Japan",
+   "anytime_goal": 9.5,
+   "assist": null
+  },
+  {
+   "name": "Mortadha Ben Ouannes",
+   "home": "Tunisia",
+   "away": "Japan",
+   "anytime_goal": 10.0,
+   "assist": null
+  },
+  {
+   "name": "Yan Valery",
+   "home": "Tunisia",
+   "away": "Japan",
+   "anytime_goal": 15.0,
+   "assist": null
+  },
+  {
+   "name": "Hiroki Ito",
+   "home": "Tunisia",
+   "away": "Japan",
+   "anytime_goal": 13.0,
+   "assist": null
+  },
+  {
+   "name": "Mohamed Achouri",
+   "home": "Tunisia",
+   "away": "Japan",
+   "anytime_goal": 6.6,
+   "assist": null
+  },
+  {
+   "name": "Junnosuke Suzuki",
+   "home": "Tunisia",
+   "away": "Japan",
+   "anytime_goal": 13.0,
+   "assist": null
+  },
+  {
+   "name": "Takehiro Tomiyasu",
+   "home": "Tunisia",
+   "away": "Japan",
+   "anytime_goal": 13.0,
+   "assist": null
+  },
+  {
+   "name": "Mikel Merino",
+   "home": "Spain",
+   "away": "Saudi Arabia",
+   "anytime_goal": 2.38,
+   "assist": null
+  },
+  {
+   "name": "Jehad Thakri",
+   "home": "Spain",
+   "away": "Saudi Arabia",
+   "anytime_goal": 41.0,
+   "assist": null
+  },
+  {
+   "name": "Abdullah Al-Hamdan",
+   "home": "Spain",
+   "away": "Saudi Arabia",
+   "anytime_goal": 10.0,
+   "assist": null
+  },
+  {
+   "name": "Qassem Lajami",
+   "home": "Spain",
+   "away": "Saudi Arabia",
+   "anytime_goal": 29.0,
+   "assist": null
+  },
+  {
+   "name": "Moteb Al-Harbi",
+   "home": "Spain",
+   "away": "Saudi Arabia",
+   "anytime_goal": 26.0,
+   "assist": null
+  },
+  {
+   "name": "Ziyad Al Johani",
+   "home": "Spain",
+   "away": "Saudi Arabia",
+   "anytime_goal": 21.0,
+   "assist": null
+  },
+  {
+   "name": "Mohamed Kanno",
+   "home": "Spain",
+   "away": "Saudi Arabia",
+   "anytime_goal": 12.0,
+   "assist": null
+  },
+  {
+   "name": "Fabian Ruiz",
+   "home": "Spain",
+   "away": "Saudi Arabia",
+   "anytime_goal": 4.2,
+   "assist": null
+  },
+  {
+   "name": "Pau Cubarsi",
+   "home": "Spain",
+   "away": "Saudi Arabia",
+   "anytime_goal": 10.0,
+   "assist": null
+  },
+  {
+   "name": "Nico Williams",
+   "home": "Spain",
+   "away": "Saudi Arabia",
+   "anytime_goal": 2.3,
+   "assist": null
+  },
+  {
+   "name": "Pedro Porro",
+   "home": "Spain",
+   "away": "Saudi Arabia",
+   "anytime_goal": 7.5,
+   "assist": null
   },
   {
    "name": "Alex Grimaldo",
    "home": "Spain",
-   "away": "Cape Verde",
+   "away": "Saudi Arabia",
    "anytime_goal": 6.0,
+   "assist": null
+  },
+  {
+   "name": "Yeremy Pino",
+   "home": "Spain",
+   "away": "Saudi Arabia",
+   "anytime_goal": 2.9,
+   "assist": null
+  },
+  {
+   "name": "Hassan Kadesh",
+   "home": "Spain",
+   "away": "Saudi Arabia",
+   "anytime_goal": 29.0,
+   "assist": null
+  },
+  {
+   "name": "Aymeric Laporte",
+   "home": "Spain",
+   "away": "Saudi Arabia",
+   "anytime_goal": 9.5,
    "assist": null
   },
   {
    "name": "Lamine Yamal",
    "home": "Spain",
-   "away": "Cape Verde",
+   "away": "Saudi Arabia",
    "anytime_goal": 1.83,
-   "assist": 2.2
+   "assist": null
   },
   {
-   "name": "Mikel Oyarzabal",
+   "name": "Khalid Al Ghannam",
    "home": "Spain",
-   "away": "Cape Verde",
-   "anytime_goal": 1.36,
-   "assist": 3.1
-  },
-  {
-   "name": "Kelvin Pires",
-   "home": "Spain",
-   "away": "Cape Verde",
-   "anytime_goal": 21.0,
-   "assist": 23.0
-  },
-  {
-   "name": "Laros Duarte",
-   "home": "Spain",
-   "away": "Cape Verde",
-   "anytime_goal": 13.0,
-   "assist": 12.0
-  },
-  {
-   "name": "Jamiro Monteiro",
-   "home": "Spain",
-   "away": "Cape Verde",
-   "anytime_goal": 9.5,
-   "assist": 9.0
-  },
-  {
-   "name": "Mikel Merino",
-   "home": "Spain",
-   "away": "Cape Verde",
-   "anytime_goal": 2.2,
-   "assist": 3.5
-  },
-  {
-   "name": "Borja Iglesias",
-   "home": "Spain",
-   "away": "Cape Verde",
-   "anytime_goal": 1.53,
-   "assist": 4.2
-  },
-  {
-   "name": "Nico Williams",
-   "home": "Spain",
-   "away": "Cape Verde",
-   "anytime_goal": 2.15,
-   "assist": 2.62
-  },
-  {
-   "name": "Deroy Duarte",
-   "home": "Spain",
-   "away": "Cape Verde",
-   "anytime_goal": 15.0,
-   "assist": 11.0
-  },
-  {
-   "name": "Willy Semedo",
-   "home": "Spain",
-   "away": "Cape Verde",
-   "anytime_goal": 7.0,
-   "assist": 9.0
-  },
-  {
-   "name": "Diney Borges",
-   "home": "Spain",
-   "away": "Cape Verde",
-   "anytime_goal": 19.0,
-   "assist": 21.0
-  },
-  {
-   "name": "Steven Moreira",
-   "home": "Spain",
-   "away": "Cape Verde",
-   "anytime_goal": 21.0,
-   "assist": 12.0
-  },
-  {
-   "name": "Joia Nuno Da Costa",
-   "home": "Spain",
-   "away": "Cape Verde",
+   "away": "Saudi Arabia",
    "anytime_goal": 7.5,
-   "assist": 9.5
+   "assist": null
   },
   {
-   "name": "Sidny Lopes Cabral",
+   "name": "Ali Majrashi",
    "home": "Spain",
-   "away": "Cape Verde",
-   "anytime_goal": 12.0,
-   "assist": 9.5
+   "away": "Saudi Arabia",
+   "anytime_goal": 36.0,
+   "assist": null
   },
   {
-   "name": "Jovane Cabral",
+   "name": "Saleh Al-Shehri",
    "home": "Spain",
-   "away": "Cape Verde",
+   "away": "Saudi Arabia",
    "anytime_goal": 8.5,
-   "assist": 10.0
-  },
-  {
-   "name": "Eric Garcia Martret",
-   "home": "Spain",
-   "away": "Cape Verde",
-   "anytime_goal": 6.5,
-   "assist": 8.5
-  },
-  {
-   "name": "Marcos Llorente",
-   "home": "Spain",
-   "away": "Cape Verde",
-   "anytime_goal": 6.5,
-   "assist": 4.5
-  },
-  {
-   "name": "Alejandro Baena",
-   "home": "Spain",
-   "away": "Cape Verde",
-   "anytime_goal": 2.5,
    "assist": null
   },
   {
    "name": "Rodri",
    "home": "Spain",
-   "away": "Cape Verde",
-   "anytime_goal": 4.5,
-   "assist": 5.5
+   "away": "Saudi Arabia",
+   "anytime_goal": 4.2,
+   "assist": null
   },
   {
-   "name": "Wagner Pina",
+   "name": "Sultan Mandash",
    "home": "Spain",
-   "away": "Cape Verde",
+   "away": "Saudi Arabia",
+   "anytime_goal": 10.0,
+   "assist": null
+  },
+  {
+   "name": "Martin Zubimendi Ibanez",
+   "home": "Spain",
+   "away": "Saudi Arabia",
+   "anytime_goal": 4.75,
+   "assist": null
+  },
+  {
+   "name": "Mikel Oyarzabal",
+   "home": "Spain",
+   "away": "Saudi Arabia",
+   "anytime_goal": 1.55,
+   "assist": null
+  },
+  {
+   "name": "Pedro Gonzalez Lopez",
+   "home": "Spain",
+   "away": "Saudi Arabia",
+   "anytime_goal": 4.8,
+   "assist": null
+  },
+  {
+   "name": "Marcos Llorente",
+   "home": "Spain",
+   "away": "Saudi Arabia",
+   "anytime_goal": 8.0,
+   "assist": null
+  },
+  {
+   "name": "Borja Iglesias",
+   "home": "Spain",
+   "away": "Saudi Arabia",
+   "anytime_goal": 1.62,
+   "assist": null
+  },
+  {
+   "name": "Abdullah Al-Khaibari",
+   "home": "Spain",
+   "away": "Saudi Arabia",
+   "anytime_goal": 36.0,
+   "assist": null
+  },
+  {
+   "name": "Ferran Torres Garcia",
+   "home": "Spain",
+   "away": "Saudi Arabia",
+   "anytime_goal": 1.91,
+   "assist": null
+  },
+  {
+   "name": "Dani Olmo",
+   "home": "Spain",
+   "away": "Saudi Arabia",
+   "anytime_goal": 2.3,
+   "assist": null
+  },
+  {
+   "name": "Ayman Yahya",
+   "home": "Spain",
+   "away": "Saudi Arabia",
+   "anytime_goal": 15.0,
+   "assist": null
+  },
+  {
+   "name": "Alaa Al Hejji",
+   "home": "Spain",
+   "away": "Saudi Arabia",
+   "anytime_goal": 12.0,
+   "assist": null
+  },
+  {
+   "name": "Mohammed Abu Al-Shamat",
+   "home": "Spain",
+   "away": "Saudi Arabia",
+   "anytime_goal": 23.0,
+   "assist": null
+  },
+  {
+   "name": "Saud Abdulhamid",
+   "home": "Spain",
+   "away": "Saudi Arabia",
    "anytime_goal": 19.0,
-   "assist": 10.0
-  },
-  {
-   "name": "Fabian Ruiz",
-   "home": "Spain",
-   "away": "Cape Verde",
-   "anytime_goal": 3.8,
-   "assist": 3.6
-  },
-  {
-   "name": "Ryan Mendes da Graca",
-   "home": "Spain",
-   "away": "Cape Verde",
-   "anytime_goal": 7.0,
-   "assist": 9.5
-  },
-  {
-   "name": "Marc Cucurella",
-   "home": "Spain",
-   "away": "Cape Verde",
-   "anytime_goal": 8.5,
-   "assist": 5.8
-  },
-  {
-   "name": "Joao Paulo Moreira Fernandes",
-   "home": "Spain",
-   "away": "Cape Verde",
-   "anytime_goal": 26.0,
-   "assist": 11.0
-  },
-  {
-   "name": "Gilson Tavares",
-   "home": "Spain",
-   "away": "Cape Verde",
-   "anytime_goal": 6.5,
    "assist": null
   },
   {
    "name": "Victor Munoz",
    "home": "Spain",
-   "away": "Cape Verde",
-   "anytime_goal": 2.38,
-   "assist": 3.25
+   "away": "Saudi Arabia",
+   "anytime_goal": 2.7,
+   "assist": null
   },
   {
-   "name": "Garry Rodrigues",
+   "name": "Musab Fahd Al-Juwayr",
    "home": "Spain",
-   "away": "Cape Verde",
-   "anytime_goal": 9.0,
-   "assist": 9.5
-  },
-  {
-   "name": "Pau Cubarsi",
-   "home": "Spain",
-   "away": "Cape Verde",
-   "anytime_goal": 9.5,
-   "assist": 9.5
-  },
-  {
-   "name": "Dailon Rocha Livramento",
-   "home": "Spain",
-   "away": "Cape Verde",
-   "anytime_goal": 7.0,
-   "assist": 12.0
-  },
-  {
-   "name": "Ianique Stopira",
-   "home": "Spain",
-   "away": "Cape Verde",
-   "anytime_goal": 17.0,
-   "assist": 19.0
-  },
-  {
-   "name": "Yannick Semedo",
-   "home": "Spain",
-   "away": "Cape Verde",
-   "anytime_goal": 13.0,
-   "assist": 12.0
-  },
-  {
-   "name": "Helio Sandro Oliveira Alves Varela",
-   "home": "Spain",
-   "away": "Cape Verde",
-   "anytime_goal": 8.5,
-   "assist": 9.0
-  },
-  {
-   "name": "Kevin Lenini Goncalves Pereira de Pina",
-   "home": "Spain",
-   "away": "Cape Verde",
-   "anytime_goal": 15.0,
-   "assist": 12.0
-  },
-  {
-   "name": "Pedro Porro",
-   "home": "Spain",
-   "away": "Cape Verde",
-   "anytime_goal": 7.5,
-   "assist": 3.7
-  },
-  {
-   "name": "Telmo Arcanjo",
-   "home": "Spain",
-   "away": "Cape Verde",
+   "away": "Saudi Arabia",
    "anytime_goal": 10.0,
-   "assist": 9.0
+   "assist": null
   },
   {
-   "name": "Yeremy Pino",
+   "name": "Nasser Al Dawsari",
    "home": "Spain",
-   "away": "Cape Verde",
-   "anytime_goal": 2.8,
-   "assist": 2.8
+   "away": "Saudi Arabia",
+   "anytime_goal": 23.0,
+   "assist": null
   },
   {
-   "name": "Aymeric Laporte",
+   "name": "Salem Al-Dawsari",
    "home": "Spain",
-   "away": "Cape Verde",
-   "anytime_goal": 9.0,
-   "assist": 11.0
-  },
-  {
-   "name": "Ferran Torres Garcia",
-   "home": "Spain",
-   "away": "Cape Verde",
-   "anytime_goal": 1.8,
-   "assist": 3.25
-  },
-  {
-   "name": "Roberto Lopes",
-   "home": "Spain",
-   "away": "Cape Verde",
-   "anytime_goal": 12.0,
-   "assist": 17.0
+   "away": "Saudi Arabia",
+   "anytime_goal": 7.5,
+   "assist": null
   },
   {
    "name": "Marc Pubill",
    "home": "Spain",
-   "away": "Cape Verde",
-   "anytime_goal": 8.0,
-   "assist": 5.0
+   "away": "Saudi Arabia",
+   "anytime_goal": 8.5,
+   "assist": null
+  },
+  {
+   "name": "Nawaf Boushal",
+   "home": "Spain",
+   "away": "Saudi Arabia",
+   "anytime_goal": 34.0,
+   "assist": null
+  },
+  {
+   "name": "Firas Al-Buraikan",
+   "home": "Spain",
+   "away": "Saudi Arabia",
+   "anytime_goal": 7.5,
+   "assist": null
+  },
+  {
+   "name": "Alejandro Baena",
+   "home": "Spain",
+   "away": "Saudi Arabia",
+   "anytime_goal": 2.7,
+   "assist": null
+  },
+  {
+   "name": "Marc Cucurella",
+   "home": "Spain",
+   "away": "Saudi Arabia",
+   "anytime_goal": 7.5,
+   "assist": null
+  },
+  {
+   "name": "Eric Garcia Martret",
+   "home": "Spain",
+   "away": "Saudi Arabia",
+   "anytime_goal": 7.5,
+   "assist": null
   },
   {
    "name": "Pablo Martin Paez Gavira",
    "home": "Spain",
+   "away": "Saudi Arabia",
+   "anytime_goal": 4.8,
+   "assist": null
+  },
+  {
+   "name": "Abdulelah Al-Amri",
+   "home": "Spain",
+   "away": "Saudi Arabia",
+   "anytime_goal": 17.0,
+   "assist": null
+  },
+  {
+   "name": "Hassan Mohammed Al Tambakti",
+   "home": "Spain",
+   "away": "Saudi Arabia",
+   "anytime_goal": 41.0,
+   "assist": null
+  },
+  {
+   "name": "Ramin Rezaeian",
+   "home": "Belgium",
+   "away": "Iran",
+   "anytime_goal": 10.0,
+   "assist": null
+  },
+  {
+   "name": "Diego Moreira",
+   "home": "Belgium",
+   "away": "Iran",
+   "anytime_goal": 4.5,
+   "assist": null
+  },
+  {
+   "name": "Ali Alipour",
+   "home": "Belgium",
+   "away": "Iran",
+   "anytime_goal": 5.8,
+   "assist": null
+  },
+  {
+   "name": "Youri Tielemans",
+   "home": "Belgium",
+   "away": "Iran",
+   "anytime_goal": 4.2,
+   "assist": null
+  },
+  {
+   "name": "Axel Witsel",
+   "home": "Belgium",
+   "away": "Iran",
+   "anytime_goal": 7.5,
+   "assist": null
+  },
+  {
+   "name": "Mohammad Ghorbani",
+   "home": "Belgium",
+   "away": "Iran",
+   "anytime_goal": 15.0,
+   "assist": null
+  },
+  {
+   "name": "Amirmohammad Razzaghinia",
+   "home": "Belgium",
+   "away": "Iran",
+   "anytime_goal": 11.0,
+   "assist": null
+  },
+  {
+   "name": "Mehdi Torabi",
+   "home": "Belgium",
+   "away": "Iran",
+   "anytime_goal": 8.0,
+   "assist": null
+  },
+  {
+   "name": "Hans Vanaken",
+   "home": "Belgium",
+   "away": "Iran",
+   "anytime_goal": 3.7,
+   "assist": null
+  },
+  {
+   "name": "Mohammad Mohebi",
+   "home": "Belgium",
+   "away": "Iran",
+   "anytime_goal": 6.5,
+   "assist": null
+  },
+  {
+   "name": "Milad Mohammadi",
+   "home": "Belgium",
+   "away": "Iran",
+   "anytime_goal": 21.0,
+   "assist": null
+  },
+  {
+   "name": "Dennis Eckert Ayensa",
+   "home": "Belgium",
+   "away": "Iran",
+   "anytime_goal": 5.5,
+   "assist": null
+  },
+  {
+   "name": "Thomas Meunier",
+   "home": "Belgium",
+   "away": "Iran",
+   "anytime_goal": 5.5,
+   "assist": null
+  },
+  {
+   "name": "Alireza Jahanbakhsh",
+   "home": "Belgium",
+   "away": "Iran",
+   "anytime_goal": 7.5,
+   "assist": null
+  },
+  {
+   "name": "Koni De Winter",
+   "home": "Belgium",
+   "away": "Iran",
+   "anytime_goal": 12.0,
+   "assist": null
+  },
+  {
+   "name": "Saleh Hardani",
+   "home": "Belgium",
+   "away": "Iran",
+   "anytime_goal": 23.0,
+   "assist": null
+  },
+  {
+   "name": "Romelu Lukaku",
+   "home": "Belgium",
+   "away": "Iran",
+   "anytime_goal": 1.85,
+   "assist": null
+  },
+  {
+   "name": "Aria Yousefi",
+   "home": "Belgium",
+   "away": "Iran",
+   "anytime_goal": 21.0,
+   "assist": null
+  },
+  {
+   "name": "Leandro Trossard",
+   "home": "Belgium",
+   "away": "Iran",
+   "anytime_goal": 3.1,
+   "assist": null
+  },
+  {
+   "name": "Shahriyar Moghanlou",
+   "home": "Belgium",
+   "away": "Iran",
+   "anytime_goal": 6.5,
+   "assist": null
+  },
+  {
+   "name": "Zeno Debast",
+   "home": "Belgium",
+   "away": "Iran",
+   "anytime_goal": 15.0,
+   "assist": null
+  },
+  {
+   "name": "Danial Eiri",
+   "home": "Belgium",
+   "away": "Iran",
+   "anytime_goal": 34.0,
+   "assist": null
+  },
+  {
+   "name": "Mohammad Hossein Kanani",
+   "home": "Belgium",
+   "away": "Iran",
+   "anytime_goal": 12.0,
+   "assist": null
+  },
+  {
+   "name": "Jeremy Doku",
+   "home": "Belgium",
+   "away": "Iran",
+   "anytime_goal": 3.0,
+   "assist": null
+  },
+  {
+   "name": "Ehsan Hajsafi",
+   "home": "Belgium",
+   "away": "Iran",
+   "anytime_goal": 19.0,
+   "assist": null
+  },
+  {
+   "name": "Nathan Ngoy",
+   "home": "Belgium",
+   "away": "Iran",
+   "anytime_goal": 13.0,
+   "assist": null
+  },
+  {
+   "name": "Saman Ghoddos",
+   "home": "Belgium",
+   "away": "Iran",
+   "anytime_goal": 12.5,
+   "assist": null
+  },
+  {
+   "name": "Charles De Ketelaere",
+   "home": "Belgium",
+   "away": "Iran",
+   "anytime_goal": 3.0,
+   "assist": null
+  },
+  {
+   "name": "Kevin De Bruyne",
+   "home": "Belgium",
+   "away": "Iran",
+   "anytime_goal": 2.75,
+   "assist": null
+  },
+  {
+   "name": "Amadou Onana",
+   "home": "Belgium",
+   "away": "Iran",
+   "anytime_goal": 7.7,
+   "assist": null
+  },
+  {
+   "name": "Saeid Ezatolahi",
+   "home": "Belgium",
+   "away": "Iran",
+   "anytime_goal": 18.0,
+   "assist": null
+  },
+  {
+   "name": "Amirhossein Hosseinzadeh",
+   "home": "Belgium",
+   "away": "Iran",
+   "anytime_goal": 6.5,
+   "assist": null
+  },
+  {
+   "name": "Maxim de Cuyper",
+   "home": "Belgium",
+   "away": "Iran",
+   "anytime_goal": 5.0,
+   "assist": null
+  },
+  {
+   "name": "Alexis Saelemaekers",
+   "home": "Belgium",
+   "away": "Iran",
+   "anytime_goal": 4.75,
+   "assist": null
+  },
+  {
+   "name": "Arthur Theate",
+   "home": "Belgium",
+   "away": "Iran",
+   "anytime_goal": 9.0,
+   "assist": null
+  },
+  {
+   "name": "Joaquin Seys",
+   "home": "Belgium",
+   "away": "Iran",
+   "anytime_goal": 9.0,
+   "assist": null
+  },
+  {
+   "name": "Timothy Castagne",
+   "home": "Belgium",
+   "away": "Iran",
+   "anytime_goal": 13.0,
+   "assist": null
+  },
+  {
+   "name": "Rouzbeh Cheshmi",
+   "home": "Belgium",
+   "away": "Iran",
+   "anytime_goal": 17.0,
+   "assist": null
+  },
+  {
+   "name": "Dodi Lukebakio",
+   "home": "Belgium",
+   "away": "Iran",
+   "anytime_goal": 3.5,
+   "assist": null
+  },
+  {
+   "name": "Matias Fernandez Pardo",
+   "home": "Belgium",
+   "away": "Iran",
+   "anytime_goal": 3.0,
+   "assist": null
+  },
+  {
+   "name": "Mehdi Taremi",
+   "home": "Belgium",
+   "away": "Iran",
+   "anytime_goal": 4.6,
+   "assist": null
+  },
+  {
+   "name": "Shoja Khalilzadeh",
+   "home": "Belgium",
+   "away": "Iran",
+   "anytime_goal": 21.0,
+   "assist": null
+  },
+  {
+   "name": "Mehdi Ghaedi",
+   "home": "Belgium",
+   "away": "Iran",
+   "anytime_goal": 6.5,
+   "assist": null
+  },
+  {
+   "name": "Ali Nemati",
+   "home": "Belgium",
+   "away": "Iran",
+   "anytime_goal": 21.0,
+   "assist": null
+  },
+  {
+   "name": "Nicolas Raskin",
+   "home": "Belgium",
+   "away": "Iran",
+   "anytime_goal": 6.5,
+   "assist": null
+  },
+  {
+   "name": "Brandon Mechele",
+   "home": "Belgium",
+   "away": "Iran",
+   "anytime_goal": 9.0,
+   "assist": null
+  },
+  {
+   "name": "Brian Rodriguez",
+   "home": "Uruguay",
+   "away": "Cape Verde",
+   "anytime_goal": 2.8,
+   "assist": null
+  },
+  {
+   "name": "Rodrigo Zalazar",
+   "home": "Uruguay",
+   "away": "Cape Verde",
+   "anytime_goal": 3.0,
+   "assist": null
+  },
+  {
+   "name": "Ianique Stopira",
+   "home": "Uruguay",
+   "away": "Cape Verde",
+   "anytime_goal": 15.0,
+   "assist": null
+  },
+  {
+   "name": "Gilson Tavares",
+   "home": "Uruguay",
+   "away": "Cape Verde",
+   "anytime_goal": 6.0,
+   "assist": null
+  },
+  {
+   "name": "Laros Duarte",
+   "home": "Uruguay",
+   "away": "Cape Verde",
+   "anytime_goal": 15.0,
+   "assist": null
+  },
+  {
+   "name": "Ronald Araujo",
+   "home": "Uruguay",
+   "away": "Cape Verde",
+   "anytime_goal": 7.5,
+   "assist": null
+  },
+  {
+   "name": "Jamiro Monteiro",
+   "home": "Uruguay",
+   "away": "Cape Verde",
+   "anytime_goal": 9.8,
+   "assist": null
+  },
+  {
+   "name": "Diney Borges",
+   "home": "Uruguay",
+   "away": "Cape Verde",
+   "anytime_goal": 17.0,
+   "assist": null
+  },
+  {
+   "name": "Giorgian Daniel De Arrascaeta",
+   "home": "Uruguay",
+   "away": "Cape Verde",
+   "anytime_goal": 3.1,
+   "assist": null
+  },
+  {
+   "name": "Federico Vinas",
+   "home": "Uruguay",
+   "away": "Cape Verde",
+   "anytime_goal": 2.9,
+   "assist": null
+  },
+  {
+   "name": "Agustin Canobbio",
+   "home": "Uruguay",
+   "away": "Cape Verde",
+   "anytime_goal": 3.3,
+   "assist": null
+  },
+  {
+   "name": "Manuel Ugarte",
+   "home": "Uruguay",
+   "away": "Cape Verde",
+   "anytime_goal": 10.5,
+   "assist": null
+  },
+  {
+   "name": "Sebastian Caceres",
+   "home": "Uruguay",
+   "away": "Cape Verde",
+   "anytime_goal": 12.5,
+   "assist": null
+  },
+  {
+   "name": "Kelvin Pires",
+   "home": "Uruguay",
+   "away": "Cape Verde",
+   "anytime_goal": 21.0,
+   "assist": null
+  },
+  {
+   "name": "Facundo Pellistri",
+   "home": "Uruguay",
+   "away": "Cape Verde",
+   "anytime_goal": 4.4,
+   "assist": null
+  },
+  {
+   "name": "Federico Valverde",
+   "home": "Uruguay",
+   "away": "Cape Verde",
+   "anytime_goal": 4.3,
+   "assist": null
+  },
+  {
+   "name": "Diego Nicolas De La Cruz Arcosa",
+   "home": "Uruguay",
    "away": "Cape Verde",
    "anytime_goal": 4.6,
    "assist": null
   },
   {
-   "name": "Logan Costa",
-   "home": "Spain",
+   "name": "Sidny Lopes Cabral",
+   "home": "Uruguay",
+   "away": "Cape Verde",
+   "anytime_goal": 15.0,
+   "assist": null
+  },
+  {
+   "name": "Wagner Pina",
+   "home": "Uruguay",
+   "away": "Cape Verde",
+   "anytime_goal": 21.0,
+   "assist": null
+  },
+  {
+   "name": "Santiago Ignacio Bueno Sciutto",
+   "home": "Uruguay",
+   "away": "Cape Verde",
+   "anytime_goal": 9.0,
+   "assist": null
+  },
+  {
+   "name": "Roberto Lopes",
+   "home": "Uruguay",
+   "away": "Cape Verde",
+   "anytime_goal": 13.0,
+   "assist": null
+  },
+  {
+   "name": "Jose Gimenez",
+   "home": "Uruguay",
+   "away": "Cape Verde",
+   "anytime_goal": 13.0,
+   "assist": null
+  },
+  {
+   "name": "Dailon Rocha Livramento",
+   "home": "Uruguay",
+   "away": "Cape Verde",
+   "anytime_goal": 6.0,
+   "assist": null
+  },
+  {
+   "name": "Emiliano Martínez Toranza",
+   "home": "Uruguay",
+   "away": "Cape Verde",
+   "anytime_goal": 12.0,
+   "assist": null
+  },
+  {
+   "name": "Willy Semedo",
+   "home": "Uruguay",
+   "away": "Cape Verde",
+   "anytime_goal": 7.0,
+   "assist": null
+  },
+  {
+   "name": "Juan Manuel Sanabria",
+   "home": "Uruguay",
+   "away": "Cape Verde",
+   "anytime_goal": 12.0,
+   "assist": null
+  },
+  {
+   "name": "Guillermo Varela",
+   "home": "Uruguay",
+   "away": "Cape Verde",
+   "anytime_goal": 11.0,
+   "assist": null
+  },
+  {
+   "name": "Mathias Olivera",
+   "home": "Uruguay",
+   "away": "Cape Verde",
+   "anytime_goal": 12.0,
+   "assist": null
+  },
+  {
+   "name": "Kevin Lenini Goncalves Pereira de Pina",
+   "home": "Uruguay",
+   "away": "Cape Verde",
+   "anytime_goal": 15.0,
+   "assist": null
+  },
+  {
+   "name": "Steven Moreira",
+   "home": "Uruguay",
    "away": "Cape Verde",
    "anytime_goal": 23.0,
-   "assist": 29.0
+   "assist": null
+  },
+  {
+   "name": "Maximiliano Javier Araujo Vilches",
+   "home": "Uruguay",
+   "away": "Cape Verde",
+   "anytime_goal": 4.2,
+   "assist": null
+  },
+  {
+   "name": "Joia Nuno Da Costa",
+   "home": "Uruguay",
+   "away": "Cape Verde",
+   "anytime_goal": 7.5,
+   "assist": null
+  },
+  {
+   "name": "Helio Sandro Oliveira Alves Varela",
+   "home": "Uruguay",
+   "away": "Cape Verde",
+   "anytime_goal": 8.0,
+   "assist": null
+  },
+  {
+   "name": "Rodrigo Aguirre",
+   "home": "Uruguay",
+   "away": "Cape Verde",
+   "anytime_goal": 2.6,
+   "assist": null
+  },
+  {
+   "name": "Deroy Duarte",
+   "home": "Uruguay",
+   "away": "Cape Verde",
+   "anytime_goal": 15.0,
+   "assist": null
+  },
+  {
+   "name": "Joaquin Piquerez",
+   "home": "Uruguay",
+   "away": "Cape Verde",
+   "anytime_goal": 8.0,
+   "assist": null
+  },
+  {
+   "name": "Joao Paulo Moreira Fernandes",
+   "home": "Uruguay",
+   "away": "Cape Verde",
+   "anytime_goal": 21.0,
+   "assist": null
+  },
+  {
+   "name": "Jovane Cabral",
+   "home": "Uruguay",
+   "away": "Cape Verde",
+   "anytime_goal": 7.0,
+   "assist": null
+  },
+  {
+   "name": "Garry Rodrigues",
+   "home": "Uruguay",
+   "away": "Cape Verde",
+   "anytime_goal": 8.0,
+   "assist": null
+  },
+  {
+   "name": "Matias Vina",
+   "home": "Uruguay",
+   "away": "Cape Verde",
+   "anytime_goal": 11.0,
+   "assist": null
+  },
+  {
+   "name": "Logan Costa",
+   "home": "Uruguay",
+   "away": "Cape Verde",
+   "anytime_goal": 21.0,
+   "assist": null
+  },
+  {
+   "name": "Ryan Mendes da Graca",
+   "home": "Uruguay",
+   "away": "Cape Verde",
+   "anytime_goal": 7.5,
+   "assist": null
+  },
+  {
+   "name": "Telmo Arcanjo",
+   "home": "Uruguay",
+   "away": "Cape Verde",
+   "anytime_goal": 10.0,
+   "assist": null
+  },
+  {
+   "name": "Rodrigo Bentancur",
+   "home": "Uruguay",
+   "away": "Cape Verde",
+   "anytime_goal": 7.5,
+   "assist": null
+  },
+  {
+   "name": "Darwin Gabriel Nunez Ribeiro",
+   "home": "Uruguay",
+   "away": "Cape Verde",
+   "anytime_goal": 2.28,
+   "assist": null
+  },
+  {
+   "name": "Yannick Semedo",
+   "home": "Uruguay",
+   "away": "Cape Verde",
+   "anytime_goal": 15.0,
+   "assist": null
   }
  ]
 }

@@ -1,12 +1,12 @@
 {
- "global_scale": 0.931,
+ "global_scale": 0.943,
  "positional": {
-  "GK": 0.999,
-  "DEF": 0.929,
-  "MID": 1.032,
+  "GK": 0.996,
+  "DEF": 0.921,
+  "MID": 1.021,
   "FWD": 0.952
  },
- "raw": 0.722,
+ "raw": 0.772,
  "n_finalized_rounds": 1,
- "updated_at": "2026-06-17T04:40:36.907883+00:00"
+ "updated_at": "2026-06-17T09:53:26.513147+00:00"
 }

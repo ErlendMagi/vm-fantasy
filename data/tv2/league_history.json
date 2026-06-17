@@ -1,7 +1,7 @@
 {
  "rounds": {
   "2": {
-   "synced_at": "2026-06-17T21:49:45.638803+00:00",
+   "synced_at": "2026-06-17T22:06:43.296289+00:00",
    "members": {
     "I dont know what I am doing": {
      "manager": "Jostein",
@@ -73,7 +73,7 @@
      ],
      "captain_id": "3aaa39f5-9908-454d-97d0-b5806a65e3ac",
      "formation": "4-3-3",
-     "total_points": 61
+     "total_points": 62
     },
     "Cabrones": {
      "manager": "Thomas",

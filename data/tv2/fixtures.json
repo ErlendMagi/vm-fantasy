@@ -790,7 +790,7 @@
    "away": "DR Congo",
    "kickoff_utc": "2026-06-17T17:00:00.000Z",
    "venue_id": "Houston",
-   "status": "scheduled",
+   "status": "finished",
    "score_home": 1,
    "score_away": 1
   },
@@ -803,9 +803,9 @@
    "away": "Colombia",
    "kickoff_utc": "2026-06-18T02:00:00.000Z",
    "venue_id": "Mexico City",
-   "status": "scheduled",
-   "score_home": null,
-   "score_away": null
+   "status": "finished",
+   "score_home": 1,
+   "score_away": 3
   },
   {
    "match_id": "M063",
@@ -868,9 +868,9 @@
    "away": "Croatia",
    "kickoff_utc": "2026-06-17T20:00:00.000Z",
    "venue_id": "Dallas (Arlington)",
-   "status": "scheduled",
-   "score_home": null,
-   "score_away": null
+   "status": "finished",
+   "score_home": 4,
+   "score_away": 2
   },
   {
    "match_id": "M068",
@@ -881,9 +881,9 @@
    "away": "Panama",
    "kickoff_utc": "2026-06-17T23:00:00.000Z",
    "venue_id": "Toronto",
-   "status": "scheduled",
-   "score_home": null,
-   "score_away": null
+   "status": "finished",
+   "score_home": 1,
+   "score_away": 0
   },
   {
    "match_id": "M069",

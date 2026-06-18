@@ -31,6 +31,38 @@
      "n": 1
     }
    }
+  },
+  "2": {
+   "expected": 56.3,
+   "expected_full": 56.3,
+   "expected_played": 0,
+   "actual": -8,
+   "played": 0,
+   "starters": 11,
+   "finalized": false,
+   "by_pos": {
+    "GK": {
+     "expected": 4.02,
+     "actual": 0.0,
+     "n": 0
+    },
+    "DEF": {
+     "expected": 11.84,
+     "actual": 0.0,
+     "n": 0
+    },
+    "MID": {
+     "expected": 29.14,
+     "actual": 0.0,
+     "n": 0
+    },
+    "FWD": {
+     "expected": 3.48,
+     "actual": 0.0,
+     "n": 0
+    }
+   },
+   "updated_at": "2026-06-18T16:33:47.607381+00:00"
   }
  }
 }

@@ -93,6 +93,7 @@ jobs:
       - name: Autopilot transfers near deadline
         env:
           TV2_TOKEN: ${{ secrets.TV2_TOKEN }}
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}   # so the autopilot's pre-decision force-refresh works
         run: python scraper/autopilot.py --confirm
 
       # If the autopilot changed the team, immediately re-sync so the website

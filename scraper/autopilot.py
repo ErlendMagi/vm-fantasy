@@ -118,7 +118,10 @@ def main() -> None:
         if rivals:
             from src import rank_sim
             plans = rank_sim.rank_plans_by_win(proj, plans, my_team["squad"], rivals,
-                                               ls.get("rival_captains"), regime=regime, field_own=field_own)
+                                               ls.get("rival_captains"), regime=regime, field_own=field_own,
+                                               my_current=ls.get("my_total", 0.0),
+                                               rival_current=ls.get("rival_totals"),
+                                               rounds_left=ls.get("rounds_left", 1))
             if plans and plans[0].get("p_win") is not None:
                 print(f"win-prob re-rank: best plan P(finish 1st) = {plans[0]['p_win'] * 100:.1f}%")
         best = plans[0]
@@ -142,7 +145,14 @@ def main() -> None:
                   f"(+{best['net_gain']} projected)")
         target_ids = [p for p in my_team["squad"] if p not in best["out_ids"]] + best["in_ids"]
 
-    t = compose_lineup(proj, target_ids, regime=regime, field_own=field_own)
+    # choose the FORMATION + XI by P(finish 1st), not just expected points, when we
+    # know the field (rivals + standings) — the shape that best chases/protects the title.
+    win_ctx = None
+    if ls and rivals:
+        win_ctx = {"fixtures": proj.attrs.get("fixtures_next") or [], "rival_squads": rivals,
+                   "rival_captains": ls.get("rival_captains"), "my_current": ls.get("my_total", 0.0),
+                   "rival_current": ls.get("rival_totals"), "rounds_left": ls.get("rounds_left", 1)}
+    t = compose_lineup(proj, target_ids, regime=regime, field_own=field_own, win_ctx=win_ctx)
     print_team(t, proj)
 
     if not args.confirm:

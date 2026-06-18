@@ -109,10 +109,14 @@ def _plans(sig: tuple, weather_bucket: str, squad: tuple, bank: float, free: int
     plans = optimizer.transfer_plans(proj, list(squad), bank, free_transfers=free, rival_squads=rivals,
                                      regime=regime, hit_margin=hit_margin, cover=True, team_cap=team_cap)
     if rivals and fx:
-        fo = analytics.field_effective_ownership(rivals, (state or {}).get("rival_captains"))
+        st_ = state or {}
+        fo = analytics.field_effective_ownership(rivals, st_.get("rival_captains"))
         plans = rank_sim.rank_plans_by_win(proj, plans, list(squad), rivals,
-                                           (state or {}).get("rival_captains"), regime=regime,
-                                           field_own=fo, fixtures=fx)
+                                           st_.get("rival_captains"), regime=regime,
+                                           field_own=fo, fixtures=fx,
+                                           my_current=st_.get("my_total", 0.0),
+                                           rival_current=st_.get("rival_totals"),
+                                           rounds_left=st_.get("rounds_left", 1))
     return plans
 
 
@@ -128,18 +132,44 @@ def _win_prob(sig: tuple, weather_bucket: str, squad: tuple) -> float | None:
     # probability and the Transfers keep-plan p_win are computed identically in every
     # regime (not just coinflip, where the regime tilt happens to vanish) — bar tiny
     # Monte-Carlo noise from the shared-RNG draw order.
-    fo = analytics.field_effective_ownership(rivals, (state or {}).get("rival_captains"))
+    st_ = state or {}
+    fo = analytics.field_effective_ownership(rivals, st_.get("rival_captains"))
     ranked = rank_sim.rank_plans_by_win(proj, [{"out_ids": [], "in_ids": []}], list(squad), rivals,
-                                        (state or {}).get("rival_captains"), regime=regime,
-                                        field_own=fo, fixtures=fx)
+                                        st_.get("rival_captains"), regime=regime,
+                                        field_own=fo, fixtures=fx,
+                                        my_current=st_.get("my_total", 0.0),
+                                        rival_current=st_.get("rival_totals"),
+                                        rounds_left=st_.get("rounds_left", 1))
     return ranked[0].get("p_win") if ranked else None
 
 
 def get_win_probability() -> float | None:
-    """Monte-Carlo P(your current squad finishes the next round 1st of the league)."""
+    """Monte-Carlo P(your current squad finishes 1st of the league at the final whistle)."""
     sig = _data_sig()
     my = _bundle(sig)["my_team"] or {}
     return _win_prob(sig, _weather_bucket(), tuple(my.get("squad", [])))
+
+
+@st.cache_data(ttl=180, show_spinner=False)
+def _formation_win(sig: tuple, weather_bucket: str, squad: tuple) -> list[dict]:
+    from src import analytics, rank_sim
+    comp = _computed(sig, weather_bucket)
+    proj, fx = comp["proj_plan"], comp["fixtures_plan"]
+    regime, rivals, _, state = _regime_for(sig, weather_bucket, squad)
+    if not rivals or not fx:
+        return []
+    st_ = state or {}
+    fo = analytics.field_effective_ownership(rivals, st_.get("rival_captains"))
+    return rank_sim.formation_win_probs(proj, list(squad), fx, rivals, st_.get("rival_captains"),
+                                        regime=regime, field_own=fo,
+                                        my_current=st_.get("my_total", 0.0),
+                                        rival_current=st_.get("rival_totals"),
+                                        rounds_left=st_.get("rounds_left", 1))
+
+
+def get_formation_win_probs(squad: list[str]) -> list[dict]:
+    """Each valid formation's P(finish 1st) for the squad — title-ranked, best first."""
+    return _formation_win(_data_sig(), _weather_bucket(), tuple(squad))
 
 
 def get_league_state() -> dict | None:

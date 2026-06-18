@@ -43,30 +43,42 @@ def build_target(value_col: str) -> dict:
     return {**compose_lineup(proj, res["squad_ids"]), "proj": proj, "res": res, "value_col": value_col}
 
 
-def compose_lineup(proj, squad_ids: list[str], regime=None, field_own=None) -> dict:
-    """Best XI + captain/vice + ordered bench for a given 15 - the full write
-    payload fields. Shared by apply_team and autopilot. Captain/vice come from
-    optimizer.choose_captain: never an at-risk-of-benching captain, vice always in
-    a DIFFERENT match, and a regime tilt (cover when ahead, differential when behind)."""
-    xi = optimizer.best_xi(proj.loc[squad_ids], "xp_next")
-    starters = xi["xi_ids"]
+def compose_lineup(proj, squad_ids: list[str], regime=None, field_own=None, win_ctx=None) -> dict:
+    """Best XI + captain/vice + ordered bench for a given 15 - the full write payload.
+    When `win_ctx` (rivals + standings) is given, the FORMATION + XI are chosen to
+    maximise P(finish 1st in the final standings) — simulated across all valid shapes —
+    not just expected points; otherwise the EV best XI is used. Captain/vice come from
+    optimizer.choose_captain (never an at-risk captain; vice in a DIFFERENT match)."""
+    fw = None
+    if win_ctx:
+        from src import rank_sim
+        fw = rank_sim.formation_win_probs(
+            proj, squad_ids, win_ctx.get("fixtures"), win_ctx.get("rival_squads"),
+            win_ctx.get("rival_captains"), regime=regime, field_own=field_own,
+            my_current=win_ctx.get("my_current", 0.0), rival_current=win_ctx.get("rival_current"),
+            rounds_left=win_ctx.get("rounds_left", 1))
+    if fw:                                    # title-probability-optimal shape + armband
+        best = fw[0]
+        starters, cap, vice, formation = best["xi_ids"], best["captain_id"], best["vice_id"], best["formation"]
+    else:                                     # fallback: EV best XI
+        xi = optimizer.best_xi(proj.loc[squad_ids], "xp_next")
+        starters, formation = xi["xi_ids"], xi["formation"]
+        cap, vice = optimizer.choose_captain(proj.loc[[s for s in starters if s in proj.index]],
+                                             regime, field_own, "xp_next")
+        cap = cap or xi["captain_id"]
+    if vice is None or vice == cap:
+        by_xp = proj.loc[[s for s in starters if s in proj.index]].sort_values("xp_next", ascending=False)
+        vice = next((i for i in by_xp.index if i != cap), cap)
     bench = [p for p in squad_ids if p not in starters]
     # bench order: backup GK first, then outfield by descending next-round xP
     bench.sort(key=lambda i: (proj.loc[i, "position"] != "GK", -proj.loc[i, "xp_next"]))
-    xidf = proj.loc[[s for s in starters if s in proj.index]]
-    cap, vice = optimizer.choose_captain(xidf, regime, field_own, "xp_next")
-    if cap is None:
-        cap = xi["captain_id"]
-    if vice is None:
-        by_xp = xidf.sort_values("xp_next", ascending=False)
-        vice = by_xp.index[1] if len(by_xp) > 1 else cap
     return {
         "playerIds": squad_ids,
         "starterIds": starters,
         "benchIds": bench,
         "captainId": cap,
         "viceCaptainId": vice,
-        "formation": xi["formation"],
+        "formation": formation,
     }
 
 

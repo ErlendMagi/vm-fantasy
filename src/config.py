@@ -112,6 +112,11 @@ FORMATIONS = [(3, 4, 3), (3, 5, 2), (4, 3, 3), (4, 4, 2), (4, 5, 1), (5, 3, 2), 
 # squad is still chosen first; this only breaks genuine ties, so it never trades real
 # points for variance. (Transfers stay Monte-Carlo-ranked on win probability.)
 FORMATION_TIE_EPS = 0.25
+# When ranking formations by P(finish 1st), title probabilities within this band of the
+# best are a statistical tie (Monte-Carlo noise) — break those ties by EXPECTED POINTS so
+# we never give up real EV for noise. p_win only overrides EV when a shape is clearly
+# better for the title (close races, where formation variance actually moves the needle).
+PWIN_FORMATION_BAND = 0.01
 
 
 def formation_aggression(d: int, m: int, f: int) -> int:
@@ -176,6 +181,12 @@ HIT_MARGIN = 1.0             # safety margin (pts) an extra -4 hit must clear to
 # are netted against the upgrade, so a reallocation is only taken when it nets positive.
 ENABLER_MIN_PSTART = 0.60    # an enabler must be at least this likely to start
 ENABLER_COUNT = 6            # cheapest N likely-starters per position added to the shortlist
+# You must own 15 but only 11 score — so the 4 BENCH players should be the cheapest
+# viable fodder, with the budget concentrated in the starting XI + captain. Squad value
+# is penalised by the money parked on the bench (the non-XI players), so the optimiser
+# routes spend into the XI ("sell the bench to afford stars"). Small: a tiebreak/nudge,
+# never overriding real XI value — the cheaper bench only wins when the XI holds up.
+BENCH_COST_WEIGHT = 0.04     # xP penalty per £M sitting on the bench
 
 # ---------------------------------------------------------------- win-probability play
 # In a small winner-takes-all league the objective is P(finish 1st), not raw EV.

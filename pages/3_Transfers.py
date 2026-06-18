@@ -250,41 +250,45 @@ with b:
 
 # ---------------------------------------------------------------- formation finder
 st.subheader(f"🔷 Which formation should I use? — round {target}")
-_forms = optimizer.formation_options(owned, "xp_next")
-if _forms:
-    _bestf = _forms[0]
+_cur_xi = set(optimizer.best_xi(owned, "xp_next")["xi_ids"])
+_bench_cost = float(owned.loc[[i for i in owned.index if i not in _cur_xi], "price"].sum())
+st.caption(f"💰 **Bench fodder:** **{_bench_cost:.1f}M** of your £100M is parked on the 4 bench players (they "
+           "barely score). You can't field fewer than 15, but the model now **penalises dead bench money and "
+           "routes it into your XI** — that's how it affords stars. Keep the bench the cheapest viable cover.")
+_winf = services.get_formation_win_probs(my["squad"])
+if _winf:
+    _pick = _winf[0]                                   # the shape the model fields (p_win, EV-tiebroken)
+    _disp = sorted(_winf, key=lambda f: f["p_win"])    # plotly draws bottom-up → highest p_win on top
     _ff = go.Figure(go.Bar(
-        x=[f["total"] for f in _forms][::-1], y=[f["formation"] for f in _forms][::-1], orientation="h",
-        marker_color=["#00b894" if f["formation"] == _bestf["formation"] else viz_neutral
-                      for f in _forms][::-1],
-        text=[f"{f['total']:.1f}" for f in _forms][::-1], textposition="outside", cliponaxis=False))
-    _ff.update_layout(height=80 + 32 * len(_forms), margin=dict(l=10, r=10, t=10, b=10),
-                      xaxis=dict(title=f"Projected XI points (round {target}, captain ×2)",
-                                 range=[0, max(f["total"] for f in _forms) * 1.12]))
+        x=[f["p_win"] * 100 for f in _disp], y=[f["formation"] for f in _disp], orientation="h",
+        marker_color=["#00b894" if f["formation"] == _pick["formation"] else viz_neutral for f in _disp],
+        text=[f"{f['p_win'] * 100:.0f}%" for f in _disp], textposition="outside", cliponaxis=False))
+    _ff.update_layout(height=80 + 32 * len(_disp), margin=dict(l=10, r=10, t=10, b=10),
+                      xaxis=dict(title="P(finish 1st in the league) — simulated per formation",
+                                 range=[0, max(f["p_win"] * 100 for f in _disp) * 1.18 + 0.5]))
     st.plotly_chart(_ff, width="stretch", config={"displayModeBar": False})
-    _gap = _bestf["total"] - (_forms[1]["total"] if len(_forms) > 1 else _bestf["total"])
-    if len(_forms) > 1 and round(_gap, 1) <= 0.0:
-        _edge = f", **essentially tied** with **{_forms[1]['formation']}** — within 0.1 pt, either is fine)."
-    elif len(_forms) > 1:
-        _edge = f", **+{_gap:.1f}** ahead of the next-best **{_forms[1]['formation']}**)."
-    else:
-        _edge = ")."
     st.caption(
-        f"**Best formation for your squad this round: {_bestf['formation']}** "
-        f"({_bestf['total']:.1f} projected pts{_edge}"
-        " The model **always fields the top formation automatically** — on TV2 you set it simply by choosing "
-        "which 11 you start (the suggested XI above already uses this shape). It isn't a fixed choice: it can "
-        "change round to round as fixtures, form and your transfers move, so check here each week.")
-    # joint optimisation: the transfer search values every candidate squad at ITS own
-    # best formation, so the recommended plan is the best transfers + shape together.
-    if best and best["n_transfers"] > 0:
-        _post = proj.loc[[i for i in ([j for j in my["squad"] if j not in best["out_ids"]] + best["in_ids"])
-                          if i in proj.index]]
-        _pf = optimizer.formation_options(_post, "xp_next")
-        if _pf:
-            st.info(f"🔁 **After the model's recommended transfers**, your best round-{target} shape is "
-                    f"**{_pf[0]['formation']}** (**{_pf[0]['total']:.1f}** pts). The transfer search already "
-                    "values **every candidate squad at its own best formation**, so transfers and shape are "
-                    f"chosen together — this box just shows the round-{target} XI you'd field after them.")
+        f"**Best formation: {_pick['formation']}** (green) — chosen to maximise **P(finishing 1st in the FINAL "
+        "standings)**, Monte-Carlo'd across all 7 shapes vs your rivals' real squads (folding in your current "
+        "points gap + the rest of the cup). The model fields it automatically; you set it on TV2 by which 11 you "
+        "start. When several shapes are a **statistical tie** on title odds (as when you're far ahead or behind, "
+        "like now), it takes the **highest expected-points** one — and leans to higher-ceiling attacking shapes "
+        "only when extra variance actually lifts your title chances (close races).")
 else:
-    st.caption("Not enough players to form a valid XI yet.")
+    # rivals not known yet → rank by expected points instead
+    _forms = optimizer.formation_options(owned, "xp_next")
+    if _forms:
+        _bestf = _forms[0]
+        _ff = go.Figure(go.Bar(
+            x=[f["total"] for f in _forms][::-1], y=[f["formation"] for f in _forms][::-1], orientation="h",
+            marker_color=["#00b894" if f["formation"] == _bestf["formation"] else viz_neutral
+                          for f in _forms][::-1],
+            text=[f"{f['total']:.1f}" for f in _forms][::-1], textposition="outside", cliponaxis=False))
+        _ff.update_layout(height=80 + 32 * len(_forms), margin=dict(l=10, r=10, t=10, b=10),
+                          xaxis=dict(title=f"Projected XI points (round {target}, captain ×2)",
+                                     range=[0, max(f["total"] for f in _forms) * 1.12]))
+        st.plotly_chart(_ff, width="stretch", config={"displayModeBar": False})
+        st.caption(f"**Best formation: {_bestf['formation']}** ({_bestf['total']:.1f} projected pts). Ranked by "
+                   "expected points until your rivals' squads unlock, then it switches to title probability.")
+    else:
+        st.caption("Not enough players to form a valid XI yet.")

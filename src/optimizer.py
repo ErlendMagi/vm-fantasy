@@ -146,36 +146,44 @@ def choose_captain(xi: pd.DataFrame, regime: str | None = None, field_own: dict 
 
 
 def _fast_squad_value(ids: list[str], info: dict[str, tuple]) -> float:
-    """Same result as squad_xp but on plain tuples - the transfer search calls
-    this ~20k times, so no pandas here. info[pid] = (pos, xp, price, team).
-    Captain = max xp in the XI; every formation fields the top player of each
-    position, so the captain is formation-independent."""
+    """squad_xp (best XI, captain doubled) MINUS a small penalty for money parked on
+    the bench, on plain tuples — the transfer search calls this ~20k times, so no
+    pandas. info[pid] = (pos, xp, price, team). The bench penalty routes budget into
+    the starting XI; the formation is still chosen by xP (same XI best_xi fields)."""
     by_pos = {"GK": [], "DEF": [], "MID": [], "FWD": []}
     for pid in ids:
         p = info[pid]
-        by_pos[p[0]].append(p[1])
+        by_pos[p[0]].append((p[1], p[2]))           # (xp, price), sorted by xp below
     for v in by_pos.values():
         v.sort(reverse=True)
     if not by_pos["GK"]:
         return 0.0
-    prefix = {}
+    total_cost = sum(pr for v in by_pos.values() for _, pr in v)
+    xpfx, ppfx = {}, {}
     for pos, v in by_pos.items():
-        acc, total = [0.0], 0.0
-        for x in v:
-            total += x
-            acc.append(total)
-        prefix[pos] = acc
-    best = 0.0
+        ax, ap, tx, tp = [0.0], [0.0], 0.0, 0.0
+        for xp, pr in v:
+            tx += xp
+            tp += pr
+            ax.append(tx)
+            ap.append(tp)
+        xpfx[pos], ppfx[pos] = ax, ap
+    best_xp, best_xi_cost = 0.0, 0.0
     for d, m, f in config.FORMATIONS:
         if len(by_pos["DEF"]) < d or len(by_pos["MID"]) < m or len(by_pos["FWD"]) < f:
             continue
-        val = by_pos["GK"][0] + prefix["DEF"][d] + prefix["MID"][m] + prefix["FWD"][f]
-        best = max(best, val)
-    captain = max(by_pos["GK"][0],
-                  by_pos["DEF"][0] if by_pos["DEF"] else 0.0,
-                  by_pos["MID"][0] if by_pos["MID"] else 0.0,
-                  by_pos["FWD"][0] if by_pos["FWD"] else 0.0)
-    return best + (config.CAPTAIN_MULTIPLIER - 1) * captain
+        val = by_pos["GK"][0][0] + xpfx["DEF"][d] + xpfx["MID"][m] + xpfx["FWD"][f]
+        if val > best_xp:
+            best_xp = val
+            best_xi_cost = by_pos["GK"][0][1] + ppfx["DEF"][d] + ppfx["MID"][m] + ppfx["FWD"][f]
+    if best_xp <= 0.0:
+        return 0.0
+    captain = max(by_pos["GK"][0][0],
+                  by_pos["DEF"][0][0] if by_pos["DEF"] else 0.0,
+                  by_pos["MID"][0][0] if by_pos["MID"] else 0.0,
+                  by_pos["FWD"][0][0] if by_pos["FWD"] else 0.0)
+    return (best_xp + (config.CAPTAIN_MULTIPLIER - 1) * captain
+            - config.BENCH_COST_WEIGHT * (total_cost - best_xi_cost))
 
 
 def transfer_plans(players: pd.DataFrame, my_squad_ids: list[str], bank: float,
@@ -320,14 +328,16 @@ def transfer_plans(players: pd.DataFrame, my_squad_ids: list[str], bank: float,
             for in_id in shortlist[pos].index:
                 if in_id in anchor["in_ids"]:
                     continue
-                # a PAID extra swap must repay the -4 in the round you pay it: gate on the
-                # NEXT-round marginal, not whole-cup value. You get this swap for free next
-                # round anyway, so a -4 only buys this round's edge. (Eliminated-player
-                # dumps still pass: their xp_next ~0 keeps the marginal large.)
+                # PAID (-4) swaps: only a LIGHT sanity floor here — the incoming player must
+                # improve whole-cup value, so we don't generate dominated hits. Whether the
+                # -4 is actually worth taking is decided downstream by the TITLE-probability
+                # sim (which deducts the hit and folds in the standings), per "play for the
+                # title". This lets a 3rd/4th transfer through when the new players make up
+                # for the -4 over the cup, instead of blocking it on next-round value alone.
                 if paid:
-                    marg = (float(players.loc[in_id, "xp_next"]) - float(players.loc[out_id, "xp_next"])
+                    marg = (float(players.loc[in_id, "xp_tournament"]) - float(players.loc[out_id, "xp_tournament"])
                             if in_id in players.index and out_id in players.index else 0.0)
-                    if marg <= config.EXTRA_TRANSFER_COST + hitm:
+                    if marg <= 0:
                         continue
                 ext = evaluate(anchor["out_ids"] + [out_id], anchor["in_ids"] + [in_id])
                 if ext and (best_ext is None or ext["net_gain"] > best_ext["net_gain"]):

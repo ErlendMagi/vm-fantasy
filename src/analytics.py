@@ -46,18 +46,21 @@ def league_state(league: dict | None, my_squad_name: str, completed_rounds: list
         return None
     my_total = me.get("total_points", 0) or 0
     rivals = [m for m in members if m.get("squad_name") != my_squad_name and (m.get("squad") or m.get("rounds"))]
-    rival_totals = [m.get("total_points", 0) or 0 for m in rivals]
-    best_rival = max(rival_totals) if rival_totals else my_total
-    rival_squads = [set(m.get("squad") or []) for m in rivals if m.get("squad")]
+    best_rival = max((m.get("total_points", 0) or 0 for m in rivals), default=my_total)
 
     def _cap(m):
         return m.get("captain_id") or next((r.get("captain_id") for r in reversed(m.get("rounds") or [])
                                             if r.get("captain_id")), None)
-    rival_captains = [c for c in (_cap(m) for m in rivals) if c]
+    # squad-bearing rivals, with squads / captains / current totals ALL ALIGNED by index,
+    # so the title-seeking win-prob sim can add each rival's standing to their own squad.
+    rivals_ws = [m for m in rivals if m.get("squad")]
+    rival_squads = [set(m["squad"]) for m in rivals_ws]
+    rival_captains = [_cap(m) for m in rivals_ws]
+    rival_totals = [m.get("total_points", 0) or 0 for m in rivals_ws]
     rounds_left = max(1, config.TOTAL_FANTASY_ROUNDS - len(completed_rounds or []))
     return {"my_total": my_total, "best_rival": best_rival, "gap_to_field": my_total - best_rival,
             "rounds_left": rounds_left, "rival_squads": rival_squads, "rival_captains": rival_captains,
-            "n_rivals": len(rivals)}
+            "rival_totals": rival_totals, "n_rivals": len(rivals)}
 
 
 def field_ownership(rival_squads: list[set]) -> dict:

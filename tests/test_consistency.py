@@ -140,3 +140,31 @@ def test_spi_proj_next_equals_fielded_value(d, league):
         owned = proj.loc[[i for i in row["squad"] if i in proj.index]]
         manual = float(owned.loc[xi, "xp_next"].sum()) + (float(owned.loc[cap, "xp_next"]) if cap in xi else 0.0)
         assert abs(row["proj_next"] - manual) < 0.01, row["squad_name"]
+
+
+# ── invariant: the applied XI never contains a likely-benched player (playtime guarantee) ──
+def test_applied_xi_no_benched_player(d, squad):
+    import scraper.apply_team as apply
+    proj = d["proj_plan"]
+    t = apply.compose_lineup(proj, list(squad))      # fallback (EV) path applies XI_PSTART_FLOOR
+    owned = proj.loc[[i for i in squad if i in proj.index]]
+    # only a guarantee when 11 likely-starters CAN be fielded (else it falls back, by design)
+    n = {pos: int(((owned["p_start"] >= config.XI_PSTART_FLOOR) & (owned["position"] == pos)).sum())
+         for pos in ("GK", "DEF", "MID", "FWD")}
+    feasible = n["GK"] >= 1 and any(n["DEF"] >= dd and n["MID"] >= mm and n["FWD"] >= ff
+                                    for dd, mm, ff in config.FORMATIONS)
+    if not feasible:
+        pytest.skip("squad can't field 11 likely starters - fallback is intentional")
+    for pid in t["starterIds"]:
+        assert proj.loc[pid, "p_start"] >= config.XI_PSTART_FLOOR, proj.loc[pid, "name"]
+
+
+# ── invariant: the transfer search never proposes BUYING a likely-benched player ──
+def test_transfers_never_buy_benched(d, squad):
+    proj = d["proj_plan"]
+    plans = services.get_transfer_plans(squad, float(d["my_team"].get("bank", 0)),
+                                        int(d["my_team"].get("free_transfers", 2)))
+    for p in plans:
+        for pid in p["in_ids"]:
+            if pid in proj.index:
+                assert proj.loc[pid, "p_start"] >= config.BUY_PSTART_FLOOR, proj.loc[pid, "name"]

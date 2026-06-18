@@ -241,7 +241,7 @@ with a:
                "the win-probability sim assumes, not a raw xP pick that could name a benched player.")
 with b:
     st.subheader(f"Suggested starting XI (round {target})")
-    xi = optimizer.best_xi(owned, "xp_next")
+    xi = optimizer.best_xi(owned, "xp_next", p_start_floor=config.XI_PSTART_FLOOR)
     xi_df = owned.loc[[i for i in xi["xi_ids"] if i in owned.index]]
     xi_df = xi_df.sort_values("position", key=lambda s: s.map({"GK": 0, "DEF": 1, "MID": 2, "FWD": 3}))
     st.write(f"Formation **{xi['formation']}** — projected **{xi['total']:.1f}** pts for round {target}")
@@ -250,7 +250,7 @@ with b:
 
 # ---------------------------------------------------------------- formation finder
 st.subheader(f"🔷 Which formation should I use? — round {target}")
-_cur_xi = set(optimizer.best_xi(owned, "xp_next")["xi_ids"])
+_cur_xi = set(optimizer.best_xi(owned, "xp_next", p_start_floor=config.XI_PSTART_FLOOR)["xi_ids"])
 _bench_cost = float(owned.loc[[i for i in owned.index if i not in _cur_xi], "price"].sum())
 st.caption(f"💰 **Bench fodder:** **{_bench_cost:.1f}M** of your £100M is parked on the 4 bench players (they "
            "barely score). You can't field fewer than 15, but the model now **penalises dead bench money and "
@@ -276,7 +276,7 @@ if _winf:
         "only when extra variance actually lifts your title chances (close races).")
 else:
     # rivals not known yet → rank by expected points instead
-    _forms = optimizer.formation_options(owned, "xp_next")
+    _forms = optimizer.formation_options(owned, "xp_next", p_start_floor=config.XI_PSTART_FLOOR)
     if _forms:
         _bestf = _forms[0]
         _ff = go.Figure(go.Bar(

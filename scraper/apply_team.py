@@ -60,8 +60,8 @@ def compose_lineup(proj, squad_ids: list[str], regime=None, field_own=None, win_
     if fw:                                    # title-probability-optimal shape + armband
         best = fw[0]
         starters, cap, vice, formation = best["xi_ids"], best["captain_id"], best["vice_id"], best["formation"]
-    else:                                     # fallback: EV best XI
-        xi = optimizer.best_xi(proj.loc[squad_ids], "xp_next")
+    else:                                     # fallback: EV best XI (likely starters only)
+        xi = optimizer.best_xi(proj.loc[squad_ids], "xp_next", p_start_floor=config.XI_PSTART_FLOOR)
         starters, formation = xi["xi_ids"], xi["formation"]
         cap, vice = optimizer.choose_captain(proj.loc[[s for s in starters if s in proj.index]],
                                              regime, field_own, "xp_next")

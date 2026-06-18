@@ -87,7 +87,7 @@ def _formation_seed(info: dict, pool_ids: dict, formation: tuple, budget: float,
     need = dict(xi_need)
     for cid in sorted((i for pos in xi_need for i in pool_ids[pos] if i not in chosen),
                       key=lambda i: -info[i][1]):  # highest value first
-        pos, _, price, t = info[cid]
+        pos, _, price, t = info[cid][:4]
         if need.get(pos, 0) <= 0 or counts.get(t, 0) >= team_cap:
             continue
         after = dict(need); after[pos] -= 1
@@ -116,7 +116,7 @@ def _hill_climb(squad: list[str], info: dict, pool_ids: dict, budget: float,
             counts[info[i][3]] = counts.get(info[i][3], 0) + 1
         best_move = None
         for out_id in best:
-            o_pos, _, o_price, o_team = info[out_id]
+            o_pos, _, o_price, o_team = info[out_id][:4]
             for cid in pool_ids[o_pos]:
                 if cid in owned:
                     continue
@@ -186,7 +186,8 @@ def build_optimal_squad(players: pd.DataFrame, budget: float = config.BUDGET,
     pool = _candidate_pool(players, value_col)
     # tuple view for the fast evaluator + per-position candidate id lists
     union = pd.concat(pool.values()).drop_duplicates(subset="id")
-    info = {r["id"]: (r["position"], float(r[value_col]), float(r["price"]), r["team"])
+    info = {r["id"]: (r["position"], float(r[value_col]), float(r["price"]), r["team"],
+                      float(r["p_start"]) if "p_start" in r and r["p_start"] == r["p_start"] else 1.0)
             for _, r in union.iterrows()}
     pool_ids = {pos: list(df["id"]) for pos, df in pool.items()}
 

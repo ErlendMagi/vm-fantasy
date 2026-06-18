@@ -12,9 +12,24 @@ import pandas as pd
 from src import config
 
 
-def best_xi(squad: pd.DataFrame, xp_col: str = "xp_next") -> dict:
-    """squad: 15-row frame with position + xp_col. Returns XI ids, formation,
-    captain and total (captain doubled)."""
+def _floor_pool(squad: pd.DataFrame, p_start_floor: float | None) -> pd.DataFrame:
+    """The squad restricted to LIKELY STARTERS (p_start >= floor) — but only if a full
+    valid XI can still be fielded from them; otherwise the unfiltered squad (a slot is
+    never left empty). This is the iron 'never field a benched player' guarantee."""
+    if p_start_floor is None or "p_start" not in squad.columns:
+        return squad
+    floored = squad[squad["p_start"] >= p_start_floor]
+    n = {pos: int((floored["position"] == pos).sum()) for pos in ("GK", "DEF", "MID", "FWD")}
+    feasible = n["GK"] >= 1 and any(n["DEF"] >= d and n["MID"] >= m and n["FWD"] >= f
+                                    for d, m, f in config.FORMATIONS)
+    return floored if feasible else squad
+
+
+def best_xi(squad: pd.DataFrame, xp_col: str = "xp_next", p_start_floor: float | None = None) -> dict:
+    """squad: 15-row frame with position + xp_col. Returns XI ids, formation, captain
+    and total (captain doubled). With p_start_floor set, the XI is built only from
+    likely starters (our fielding guarantee); rivals are scored without it (real XI)."""
+    squad = _floor_pool(squad, p_start_floor)
     by_pos = {
         pos: squad[squad["position"] == pos].sort_values(xp_col, ascending=False)
         for pos in ("GK", "DEF", "MID", "FWD")
@@ -44,11 +59,14 @@ def squad_xp(squad: pd.DataFrame, xp_col: str = "xp_next") -> float:
     return best_xi(squad, xp_col)["total"]
 
 
-def formation_options(squad: pd.DataFrame, xp_col: str = "xp_next") -> list[dict]:
+def formation_options(squad: pd.DataFrame, xp_col: str = "xp_next",
+                      p_start_floor: float | None = None) -> list[dict]:
     """Projected points of the best XI under EVERY formation the game accepts that
     this squad can actually field, captain doubled — so you can SEE which shape wins
     and by how much. The model always fields the top one; you set it on TV2 simply
-    by which 11 you start. Sorted best-first."""
+    by which 11 you start. Sorted best-first. With p_start_floor, only likely starters
+    are eligible to field (the playtime guarantee)."""
+    squad = _floor_pool(squad, p_start_floor)
     by_pos = {pos: squad[squad["position"] == pos].sort_values(xp_col, ascending=False)
               for pos in ("GK", "DEF", "MID", "FWD")}
     out = []
@@ -148,17 +166,28 @@ def choose_captain(xi: pd.DataFrame, regime: str | None = None, field_own: dict 
 def _fast_squad_value(ids: list[str], info: dict[str, tuple]) -> float:
     """squad_xp (best XI, captain doubled) MINUS a small penalty for money parked on
     the bench, on plain tuples — the transfer search calls this ~20k times, so no
-    pandas. info[pid] = (pos, xp, price, team). The bench penalty routes budget into
-    the starting XI; the formation is still chosen by xP (same XI best_xi fields)."""
-    by_pos = {"GK": [], "DEF": [], "MID": [], "FWD": []}
+    pandas. info[pid] = (pos, xp, price, team, p_start). The XI is scored only from
+    LIKELY STARTERS (p_start >= XI_PSTART_FLOOR), the SAME guarantee compose_lineup
+    fields — so the search can't credit a buy it would actually bench; falls back to the
+    full pool only when 11 likely starters can't otherwise be formed. The bench penalty
+    (over all 15) routes budget into the XI; the formation is still chosen by xP."""
+    full = {"GK": [], "DEF": [], "MID": [], "FWD": []}        # all 15, for total_cost + fallback
+    floored = {"GK": [], "DEF": [], "MID": [], "FWD": []}     # likely starters only, for the XI
     for pid in ids:
         p = info[pid]
-        by_pos[p[0]].append((p[1], p[2]))           # (xp, price), sorted by xp below
+        full[p[0]].append((p[1], p[2]))                      # (xp, price)
+        if p[4] >= config.XI_PSTART_FLOOR:                   # p[4] = p_start
+            floored[p[0]].append((p[1], p[2]))
+    total_cost = sum(pr for v in full.values() for _, pr in v)
+
+    def _feasible(bp):
+        return len(bp["GK"]) >= 1 and any(len(bp["DEF"]) >= d and len(bp["MID"]) >= m and len(bp["FWD"]) >= f
+                                          for d, m, f in config.FORMATIONS)
+    by_pos = floored if _feasible(floored) else full
     for v in by_pos.values():
         v.sort(reverse=True)
     if not by_pos["GK"]:
         return 0.0
-    total_cost = sum(pr for v in by_pos.values() for _, pr in v)
     xpfx, ppfx = {}, {}
     for pos, v in by_pos.items():
         ax, ap, tx, tp = [0.0], [0.0], 0.0, 0.0
@@ -203,19 +232,29 @@ def transfer_plans(players: pd.DataFrame, my_squad_ids: list[str], bank: float,
         raise ValueError(f"only {len(owned)}/{config.SQUAD_SIZE} squad ids found in player data")
     current_counts = owned["team"].value_counts()
     pool = players[~players.index.isin(owned.index) & (players.get("status", "available") != "out")]
+    # PLAYTIME guarantee on buys: never even shortlist a player unlikely to start.
+    _pp = pool["p_start"] if "p_start" in pool.columns else pd.Series(1.0, index=pool.index)
+    pool = pool[_pp >= config.BUY_PSTART_FLOOR]
 
     def _candidates(pos):
         sub = pool[pool["position"] == pos]
-        top = sub.sort_values(xp_col, ascending=False).head(shortlist_size)   # the upgrade targets
-        # cheap ENABLERS: the cheapest likely starters, so the search can DOWNGRADE a
-        # position to free budget for a big upgrade elsewhere — budget reallocation, not
-        # just same-price swaps. Must be likely to play (no dead-weight buys).
+        top = sub.sort_values(xp_col, ascending=False).head(shortlist_size)        # the upgrade targets
+        # ENABLERS for budget reallocation, all NAILED-ON starters (ENABLER_MIN_PSTART):
+        # the BEST-VALUE cheap ones (xP/£M under a price ceiling) are the reliable, decent
+        # fillers; plus the single cheapest per position as near-free BENCH fodder to free
+        # budget for stars. (A cheap filler may be low-owned, but the XI_PSTART_FLOOR at
+        # FIELDING time keeps any sub-floor pick on the bench — never started.)
         pstart = sub["p_start"] if "p_start" in sub.columns else pd.Series(1.0, index=sub.index)
-        enablers = sub[pstart >= config.ENABLER_MIN_PSTART].sort_values("price").head(config.ENABLER_COUNT)
-        return pd.concat([top, enablers]).loc[lambda df: ~df.index.duplicated()]
+        nailed = sub[pstart >= config.ENABLER_MIN_PSTART]
+        cheap = nailed[nailed["price"] <= config.ENABLER_PRICE_CEILING]
+        value = (cheap.assign(_v=cheap[xp_col] / cheap["price"].clip(lower=0.1))
+                 .sort_values("_v", ascending=False).head(config.ENABLER_VALUE_COUNT))
+        cheapest = nailed.sort_values("price").head(config.ENABLER_COUNT)
+        return pd.concat([top, value.drop(columns="_v"), cheapest]).loc[lambda df: ~df.index.duplicated()]
     shortlist = {pos: _candidates(pos) for pos in ("GK", "DEF", "MID", "FWD")}
 
-    info = {pid: (row["position"], float(row[xp_col]), float(row["price"]), row["team"])
+    info = {pid: (row["position"], float(row[xp_col]), float(row["price"]), row["team"],
+                  float(row["p_start"]) if "p_start" in row and row["p_start"] == row["p_start"] else 1.0)
             for pid, row in pd.concat([owned, *shortlist.values()]).iterrows()}
     owned_ids = list(owned.index)
     owned_set = set(owned_ids)

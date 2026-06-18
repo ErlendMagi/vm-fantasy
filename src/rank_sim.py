@@ -152,7 +152,7 @@ def formation_win_probs(proj, squad_ids, fixtures, rival_squads, rival_captains,
     expected points. Returns [{formation, p_win, xi_ids, captain_id, vice_id, total}]
     best-p_win first. Reuses one shared scoreline draw across all formations + rivals."""
     owned = proj.loc[[i for i in squad_ids if i in proj.index]]
-    forms = optimizer.formation_options(owned, "xp_next")
+    forms = optimizer.formation_options(owned, "xp_next", p_start_floor=config.XI_PSTART_FLOOR)
     if not forms or not fixtures or not rival_squads:
         return []
     title = rival_current is not None
@@ -222,7 +222,9 @@ def rank_plans_by_win(proj, plans, my_squad_ids, rival_squads, rival_captains,
         if len(owned) < 11:
             p["p_win"] = None
             continue
-        xi = optimizer.best_xi(owned, "xp_next")
+        # MY scored XI must equal the XI we'd actually field (floored to likely starters);
+        # rivals stay un-floored (their real lineup) so p_win is honest.
+        xi = optimizer.best_xi(owned, "xp_next", p_start_floor=config.XI_PSTART_FLOOR)
         xidf = owned.loc[[i for i in xi["xi_ids"] if i in owned.index]]
         cap, _ = optimizer.choose_captain(xidf, regime, field_own, "xp_next")
         cap = cap or xi["captain_id"]

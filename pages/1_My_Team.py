@@ -165,7 +165,7 @@ else:
     rounds_info = {live: {"starters": _starters, "cap": _capid, "scores": _scores, "proj": proj_live}}
     if target != live and proj_plan is not None:
         _po = proj_plan.loc[[i for i in my["squad"] if i in proj_plan.index]]
-        _pxi = optimizer.best_xi(_po, "xp_next")
+        _pxi = optimizer.best_xi(_po, "xp_next", p_start_floor=_cfg.XI_PSTART_FLOOR)
         rounds_info[target] = {"starters": _pxi["xi_ids"], "cap": _pxi["captain_id"],
                                "scores": {}, "proj": proj_plan}
 
@@ -379,6 +379,18 @@ def _player_total(pid):
 
 _SRC_ICON = {"lineup✓": "✅ confirmed XI", "lineup~": "🔮 predicted XI",
              "minutes": "📊 observed mins", "prior": "~ estimate"}
+def _read(r):
+    """Plain-language reliability read: is this a quality differential, a safe template
+    pick, or a risk? Answers the 'low ownership is scary' worry — a low-owned QUALITY
+    player is your edge, a low-owned LOW-quality one is the scrub the model now avoids."""
+    if r["p_start"] < _cfg.XI_PSTART_FLOOR:
+        return "⚠️ rotation risk"
+    own = r.get("ownership_pct")
+    if own == own and own is not None and own < 10:          # low-owned (NaN-safe)
+        return "💎 differential" if r["xp_tournament"] >= 6 else "🎲 punt"
+    return "✅ template"
+
+
 prep = []
 for pid, r in owned.iterrows():
     played = pid in _scores
@@ -386,8 +398,10 @@ for pid, r in owned.iterrows():
     act = _scores.get(pid)
     tag = " (C)" if pid == cap_id else (" (V)" if pid == vice_id else "")
     src = _SRC_ICON.get(r.get("p_start_src", "prior"), "~")
+    own = r.get("ownership_pct")
     prep.append({"flag": viz.flag(r["team"]), "name": r["name"] + tag, "pos": r["position"],
                  "price": float(r["price"]), "start": f"{r['p_start'] * 100:.0f}%  {src}",
+                 "own": (f"{own:.0f}%" if own == own and own is not None else "–"), "read": _read(r),
                  "expected": round(exp, 1),
                  "actual": (f"{act:.0f}" if played else "— to play"),
                  "Δ": (f"{(act or 0) - exp:+.1f}" if played else ""),
@@ -401,11 +415,21 @@ st.dataframe(
                                                         help="Probability this player STARTS, and where it "
                                                              "comes from: ✅ confirmed XI / 🔮 predicted XI / "
                                                              "📊 observed minutes / ~ pre-game estimate."),
+                   "own": st.column_config.TextColumn("owned %", help="Share of all managers who own this "
+                                                                     "player. Low = a differential."),
+                   "read": st.column_config.TextColumn("read", help="💎 differential = a quality player your "
+                                                                    "rivals don't have (your edge to climb); "
+                                                                    "✅ template = widely owned/established; "
+                                                                    "🎲 punt = low-owned AND low projected "
+                                                                    "(the model now avoids these); ⚠️ rotation "
+                                                                    "risk = below the start-chance floor."),
                    "expected": st.column_config.NumberColumn(f"expected R{live}", format="%.1f"),
                    "actual": f"actual R{live}", "Δ": "Δ", "total": "total (all rounds)"})
-st.caption("**start chance** is the model's playtime read — it now drives every projection, so a player seen "
-           "getting cameo minutes (📊) is downweighted and benched/transferred automatically. ✅/🔮 come from "
-           "FotMob's published XIs near kickoff; before that it's observed minutes, then a pre-game estimate.")
+st.caption("**read**: a low **owned %** isn't bad by itself — a 💎 **differential** (low-owned but high "
+           "start-chance and high projected points, like Vinícius/Thuram) is exactly how you climb from behind. "
+           "What you DON'T want is a 🎲 **punt** (low-owned AND low projected) or a ⚠️ **rotation risk** — and "
+           "the model now refuses to buy or field either. **start chance** drives every projection; ✅/🔮 come "
+           "from FotMob's published XIs near kickoff, else observed minutes, then a pre-game estimate.")
 
 # ---------------------------------------------------------------- contributions chart
 st.subheader(f"Top point sources — round {live} (live)")

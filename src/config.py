@@ -179,14 +179,25 @@ HIT_MARGIN = 1.0             # safety margin (pts) an extra -4 hit must clear to
 # money for a big upgrade in another (think in terms of the whole budget, not same-price
 # swaps). Enablers must be likely to play (no dead-weight) — points lost on the downgrade
 # are netted against the upgrade, so a reallocation is only taken when it nets positive.
-ENABLER_MIN_PSTART = 0.60    # an enabler must be at least this likely to start
-ENABLER_COUNT = 6            # cheapest N likely-starters per position added to the shortlist
+ENABLER_MIN_PSTART = 0.70    # an enabler must be a NAILED-ON starter (was 0.60 — no fringe fillers)
+ENABLER_COUNT = 2            # cheapest N nailed starters per position (budget-freers); decent value added separately
 # You must own 15 but only 11 score — so the 4 BENCH players should be the cheapest
 # viable fodder, with the budget concentrated in the starting XI + captain. Squad value
 # is penalised by the money parked on the bench (the non-XI players), so the optimiser
 # routes spend into the XI ("sell the bench to afford stars"). Small: a tiebreak/nudge,
 # never overriding real XI value — the cheaper bench only wins when the XI holds up.
 BENCH_COST_WEIGHT = 0.04     # xP penalty per £M sitting on the bench
+
+# Iron PLAYTIME guarantee: never FIELD or BUY a player unlikely to start (no minutes ->
+# no points). A floored selection always falls back to the full squad if 11 can't be
+# fielded from likely starters, so a slot is never left empty.
+XI_PSTART_FLOOR = 0.60       # a player must be at least this likely to start to be in the XI
+BUY_PSTART_FLOOR = 0.55      # the transfer search won't even shortlist a player below this
+# Cheap "enabler" fillers must be RELIABLE nailed-on starters AND decent value — not the
+# cheapest obscure minnow. So the user gets "stars + reliable fillers", never a 0%-owned
+# scrub in the XI. The search still keeps the single cheapest per position to free budget.
+ENABLER_PRICE_CEILING = 6.5  # an enabler filler costs at most this (£M)
+ENABLER_VALUE_COUNT = 4      # best-VALUE (xP/£M) nailed starters under the ceiling, per position
 
 # ---------------------------------------------------------------- win-probability play
 # In a small winner-takes-all league the objective is P(finish 1st), not raw EV.

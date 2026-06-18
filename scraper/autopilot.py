@@ -18,6 +18,7 @@ Run on a schedule (GitHub Actions). Each run:
 Auth: TV2_TOKEN env (cloud) or the saved browser session (local).
 """
 import argparse
+import json
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -104,10 +105,31 @@ def main() -> None:
 
     team_cap = config.soft_team_cap(next_rnd)   # self-imposed: max 2 per nation in the group stage
     print(f"per-nation cap this round: {team_cap} ({'group - diversify' if team_cap < config.MAX_PER_TEAM else 'knockout - TV2 max'})")
+
+    # anti-churn: make the transfer decision ONCE per round. The autopilot runs hourly
+    # inside the 8h window; without this it could stack a fresh batch of −4 hits every
+    # run. Once it has transferred for a round it records the round; later runs that
+    # window only refresh lineup/captain — unless a squad player has become unavailable,
+    # which forces a fresh decision. (Full title-seeking aggression is preserved: one
+    # decisive −8 is fine; what this prevents is the same round being churned hour after
+    # hour.) The state file lives in data/tv2 so the re-sync commits it for the next run.
+    state_file = ROOT / "data" / "tv2" / "autopilot_state.json"
+    try:
+        state = json.loads(state_file.read_text(encoding="utf-8")) if state_file.exists() else {}
+    except (ValueError, OSError):
+        state = {}
+    _status = players.reindex(my_team["squad"]).get("status") if players is not None else None
+    unavailable = bool((_status == "out").any()) if _status is not None else False
+    already_transferred = (state.get("transferred_round") == next_rnd
+                           and not ti.get("unlimitedTransfers") and not unavailable)
+
     if ti.get("unlimitedTransfers"):
         print("transfers are unlimited - rebuilding the optimal squad from scratch")
         res = squad_builder.build_optimal_squad(proj, value_col="xp_tournament", team_cap=team_cap)
         target_ids = res["squad_ids"]
+    elif already_transferred:
+        print(f"already optimised round {next_rnd} this window - refreshing lineup/captain only (no churn)")
+        target_ids = my_team["squad"]
     else:
         free = my_team["free_transfers"]
         plans = optimizer.transfer_plans(proj, my_team["squad"], my_team["bank"], free_transfers=free,
@@ -160,6 +182,12 @@ def main() -> None:
         return
     print("\napplying to TV 2...")
     apply_and_verify(t, round_id=target_round.get("id"))
+    # record that this round's transfers are done, so later runs this window don't churn
+    # more hits (only refresh lineup). Only when we actually changed the squad this run.
+    if not already_transferred and not ti.get("unlimitedTransfers") and set(target_ids) != set(my_team["squad"]):
+        state_file.write_text(json.dumps({"transferred_round": next_rnd,
+                                          "at": datetime.now(timezone.utc).isoformat()}), encoding="utf-8")
+        print(f"recorded transfers for round {next_rnd} - won't re-transfer this window")
 
 
 if __name__ == "__main__":

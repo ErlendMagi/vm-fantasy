@@ -1,5 +1,5 @@
 {
- "synced_at": "2026-06-18T15:24:39.718934+00:00",
+ "synced_at": "2026-06-18T16:33:32.607544+00:00",
  "squad": [
   "9a6d69d5-2ae2-4349-92e8-9715f997b343",
   "bbc5a321-66a2-4285-9fe4-822f064efec7",
@@ -32,7 +32,7 @@
  ],
  "captain_id": null,
  "bank": 0.0,
- "free_transfers": 0,
+ "free_transfers": 2,
  "squad_name": "Erlend er best",
  "round_history": {}
 }

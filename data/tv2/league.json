@@ -1,5 +1,5 @@
 {
- "synced_at": "2026-06-19T14:36:07.207468+00:00",
+ "synced_at": "2026-06-19T17:10:52.647494+00:00",
  "current_round": 3,
  "leagues": [
   {
@@ -756,7 +756,7 @@
   {
    "name": "Oslo",
    "league_id": "9427c891-ef7c-4e41-ad77-efc3222ab02e",
-   "my_rank": 12283,
+   "my_rank": 12285,
    "members": [
     {
      "manager": "Simen",
@@ -2460,33 +2460,6 @@
      "rounds": []
     },
     {
-     "manager": "Helene",
-     "squad_name": "MVP FC 😎",
-     "squad_id": "eef468af-df4c-4517-b723-b447860c6471",
-     "rank": 64,
-     "total_points": 103,
-     "latest_round_points": 25,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 78
-      },
-      {
-       "roundNumber": 2,
-       "roundName": "Runde 2 - Gruppespill",
-       "points": 25
-      }
-     ],
-     "squad": [],
-     "starter_ids": [],
-     "bench_ids": [],
-     "captain_id": null,
-     "vice_captain_id": null,
-     "formation": null,
-     "rounds": []
-    },
-    {
      "manager": "Mats",
      "squad_name": "Matserclass",
      "squad_id": "c484746f-c23e-4eb7-9c40-5ce02ae166f0",
@@ -2544,6 +2517,33 @@
      "manager": "Oskar",
      "squad_name": "FC Oyarzaballespark",
      "squad_id": "f5ee669a-a638-4b35-b60d-81d903a530f7",
+     "rank": 64,
+     "total_points": 103,
+     "latest_round_points": 15,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 88
+      },
+      {
+       "roundNumber": 2,
+       "roundName": "Runde 2 - Gruppespill",
+       "points": 15
+      }
+     ],
+     "squad": [],
+     "starter_ids": [],
+     "bench_ids": [],
+     "captain_id": null,
+     "vice_captain_id": null,
+     "formation": null,
+     "rounds": []
+    },
+    {
+     "manager": "Runar",
+     "squad_name": "Brokkolini",
+     "squad_id": "cb7aeed5-826a-4755-9588-3a25f4bb1d97",
      "rank": 64,
      "total_points": 103,
      "latest_round_points": 15,
@@ -3432,22 +3432,22 @@
      "rounds": []
     },
     {
-     "manager": "Audun Midttun",
-     "squad_name": "Bob bob daddy daddy bob bob su",
-     "squad_id": "c7be6b10-4d13-4e5f-b5c7-926a2f1a0746",
+     "manager": "Helene",
+     "squad_name": "MVP FC 😎",
+     "squad_id": "eef468af-df4c-4517-b723-b447860c6471",
      "rank": 98,
      "total_points": 101,
-     "latest_round_points": 18,
+     "latest_round_points": 23,
      "round_scores": [
       {
        "roundNumber": 1,
        "roundName": "Runde 1 - Gruppespill",
-       "points": 83
+       "points": 78
       },
       {
        "roundNumber": 2,
        "roundName": "Runde 2 - Gruppespill",
-       "points": 18
+       "points": 23
       }
      ],
      "squad": [],

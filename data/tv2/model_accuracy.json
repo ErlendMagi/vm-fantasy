@@ -35,7 +35,7 @@
   "2": {
    "expected": 56.3,
    "expected_full": 56.4,
-   "expected_played": 2.9,
+   "expected_played": 3.0,
    "actual": -6,
    "played": 1,
    "starters": 11,
@@ -47,7 +47,7 @@
      "n": 0
     },
     "DEF": {
-     "expected": 11.94,
+     "expected": 12.01,
      "actual": 2.0,
      "n": 1
     },
@@ -62,7 +62,7 @@
      "n": 0
     }
    },
-   "updated_at": "2026-06-19T02:54:22.247565+00:00"
+   "updated_at": "2026-06-19T08:25:39.637320+00:00"
   }
  }
 }

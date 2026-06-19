@@ -1,0 +1,4 @@
+{
+  "_comment": "Force a player's start status when you know better than the data (injury news, a benching, a confirmed nailed starter). Keys: player id OR exact player name (accents optional, must be unambiguous). Values: 'out' (won't field/buy), 'bench' (below the fielding floor), 'start' (nailed). Honoured above EVERY model signal. The cloud bot reads this each sync. Leave players empty to let the model decide.",
+  "players": {}
+}

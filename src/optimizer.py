@@ -12,51 +12,59 @@ import pandas as pd
 from src import config
 
 
-def _floor_pool(squad: pd.DataFrame, p_start_floor: float | None) -> pd.DataFrame:
-    """The squad restricted to LIKELY STARTERS (p_start >= floor) — but only if a full
-    valid XI can still be fielded from them; otherwise the unfiltered squad (a slot is
-    never left empty). This is the iron 'never field a benched player' guarantee."""
-    if p_start_floor is None or "p_start" not in squad.columns:
-        return squad
-    floored = squad[squad["p_start"] >= p_start_floor]
-    n = {pos: int((floored["position"] == pos).sum()) for pos in ("GK", "DEF", "MID", "FWD")}
-    feasible = n["GK"] >= 1 and any(n["DEF"] >= d and n["MID"] >= m and n["FWD"] >= f
-                                    for d, m, f in config.FORMATIONS)
-    return floored if feasible else squad
+def _pos_sorted(squad: pd.DataFrame, xp_col: str, p_start_floor: float | None) -> dict:
+    """Per-position candidate frames, best-first. With p_start_floor set, LIKELY
+    STARTERS (p_start >= floor) are ranked strictly ahead of below-floor players
+    (then by xp WITHIN each tier) — so `head(n)` fills every slot with proven
+    starters first and only ever dips below the floor for a slot that can't
+    otherwise be filled, picking the best available filler. This is the iron
+    'never bench a likely starter for a likely-benched one' guarantee, while never
+    leaving a slot empty. Rivals are sorted without a floor (their real XI)."""
+    out = {}
+    for pos in ("GK", "DEF", "MID", "FWD"):
+        sub = squad[squad["position"] == pos]
+        if p_start_floor is not None and "p_start" in sub.columns:
+            ok = (sub["p_start"] >= p_start_floor).astype(int)
+            out[pos] = sub.assign(_ok=ok).sort_values(["_ok", xp_col], ascending=[False, False])
+        else:
+            out[pos] = sub.sort_values(xp_col, ascending=False)
+    return out
 
 
 def best_xi(squad: pd.DataFrame, xp_col: str = "xp_next", p_start_floor: float | None = None) -> dict:
     """squad: 15-row frame with position + xp_col. Returns XI ids, formation, captain
-    and total (captain doubled). With p_start_floor set, the XI is built only from
-    likely starters (our fielding guarantee); rivals are scored without it (real XI)."""
-    squad = _floor_pool(squad, p_start_floor)
-    by_pos = {
-        pos: squad[squad["position"] == pos].sort_values(xp_col, ascending=False)
-        for pos in ("GK", "DEF", "MID", "FWD")
-    }
+    and total (captain doubled). With p_start_floor set, likely starters are fielded
+    ahead of likely-benched players (our fielding guarantee); rivals are scored
+    without it (real XI)."""
+    by_pos = _pos_sorted(squad, xp_col, p_start_floor)
     cands = []
     for d, m, f in config.FORMATIONS:
         if len(by_pos["DEF"]) < d or len(by_pos["MID"]) < m or len(by_pos["FWD"]) < f or by_pos["GK"].empty:
             continue
         xi = pd.concat([by_pos["GK"].head(1), by_pos["DEF"].head(d),
                         by_pos["MID"].head(m), by_pos["FWD"].head(f)])
-        cands.append((float(xi[xp_col].sum()), config.formation_aggression(d, m, f), d, m, f, xi))
+        nben = int((xi["p_start"] < p_start_floor).sum()) if (p_start_floor is not None
+                                                              and "p_start" in xi.columns) else 0
+        cands.append((nben, float(xi[xp_col].sum()), config.formation_aggression(d, m, f), d, m, f, xi))
     if not cands:
         return {"xi_ids": [], "formation": "-", "xi_xp": 0.0, "captain_id": None,
                 "captain_xp": 0.0, "total": 0.0}
-    # EV-max first; among formations within FORMATION_TIE_EPS of the best, take the
-    # most aggressive (equal points, higher ceiling) — never sacrificing real EV.
-    best_total = max(c[0] for c in cands)
-    total, _aggr, d, m, f, xi = max((c for c in cands if c[0] >= best_total - config.FORMATION_TIE_EPS),
-                                    key=lambda c: (c[1], c[0]))
+    # PLAYTIME-FIRST, then EV: only consider shapes that field the FEWEST likely-benched
+    # players (never trade a sure starter for an unproven one to chase points). Among those,
+    # EV-max; within FORMATION_TIE_EPS of the best, take the most aggressive (higher ceiling).
+    min_nben = min(c[0] for c in cands)
+    elig = [c for c in cands if c[0] == min_nben]
+    best_total = max(c[1] for c in elig)
+    _nb, total, _aggr, d, m, f, xi = max((c for c in elig if c[1] >= best_total - config.FORMATION_TIE_EPS),
+                                         key=lambda c: (c[2], c[1]))
     best = {"xi_ids": list(xi["id"]), "formation": f"{d}-{m}-{f}", "xi_xp": total,
             "captain_id": xi.loc[xi[xp_col].idxmax(), "id"], "captain_xp": float(xi[xp_col].max())}
     best["total"] = best["xi_xp"] + (config.CAPTAIN_MULTIPLIER - 1) * best["captain_xp"]
     return best
 
 
-def squad_xp(squad: pd.DataFrame, xp_col: str = "xp_next") -> float:
-    return best_xi(squad, xp_col)["total"]
+def squad_xp(squad: pd.DataFrame, xp_col: str = "xp_next", p_start_floor: float | None = None) -> float:
+    return best_xi(squad, xp_col, p_start_floor=p_start_floor)["total"]
 
 
 def formation_options(squad: pd.DataFrame, xp_col: str = "xp_next",
@@ -66,9 +74,7 @@ def formation_options(squad: pd.DataFrame, xp_col: str = "xp_next",
     and by how much. The model always fields the top one; you set it on TV2 simply
     by which 11 you start. Sorted best-first. With p_start_floor, only likely starters
     are eligible to field (the playtime guarantee)."""
-    squad = _floor_pool(squad, p_start_floor)
-    by_pos = {pos: squad[squad["position"] == pos].sort_values(xp_col, ascending=False)
-              for pos in ("GK", "DEF", "MID", "FWD")}
+    by_pos = _pos_sorted(squad, xp_col, p_start_floor)
     out = []
     for d, m, f in config.FORMATIONS:
         if len(by_pos["DEF"]) < d or len(by_pos["MID"]) < m or len(by_pos["FWD"]) < f or by_pos["GK"].empty:
@@ -78,28 +84,36 @@ def formation_options(squad: pd.DataFrame, xp_col: str = "xp_next",
         xi_xp = float(xi[xp_col].sum())
         cap_xp = float(xi[xp_col].max())
         _t = xi_xp + (config.CAPTAIN_MULTIPLIER - 1) * cap_xp     # UNROUNDED total, for banding
+        nben = int((xi["p_start"] < p_start_floor).sum()) if (p_start_floor is not None
+                                                              and "p_start" in xi.columns) else 0
         out.append({"formation": f"{d}-{m}-{f}", "xi_xp": round(xi_xp, 2),
-                    "total": round(_t, 2), "_t": _t,
+                    "total": round(_t, 2), "_t": _t, "_nben": nben,
                     "aggression": config.formation_aggression(d, m, f), "xi_ids": list(xi["id"])})
-    out.sort(key=lambda r: -r["_t"])
     if not out:
         return out
-    # band + aggression-float on the SAME unrounded total best_xi uses, so the headlined
-    # formation always equals the shape best_xi fields (rounding could otherwise disagree).
-    top = out[0]["_t"]
-    lead = sorted([r for r in out if r["_t"] >= top - config.FORMATION_TIE_EPS],
+    # PLAYTIME-FIRST: a shape that fields a likely-benched player is only chosen when NO
+    # shape can field 11 likely starters — we never trade a sure starter for an unproven one
+    # to chase a sliver of points. Among the fewest-benched shapes, rank by EV; band +
+    # aggression-float on the SAME unrounded total best_xi uses, so the headlined formation
+    # always equals the shape best_xi fields (rounding could otherwise disagree).
+    out.sort(key=lambda r: (r["_nben"], -r["_t"]))
+    min_nben = out[0]["_nben"]
+    elig = [r for r in out if r["_nben"] == min_nben]
+    top = elig[0]["_t"]
+    lead = sorted([r for r in elig if r["_t"] >= top - config.FORMATION_TIE_EPS],
                   key=lambda r: -r["aggression"])
-    return lead + [r for r in out if r["_t"] < top - config.FORMATION_TIE_EPS]
+    return lead + [r for r in out if r not in lead]
 
 
 def captain_options(squad: pd.DataFrame, xp_col: str = "xp_next", n: int = 3,
-                    regime: str | None = None, field_own: dict | None = None) -> pd.DataFrame:
+                    regime: str | None = None, field_own: dict | None = None,
+                    p_start_floor: float | None = config.XI_PSTART_FLOOR) -> pd.DataFrame:
     """Top captain candidates ranked the way the autopilot ACTUALLY picks the
-    armband (availability-weighted EV, regime tilt), restricted to the starting XI
-    — so this table agrees with choose_captain / rank_sim / what gets written to
-    TV2, instead of a raw xp argmax that could headline a likely-benched player.
+    armband (availability-weighted EV, regime tilt), restricted to the FIELDED (floored)
+    starting XI — so this table agrees with choose_captain / rank_sim / what gets written
+    to TV2, instead of a raw xp argmax that could headline a likely-benched player.
     The model's chosen captain (🟠 C) and vice (🔵 V) float to the top."""
-    xi_ids = [i for i in best_xi(squad, xp_col)["xi_ids"] if i in squad.index]
+    xi_ids = [i for i in best_xi(squad, xp_col, p_start_floor=p_start_floor)["xi_ids"] if i in squad.index]
     if not xi_ids:
         return squad.head(0)
     xi = squad.loc[xi_ids].copy()
@@ -126,6 +140,7 @@ def choose_captain(xi: pd.DataFrame, regime: str | None = None, field_own: dict 
         return None, None
     field_own = field_own or {}
     pp = xi.get("p_play", pd.Series(0.85, index=xi.index)).fillna(0.85)
+    ps = xi.get("p_start", pd.Series(1.0, index=xi.index)).fillna(1.0)   # likely-starter gate
     base = xi[value_col].clip(lower=0)
     score = base * pp                                   # availability-weighted EV
     if regime == "leader" and field_own:
@@ -140,7 +155,9 @@ def choose_captain(xi: pd.DataFrame, regime: str | None = None, field_own: dict 
         stack = pd.Series([sum(base[j] for j in xi.index if j != i and match[j] == match[i])
                            for i in xi.index], index=xi.index)
         score = score + (-1.0 if regime == "leader" else 1.0) * config.CAPTAIN_CORR_W * stack
-    ok = pp >= config.CAPTAIN_PPLAY_FLOOR
+    # never captain a likely-benched OR unproven (0-minute) player: require BOTH the play
+    # floor and the start floor, so an unproven p_play (0.45+0.12=0.57) can't sneak the armband.
+    ok = (pp >= config.CAPTAIN_PPLAY_FLOOR) & (ps >= config.XI_PSTART_FLOOR)
     pool = score[ok] if ok.any() else score
     cap = pool.idxmax()
 
@@ -156,7 +173,10 @@ def choose_captain(xi: pd.DataFrame, regime: str | None = None, field_own: dict 
 
     def _pick(pred):
         return next((i for i in order.index if pred(i)), None)
-    vice = (_pick(lambda i: _match(i) != cap_match and pp.get(i, 0) >= floor)
+    sfloor = config.XI_PSTART_FLOOR
+    vice = (_pick(lambda i: _match(i) != cap_match and pp.get(i, 0) >= floor and ps.get(i, 1.0) >= sfloor)
+            or _pick(lambda i: pp.get(i, 0) >= floor and ps.get(i, 1.0) >= sfloor)
+            or _pick(lambda i: _match(i) != cap_match and pp.get(i, 0) >= floor)
             or _pick(lambda i: pp.get(i, 0) >= floor)
             or _pick(lambda i: _match(i) != cap_match)
             or (order.index[0] if len(order) else None))
@@ -167,25 +187,22 @@ def _fast_squad_value(ids: list[str], info: dict[str, tuple]) -> float:
     """squad_xp (best XI, captain doubled) MINUS a small penalty for money parked on
     the bench, on plain tuples — the transfer search calls this ~20k times, so no
     pandas. info[pid] = (pos, xp, price, team, p_start). The XI is scored only from
-    LIKELY STARTERS (p_start >= XI_PSTART_FLOOR), the SAME guarantee compose_lineup
-    fields — so the search can't credit a buy it would actually bench; falls back to the
-    full pool only when 11 likely starters can't otherwise be formed. The bench penalty
+    LIKELY STARTERS (p_start >= XI_PSTART_FLOOR), ranked strictly ahead of below-floor
+    players (then by xP within each tier) — the SAME tiered guarantee best_xi/compose_lineup
+    field: a proven starter is never benched for a likely-benched one, and the search can't
+    credit a buy it would actually bench, but a slot is never left empty. The bench penalty
     (over all 15) routes budget into the XI; the formation is still chosen by xP."""
-    full = {"GK": [], "DEF": [], "MID": [], "FWD": []}        # all 15, for total_cost + fallback
-    floored = {"GK": [], "DEF": [], "MID": [], "FWD": []}     # likely starters only, for the XI
+    buckets = {"GK": [], "DEF": [], "MID": [], "FWD": []}     # (above_floor, xp, price)
+    total_cost = 0.0
     for pid in ids:
         p = info[pid]
-        full[p[0]].append((p[1], p[2]))                      # (xp, price)
-        if p[4] >= config.XI_PSTART_FLOOR:                   # p[4] = p_start
-            floored[p[0]].append((p[1], p[2]))
-    total_cost = sum(pr for v in full.values() for _, pr in v)
-
-    def _feasible(bp):
-        return len(bp["GK"]) >= 1 and any(len(bp["DEF"]) >= d and len(bp["MID"]) >= m and len(bp["FWD"]) >= f
-                                          for d, m, f in config.FORMATIONS)
-    by_pos = floored if _feasible(floored) else full
-    for v in by_pos.values():
-        v.sort(reverse=True)
+        ok = 1 if p[4] >= config.XI_PSTART_FLOOR else 0       # p[4] = p_start
+        buckets[p[0]].append((ok, p[1], p[2]))
+        total_cost += p[2]
+    # likely starters first, then by xP within each tier -> head(n) fills slots with
+    # proven players and only dips below the floor when a slot can't otherwise be filled
+    by_pos = {pos: [(xp, pr) for _ok, xp, pr in sorted(v, key=lambda t: (t[0], t[1]), reverse=True)]
+              for pos, v in buckets.items()}
     if not by_pos["GK"]:
         return 0.0
     xpfx, ppfx = {}, {}

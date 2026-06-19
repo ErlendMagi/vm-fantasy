@@ -115,6 +115,14 @@ def load_predicted_lineups() -> dict:
     return _read_json(config.TV2_DIR / "predicted_lineups.json") or {"players": {}}
 
 
+def load_manual_overrides() -> dict:
+    """Your hand-set start-status overrides — real-world knowledge the data lacks
+    yet (a benched/injured star, or a confirmed nailed starter). Highest precedence
+    in start_probabilities. Shape: {"players": {<id or name>: "out"|"bench"|"start"}}.
+    Edit data/tv2/manual_overrides.json (committed, so the cloud bot honours it)."""
+    return _read_json(config.TV2_DIR / "manual_overrides.json") or {"players": {}}
+
+
 def load_calibration() -> dict:
     """Learned global + positional xP scale from realised results. Written by
     record_rating.py; defaults to a no-op (1.0) when there's nothing to learn."""

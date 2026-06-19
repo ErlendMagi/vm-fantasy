@@ -113,18 +113,20 @@ def win_probability(my_total: np.ndarray, rival_totals: list[np.ndarray]) -> flo
     return float((is_max[0] / counts).mean())
 
 
-def _final_standing(pts, owned, xi_ids, cap, current, rl_sqrt, n_sims):
+def _final_standing(pts, owned, xi_ids, cap, current, rl_sqrt, n_sims, floor=None):
     """A manager's simulated FINAL cumulative total = current points + expected
     rest-of-cup points + tournament-scaled round-to-round noise. The shared next-round
     Monte Carlo supplies correlated variance; we centre it (subtract its own mean) and
     scale the spread by sqrt(rounds_left) to approximate the variance of ALL remaining
     rounds, while the drift (the mean) is the whole-cup expectation xp_tournament. This
-    turns 'P(win next week)' into 'P(finish 1st at the final whistle)'."""
+    turns 'P(win next week)' into 'P(finish 1st at the final whistle)'. `floor` makes the
+    rest-of-cup drift field only likely starters (nobody fields their benched players over
+    future rounds), keeping it consistent with the floored next-round XI."""
     sim_next = _squad_total(pts, xi_ids, cap, n_sims)
     have = [i for i in xi_ids if i in owned.index]
     mean_next = float(owned.loc[have, "xp_next"].sum()) + (float(owned.loc[cap, "xp_next"])
                                                            if cap in owned.index else 0.0)
-    mean_rest = optimizer.squad_xp(owned, "xp_tournament")     # expected TOTAL remaining points
+    mean_rest = optimizer.squad_xp(owned, "xp_tournament", p_start_floor=floor)   # expected TOTAL remaining
     return current + mean_rest + (sim_next - mean_next) * rl_sqrt
 
 
@@ -139,7 +141,8 @@ def _rival_finals(proj, rival_sets, rival_captains, pts, n_sims, title, rl_sqrt,
         cap = rival_captains[k] if rival_captains and k < len(rival_captains) \
             and rival_captains[k] in set(xi["xi_ids"]) else xi["captain_id"]
         cur = (rival_current[k] if title and rival_current and k < len(rival_current) else 0.0)
-        out.append(_final_standing(pts, owned, xi["xi_ids"], cap, cur, rl_sqrt, n_sims)
+        out.append(_final_standing(pts, owned, xi["xi_ids"], cap, cur, rl_sqrt, n_sims,
+                                   config.XI_PSTART_FLOOR)
                    if title else _squad_total(pts, xi["xi_ids"], cap, n_sims))
     return out
 
@@ -172,18 +175,27 @@ def formation_win_probs(proj, squad_ids, fixtures, rival_squads, rival_captains,
             continue
         cap, vice = optimizer.choose_captain(owned.loc[xi_ids], regime, field_own, "xp_next")
         cap = cap or xi_ids[0]
-        my_final = (_final_standing(pts, owned, xi_ids, cap, my_current, rl_sqrt, n_sims) if title
+        my_final = (_final_standing(pts, owned, xi_ids, cap, my_current, rl_sqrt, n_sims,
+                                    config.XI_PSTART_FLOOR) if title
                     else _squad_total(pts, xi_ids, cap, n_sims))
         out.append({"formation": f["formation"], "p_win": round(win_probability(my_final, rival_sims), 4),
                     "xi_ids": xi_ids, "captain_id": cap, "vice_id": vice, "total": f["total"]})
     if not out:
         return out
     out.sort(key=lambda r: -r["p_win"])
-    # robust pick: among formations whose P(title) ties the best (within the MC-noise band),
-    # take the highest EXPECTED POINTS — so a flat-p_win race (e.g. far ahead/behind) keeps the
-    # EV-best shape, and p_win only overrides EV when a formation is genuinely better.
-    _max = out[0]["p_win"]
-    pick = max((r for r in out if r["p_win"] >= _max - config.PWIN_FORMATION_BAND), key=lambda r: r["total"])
+    # PLAYTIME-FIRST: never start a likely-benched player to chase title-probability when a
+    # fully-proven shape exists — only dip into the unproven when the squad genuinely can't
+    # field 11 likely starters. Restrict to the fewest-benched shapes, THEN pick on p_win.
+    floor = config.XI_PSTART_FLOOR
+    def _nben(r):
+        return sum(1 for i in r["xi_ids"] if owned.loc[i, "p_start"] < floor) if "p_start" in owned else 0
+    min_nben = min(_nben(r) for r in out)
+    elig = [r for r in out if _nben(r) == min_nben]
+    # robust pick: among the eligible shapes whose P(title) ties the best (within MC noise),
+    # take the highest EXPECTED POINTS — so a flat-p_win race keeps the EV-best shape, and
+    # p_win only overrides EV when a formation is genuinely better.
+    _max = max(r["p_win"] for r in elig)
+    pick = max((r for r in elig if r["p_win"] >= _max - config.PWIN_FORMATION_BAND), key=lambda r: r["total"])
     return [pick] + [r for r in out if r is not pick]
 
 
@@ -231,8 +243,8 @@ def rank_plans_by_win(proj, plans, my_squad_ids, rival_squads, rival_captains,
         # the −4 hit is a real points cost — deduct it so the autopilot (max p_win)
         # can't auto-apply a title-probability-negative hit.
         if title:
-            my_total = _final_standing(pts, owned, xi["xi_ids"], cap, my_current, rl_sqrt, n_sims) \
-                - p.get("hit_cost", 0)
+            my_total = _final_standing(pts, owned, xi["xi_ids"], cap, my_current, rl_sqrt, n_sims,
+                                       config.XI_PSTART_FLOOR) - p.get("hit_cost", 0)
         else:
             my_total = _squad_total(pts, xi["xi_ids"], cap, n_sims) - p.get("hit_cost", 0)
         p["p_win"] = round(win_probability(my_total, rival_sims), 4)

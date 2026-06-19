@@ -5,7 +5,7 @@ import streamlit as st
 
 st.set_page_config(page_title="Match Center", page_icon="📰", layout="wide")
 
-from src import data_access, nav, narrative, optimizer, services, viz
+from src import config, data_access, nav, narrative, optimizer, services, viz
 
 nav.render("Match Center")
 d = services.get_data()
@@ -17,7 +17,7 @@ if d["proj"] is None or d["my_team"] is None:
 proj, my = d["proj"], d["my_team"]
 owned = proj.loc[[i for i in my["squad"] if i in proj.index]]
 # your starting XI + captain, so 'Your stake' matches the League watch guide (XI, captain ×2)
-my_xi = (optimizer.best_xi(owned, "xp_next") if len(owned) >= 11
+my_xi = (optimizer.best_xi(owned, "xp_next", p_start_floor=config.XI_PSTART_FLOOR) if len(owned) >= 11
          else {"xi_ids": list(owned.index), "captain_id": None})
 
 league = data_access.load_league()

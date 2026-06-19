@@ -114,6 +114,16 @@ if _bpg:
         hm.update_layout(height=140 + 26 * len(_top), margin=dict(l=10, r=10, t=10, b=10),
                          xaxis=dict(side="top", tickangle=-25))
         st.plotly_chart(hm, width="stretch", config={"displayModeBar": False})
+        # reconcile the columns to the official standings: a manager's column sums to
+        # their GROSS banked player points; standings then net out −4/transfer hits.
+        _hits = defaultdict(float)
+        for _m in _mgrs:
+            for _r in (_m.get("rounds") or []):
+                _hits[_m["squad_name"]] += (_r.get("transfer_hit", 0) or 0)
+        _hit_mgrs = [f"{mn} ({int(h)})" for mn in _mnames if (h := _hits.get(mn, 0))]
+        if _hit_mgrs:
+            st.caption("Each column sums to that manager's **gross** player points; the official "
+                       "standings then net out transfer-hit penalties — " + ", ".join(_hit_mgrs) + ".")
         if len(_ordered) > len(_top):
             st.caption(f"Showing the **{len(_top)}** highest-impact players; the other "
                        f"**{len(_ordered) - len(_top)}** are in the full table below.")

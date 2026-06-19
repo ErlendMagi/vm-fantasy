@@ -4,7 +4,7 @@ import streamlit as st
 
 st.set_page_config(page_title="BPG League", page_icon="🏆", layout="wide")
 
-from src import data_access, nav, optimizer, services, viz
+from src import config, data_access, nav, optimizer, services, viz
 
 nav.render("League")
 d = services.get_data()
@@ -409,7 +409,7 @@ if proj_live is not None and have_squads:
     me_row = next((m for _, m in members.iterrows() if m["is_me"] and m["squad"]), None)
     if me_row is not None:
         my_owned = proj_live.loc[[i for i in me_row["squad"] if i in proj_live.index]]
-        my_xi = optimizer.best_xi(my_owned, "xp_next")
+        my_xi = optimizer.best_xi(my_owned, "xp_next", p_start_floor=config.XI_PSTART_FLOOR)  # my fielded XI floors playtime
         rival_xis = []
         for _, mm in members.iterrows():
             if mm["is_me"] or not mm["squad"]:

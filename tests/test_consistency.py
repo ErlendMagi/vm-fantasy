@@ -47,23 +47,29 @@ def test_captain_table_equals_choose_captain(d, squad):
     ls = services.get_league_state() or {}
     fo = analytics.field_effective_ownership(ls.get("rival_squads") or [], ls.get("rival_captains"))
     tbl = optimizer.captain_options(owned, regime=ls.get("regime"), field_own=fo)
-    xi = owned.loc[[i for i in optimizer.best_xi(owned, "xp_next")["xi_ids"] if i in owned.index]]
+    xi = owned.loc[[i for i in optimizer.best_xi(owned, "xp_next", p_start_floor=config.XI_PSTART_FLOOR)["xi_ids"]
+                    if i in owned.index]]
     cap, _ = optimizer.choose_captain(xi, regime=ls.get("regime"), field_own=fo)
     assert tbl.iloc[0]["name"] == owned.loc[cap, "name"]
 
 
-# ── invariant: the captain is the highest availability-weighted EV starter (no regime tilt) ──
+# ── invariant: the captain is the highest availability-weighted EV LIKELY-STARTER (no regime tilt) ──
 def test_captain_is_top_availability_weighted_ev(d, squad):
     proj = d["proj_plan"]
     owned = proj.loc[[i for i in squad if i in proj.index]]
-    xi = owned.loc[[i for i in optimizer.best_xi(owned, "xp_next")["xi_ids"] if i in owned.index]]
+    xi = owned.loc[[i for i in optimizer.best_xi(owned, "xp_next", p_start_floor=config.XI_PSTART_FLOOR)["xi_ids"]
+                    if i in owned.index]]
     cap, vice = optimizer.choose_captain(xi)          # regime=None -> pure availability-weighted argmax
     pp = xi.get("p_play").fillna(0.85) if "p_play" in xi else None
+    ps = xi.get("p_start").fillna(1.0) if "p_start" in xi else None
     if pp is not None:
         ev = (xi["xp_next"].clip(lower=0) * pp)
-        eligible = ev[pp >= config.CAPTAIN_PPLAY_FLOOR]
+        # the armband gate requires BOTH the play floor and the start floor (no unproven captain)
+        gate = (pp >= config.CAPTAIN_PPLAY_FLOOR) & (ps >= config.XI_PSTART_FLOOR)
+        eligible = ev[gate]
         assert cap == (eligible.idxmax() if len(eligible) else ev.idxmax())
         assert pp.get(vice, 1.0) >= config.CAPTAIN_PPLAY_FLOOR   # vice never below the play floor
+        assert ps.get(vice, 1.0) >= config.XI_PSTART_FLOOR or len(eligible) == 0   # nor unproven
 
 
 # ── invariant: Home win-prob == Transfers keep-plan p_win (same title objective) ──
@@ -107,12 +113,15 @@ def test_heatmap_columns_equal_standings(d, league):
         if not m.get("rounds"):
             continue
         col = 0.0
+        hits = 0.0                                    # transfer_hit is stored signed (e.g. -8)
         for r in m["rounds"]:
+            hits += r.get("transfer_hit", 0) or 0
             st = set(r.get("starter_ids") or [])
             for pid, v in (r.get("scores") or {}).items():
                 if not st or pid in st:               # only banked (starting-XI) points count
                     col += v or 0
-        assert int(round(col)) == int(m.get("total_points", 0)), m["squad_name"]
+        # standings = gross banked XI points NET of −4/transfer-hit penalties
+        assert int(round(col + hits)) == int(m.get("total_points", 0)), m["squad_name"]
 
 
 # ── invariant: squad_power_index.proj_next == the fielded XI's value (captain ×2) ──
@@ -142,21 +151,78 @@ def test_spi_proj_next_equals_fielded_value(d, league):
         assert abs(row["proj_next"] - manual) < 0.01, row["squad_name"]
 
 
-# ── invariant: the applied XI never contains a likely-benched player (playtime guarantee) ──
-def test_applied_xi_no_benched_player(d, squad):
+# ── invariant: the applied XI fields every available likely-starter before any benched
+#    player — a proven starter is NEVER sat for a likely-benched one at the same position
+#    (tiered playtime guarantee; a thin squad may still field fillers, but only as a last resort) ──
+def test_applied_xi_no_proven_player_benched(d, squad):
     import scraper.apply_team as apply
     proj = d["proj_plan"]
-    t = apply.compose_lineup(proj, list(squad))      # fallback (EV) path applies XI_PSTART_FLOOR
+    t = apply.compose_lineup(proj, list(squad))
     owned = proj.loc[[i for i in squad if i in proj.index]]
-    # only a guarantee when 11 likely-starters CAN be fielded (else it falls back, by design)
-    n = {pos: int(((owned["p_start"] >= config.XI_PSTART_FLOOR) & (owned["position"] == pos)).sum())
-         for pos in ("GK", "DEF", "MID", "FWD")}
-    feasible = n["GK"] >= 1 and any(n["DEF"] >= dd and n["MID"] >= mm and n["FWD"] >= ff
-                                    for dd, mm, ff in config.FORMATIONS)
-    if not feasible:
-        pytest.skip("squad can't field 11 likely starters - fallback is intentional")
-    for pid in t["starterIds"]:
-        assert proj.loc[pid, "p_start"] >= config.XI_PSTART_FLOOR, proj.loc[pid, "name"]
+    floor = config.XI_PSTART_FLOOR
+    started = set(t["starterIds"])
+    for pos in ("GK", "DEF", "MID", "FWD"):
+        pool = owned[owned["position"] == pos]
+        # a below-floor STARTER at this position is only allowed if NO above-floor squad
+        # player of the same position was left on the bench (i.e. we used every proven one)
+        benched_proven = [i for i in pool.index if i not in started and pool.loc[i, "p_start"] >= floor]
+        sub_floor_starters = [i for i in pool.index if i in started and pool.loc[i, "p_start"] < floor]
+        if sub_floor_starters:
+            assert not benched_proven, (
+                f"{pos}: benched proven {[proj.loc[i,'name'] for i in benched_proven]} "
+                f"while starting unproven {[proj.loc[i,'name'] for i in sub_floor_starters]}")
+
+
+# ── invariant: a player we've seen ZERO minutes of (once games exist) is capped below the
+#    fielding/buy floors — an unknown is never auto-fielded on a bare price prior ──
+def test_unproven_player_capped_below_floor(d, squad):
+    proj = d["proj_plan"]
+    unproven = proj[proj.get("p_start_src") == "unproven"]
+    if unproven.empty:
+        pytest.skip("no unproven players in the pool (all have minutes or lineups)")
+    assert (unproven["p_start"] <= config.UNPROVEN_PSTART + 1e-9).all()
+    assert config.UNPROVEN_PSTART < config.XI_PSTART_FLOOR        # so it's never fielded
+    assert config.UNPROVEN_PSTART < config.BUY_PSTART_FLOOR       # nor bought
+
+
+# ── invariant: a manual override is honoured above every model signal (your real-world knowledge) ──
+def test_manual_override_benches_a_player(d, squad):
+    from src import projections, data_access
+    players = data_access.load_players()
+    completed = data_access.completed_rounds(data_access.load_fixtures())
+    target = next(iter(players.index))
+    base = projections.start_probabilities(players, completed)
+    forced = projections.start_probabilities(players, completed,
+                                             manual={"players": {target: "out"}})
+    assert forced.loc[target, "p_start"] == config.MANUAL_PSTART["out"]
+    assert str(forced.loc[target, "p_start_src"]).startswith("manual")
+    # and it actually drops a player who would otherwise have started
+    if base.loc[target, "p_start"] >= config.XI_PSTART_FLOOR:
+        assert forced.loc[target, "p_start"] < config.XI_PSTART_FLOOR
+
+
+# ── invariant: the captain/vice is never an unproven (0-minute) player when a proven starter exists ──
+def test_captain_never_unproven(d, squad):
+    proj = d["proj_plan"]
+    owned = proj.loc[[i for i in squad if i in proj.index]]
+    xi_ids = optimizer.best_xi(owned, "xp_next", p_start_floor=config.XI_PSTART_FLOOR)["xi_ids"]
+    xi = owned.loc[[i for i in xi_ids if i in owned.index]]
+    cap, vice = optimizer.choose_captain(xi)
+    if (xi["p_start"] >= config.XI_PSTART_FLOOR).any():     # a likely starter is available to captain
+        assert xi.loc[cap, "p_start"] >= config.XI_PSTART_FLOOR, f"captain unproven: {proj.loc[cap,'name']}"
+        assert xi.loc[vice, "p_start"] >= config.XI_PSTART_FLOOR, f"vice unproven: {proj.loc[vice,'name']}"
+
+
+# ── invariant: a team we never scraped (data gap) keeps its prior — its real XI is NOT benched ──
+def test_unenriched_team_not_capped_unproven(d):
+    from src import player_profile
+    proj = d["proj_plan"]
+    completed = data_access.completed_rounds(data_access.load_fixtures())
+    gap = set(proj["team"].unique()) - player_profile.enriched_teams(proj, completed)
+    if not gap:
+        pytest.skip("no scrape-gap teams (every team that played was enriched)")
+    for tm in gap:                                          # a scrape gap must never read as 'unproven'
+        assert (proj[proj["team"] == tm]["p_start_src"] != "unproven").all(), tm
 
 
 # ── invariant: the transfer search never proposes BUYING a likely-benched player ──

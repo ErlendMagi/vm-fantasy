@@ -71,11 +71,14 @@ def fixture_mus(fixtures: list[dict], match_odds: dict | None,
 
 
 def start_probabilities(players: pd.DataFrame, completed: list[int],
-                        lineups: dict | None = None, for_round: int | None = None) -> pd.DataFrame:
+                        lineups: dict | None = None, for_round: int | None = None,
+                        manual: dict | None = None) -> pd.DataFrame:
     """Adds p_start / p_play. Price-rank prior before round 1; once games are
     played, blend in observed minutes (FotMob enrichment, the strongest signal)
-    with a TV2-points fallback. Finally, a published FotMob lineup for the
-    imminent round OVERRIDES p_start (confirmed XI = the strongest signal of all)."""
+    with a TV2-points fallback. A player we've seen ZERO minutes of (once rounds
+    are in the books) is capped below the fielding floor — an unknown is not a
+    starter. Then a published FotMob lineup for the round OVERRIDES p_start
+    (confirmed XI = ground truth), and a manual override beats even that."""
     df = players.copy()
     rank = df.groupby(["team", "position"])["price"].rank(ascending=False, method="first")
     slots = df["position"].map(STARTER_SLOTS)
@@ -90,12 +93,23 @@ def start_probabilities(players: pd.DataFrame, completed: list[int],
         # blend weight uses each player's OWN game count (more games -> trust more).
         w = n_games / (n_games + config.MINUTES_SHRINKAGE_K)
         blended = (1 - w) * prior + w * obs_min
-        # players whose match hasn't been played/enriched yet keep the price-rank
-        # prior (NOT a crushed fallback) — we just don't have evidence on them yet
-        df["p_start"] = blended.where(obs_min.notna(), prior)
+        # players we have NOT seen play (no observed minutes) once games exist are an
+        # UNKNOWN, not a confirmed starter: a bare "expensive => starts" prior is not
+        # evidence, so cap it below the floors. They stay ownable/benchable, and a
+        # published lineup or a manual override (both below) can still restore them.
+        # EXCEPTION: only cap a no-minutes player if their TEAM was actually enriched
+        # (some teammate has minutes). A team with zero enriched players is a SCRAPE GAP,
+        # not a bench — capping its real starters would make a whole XI un-fieldable.
+        seen_teams = player_profile.enriched_teams(df, completed)
+        team_seen = df["team"].isin(seen_teams)
+        unseen = np.minimum(prior, config.UNPROVEN_PSTART)
+        cap_mask = obs_min.isna() & team_seen
+        p = blended.where(obs_min.notna(), prior)        # has minutes -> blended, else prior
+        df["p_start"] = p.where(~cap_mask, unseen)        # genuinely sat (team scraped) -> capped
         df.loc[obs_min.notna(), "p_start_src"] = "minutes"
+        df.loc[cap_mask, "p_start_src"] = "unproven"      # data-gap teams keep src "prior"
     else:
-        df["p_start"] = prior
+        df["p_start"] = prior        # before any round is played, the prior is all we have
 
     # published-lineup override for the round being projected: a confirmed XI is
     # ground truth — captain/field starters, drop benched, zero out the injured.
@@ -110,6 +124,27 @@ def start_probabilities(players: pd.DataFrame, completed: list[int],
             if ps is not None:
                 df.loc[pid, "p_start"] = ps
                 df.loc[pid, "p_start_src"] = "lineup✓" if confirmed else "lineup~"
+
+    # manual override — YOUR real-world knowledge ("benched/injured/nailed") beats
+    # every model signal. Keyed by player id or (accent-folded) name. Applied last.
+    man = (manual or {}).get("players", {})
+    if man:
+        name_ids: dict[str, list] = {}                 # folded name -> [ids] (detect collisions)
+        for i, n in df["name"].items():
+            name_ids.setdefault(data_access._fold(n), []).append(i)
+        for key, status in man.items():
+            ps = config.MANUAL_PSTART.get(str(status).lower())
+            if ps is None:
+                continue
+            if key in df.index:
+                pid = key
+            else:
+                matches = name_ids.get(data_access._fold(str(key)), [])
+                if len(matches) != 1:                  # unknown OR ambiguous name -> skip, never guess
+                    continue
+                pid = matches[0]
+            df.loc[pid, "p_start"] = ps
+            df.loc[pid, "p_start_src"] = f"manual:{status}"
 
     df["p_play"] = np.minimum(1.0, df["p_start"] + config.SUB_BUMP)
     return df
@@ -329,7 +364,7 @@ def project(players: pd.DataFrame, fixtures: list[dict], match_odds: dict | None
             p_plays: dict[tuple[str, int], float] | None = None,
             temp_fn=weather.apparent_temp_at_kickoff,
             player_odds: dict | None = None, lineups: dict | None = None,
-            calibration: dict | None = None) -> pd.DataFrame:
+            calibration: dict | None = None, manual: dict | None = None) -> pd.DataFrame:
     """Adds xp_next, xp_after, xp_horizon, xp_tournament (+ detail columns)."""
     stadiums = data_access.load_stadiums()
     climate = data_access.load_climate()
@@ -338,6 +373,8 @@ def project(players: pd.DataFrame, fixtures: list[dict], match_odds: dict | None
         player_odds = data_access.load_player_odds()
     if lineups is None:
         lineups = data_access.load_predicted_lineups()
+    if manual is None:
+        manual = data_access.load_manual_overrides()
     strengths = team_strengths(outrights)
     mus = fixture_mus(fixtures, match_odds, strengths)
 
@@ -345,7 +382,7 @@ def project(players: pd.DataFrame, fixtures: list[dict], match_odds: dict | None
     # not only fully-finished rounds — so a 17-minute cameo downweights a player
     # immediately instead of waiting for the whole round to end.
     played = data_access.played_rounds(fixtures)
-    df = start_probabilities(players, played, lineups, next_rnd)
+    df = start_probabilities(players, played, lineups, next_rnd, manual)
     df["ppg"] = df["total_points"] / max(1, len(played))
     p_plays = p_plays or {}
 

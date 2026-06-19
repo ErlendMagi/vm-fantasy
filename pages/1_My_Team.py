@@ -6,7 +6,7 @@ import streamlit as st
 
 st.set_page_config(page_title="My Team", page_icon="⚽", layout="wide")
 
-from src import analytics, nav, optimizer, services, template_team, viz
+from src import analytics, config, nav, optimizer, services, template_team, viz
 
 nav.render("My Team")
 d = services.get_data()
@@ -41,7 +41,7 @@ _scores = _rd.get("scores") or {}
 _my_total = (_me or {}).get("total_points")
 
 owned = proj.loc[[i for i in my["squad"] if i in proj.index]]
-_best = optimizer.best_xi(owned, "xp_next")
+_best = optimizer.best_xi(owned, "xp_next", p_start_floor=config.XI_PSTART_FLOOR)  # never field a likely-benched player
 xi_ids = [p for p in _starters if p in owned.index]
 if len(xi_ids) != 11:                          # fall back to the model's XI if the sync lineup isn't 11
     xi_ids = _best["xi_ids"]
@@ -378,11 +378,18 @@ def _player_total(pid):
 
 
 _SRC_ICON = {"lineup✓": "✅ confirmed XI", "lineup~": "🔮 predicted XI",
-             "minutes": "📊 observed mins", "prior": "~ estimate"}
+             "minutes": "📊 observed mins", "unproven": "🚫 0 min seen",
+             "prior": "~ estimate", "manual:out": "🚫 you: out", "manual:bench": "🪑 you: bench",
+             "manual:start": "📌 you: starts"}
 def _read(r):
     """Plain-language reliability read: is this a quality differential, a safe template
     pick, or a risk? Answers the 'low ownership is scary' worry — a low-owned QUALITY
     player is your edge, a low-owned LOW-quality one is the scrub the model now avoids."""
+    src = str(r.get("p_start_src", "prior"))
+    if src == "manual:out" or r["p_start"] <= 0.05:
+        return "🚫 ruled out"
+    if src == "unproven":              # seen zero minutes once games are in the books
+        return "🚫 not playing (0 min)"
     if r["p_start"] < _cfg.XI_PSTART_FLOOR:
         return "⚠️ rotation risk"
     own = r.get("ownership_pct")
@@ -455,7 +462,7 @@ completed = d["completed"]
 if proj["ownership_pct"].isna().all():
     st.warning("Ownership data isn't in yet — the index needs it. It appears after the next sync.")
 else:
-    my_next_idx = optimizer.best_xi(owned, "xp_next")["total"]
+    my_next_idx = optimizer.best_xi(owned, "xp_next", p_start_floor=config.XI_PSTART_FLOOR)["total"]
     idx_next = template_team.index_next_projection(proj)
     histr = {int(k): v for k, v in (my.get("round_history") or {}).items()}
     rows, mine_cum, idx_cum = [], 0.0, 0.0

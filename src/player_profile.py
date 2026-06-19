@@ -69,6 +69,24 @@ def minutes_start_prob(players: pd.DataFrame, completed: list[int]):
     return (obs, games) if obs.notna().any() else (None, None)
 
 
+def enriched_teams(players: pd.DataFrame, completed: list[int]) -> set:
+    """Teams whose matches WERE FotMob-enriched over the completed rounds (>=1 player
+    with recorded minutes). A team with ZERO enriched players despite having played is a
+    SCRAPE GAP, not a bench — its players with no minutes must keep the price prior rather
+    than be wrongly capped 'unproven' (which would make a whole real XI un-fieldable)."""
+    from src import data_access
+    store = data_access.load_player_stats().get("rounds", {})
+    if not completed or not store:
+        return set()
+    seen_ids = set()
+    for r in completed:
+        for pid, rec in (store.get(str(r), {}).get("players", {}) or {}).items():
+            if rec and rec.get("minutes") is not None:
+                seen_ids.add(pid)
+    in_idx = [i for i in seen_ids if i in players.index]
+    return set(players.loc[in_idx, "team"].unique()) if in_idx else set()
+
+
 def observed_attacking(players: pd.DataFrame, completed: list[int]) -> pd.DataFrame:
     """Observed xG/xA per 90 from FotMob (minutes-weighted, recent-weighted),
     ignoring cameos. NaN where there's no data yet. Used to sharpen WHO a team's

@@ -148,6 +148,15 @@ STARTER_PRIOR = 0.72       # top-N by price within team/position
 FRINGE_PRIOR = 0.24        # just outside the XI slots
 DEEP_PRIOR = 0.07          # deep squad
 SUB_BUMP = 0.12            # P(plays at all) over P(starts), for appearance points
+# Once rounds have been PLAYED, a player we've seen zero minutes of is an UNKNOWN,
+# not a confirmed starter — the bare price prior ("expensive => starts") is not
+# evidence. Cap such an unproven player BELOW the fielding/buy floors so a 0-minute
+# name is never auto-fielded or auto-bought; a published lineup or a manual override
+# (both higher precedence) can still restore them to a real start probability.
+UNPROVEN_PSTART = 0.45     # < XI_PSTART_FLOOR (0.60) and < BUY_PSTART_FLOOR (0.55)
+# Manual overrides (your real-world knowledge: "X is benched/injured/nailed"). Highest
+# precedence of all — applied after priors AND predicted lineups. data/tv2/manual_overrides.json
+MANUAL_PSTART = {"out": 0.0, "bench": 0.30, "start": 0.95}
 # Duty bonuses (xP/match, research-calibrated): set-piece takers earn ~0.25
 # set-piece assists/match (x3 pts) that no goal-odds market captures; penalty
 # duty is applied only when a player's xG is NOT market-quoted (the bookies

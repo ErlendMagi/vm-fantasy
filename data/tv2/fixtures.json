@@ -49,9 +49,9 @@
    "away": "South Korea",
    "kickoff_utc": "2026-06-19T01:00:00.000Z",
    "venue_id": "Guadalajara (Zapopan)",
-   "status": "scheduled",
-   "score_home": null,
-   "score_away": null
+   "status": "finished",
+   "score_home": 1,
+   "score_away": 0
   },
   {
    "match_id": "M005",
@@ -114,9 +114,9 @@
    "away": "Bosnia & Herzegovina",
    "kickoff_utc": "2026-06-18T19:00:00.000Z",
    "venue_id": "Los Angeles (Inglewood)",
-   "status": "scheduled",
-   "score_home": 0,
-   "score_away": 0
+   "status": "finished",
+   "score_home": 4,
+   "score_away": 1
   },
   {
    "match_id": "M010",
@@ -127,9 +127,9 @@
    "away": "Qatar",
    "kickoff_utc": "2026-06-18T22:00:00.000Z",
    "venue_id": "Vancouver",
-   "status": "scheduled",
-   "score_home": null,
-   "score_away": null
+   "status": "finished",
+   "score_home": 6,
+   "score_away": 0
   },
   {
    "match_id": "M011",

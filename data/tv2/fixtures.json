@@ -270,8 +270,8 @@
    "away": "Australia",
    "kickoff_utc": "2026-06-19T19:00:00.000Z",
    "venue_id": "Seattle",
-   "status": "scheduled",
-   "score_home": 0,
+   "status": "finished",
+   "score_home": 2,
    "score_away": 0
   },
   {

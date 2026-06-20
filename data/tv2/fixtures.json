@@ -192,9 +192,9 @@
    "away": "Morocco",
    "kickoff_utc": "2026-06-19T22:00:00.000Z",
    "venue_id": "Boston (Foxborough)",
-   "status": "scheduled",
-   "score_home": null,
-   "score_away": null
+   "status": "finished",
+   "score_home": 0,
+   "score_away": 1
   },
   {
    "match_id": "M016",
@@ -205,9 +205,9 @@
    "away": "Haiti",
    "kickoff_utc": "2026-06-20T00:30:00.000Z",
    "venue_id": "Philadelphia",
-   "status": "scheduled",
-   "score_home": null,
-   "score_away": null
+   "status": "finished",
+   "score_home": 3,
+   "score_away": 0
   },
   {
    "match_id": "M017",
@@ -283,9 +283,9 @@
    "away": "Paraguay",
    "kickoff_utc": "2026-06-20T03:00:00.000Z",
    "venue_id": "San Francisco Bay Area (Santa Clara)",
-   "status": "scheduled",
-   "score_home": null,
-   "score_away": null
+   "status": "finished",
+   "score_home": 0,
+   "score_away": 1
   },
   {
    "match_id": "M023",

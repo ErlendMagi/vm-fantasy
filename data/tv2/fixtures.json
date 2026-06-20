@@ -426,9 +426,9 @@
    "away": "Sweden",
    "kickoff_utc": "2026-06-20T17:00:00.000Z",
    "venue_id": "Houston",
-   "status": "scheduled",
-   "score_home": null,
-   "score_away": null
+   "status": "finished",
+   "score_home": 5,
+   "score_away": 1
   },
   {
    "match_id": "M034",

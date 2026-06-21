@@ -348,9 +348,9 @@
    "away": "Ivory Coast",
    "kickoff_utc": "2026-06-20T20:00:00.000Z",
    "venue_id": "Toronto",
-   "status": "scheduled",
-   "score_home": null,
-   "score_away": null
+   "status": "finished",
+   "score_home": 2,
+   "score_away": 1
   },
   {
    "match_id": "M028",
@@ -361,9 +361,9 @@
    "away": "Curacao",
    "kickoff_utc": "2026-06-21T00:00:00.000Z",
    "venue_id": "Kansas City",
-   "status": "scheduled",
-   "score_home": null,
-   "score_away": null
+   "status": "finished",
+   "score_home": 0,
+   "score_away": 0
   },
   {
    "match_id": "M029",
@@ -439,9 +439,9 @@
    "away": "Japan",
    "kickoff_utc": "2026-06-21T04:00:00.000Z",
    "venue_id": "Monterrey (Guadalupe)",
-   "status": "scheduled",
-   "score_home": null,
-   "score_away": null
+   "status": "finished",
+   "score_home": 0,
+   "score_away": 4
   },
   {
    "match_id": "M035",

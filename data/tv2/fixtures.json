@@ -504,9 +504,9 @@
    "away": "Iran",
    "kickoff_utc": "2026-06-21T19:00:00.000Z",
    "venue_id": "Los Angeles (Inglewood)",
-   "status": "scheduled",
-   "score_home": null,
-   "score_away": null
+   "status": "finished",
+   "score_home": 0,
+   "score_away": 0
   },
   {
    "match_id": "M040",

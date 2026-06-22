@@ -1,261 +1,21 @@
 {
- "fetched_at": "2026-06-18T15:23:27.932535+00:00",
- "credits_remaining": "413",
+ "fetched_at": "2026-06-22T08:48:53.283404+00:00",
+ "credits_remaining": "393",
  "sport_key": "soccer_fifa_world_cup",
  "matches": [
-  {
-   "home": "Czech Republic",
-   "away": "South Africa",
-   "kickoff_utc": "2026-06-18T16:00:00Z",
-   "h2h": {
-    "home": 1.85,
-    "draw": 3.6,
-    "away": 4.6
-   },
-   "totals": {
-    "line": 2.5,
-    "over": 2.16,
-    "under": 1.71
-   }
-  },
-  {
-   "home": "Switzerland",
-   "away": "Bosnia & Herzegovina",
-   "kickoff_utc": "2026-06-18T19:00:00Z",
-   "h2h": {
-    "home": 1.56,
-    "draw": 4.2,
-    "away": 6.36
-   },
-   "totals": {
-    "line": 2.5,
-    "over": 1.95,
-    "under": 1.88
-   }
-  },
-  {
-   "home": "Canada",
-   "away": "Qatar",
-   "kickoff_utc": "2026-06-18T22:00:00Z",
-   "h2h": {
-    "home": 1.3,
-    "draw": 5.6,
-    "away": 11.0
-   },
-   "totals": {
-    "line": 2.5,
-    "over": 1.71,
-    "under": 2.14
-   }
-  },
-  {
-   "home": "Mexico",
-   "away": "South Korea",
-   "kickoff_utc": "2026-06-19T01:00:00Z",
-   "h2h": {
-    "home": 2.06,
-    "draw": 3.3,
-    "away": 4.0
-   },
-   "totals": {
-    "line": 2.5,
-    "over": 2.27,
-    "under": 1.65
-   }
-  },
-  {
-   "home": "USA",
-   "away": "Australia",
-   "kickoff_utc": "2026-06-19T19:00:00Z",
-   "h2h": {
-    "home": 1.61,
-    "draw": 4.35,
-    "away": 5.3
-   },
-   "totals": {
-    "line": 2.5,
-    "over": 1.95,
-    "under": 1.88
-   }
-  },
-  {
-   "home": "Scotland",
-   "away": "Morocco",
-   "kickoff_utc": "2026-06-19T22:00:00Z",
-   "h2h": {
-    "home": 5.4,
-    "draw": 3.65,
-    "away": 1.73
-   },
-   "totals": {
-    "line": 2.5,
-    "over": 2.25,
-    "under": 1.65
-   }
-  },
-  {
-   "home": "Brazil",
-   "away": "Haiti",
-   "kickoff_utc": "2026-06-20T00:30:00Z",
-   "h2h": {
-    "home": 1.11,
-    "draw": 11.0,
-    "away": 23.0
-   },
-   "totals": {
-    "line": 3.5,
-    "over": 1.88,
-    "under": 1.92
-   }
-  },
-  {
-   "home": "Turkey",
-   "away": "Paraguay",
-   "kickoff_utc": "2026-06-20T03:00:00Z",
-   "h2h": {
-    "home": 2.03,
-    "draw": 3.4,
-    "away": 3.95
-   },
-   "totals": {
-    "line": 2.5,
-    "over": 2.12,
-    "under": 1.72
-   }
-  },
-  {
-   "home": "Netherlands",
-   "away": "Sweden",
-   "kickoff_utc": "2026-06-20T17:00:00Z",
-   "h2h": {
-    "home": 1.73,
-    "draw": 3.9,
-    "away": 4.8
-   },
-   "totals": {
-    "line": 2.5,
-    "over": 1.88,
-    "under": 1.96
-   }
-  },
-  {
-   "home": "Germany",
-   "away": "Ivory Coast",
-   "kickoff_utc": "2026-06-20T20:00:00Z",
-   "h2h": {
-    "home": 1.54,
-    "draw": 4.56,
-    "away": 5.75
-   },
-   "totals": {
-    "line": 2.5,
-    "over": 1.68,
-    "under": 2.23
-   }
-  },
-  {
-   "home": "Ecuador",
-   "away": "Curacao",
-   "kickoff_utc": "2026-06-21T00:00:00Z",
-   "h2h": {
-    "home": 1.11,
-    "draw": 10.3,
-    "away": 24.0
-   },
-   "totals": {
-    "line": 3.5,
-    "over": 2.25,
-    "under": 1.6
-   }
-  },
-  {
-   "home": "Tunisia",
-   "away": "Japan",
-   "kickoff_utc": "2026-06-21T04:00:00Z",
-   "h2h": {
-    "home": 6.75,
-    "draw": 4.15,
-    "away": 1.53
-   },
-   "totals": {
-    "line": 2.5,
-    "over": 2.05,
-    "under": 1.77
-   }
-  },
-  {
-   "home": "Spain",
-   "away": "Saudi Arabia",
-   "kickoff_utc": "2026-06-21T16:00:00Z",
-   "h2h": {
-    "home": 1.1,
-    "draw": 10.0,
-    "away": 26.0
-   },
-   "totals": {
-    "line": 3.5,
-    "over": 2.22,
-    "under": 1.65
-   }
-  },
-  {
-   "home": "Belgium",
-   "away": "Iran",
-   "kickoff_utc": "2026-06-21T19:00:00Z",
-   "h2h": {
-    "home": 1.43,
-    "draw": 4.69,
-    "away": 7.8
-   },
-   "totals": {
-    "line": 2.5,
-    "over": 1.85,
-    "under": 1.96
-   }
-  },
-  {
-   "home": "Uruguay",
-   "away": "Cape Verde",
-   "kickoff_utc": "2026-06-21T22:00:00Z",
-   "h2h": {
-    "home": 1.47,
-    "draw": 4.2,
-    "away": 7.7
-   },
-   "totals": {
-    "line": 2.5,
-    "over": 2.21,
-    "under": 1.65
-   }
-  },
-  {
-   "home": "New Zealand",
-   "away": "Egypt",
-   "kickoff_utc": "2026-06-22T01:00:00Z",
-   "h2h": {
-    "home": 5.7,
-    "draw": 4.1,
-    "away": 1.61
-   },
-   "totals": {
-    "line": 2.5,
-    "over": 2.11,
-    "under": 1.7
-   }
-  },
   {
    "home": "Argentina",
    "away": "Austria",
    "kickoff_utc": "2026-06-22T17:00:00Z",
    "h2h": {
-    "home": 1.61,
-    "draw": 3.93,
-    "away": 6.09
+    "home": 1.46,
+    "draw": 4.4,
+    "away": 7.5
    },
    "totals": {
     "line": 2.5,
-    "over": 1.95,
-    "under": 1.85
+    "over": 1.9,
+    "under": 1.92
    }
   },
   {
@@ -263,14 +23,14 @@
    "away": "Iraq",
    "kickoff_utc": "2026-06-22T21:00:00Z",
    "h2h": {
-    "home": 1.09,
-    "draw": 11.0,
-    "away": 30.0
+    "home": 1.08,
+    "draw": 12.5,
+    "away": 31.0
    },
    "totals": {
     "line": 3.5,
-    "over": 1.97,
-    "under": 1.82
+    "over": 1.83,
+    "under": 2.0
    }
   },
   {
@@ -278,14 +38,14 @@
    "away": "Senegal",
    "kickoff_utc": "2026-06-23T00:00:00Z",
    "h2h": {
-    "home": 2.31,
-    "draw": 3.5,
-    "away": 3.1
+    "home": 2.18,
+    "draw": 3.55,
+    "away": 3.35
    },
    "totals": {
     "line": 2.5,
-    "over": 1.95,
-    "under": 1.88
+    "over": 1.88,
+    "under": 1.96
    }
   },
   {
@@ -293,14 +53,14 @@
    "away": "Algeria",
    "kickoff_utc": "2026-06-23T03:00:00Z",
    "h2h": {
-    "home": 5.92,
-    "draw": 4.1,
-    "away": 1.57
+    "home": 6.25,
+    "draw": 4.25,
+    "away": 1.55
    },
    "totals": {
     "line": 2.5,
-    "over": 1.95,
-    "under": 1.88
+    "over": 1.92,
+    "under": 1.92
    }
   },
   {
@@ -308,14 +68,14 @@
    "away": "Uzbekistan",
    "kickoff_utc": "2026-06-23T17:00:00Z",
    "h2h": {
-    "home": 1.2,
-    "draw": 6.8,
-    "away": 15.0
+    "home": 1.19,
+    "draw": 7.25,
+    "away": 16.5
    },
    "totals": {
     "line": 2.5,
-    "over": 1.6,
-    "under": 2.32
+    "over": 1.59,
+    "under": 2.35
    }
   },
   {
@@ -324,13 +84,13 @@
    "kickoff_utc": "2026-06-23T20:00:00Z",
    "h2h": {
     "home": 1.22,
-    "draw": 6.5,
-    "away": 13.75
+    "draw": 6.6,
+    "away": 14.0
    },
    "totals": {
     "line": 2.5,
     "over": 1.67,
-    "under": 2.25
+    "under": 2.23
    }
   },
   {
@@ -338,14 +98,14 @@
    "away": "Croatia",
    "kickoff_utc": "2026-06-23T23:00:00Z",
    "h2h": {
-    "home": 6.5,
-    "draw": 4.04,
-    "away": 1.55
+    "home": 6.75,
+    "draw": 4.0,
+    "away": 1.54
    },
    "totals": {
     "line": 2.5,
-    "over": 1.96,
-    "under": 1.82
+    "over": 1.92,
+    "under": 1.89
    }
   },
   {
@@ -354,12 +114,12 @@
    "kickoff_utc": "2026-06-24T02:00:00Z",
    "h2h": {
     "home": 1.5,
-    "draw": 4.25,
-    "away": 7.08
+    "draw": 4.2,
+    "away": 7.0
    },
    "totals": {
     "line": 2.5,
-    "over": 2.15,
+    "over": 2.2,
     "under": 1.67
    }
   },
@@ -368,14 +128,14 @@
    "away": "Qatar",
    "kickoff_utc": "2026-06-24T19:00:00Z",
    "h2h": {
-    "home": 1.57,
-    "draw": 3.92,
-    "away": 6.0
+    "home": 1.44,
+    "draw": 4.9,
+    "away": 6.8
    },
    "totals": {
     "line": 2.5,
-    "over": 2.05,
-    "under": 1.76
+    "over": 1.65,
+    "under": 2.23
    }
   },
   {
@@ -383,14 +143,14 @@
    "away": "Canada",
    "kickoff_utc": "2026-06-24T19:00:00Z",
    "h2h": {
-    "home": 2.11,
-    "draw": 3.4,
-    "away": 3.5
+    "home": 2.48,
+    "draw": 3.08,
+    "away": 3.24
    },
    "totals": {
     "line": 2.5,
-    "over": 2.1,
-    "under": 1.73
+    "over": 2.12,
+    "under": 1.72
    }
   },
   {
@@ -398,13 +158,13 @@
    "away": "Brazil",
    "kickoff_utc": "2026-06-24T22:00:00Z",
    "h2h": {
-    "home": 7.0,
-    "draw": 4.75,
-    "away": 1.42
+    "home": 7.81,
+    "draw": 5.25,
+    "away": 1.38
    },
    "totals": {
     "line": 2.5,
-    "over": 1.82,
+    "over": 1.83,
     "under": 1.98
    }
   },
@@ -413,14 +173,14 @@
    "away": "Haiti",
    "kickoff_utc": "2026-06-24T22:00:00Z",
    "h2h": {
-    "home": 1.28,
-    "draw": 5.7,
-    "away": 10.45
+    "home": 1.18,
+    "draw": 7.0,
+    "away": 16.0
    },
    "totals": {
-    "line": 2.5,
-    "over": 1.6,
-    "under": 2.33
+    "line": 3.5,
+    "over": 2.4,
+    "under": 1.54
    }
   },
   {
@@ -428,14 +188,14 @@
    "away": "Mexico",
    "kickoff_utc": "2026-06-25T01:00:00Z",
    "h2h": {
-    "home": 4.55,
-    "draw": 3.5,
-    "away": 1.83
+    "home": 3.7,
+    "draw": 3.85,
+    "away": 1.94
    },
    "totals": {
     "line": 2.5,
     "over": 2.11,
-    "under": 1.71
+    "under": 1.72
    }
   },
   {
@@ -443,14 +203,14 @@
    "away": "South Korea",
    "kickoff_utc": "2026-06-25T01:00:00Z",
    "h2h": {
-    "home": 5.8,
-    "draw": 4.0,
-    "away": 1.57
+    "home": 5.65,
+    "draw": 3.95,
+    "away": 1.63
    },
    "totals": {
     "line": 2.5,
-    "over": 1.97,
-    "under": 1.8
+    "over": 2.04,
+    "under": 1.77
    }
   },
   {
@@ -458,14 +218,14 @@
    "away": "Ivory Coast",
    "kickoff_utc": "2026-06-25T20:00:00Z",
    "h2h": {
-    "home": 19.25,
-    "draw": 8.3,
-    "away": 1.13
+    "home": 19.12,
+    "draw": 8.25,
+    "away": 1.15
    },
    "totals": {
     "line": 3.5,
-    "over": 2.16,
-    "under": 1.68
+    "over": 2.32,
+    "under": 1.6
    }
   },
   {
@@ -473,14 +233,14 @@
    "away": "Germany",
    "kickoff_utc": "2026-06-25T20:00:00Z",
    "h2h": {
-    "home": 4.9,
-    "draw": 3.75,
-    "away": 1.7
+    "home": 3.6,
+    "draw": 3.85,
+    "away": 1.95
    },
    "totals": {
     "line": 2.5,
-    "over": 1.87,
-    "under": 1.89
+    "over": 1.81,
+    "under": 2.0
    }
   },
   {
@@ -488,14 +248,14 @@
    "away": "Sweden",
    "kickoff_utc": "2026-06-25T23:00:00Z",
    "h2h": {
-    "home": 2.1,
-    "draw": 3.42,
-    "away": 3.39
+    "home": 1.93,
+    "draw": 3.47,
+    "away": 4.2
    },
    "totals": {
     "line": 2.5,
-    "over": 2.02,
-    "under": 1.76
+    "over": 1.79,
+    "under": 2.04
    }
   },
   {
@@ -503,14 +263,14 @@
    "away": "Netherlands",
    "kickoff_utc": "2026-06-25T23:00:00Z",
    "h2h": {
-    "home": 9.4,
-    "draw": 5.32,
-    "away": 1.3
+    "home": 21.0,
+    "draw": 8.7,
+    "away": 1.13
    },
    "totals": {
     "line": 2.5,
-    "over": 1.64,
-    "under": 2.2
+    "over": 1.44,
+    "under": 2.68
    }
   },
   {
@@ -518,14 +278,14 @@
    "away": "Australia",
    "kickoff_utc": "2026-06-26T02:00:00Z",
    "h2h": {
-    "home": 2.16,
-    "draw": 3.31,
-    "away": 3.45
+    "home": 2.85,
+    "draw": 2.25,
+    "away": 3.83
    },
    "totals": {
-    "line": 2.5,
-    "over": 2.25,
-    "under": 1.61
+    "line": 1.5,
+    "over": 1.61,
+    "under": 2.25
    }
   },
   {
@@ -533,14 +293,14 @@
    "away": "USA",
    "kickoff_utc": "2026-06-26T02:00:00Z",
    "h2h": {
-    "home": 2.77,
-    "draw": 3.6,
-    "away": 2.39
+    "home": 3.55,
+    "draw": 4.1,
+    "away": 1.93
    },
    "totals": {
     "line": 2.5,
-    "over": 1.82,
-    "under": 1.95
+    "over": 1.7,
+    "under": 2.15
    }
   },
   {
@@ -548,14 +308,14 @@
    "away": "France",
    "kickoff_utc": "2026-06-26T19:00:00Z",
    "h2h": {
-    "home": 4.33,
-    "draw": 3.74,
-    "away": 1.79
+    "home": 4.39,
+    "draw": 3.85,
+    "away": 1.78
    },
    "totals": {
     "line": 2.5,
-    "over": 1.82,
-    "under": 1.93
+    "over": 1.79,
+    "under": 2.03
    }
   },
   {
@@ -563,14 +323,14 @@
    "away": "Iraq",
    "kickoff_utc": "2026-06-26T19:00:00Z",
    "h2h": {
-    "home": 1.3,
-    "draw": 5.0,
-    "away": 9.5
+    "home": 1.31,
+    "draw": 5.4,
+    "away": 10.25
    },
    "totals": {
     "line": 2.5,
-    "over": 1.84,
-    "under": 1.93
+    "over": 1.85,
+    "under": 1.98
    }
   },
   {
@@ -578,14 +338,14 @@
    "away": "Saudi Arabia",
    "kickoff_utc": "2026-06-27T00:00:00Z",
    "h2h": {
-    "home": 2.75,
-    "draw": 3.6,
-    "away": 2.38
+    "home": 2.38,
+    "draw": 3.55,
+    "away": 2.92
    },
    "totals": {
     "line": 2.5,
-    "over": 2.04,
-    "under": 1.76
+    "over": 2.0,
+    "under": 1.83
    }
   },
   {
@@ -593,13 +353,13 @@
    "away": "Spain",
    "kickoff_utc": "2026-06-27T00:00:00Z",
    "h2h": {
-    "home": 6.0,
-    "draw": 4.2,
-    "away": 1.53
+    "home": 6.75,
+    "draw": 4.3,
+    "away": 1.5
    },
    "totals": {
     "line": 2.5,
-    "over": 1.83,
+    "over": 1.81,
     "under": 1.95
    }
   },
@@ -608,14 +368,14 @@
    "away": "Belgium",
    "kickoff_utc": "2026-06-27T03:00:00Z",
    "h2h": {
-    "home": 12.0,
-    "draw": 6.15,
-    "away": 1.22
+    "home": 13.0,
+    "draw": 6.6,
+    "away": 1.2
    },
    "totals": {
     "line": 2.5,
-    "over": 1.62,
-    "under": 2.23
+    "over": 1.59,
+    "under": 2.32
    }
   },
   {
@@ -623,14 +383,14 @@
    "away": "Iran",
    "kickoff_utc": "2026-06-27T03:00:00Z",
    "h2h": {
-    "home": 2.1,
-    "draw": 3.1,
-    "away": 3.85
+    "home": 2.4,
+    "draw": 2.77,
+    "away": 3.75
    },
    "totals": {
-    "line": 2.0,
-    "over": 1.88,
-    "under": 1.96
+    "line": 1.5,
+    "over": 1.5,
+    "under": 2.55
    }
   },
   {
@@ -639,13 +399,13 @@
    "kickoff_utc": "2026-06-27T21:00:00Z",
    "h2h": {
     "home": 1.62,
-    "draw": 3.78,
-    "away": 5.53
+    "draw": 3.75,
+    "away": 5.75
    },
    "totals": {
     "line": 2.5,
     "over": 2.04,
-    "under": 1.75
+    "under": 1.76
    }
   },
   {
@@ -653,14 +413,14 @@
    "away": "England",
    "kickoff_utc": "2026-06-27T21:00:00Z",
    "h2h": {
-    "home": 9.96,
-    "draw": 5.8,
-    "away": 1.25
+    "home": 11.0,
+    "draw": 6.6,
+    "away": 1.22
    },
    "totals": {
-    "line": 2.5,
-    "over": 1.61,
-    "under": 2.28
+    "line": 3.0,
+    "over": 1.92,
+    "under": 1.82
    }
   },
   {
@@ -668,14 +428,14 @@
    "away": "Portugal",
    "kickoff_utc": "2026-06-27T23:30:00Z",
    "h2h": {
-    "home": 3.45,
-    "draw": 3.4,
-    "away": 2.1
+    "home": 3.62,
+    "draw": 3.46,
+    "away": 2.05
    },
    "totals": {
     "line": 2.5,
     "over": 2.05,
-    "under": 1.74
+    "under": 1.75
    }
   },
   {
@@ -683,14 +443,14 @@
    "away": "Uzbekistan",
    "kickoff_utc": "2026-06-27T23:30:00Z",
    "h2h": {
-    "home": 2.1,
-    "draw": 3.5,
-    "away": 3.25
+    "home": 2.09,
+    "draw": 3.6,
+    "away": 3.42
    },
    "totals": {
     "line": 2.5,
-    "over": 2.07,
-    "under": 1.71
+    "over": 2.05,
+    "under": 1.73
    }
   },
   {
@@ -698,14 +458,14 @@
    "away": "Austria",
    "kickoff_utc": "2026-06-28T02:00:00Z",
    "h2h": {
-    "home": 3.0,
-    "draw": 3.05,
-    "away": 2.48
+    "home": 3.1,
+    "draw": 3.08,
+    "away": 2.5
    },
    "totals": {
     "line": 2.5,
     "over": 2.12,
-    "under": 1.69
+    "under": 1.71
    }
   },
   {
@@ -713,13 +473,13 @@
    "away": "Argentina",
    "kickoff_utc": "2026-06-28T02:00:00Z",
    "h2h": {
-    "home": 13.0,
-    "draw": 6.5,
+    "home": 14.0,
+    "draw": 7.0,
     "away": 1.2
    },
    "totals": {
     "line": 3.0,
-    "over": 1.97,
+    "over": 1.93,
     "under": 1.83
    }
   }

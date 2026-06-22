@@ -129,6 +129,19 @@
    "exp_next": 53.7,
    "points_so_far": 0,
    "recorded_at": "2026-06-21T22:59:54.694982+00:00"
+  },
+  "2026-06-22": {
+   "squad_rating": 77.7,
+   "xi_rating": 83.6,
+   "pos_rating": {
+    "GK": 91.8,
+    "DEF": 90.5,
+    "MID": 82.9,
+    "FWD": 70.9
+   },
+   "exp_next": 53.7,
+   "points_so_far": 0,
+   "recorded_at": "2026-06-22T00:13:51.526727+00:00"
   }
  }
 }

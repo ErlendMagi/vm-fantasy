@@ -661,8 +661,8 @@
    "kickoff_utc": "2026-06-22T21:00:00.000Z",
    "venue_id": "Philadelphia",
    "status": "scheduled",
-   "score_home": null,
-   "score_away": null
+   "score_home": 1,
+   "score_away": 0
   },
   {
    "match_id": "M052",

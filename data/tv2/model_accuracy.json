@@ -34,7 +34,7 @@
   },
   "2": {
    "expected": 56.3,
-   "expected_full": 48.4,
+   "expected_full": 48.3,
    "expected_played": 27.3,
    "actual": 35,
    "played": 7,
@@ -47,22 +47,22 @@
      "n": 0
     },
     "FWD": {
-     "expected": 4.15,
+     "expected": 4.11,
      "actual": 2.0,
      "n": 1
     },
     "DEF": {
-     "expected": 7.61,
+     "expected": 7.63,
      "actual": 5.0,
      "n": 3
     },
     "MID": {
-     "expected": 26.13,
+     "expected": 26.04,
      "actual": 20.0,
      "n": 3
     }
    },
-   "updated_at": "2026-06-22T11:28:21.909085+00:00"
+   "updated_at": "2026-06-22T16:22:17.425525+00:00"
   }
  }
 }

@@ -517,9 +517,9 @@
    "away": "Egypt",
    "kickoff_utc": "2026-06-22T01:00:00.000Z",
    "venue_id": "Vancouver",
-   "status": "scheduled",
-   "score_home": null,
-   "score_away": null
+   "status": "finished",
+   "score_home": 1,
+   "score_away": 3
   },
   {
    "match_id": "M041",
@@ -595,9 +595,9 @@
    "away": "Cape Verde",
    "kickoff_utc": "2026-06-21T22:00:00.000Z",
    "venue_id": "Miami (Miami Gardens)",
-   "status": "scheduled",
-   "score_home": null,
-   "score_away": null
+   "status": "finished",
+   "score_home": 2,
+   "score_away": 2
   },
   {
    "match_id": "M047",

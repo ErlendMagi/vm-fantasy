@@ -222,7 +222,7 @@
    }
   },
   "3": {
-   "synced_at": "2026-06-23T19:23:06.152558+00:00",
+   "synced_at": "2026-06-23T21:11:02.755628+00:00",
    "members": {
     "Republikken Jonaland": {
      "manager": "Jonathan",
@@ -330,7 +330,43 @@
      ],
      "captain_id": "b5e2ee3e-eb94-4460-827f-32f2f39db023",
      "formation": "3-4-3",
-     "total_points": 128
+     "total_points": 130
+    },
+    "USTAB IL": {
+     "manager": "julle",
+     "squad": [
+      "8a04907a-aebc-488a-b125-d4edc878a391",
+      "3aaa39f5-9908-454d-97d0-b5806a65e3ac",
+      "64b3ec51-1cf4-449b-860f-d4a2cee93727",
+      "bbc5a321-66a2-4285-9fe4-822f064efec7",
+      "3ab1b429-a4a7-411d-85a3-ec5acb922398",
+      "32b8a7d5-97b7-40f9-8385-88a091bfbdf6",
+      "7a06da13-07bf-4c98-8b0d-d70889165c70",
+      "37083f32-812e-43de-ab1b-aa999648b146",
+      "cb6156b9-aa0c-4341-9e97-3785532cc888",
+      "1d8fbd81-3902-4363-ba31-900b5793de66",
+      "c91b73b7-d7b5-40d0-9a10-379ca315abc3",
+      "635dd97c-987e-473c-9a7e-eba67ad2edef",
+      "b19a765c-bdac-460e-a3c0-b588c5feedab",
+      "95b045af-510d-4f14-8e37-a054f738b223",
+      "c46375fa-4dfc-4e94-a590-5b61842477ae"
+     ],
+     "starter_ids": [
+      "8a04907a-aebc-488a-b125-d4edc878a391",
+      "3aaa39f5-9908-454d-97d0-b5806a65e3ac",
+      "64b3ec51-1cf4-449b-860f-d4a2cee93727",
+      "bbc5a321-66a2-4285-9fe4-822f064efec7",
+      "3ab1b429-a4a7-411d-85a3-ec5acb922398",
+      "32b8a7d5-97b7-40f9-8385-88a091bfbdf6",
+      "7a06da13-07bf-4c98-8b0d-d70889165c70",
+      "37083f32-812e-43de-ab1b-aa999648b146",
+      "cb6156b9-aa0c-4341-9e97-3785532cc888",
+      "1d8fbd81-3902-4363-ba31-900b5793de66",
+      "c91b73b7-d7b5-40d0-9a10-379ca315abc3"
+     ],
+     "captain_id": "32b8a7d5-97b7-40f9-8385-88a091bfbdf6",
+     "formation": "4-3-3",
+     "total_points": 118
     },
     "Brødrene Dahl": {
      "manager": "Preben",
@@ -367,42 +403,6 @@
      "captain_id": "b5e2ee3e-eb94-4460-827f-32f2f39db023",
      "formation": "3-4-3",
      "total_points": 115
-    },
-    "USTAB IL": {
-     "manager": "julle",
-     "squad": [
-      "8a04907a-aebc-488a-b125-d4edc878a391",
-      "3aaa39f5-9908-454d-97d0-b5806a65e3ac",
-      "64b3ec51-1cf4-449b-860f-d4a2cee93727",
-      "bbc5a321-66a2-4285-9fe4-822f064efec7",
-      "3ab1b429-a4a7-411d-85a3-ec5acb922398",
-      "32b8a7d5-97b7-40f9-8385-88a091bfbdf6",
-      "7a06da13-07bf-4c98-8b0d-d70889165c70",
-      "37083f32-812e-43de-ab1b-aa999648b146",
-      "cb6156b9-aa0c-4341-9e97-3785532cc888",
-      "1d8fbd81-3902-4363-ba31-900b5793de66",
-      "c91b73b7-d7b5-40d0-9a10-379ca315abc3",
-      "635dd97c-987e-473c-9a7e-eba67ad2edef",
-      "b19a765c-bdac-460e-a3c0-b588c5feedab",
-      "95b045af-510d-4f14-8e37-a054f738b223",
-      "c46375fa-4dfc-4e94-a590-5b61842477ae"
-     ],
-     "starter_ids": [
-      "8a04907a-aebc-488a-b125-d4edc878a391",
-      "3aaa39f5-9908-454d-97d0-b5806a65e3ac",
-      "64b3ec51-1cf4-449b-860f-d4a2cee93727",
-      "bbc5a321-66a2-4285-9fe4-822f064efec7",
-      "3ab1b429-a4a7-411d-85a3-ec5acb922398",
-      "32b8a7d5-97b7-40f9-8385-88a091bfbdf6",
-      "7a06da13-07bf-4c98-8b0d-d70889165c70",
-      "37083f32-812e-43de-ab1b-aa999648b146",
-      "cb6156b9-aa0c-4341-9e97-3785532cc888",
-      "1d8fbd81-3902-4363-ba31-900b5793de66",
-      "c91b73b7-d7b5-40d0-9a10-379ca315abc3"
-     ],
-     "captain_id": "32b8a7d5-97b7-40f9-8385-88a091bfbdf6",
-     "formation": "4-3-3",
-     "total_points": 114
     },
     "Erlend er best": {
      "manager": "Erlend",

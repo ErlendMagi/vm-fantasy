@@ -817,8 +817,8 @@
    "kickoff_utc": "2026-06-23T17:00:00.000Z",
    "venue_id": "Houston",
    "status": "scheduled",
-   "score_home": null,
-   "score_away": null
+   "score_home": 2,
+   "score_away": 0
   },
   {
    "match_id": "M064",

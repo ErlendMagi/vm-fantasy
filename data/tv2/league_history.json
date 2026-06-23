@@ -222,7 +222,7 @@
    }
   },
   "3": {
-   "synced_at": "2026-06-23T01:28:30.275938+00:00",
+   "synced_at": "2026-06-23T02:10:11.210326+00:00",
    "members": {
     "Cabrones": {
      "manager": "Thomas",
@@ -257,6 +257,42 @@
       "69128071-724f-4e9f-ab0a-ab8eb937cbf8"
      ],
      "captain_id": "b5e2ee3e-eb94-4460-827f-32f2f39db023",
+     "formation": "3-4-3",
+     "total_points": 125
+    },
+    "I dont know what I am doing": {
+     "manager": "Jostein",
+     "squad": [
+      "1ac149aa-ce4a-45fe-a968-66e42d74c6d0",
+      "bbc5a321-66a2-4285-9fe4-822f064efec7",
+      "6ad16f0f-56ff-4016-8bb6-cfd39954ab3c",
+      "e19787ce-1358-4c9b-ae36-d632c87d7222",
+      "3aaa39f5-9908-454d-97d0-b5806a65e3ac",
+      "e50ce82d-7d7e-48d2-9bc1-db0cea895619",
+      "93dc4bc4-cdba-4848-b641-a23d043f1612",
+      "13993950-3e6e-4572-bb03-916cdc1af3b9",
+      "21b15e87-3a84-4b47-9d94-7f808fe40e94",
+      "5f842533-aa68-4659-8f0c-6d3a68946a5f",
+      "7a06da13-07bf-4c98-8b0d-d70889165c70",
+      "2ede12ab-22a0-42c3-88e0-0ee24466c034",
+      "2fa400c3-ac42-494c-990e-b1cac5da48a2",
+      "c13962ec-25dd-4a3c-921a-e4e4398b8579",
+      "0daf8375-dddd-4b10-9246-907d7b6b34bc"
+     ],
+     "starter_ids": [
+      "1ac149aa-ce4a-45fe-a968-66e42d74c6d0",
+      "bbc5a321-66a2-4285-9fe4-822f064efec7",
+      "6ad16f0f-56ff-4016-8bb6-cfd39954ab3c",
+      "e19787ce-1358-4c9b-ae36-d632c87d7222",
+      "3aaa39f5-9908-454d-97d0-b5806a65e3ac",
+      "e50ce82d-7d7e-48d2-9bc1-db0cea895619",
+      "93dc4bc4-cdba-4848-b641-a23d043f1612",
+      "13993950-3e6e-4572-bb03-916cdc1af3b9",
+      "21b15e87-3a84-4b47-9d94-7f808fe40e94",
+      "5f842533-aa68-4659-8f0c-6d3a68946a5f",
+      "7a06da13-07bf-4c98-8b0d-d70889165c70"
+     ],
+     "captain_id": "1ac149aa-ce4a-45fe-a968-66e42d74c6d0",
      "formation": "3-4-3",
      "total_points": 125
     },
@@ -296,42 +332,6 @@
      "formation": "3-4-3",
      "total_points": 122
     },
-    "I dont know what I am doing": {
-     "manager": "Jostein",
-     "squad": [
-      "1ac149aa-ce4a-45fe-a968-66e42d74c6d0",
-      "bbc5a321-66a2-4285-9fe4-822f064efec7",
-      "6ad16f0f-56ff-4016-8bb6-cfd39954ab3c",
-      "e19787ce-1358-4c9b-ae36-d632c87d7222",
-      "3aaa39f5-9908-454d-97d0-b5806a65e3ac",
-      "e50ce82d-7d7e-48d2-9bc1-db0cea895619",
-      "93dc4bc4-cdba-4848-b641-a23d043f1612",
-      "13993950-3e6e-4572-bb03-916cdc1af3b9",
-      "21b15e87-3a84-4b47-9d94-7f808fe40e94",
-      "5f842533-aa68-4659-8f0c-6d3a68946a5f",
-      "7a06da13-07bf-4c98-8b0d-d70889165c70",
-      "2ede12ab-22a0-42c3-88e0-0ee24466c034",
-      "2fa400c3-ac42-494c-990e-b1cac5da48a2",
-      "c13962ec-25dd-4a3c-921a-e4e4398b8579",
-      "0daf8375-dddd-4b10-9246-907d7b6b34bc"
-     ],
-     "starter_ids": [
-      "1ac149aa-ce4a-45fe-a968-66e42d74c6d0",
-      "bbc5a321-66a2-4285-9fe4-822f064efec7",
-      "6ad16f0f-56ff-4016-8bb6-cfd39954ab3c",
-      "e19787ce-1358-4c9b-ae36-d632c87d7222",
-      "3aaa39f5-9908-454d-97d0-b5806a65e3ac",
-      "e50ce82d-7d7e-48d2-9bc1-db0cea895619",
-      "93dc4bc4-cdba-4848-b641-a23d043f1612",
-      "13993950-3e6e-4572-bb03-916cdc1af3b9",
-      "21b15e87-3a84-4b47-9d94-7f808fe40e94",
-      "5f842533-aa68-4659-8f0c-6d3a68946a5f",
-      "7a06da13-07bf-4c98-8b0d-d70889165c70"
-     ],
-     "captain_id": "1ac149aa-ce4a-45fe-a968-66e42d74c6d0",
-     "formation": "3-4-3",
-     "total_points": 120
-    },
     "Brødrene Dahl": {
      "manager": "Preben",
      "squad": [
@@ -366,7 +366,7 @@
      ],
      "captain_id": "b5e2ee3e-eb94-4460-827f-32f2f39db023",
      "formation": "3-4-3",
-     "total_points": 116
+     "total_points": 115
     },
     "USTAB IL": {
      "manager": "julle",
@@ -402,7 +402,7 @@
      ],
      "captain_id": "32b8a7d5-97b7-40f9-8385-88a091bfbdf6",
      "formation": "4-3-3",
-     "total_points": 109
+     "total_points": 108
     },
     "Erlend er best": {
      "manager": "Erlend",

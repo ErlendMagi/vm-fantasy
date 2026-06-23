@@ -6612,7 +6612,9 @@
     "M057",
     "M051",
     "M052",
-    "M058"
+    "M058",
+    "M063",
+    "M069"
    ],
    "players": {
     "3bbd15a7-cef4-4fb8-9802-3366d9ce1abb": {
@@ -12113,9 +12115,558 @@
      "shots": null,
      "sot": null,
      "is_potm": false
+    },
+    "1267fca3-0916-44a2-ac44-fd2266efc93b": {
+     "minutes": 90.0,
+     "rating": 9.13,
+     "xg": 1.6,
+     "xa": 0.03,
+     "shots": 7.0,
+     "sot": 5.0,
+     "is_potm": true
+    },
+    "ced4ec21-e187-45f4-a731-d4399c295e90": {
+     "minutes": 17.0,
+     "rating": 6.17,
+     "xg": null,
+     "xa": null,
+     "shots": null,
+     "sot": null,
+     "is_potm": false
+    },
+    "1a3ee8f2-fffa-44f3-b677-f64bb4bcab6f": {
+     "minutes": 45.0,
+     "rating": 7.8,
+     "xg": 0.03,
+     "xa": 0.36,
+     "shots": 1.0,
+     "sot": 0.0,
+     "is_potm": false
+    },
+    "5f842533-aa68-4659-8f0c-6d3a68946a5f": {
+     "minutes": 90.0,
+     "rating": 8.23,
+     "xg": 0.12,
+     "xa": 0.48,
+     "shots": 2.0,
+     "sot": 1.0,
+     "is_potm": false
+    },
+    "a4420ea5-a7d2-4efa-a4e2-a52b40a10ea4": {
+     "minutes": 45.0,
+     "rating": 6.59,
+     "xg": null,
+     "xa": 0.01,
+     "shots": null,
+     "sot": null,
+     "is_potm": false
+    },
+    "fbe2cb50-14a6-494d-9dab-2e271aa349c7": {
+     "minutes": 14.0,
+     "rating": 6.4,
+     "xg": null,
+     "xa": 0.01,
+     "shots": null,
+     "sot": null,
+     "is_potm": false
+    },
+    "a64bcbd8-77fe-44f2-8f1c-dbee96c4edb7": {
+     "minutes": 90.0,
+     "rating": 7.66,
+     "xg": null,
+     "xa": 0.01,
+     "shots": null,
+     "sot": null,
+     "is_potm": false
+    },
+    "f2088535-b1b8-4f14-b8cf-31d63c94fdd7": {
+     "minutes": 90.0,
+     "rating": 7.21,
+     "xg": 0.03,
+     "xa": 0.09,
+     "shots": 1.0,
+     "sot": 0.0,
+     "is_potm": false
+    },
+    "8684c9ce-85ea-46b5-9ff3-4c17d2906c1b": {
+     "minutes": 45.0,
+     "rating": 5.71,
+     "xg": 0.06,
+     "xa": 0.02,
+     "shots": 1.0,
+     "sot": 0.0,
+     "is_potm": false
+    },
+    "56eb5ad5-e03d-4691-9128-385940caf9a4": {
+     "minutes": 89.0,
+     "rating": 6.24,
+     "xg": 0.05,
+     "xa": 0.01,
+     "shots": 2.0,
+     "sot": 0.0,
+     "is_potm": false
+    },
+    "490ebd75-fa5d-4027-ad89-0611321361f6": {
+     "minutes": 90.0,
+     "rating": 6.71,
+     "xg": 0.01,
+     "xa": 0.02,
+     "shots": 1.0,
+     "sot": 0.0,
+     "is_potm": false
+    },
+    "61985f9b-6f00-47a8-951c-8e1e82a530ee": {
+     "minutes": 90.0,
+     "rating": 4.98,
+     "xg": null,
+     "xa": null,
+     "shots": null,
+     "sot": null,
+     "is_potm": false
+    },
+    "0c6406d7-05da-4091-8cb6-68959dbc7cbe": {
+     "minutes": 63.0,
+     "rating": 7.16,
+     "xg": 0.4,
+     "xa": 0.02,
+     "shots": 3.0,
+     "sot": 1.0,
+     "is_potm": false
+    },
+    "f743bb50-7d48-459a-b337-5d6f94e8e140": {
+     "minutes": 90.0,
+     "rating": 8.23,
+     "xg": null,
+     "xa": null,
+     "shots": null,
+     "sot": null,
+     "is_potm": false
+    },
+    "f849a5e6-cbed-4ca4-87a5-c608409006dd": {
+     "minutes": 45.0,
+     "rating": 6.79,
+     "xg": null,
+     "xa": 0.05,
+     "shots": null,
+     "sot": null,
+     "is_potm": false
+    },
+    "2fa400c3-ac42-494c-990e-b1cac5da48a2": {
+     "minutes": 7.0,
+     "rating": null,
+     "xg": 0.17,
+     "xa": 0.01,
+     "shots": 1.0,
+     "sot": 1.0,
+     "is_potm": false
+    },
+    "4169cae9-7acd-4b20-8af3-648ef33378e1": {
+     "minutes": 45.0,
+     "rating": 5.87,
+     "xg": null,
+     "xa": 0.01,
+     "shots": null,
+     "sot": null,
+     "is_potm": false
+    },
+    "7711677d-4d23-4f05-8719-bf7e6a3674d6": {
+     "minutes": 45.0,
+     "rating": 6.41,
+     "xg": null,
+     "xa": 0.01,
+     "shots": null,
+     "sot": null,
+     "is_potm": false
+    },
+    "b600fd34-61de-4acf-a70e-6d4e8b81f111": {
+     "minutes": 83.0,
+     "rating": 7.16,
+     "xg": 0.02,
+     "xa": 0.19,
+     "shots": 1.0,
+     "sot": 0.0,
+     "is_potm": false
+    },
+    "be960036-4e17-4804-96b9-73ff67f5b4e7": {
+     "minutes": 90.0,
+     "rating": 8.75,
+     "xg": 0.17,
+     "xa": 0.35,
+     "shots": 1.0,
+     "sot": 1.0,
+     "is_potm": false
+    },
+    "59782a0c-90c2-4f3a-a677-4a564f5dced0": {
+     "minutes": 45.0,
+     "rating": 7.28,
+     "xg": null,
+     "xa": 0.02,
+     "shots": null,
+     "sot": null,
+     "is_potm": false
+    },
+    "8e2f52aa-7004-4d04-a6dd-22efe47ff12c": {
+     "minutes": 73.0,
+     "rating": 6.67,
+     "xg": 0.02,
+     "xa": 0.01,
+     "shots": 1.0,
+     "sot": 1.0,
+     "is_potm": false
+    },
+    "a228763c-04b0-426c-8bb1-c4c20f55df19": {
+     "minutes": 45.0,
+     "rating": 6.07,
+     "xg": 0.08,
+     "xa": 0.01,
+     "shots": 1.0,
+     "sot": 1.0,
+     "is_potm": false
+    },
+    "2d67d2e1-e87d-4306-a41b-4e7831023462": {
+     "minutes": 90.0,
+     "rating": 4.5,
+     "xg": null,
+     "xa": null,
+     "shots": null,
+     "sot": null,
+     "is_potm": false
+    },
+    "94492b87-f4d9-4ee0-af80-cc56c6399daf": {
+     "minutes": 90.0,
+     "rating": 4.56,
+     "xg": null,
+     "xa": null,
+     "shots": null,
+     "sot": null,
+     "is_potm": false
+    },
+    "9776c7c1-d94e-4110-abf1-cdf5d61a66a9": {
+     "minutes": 76.0,
+     "rating": 7.25,
+     "xg": null,
+     "xa": 0.07,
+     "shots": null,
+     "sot": null,
+     "is_potm": false
+    },
+    "d5e43c74-d727-482f-8078-b74d8bc6cd0e": {
+     "minutes": 90.0,
+     "rating": 7.42,
+     "xg": null,
+     "xa": 0.01,
+     "shots": null,
+     "sot": null,
+     "is_potm": false
+    },
+    "b1762b2e-5cf9-4364-b417-6cbf88fb7e6c": {
+     "minutes": 90.0,
+     "rating": 5.51,
+     "xg": null,
+     "xa": null,
+     "shots": null,
+     "sot": null,
+     "is_potm": false
+    },
+    "4c581c2f-7778-46bb-b974-f9ff881aa425": {
+     "minutes": 1.0,
+     "rating": null,
+     "xg": null,
+     "xa": null,
+     "shots": null,
+     "sot": null,
+     "is_potm": false
+    },
+    "2eb6ef89-2c27-49e7-b21c-aa347fd4ecb1": {
+     "minutes": 89.0,
+     "rating": 6.73,
+     "xg": null,
+     "xa": 0.02,
+     "shots": null,
+     "sot": null,
+     "is_potm": false
+    },
+    "07c7020c-8dc6-4730-8869-667d1d965180": {
+     "minutes": 67.0,
+     "rating": 6.16,
+     "xg": null,
+     "xa": null,
+     "shots": null,
+     "sot": null,
+     "is_potm": false
+    },
+    "32b8a7d5-97b7-40f9-8385-88a091bfbdf6": {
+     "minutes": 90.0,
+     "rating": 6.32,
+     "xg": 0.45,
+     "xa": 0.01,
+     "shots": 3.0,
+     "sot": 1.0,
+     "is_potm": false
+    },
+    "07271a75-6568-479b-a20a-05f4a11db3d3": {
+     "minutes": 90.0,
+     "rating": 7.06,
+     "xg": null,
+     "xa": 0.01,
+     "shots": null,
+     "sot": null,
+     "is_potm": false
+    },
+    "41878f58-1283-45ac-a3e8-d4229d36f4b5": {
+     "minutes": 1.0,
+     "rating": null,
+     "xg": null,
+     "xa": null,
+     "shots": null,
+     "sot": null,
+     "is_potm": false
+    },
+    "1635fb64-dd08-4098-a8dc-70ed390aff44": {
+     "minutes": 90.0,
+     "rating": 7.39,
+     "xg": null,
+     "xa": null,
+     "shots": null,
+     "sot": null,
+     "is_potm": false
+    },
+    "9edaae2b-efc6-48e8-ac76-d7476f7e060d": {
+     "minutes": 66.0,
+     "rating": 5.82,
+     "xg": null,
+     "xa": 0.01,
+     "shots": null,
+     "sot": null,
+     "is_potm": false
+    },
+    "7bbb55a7-6b4c-42ed-a396-d2d785df7381": {
+     "minutes": 90.0,
+     "rating": 8.05,
+     "xg": 0.13,
+     "xa": 0.26,
+     "shots": 3.0,
+     "sot": 0.0,
+     "is_potm": true
+    },
+    "ce770b8a-38a7-4494-9ca8-f1ab49657b80": {
+     "minutes": 7.0,
+     "rating": null,
+     "xg": null,
+     "xa": 0.03,
+     "shots": null,
+     "sot": null,
+     "is_potm": false
+    },
+    "d8e75dc7-2843-430f-af5b-2e42bb70c821": {
+     "minutes": 90.0,
+     "rating": 7.29,
+     "xg": null,
+     "xa": 0.05,
+     "shots": null,
+     "sot": null,
+     "is_potm": false
+    },
+    "37ac7c39-bb07-4859-8190-054e205f7b09": {
+     "minutes": 90.0,
+     "rating": 7.71,
+     "xg": null,
+     "xa": null,
+     "shots": null,
+     "sot": null,
+     "is_potm": false
+    },
+    "a1eb8b9a-3a72-4a74-b3cc-f4a5ba90daa9": {
+     "minutes": 90.0,
+     "rating": 7.48,
+     "xg": null,
+     "xa": 0.29,
+     "shots": null,
+     "sot": null,
+     "is_potm": false
+    },
+    "f7282355-6548-4a79-90b0-b4336895cf29": {
+     "minutes": 16.0,
+     "rating": 6.42,
+     "xg": null,
+     "xa": 0.31,
+     "shots": null,
+     "sot": null,
+     "is_potm": false
+    },
+    "b8e36291-92a0-4d65-959a-2583620814d2": {
+     "minutes": 90.0,
+     "rating": 7.97,
+     "xg": 0.11,
+     "xa": 0.07,
+     "shots": 1.0,
+     "sot": 0.0,
+     "is_potm": false
+    },
+    "1e920a4b-f5fa-4d4f-a21a-111426693a98": {
+     "minutes": 90.0,
+     "rating": 7.36,
+     "xg": null,
+     "xa": 0.02,
+     "shots": null,
+     "sot": null,
+     "is_potm": false
+    },
+    "6e9b7d67-5131-4144-b3a1-911c5f27d8af": {
+     "minutes": 17.0,
+     "rating": 5.94,
+     "xg": null,
+     "xa": 0.01,
+     "shots": null,
+     "sot": null,
+     "is_potm": false
+    },
+    "cbb5cdb3-5f5a-47e2-8acd-31e2203fa8ec": {
+     "minutes": 66.0,
+     "rating": 7.03,
+     "xg": null,
+     "xa": 0.04,
+     "shots": null,
+     "sot": null,
+     "is_potm": false
+    },
+    "a0d92135-3337-406e-976b-6e81f1efcf15": {
+     "minutes": 65.0,
+     "rating": 7.03,
+     "xg": 0.03,
+     "xa": 0.1,
+     "shots": 1.0,
+     "sot": 1.0,
+     "is_potm": false
+    },
+    "91cdfa6d-531f-4300-bc45-cbebb85ccbe2": {
+     "minutes": 90.0,
+     "rating": 5.74,
+     "xg": null,
+     "xa": null,
+     "shots": null,
+     "sot": null,
+     "is_potm": false
+    },
+    "ecaeceb2-c3f6-4f5a-afdc-adc9a861b80b": {
+     "minutes": 90.0,
+     "rating": 6.37,
+     "xg": null,
+     "xa": null,
+     "shots": null,
+     "sot": null,
+     "is_potm": false
+    },
+    "b408e92c-d07e-4c60-a746-93954b1553ea": {
+     "minutes": 25.0,
+     "rating": 6.31,
+     "xg": 0.15,
+     "xa": 0.01,
+     "shots": 2.0,
+     "sot": 1.0,
+     "is_potm": false
+    },
+    "02c0df59-39c0-41bc-9f58-3e3dbc94665a": {
+     "minutes": 73.0,
+     "rating": 6.02,
+     "xg": 0.02,
+     "xa": 0.06,
+     "shots": 1.0,
+     "sot": 0.0,
+     "is_potm": false
+    },
+    "ff0baaf7-12b8-4ce6-8295-0d4ddff8b804": {
+     "minutes": 83.0,
+     "rating": 6.46,
+     "xg": 0.11,
+     "xa": 0.2,
+     "shots": 2.0,
+     "sot": 0.0,
+     "is_potm": false
+    },
+    "a0d78e1b-9c73-4a6e-a735-10984591cc14": {
+     "minutes": 74.0,
+     "rating": 7.27,
+     "xg": 0.11,
+     "xa": 0.04,
+     "shots": 4.0,
+     "sot": 0.0,
+     "is_potm": false
+    },
+    "70cfc846-a533-49d4-946d-8d3dfbf0bdf0": {
+     "minutes": 87.0,
+     "rating": 7.49,
+     "xg": 0.04,
+     "xa": null,
+     "shots": 1.0,
+     "sot": 0.0,
+     "is_potm": false
+    },
+    "29678108-9821-4b45-b344-8060e71ffb4b": {
+     "minutes": 22.0,
+     "rating": 6.04,
+     "xg": 0.24,
+     "xa": null,
+     "shots": 1.0,
+     "sot": 1.0,
+     "is_potm": false
+    },
+    "43361811-d6f3-449b-826a-c241576e9892": {
+     "minutes": 24.0,
+     "rating": 6.35,
+     "xg": null,
+     "xa": null,
+     "shots": null,
+     "sot": null,
+     "is_potm": false
+    },
+    "c91b73b7-d7b5-40d0-9a10-379ca315abc3": {
+     "minutes": 24.0,
+     "rating": 6.8,
+     "xg": 0.21,
+     "xa": 0.01,
+     "shots": 2.0,
+     "sot": 0.0,
+     "is_potm": false
+    },
+    "e47924e7-2e00-4d5b-8281-dece3de73dbb": {
+     "minutes": 3.0,
+     "rating": null,
+     "xg": null,
+     "xa": null,
+     "shots": null,
+     "sot": null,
+     "is_potm": false
+    },
+    "da5e1827-ea4d-446d-bae2-c9c34264b6b2": {
+     "minutes": 90.0,
+     "rating": 6.32,
+     "xg": null,
+     "xa": null,
+     "shots": null,
+     "sot": null,
+     "is_potm": false
+    },
+    "4db7698f-4325-4954-a520-4ca0a51b6f0f": {
+     "minutes": 90.0,
+     "rating": 6.1,
+     "xg": null,
+     "xa": null,
+     "shots": null,
+     "sot": null,
+     "is_potm": false
+    },
+    "1225bcb0-8fff-4317-aa0d-7127c82799f9": {
+     "minutes": 90.0,
+     "rating": 7.69,
+     "xg": null,
+     "xa": null,
+     "shots": null,
+     "sot": null,
+     "is_potm": false
     }
    }
   }
  },
- "updated": "2026-06-23T21:11:18.909271+00:00"
+ "updated": "2026-06-23T22:44:10.754423+00:00"
 }

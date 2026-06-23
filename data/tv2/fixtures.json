@@ -673,7 +673,7 @@
    "away": "Senegal",
    "kickoff_utc": "2026-06-23T00:00:00.000Z",
    "venue_id": "New York/New Jersey (East Rutherford)",
-   "status": "scheduled",
+   "status": "finished",
    "score_home": 3,
    "score_away": 2
   },
@@ -751,9 +751,9 @@
    "away": "Algeria",
    "kickoff_utc": "2026-06-23T03:00:00.000Z",
    "venue_id": "San Francisco Bay Area (Santa Clara)",
-   "status": "scheduled",
-   "score_home": null,
-   "score_away": null
+   "status": "finished",
+   "score_home": 1,
+   "score_away": 2
   },
   {
    "match_id": "M059",

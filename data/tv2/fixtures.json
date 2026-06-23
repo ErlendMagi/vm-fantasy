@@ -816,8 +816,8 @@
    "away": "Uzbekistan",
    "kickoff_utc": "2026-06-23T17:00:00.000Z",
    "venue_id": "Houston",
-   "status": "scheduled",
-   "score_home": 2,
+   "status": "finished",
+   "score_home": 5,
    "score_away": 0
   },
   {
@@ -894,9 +894,9 @@
    "away": "Ghana",
    "kickoff_utc": "2026-06-23T20:00:00.000Z",
    "venue_id": "Boston (Foxborough)",
-   "status": "scheduled",
-   "score_home": null,
-   "score_away": null
+   "status": "finished",
+   "score_home": 0,
+   "score_away": 0
   },
   {
    "match_id": "M070",

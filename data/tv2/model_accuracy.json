@@ -35,16 +35,16 @@
   "2": {
    "expected": 56.3,
    "expected_full": 46.7,
-   "expected_played": 42.8,
-   "actual": 54,
-   "played": 10,
+   "expected_played": 46.7,
+   "actual": 55,
+   "played": 11,
    "starters": 11,
-   "finalized": false,
+   "finalized": true,
    "by_pos": {
     "GK": {
      "expected": 3.9,
-     "actual": 0.0,
-     "n": 0
+     "actual": 1.0,
+     "n": 1
     },
     "FWD": {
      "expected": 3.26,
@@ -62,7 +62,7 @@
      "n": 5
     }
    },
-   "updated_at": "2026-06-23T23:48:23.866442+00:00"
+   "updated_at": "2026-06-24T02:12:00.851086+00:00"
   }
  }
 }

@@ -67,6 +67,37 @@ def squad_xp(squad: pd.DataFrame, xp_col: str = "xp_next", p_start_floor: float 
     return best_xi(squad, xp_col, p_start_floor=p_start_floor)["total"]
 
 
+def _pareto_buyable(pool: pd.DataFrame, xp_col: str) -> pd.DataFrame:
+    """Drop value-DOMINATED buy candidates: remove a player A if some other SAME-POSITION player B
+    is no more expensive, at least as likely to start, AND at least as good on both next-round and
+    whole-tournament value (strictly better on >=1 axis). You'd never pick A over B, so it never
+    reaches the search — 'no worse player at the same/higher price'. The price/value frontier (cheap
+    enablers ... stars), spread across teams, is preserved, so diversification options remain."""
+    tour = "xp_tournament" if "xp_tournament" in pool.columns else xp_col
+    has_ps = "p_start" in pool.columns
+    keep = []
+    for pos in pool["position"].unique():
+        sub = pool[pool["position"] == pos]
+        pr = sub["price"].to_numpy(float); xn = sub[xp_col].to_numpy(float)
+        xt = sub[tour].to_numpy(float)
+        ps = (sub["p_start"].to_numpy(float) if has_ps else None)
+        idx = sub.index.to_numpy()
+        for a in range(len(sub)):
+            dominated = False
+            for b in range(len(sub)):
+                if a == b:
+                    continue
+                if (pr[b] <= pr[a] + 1e-9 and xn[b] >= xn[a] - 1e-9 and xt[b] >= xt[a] - 1e-9
+                        and (ps is None or ps[b] >= ps[a] - 1e-9)
+                        and (pr[b] < pr[a] - 1e-9 or xn[b] > xn[a] + 1e-9 or xt[b] > xt[a] + 1e-9
+                             or (ps is not None and ps[b] > ps[a] + 1e-9))):
+                    dominated = True
+                    break
+            if not dominated:
+                keep.append(idx[a])
+    return pool.loc[keep]
+
+
 def formation_options(squad: pd.DataFrame, xp_col: str = "xp_next",
                       p_start_floor: float | None = None) -> list[dict]:
     """Projected points of the best XI under EVERY formation the game accepts that
@@ -262,6 +293,8 @@ def transfer_plans(players: pd.DataFrame, my_squad_ids: list[str], bank: float,
         pool = pool[pool["played_all"]]
     if "ownership_pct" in pool.columns and pool["ownership_pct"].notna().any():
         pool = pool[pool["ownership_pct"].fillna(0.0) >= config.OWNERSHIP_MIN_BUY]
+    if config.PRUNE_DOMINATED_BUYS and not pool.empty:
+        pool = _pareto_buyable(pool, xp_col)   # value efficiency: never buy a dominated player
 
     def _candidates(pos):
         sub = pool[pool["position"] == pos]

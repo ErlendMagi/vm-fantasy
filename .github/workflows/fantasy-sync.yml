@@ -14,7 +14,7 @@ on:
     # GitHub's scheduler is best-effort (it delays/skips under load), so two entries per
     # hour raise the odds one fires; LIVE standings also refresh via the TV2 token on each
     # page load, independent of this sync.
-    - cron: "0 6,12 * * *"
+    - cron: "0 6-14 * * *"          # hourly through the daytime lull (was just 6 & 12) — no stale-data gap
     - cron: "0,30 15-23 * * *"
     - cron: "0,30 0-5 * * *"
   workflow_dispatch:          # lets you run it on demand from the Actions tab

@@ -194,6 +194,11 @@ MAX_GOAL_SHARE = {"FWD": 0.45, "MID": 0.35, "DEF": 0.15, "GK": 0.02}
 MAX_ASSIST_SHARE = {"FWD": 0.35, "MID": 0.40, "DEF": 0.25, "GK": 0.05}
 
 # ---------------------------------------------------------------- optimizer
+# Value efficiency: never even consider BUYING a player who is value-DOMINATED — i.e. some
+# other same-position player is no more expensive, at least as likely to start, and at least
+# as good on BOTH the next-round and whole-tournament value. You would never pick the worse
+# one, so it's dropped from the search (guarantees "no worse player at the same/higher price").
+PRUNE_DOMINATED_BUYS = True
 HIT_MARGIN = 1.0             # safety margin (pts) an extra -4 hit must clear to be taken
 # Budget reallocation: the transfer search also shortlists cheap "enabler" buys — the
 # cheapest LIKELY STARTERS per position — so a plan can DOWNGRADE one position to free

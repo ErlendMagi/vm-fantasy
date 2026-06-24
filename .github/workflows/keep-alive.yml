@@ -1,0 +1,28 @@
+name: keep-alive
+
+# Streamlit Community Cloud puts a free-tier app to sleep after a long quiet
+# period (no visitors). A light periodic GET resets that inactivity timer so the
+# site stays up 24/7 without anyone opening it. Cheap (one curl, no checkout).
+# NOTE: GitHub's scheduler is best-effort; for a hard guarantee pair this with a
+# free external monitor (UptimeRobot / cron-job.org) pointed at the same URL.
+
+on:
+  schedule:
+    - cron: "*/30 * * * *"     # every 30 min, all day, to stay well under the sleep timeout
+  workflow_dispatch:
+
+concurrency:
+  group: keep-alive
+  cancel-in-progress: true
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping the Streamlit app so it never sleeps
+        run: |
+          for url in "https://vm-fantasy.streamlit.app/" \
+                     "https://vm-fantasy.streamlit.app/?keepalive=1"; do
+            code=$(curl -s -o /dev/null -w "%{http_code}" -m 60 -A "vm-fantasy-keepalive" "$url" || echo "000")
+            echo "pinged $url -> HTTP $code"
+          done

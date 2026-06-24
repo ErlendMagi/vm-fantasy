@@ -157,10 +157,14 @@ UNPROVEN_PSTART = 0.45     # < XI_PSTART_FLOOR (0.60) and < BUY_PSTART_FLOOR (0.
 # Manual overrides (your real-world knowledge: "X is benched/injured/nailed"). Highest
 # precedence of all — applied after priors AND predicted lineups. data/tv2/manual_overrides.json
 MANUAL_PSTART = {"out": 0.0, "bench": 0.30, "start": 0.95}
-# Ownership floor on BUYS: never shortlist a barely-owned player (one the wider field has
-# shunned — usually a non-main who does not play) UNLESS our own minutes say he is a likely
-# starter, so genuine low-owned MAINS (a nailed minnow-nation regular) are still buyable.
-OWNERSHIP_MIN_BUY = 1.0            # percent owned; exempt when p_start >= XI_PSTART_FLOOR
+# "Only safe players" — two HARD gates on the BUY pool (owned players are untouched):
+#  - REQUIRE_PLAYED_ALL: a buy must have appeared (>0 min) in EVERY completed round so far
+#    (a consistent main; we only have WC-tournament data, not qualifiers).
+#  - OWNERSHIP_MIN_BUY: a buy must be owned by at least this % of the field (a crowd-confirmed
+#    starter). Note: minutes are the stronger signal — some genuine low-owned MAINS clear
+#    'played all games' but fail 4% — so this trades a little upside for extra safety, by request.
+REQUIRE_PLAYED_ALL = True
+OWNERSHIP_MIN_BUY = 4.0            # percent owned, HARD floor on buys
 # "Only main players": a small drag for every squad slot spent on a player who can't even be
 # fielded (p_start below the floor — dead weight). It tips free transfers toward replacing
 # non-mains with mains, but stays well under a -4 hit so it never alone forces a reckless hit.

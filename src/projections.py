@@ -384,6 +384,7 @@ def project(players: pd.DataFrame, fixtures: list[dict], match_odds: dict | None
     played = data_access.played_rounds(fixtures)
     df = start_probabilities(players, played, lineups, next_rnd, manual)
     df["ppg"] = df["total_points"] / max(1, len(played))
+    df["played_all"] = player_profile.played_every_round(df, completed)   # appeared every completed round
     p_plays = p_plays or {}
 
     # observed-xG attribution boost: refine WHO gets a team's heuristic goal/assist

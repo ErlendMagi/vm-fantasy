@@ -254,12 +254,14 @@ def transfer_plans(players: pd.DataFrame, my_squad_ids: list[str], bank: float,
     pool = players[~players.index.isin(owned.index) & (players.get("status", "available") != "out")]
     # PLAYTIME guarantee on buys: never even shortlist a player unlikely to start.
     _pp = pool["p_start"] if "p_start" in pool.columns else pd.Series(1.0, index=pool.index)
-    # OWNERSHIP backstop: a barely-owned player the field has shunned is usually a non-main —
-    # require real ownership OR our own minutes-backed start prob (proven mains stay exempt, so
-    # a nailed low-owned regular is still buyable; only obscure marginal names are filtered).
-    _own = pool["ownership_pct"] if "ownership_pct" in pool.columns else pd.Series(100.0, index=pool.index)
-    own_ok = (_own >= config.OWNERSHIP_MIN_BUY) | _own.isna() | (_pp >= config.XI_PSTART_FLOOR)
-    pool = pool[(_pp >= config.BUY_PSTART_FLOOR) & own_ok]
+    pool = pool[_pp >= config.BUY_PSTART_FLOOR]
+    # "Only safe players" buy gates (owned players untouched): must have PLAYED EVERY completed
+    # round (a consistent main) and be owned by at least OWNERSHIP_MIN_BUY% (crowd-confirmed).
+    # Both are skipped only if the underlying data is entirely absent, so the search never starves.
+    if config.REQUIRE_PLAYED_ALL and "played_all" in pool.columns and pool["played_all"].any():
+        pool = pool[pool["played_all"]]
+    if "ownership_pct" in pool.columns and pool["ownership_pct"].notna().any():
+        pool = pool[pool["ownership_pct"].fillna(0.0) >= config.OWNERSHIP_MIN_BUY]
 
     def _candidates(pos):
         sub = pool[pool["position"] == pos]

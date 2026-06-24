@@ -87,6 +87,26 @@ def enriched_teams(players: pd.DataFrame, completed: list[int]) -> set:
     return set(players.loc[in_idx, "team"].unique()) if in_idx else set()
 
 
+def played_every_round(players: pd.DataFrame, completed: list[int]) -> pd.Series:
+    """Boolean per player: did he appear (>0 min) in EVERY completed round so far — i.e. a
+    consistent main, by the rule 'must have played all previous games to be pickable'. A
+    player with no record in any completed round (sat it out, or his team was never enriched)
+    is NOT confirmed to have played, so he is False. Before any games everyone is True (nobody
+    has missed a game yet). This gates the BUY pool only; owned players are untouched."""
+    from src import data_access
+    store = data_access.load_player_stats().get("rounds", {})
+    if not completed or not store:
+        return pd.Series(True, index=players.index)
+    out = pd.Series(True, index=players.index)
+    for idx in players.index:
+        for r in completed:
+            rec = (store.get(str(r), {}).get("players", {}) or {}).get(idx)
+            if not (rec and rec.get("minutes") is not None and float(rec["minutes"]) > 0):
+                out[idx] = False
+                break
+    return out
+
+
 def observed_attacking(players: pd.DataFrame, completed: list[int]) -> pd.DataFrame:
     """Observed xG/xA per 90 from FotMob (minutes-weighted, recent-weighted),
     ignoring cameos. NaN where there's no data yet. Used to sharpen WHO a team's

@@ -140,9 +140,9 @@
    "away": "Canada",
    "kickoff_utc": "2026-06-24T19:00:00.000Z",
    "venue_id": "Vancouver",
-   "status": "scheduled",
-   "score_home": null,
-   "score_away": null
+   "status": "finished",
+   "score_home": 2,
+   "score_away": 1
   },
   {
    "match_id": "M012",
@@ -153,9 +153,9 @@
    "away": "Qatar",
    "kickoff_utc": "2026-06-24T19:00:00.000Z",
    "venue_id": "Seattle",
-   "status": "scheduled",
-   "score_home": null,
-   "score_away": null
+   "status": "finished",
+   "score_home": 3,
+   "score_away": 1
   },
   {
    "match_id": "M013",
@@ -219,8 +219,8 @@
    "kickoff_utc": "2026-06-24T22:00:00.000Z",
    "venue_id": "Miami (Miami Gardens)",
    "status": "scheduled",
-   "score_home": null,
-   "score_away": null
+   "score_home": 0,
+   "score_away": 1
   },
   {
    "match_id": "M018",
@@ -232,8 +232,8 @@
    "kickoff_utc": "2026-06-24T22:00:00.000Z",
    "venue_id": "Atlanta",
    "status": "scheduled",
-   "score_home": null,
-   "score_away": null
+   "score_home": 0,
+   "score_away": 1
   },
   {
    "match_id": "M019",

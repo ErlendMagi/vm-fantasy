@@ -157,6 +157,14 @@ UNPROVEN_PSTART = 0.45     # < XI_PSTART_FLOOR (0.60) and < BUY_PSTART_FLOOR (0.
 # Manual overrides (your real-world knowledge: "X is benched/injured/nailed"). Highest
 # precedence of all — applied after priors AND predicted lineups. data/tv2/manual_overrides.json
 MANUAL_PSTART = {"out": 0.0, "bench": 0.30, "start": 0.95}
+# Ownership floor on BUYS: never shortlist a barely-owned player (one the wider field has
+# shunned — usually a non-main who does not play) UNLESS our own minutes say he is a likely
+# starter, so genuine low-owned MAINS (a nailed minnow-nation regular) are still buyable.
+OWNERSHIP_MIN_BUY = 1.0            # percent owned; exempt when p_start >= XI_PSTART_FLOOR
+# "Only main players": a small drag for every squad slot spent on a player who can't even be
+# fielded (p_start below the floor — dead weight). It tips free transfers toward replacing
+# non-mains with mains, but stays well under a -4 hit so it never alone forces a reckless hit.
+DEAD_WEIGHT_HELD_PENALTY = 1.0     # xP-equivalent drag per un-fieldable held player
 # Duty bonuses (xP/match, research-calibrated): set-piece takers earn ~0.25
 # set-piece assists/match (x3 pts) that no goal-odds market captures; penalty
 # duty is applied only when a player's xG is NOT market-quoted (the bookies

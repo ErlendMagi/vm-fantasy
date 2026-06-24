@@ -194,11 +194,13 @@ def _fast_squad_value(ids: list[str], info: dict[str, tuple]) -> float:
     (over all 15) routes budget into the XI; the formation is still chosen by xP."""
     buckets = {"GK": [], "DEF": [], "MID": [], "FWD": []}     # (above_floor, xp, price)
     total_cost = 0.0
+    n_dead = 0                                                # held players that can't be fielded
     for pid in ids:
         p = info[pid]
         ok = 1 if p[4] >= config.XI_PSTART_FLOOR else 0       # p[4] = p_start
         buckets[p[0]].append((ok, p[1], p[2]))
         total_cost += p[2]
+        n_dead += 1 - ok
     # likely starters first, then by xP within each tier -> head(n) fills slots with
     # proven players and only dips below the floor when a slot can't otherwise be filled
     by_pos = {pos: [(xp, pr) for _ok, xp, pr in sorted(v, key=lambda t: (t[0], t[1]), reverse=True)]
@@ -229,7 +231,8 @@ def _fast_squad_value(ids: list[str], info: dict[str, tuple]) -> float:
                   by_pos["MID"][0][0] if by_pos["MID"] else 0.0,
                   by_pos["FWD"][0][0] if by_pos["FWD"] else 0.0)
     return (best_xp + (config.CAPTAIN_MULTIPLIER - 1) * captain
-            - config.BENCH_COST_WEIGHT * (total_cost - best_xi_cost))
+            - config.BENCH_COST_WEIGHT * (total_cost - best_xi_cost)
+            - config.DEAD_WEIGHT_HELD_PENALTY * n_dead)        # shed un-fieldable non-mains
 
 
 def transfer_plans(players: pd.DataFrame, my_squad_ids: list[str], bank: float,
@@ -251,7 +254,12 @@ def transfer_plans(players: pd.DataFrame, my_squad_ids: list[str], bank: float,
     pool = players[~players.index.isin(owned.index) & (players.get("status", "available") != "out")]
     # PLAYTIME guarantee on buys: never even shortlist a player unlikely to start.
     _pp = pool["p_start"] if "p_start" in pool.columns else pd.Series(1.0, index=pool.index)
-    pool = pool[_pp >= config.BUY_PSTART_FLOOR]
+    # OWNERSHIP backstop: a barely-owned player the field has shunned is usually a non-main —
+    # require real ownership OR our own minutes-backed start prob (proven mains stay exempt, so
+    # a nailed low-owned regular is still buyable; only obscure marginal names are filtered).
+    _own = pool["ownership_pct"] if "ownership_pct" in pool.columns else pd.Series(100.0, index=pool.index)
+    own_ok = (_own >= config.OWNERSHIP_MIN_BUY) | _own.isna() | (_pp >= config.XI_PSTART_FLOOR)
+    pool = pool[(_pp >= config.BUY_PSTART_FLOOR) & own_ok]
 
     def _candidates(pos):
         sub = pool[pool["position"] == pos]

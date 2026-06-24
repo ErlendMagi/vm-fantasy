@@ -225,6 +225,33 @@ def test_unenriched_team_not_capped_unproven(d):
         assert (proj[proj["team"] == tm]["p_start_src"] != "unproven").all(), tm
 
 
+# ── invariant: enforce_proven_xi yields a FULLY clean XI (or leaves it unchanged when it genuinely
+#    can't), is idempotent, keeps 15 players, and never breaks the per-nation cap ──
+def test_enforce_proven_xi_cleans_or_noops(d, squad):
+    proj = d["proj_plan"]
+    cap = config.soft_team_cap(d["target_round"])
+    bank = float(d["my_team"].get("bank", 0))
+
+    def forced(sq):
+        o = proj.loc[[i for i in sq if i in proj.index]]
+        if len(o) < 11:
+            return 0
+        xi = optimizer.best_xi(o, "xp_next", p_start_floor=config.XI_PSTART_FLOOR)["xi_ids"]
+        return sum(1 for i in xi if o.loc[i, "p_start"] < config.XI_PSTART_FLOOR)
+
+    new_sq, swaps = optimizer.enforce_proven_xi(squad, proj, bank, team_cap=cap)
+    assert len(new_sq) == config.SQUAD_SIZE
+    assert forced(new_sq) <= forced(squad)                       # never makes the XI worse
+    if swaps:                                                    # if it acted, the XI must end clean
+        assert forced(new_sq) == 0
+    _, again = optimizer.enforce_proven_xi(new_sq, proj, bank, team_cap=cap)
+    assert again == []                                           # idempotent
+    counts = proj.loc[[i for i in new_sq if i in proj.index], "team"].value_counts()
+    for team, c in counts.items():                              # never exceeds the grandfathered count
+        prior = (proj.loc[[i for i in squad if i in proj.index], "team"] == team).sum()
+        assert c <= max(cap, prior), team
+
+
 # ── invariant: the transfer search never proposes BUYING a likely-benched player ──
 def test_transfers_never_buy_benched(d, squad):
     proj = d["proj_plan"]

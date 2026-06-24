@@ -266,6 +266,62 @@ def _fast_squad_value(ids: list[str], info: dict[str, tuple]) -> float:
             - config.DEAD_WEIGHT_HELD_PENALTY * n_dead)        # shed un-fieldable non-mains
 
 
+def enforce_proven_xi(squad_ids: list[str], proj: pd.DataFrame, bank: float,
+                      max_swaps: int = 2, team_cap: int = config.MAX_PER_TEAM) -> tuple[list[str], list]:
+    """CLEAN-XI guarantee (deterministic, bounded, no churn of proven players): while the best XI is
+    FORCED to start a benched-tier player (p_start < XI_PSTART_FLOOR) for lack of proven starters,
+    swap OUT the lowest whole-tournament-value dead/filler player and IN the best affordable proven,
+    played-all, ≥4%-owned, non-dominated STARTER that removes a forced filler — chosen by highest
+    WHOLE-TOURNAMENT value, so the addition is a main who'll still be scoring in the late rounds (we
+    play for the title, not one round). Budget + per-nation cap respected; idempotent (no-op once the
+    XI is clean or nothing safe is affordable). Returns (new_squad_ids, [(out_id, in_id), ...])."""
+    squad, swaps, cur_bank = list(squad_ids), [], float(bank)
+    floor = config.XI_PSTART_FLOOR
+    for _ in range(max_swaps):
+        owned = proj.loc[[i for i in squad if i in proj.index]]
+        if len(owned) < 11:
+            break
+        xi = best_xi(owned, "xp_next", p_start_floor=floor)["xi_ids"]
+        forced = [i for i in xi if owned.loc[i, "p_start"] < floor]
+        if not forced:
+            break                                          # XI already all proven starters
+        pool = proj[(~proj.index.isin(squad)) & (proj.get("status", "available") != "out")]
+        pool = pool[pool["p_start"] >= floor]              # the replacement must itself be a fieldable starter
+        if config.REQUIRE_PLAYED_ALL and "played_all" in pool.columns and pool["played_all"].any():
+            pool = pool[pool["played_all"]]
+        if "ownership_pct" in pool.columns and pool["ownership_pct"].notna().any():
+            pool = pool[pool["ownership_pct"].fillna(0.0) >= config.OWNERSHIP_MIN_BUY]
+        if config.PRUNE_DOMINATED_BUYS and not pool.empty:
+            pool = _pareto_buyable(pool, "xp_next")
+        if pool.empty:
+            break
+        counts = owned["team"].value_counts().to_dict()
+        dead = sorted((i for i in squad if proj.loc[i, "p_start"] < floor),
+                      key=lambda i: float(proj.loc[i, "xp_tournament"]))   # sell the least valuable first
+        best = None
+        for out_id in dead:
+            opos, out_team = proj.loc[out_id, "position"], proj.loc[out_id, "team"]
+            budget = cur_bank + float(proj.loc[out_id, "price"])
+            cands = pool[(pool["position"] == opos) & (pool["price"] <= budget + 1e-9)]
+            for in_id, r in cands.iterrows():
+                t = r["team"]
+                if counts.get(t, 0) - (1 if out_team == t else 0) + 1 > team_cap:
+                    continue                               # respect the per-nation cap
+                trial = [i for i in squad if i != out_id] + [in_id]
+                to = proj.loc[[i for i in trial if i in proj.index]]
+                txi = best_xi(to, "xp_next", p_start_floor=floor)["xi_ids"]
+                if sum(1 for i in txi if to.loc[i, "p_start"] < floor) < len(forced):
+                    val = float(r["xp_tournament"])        # prefer the highest whole-tournament value add
+                    if best is None or val > best[0]:
+                        best = (val, out_id, in_id, trial, float(r["price"]))
+        if best is None:
+            break                                          # no affordable safe swap removes a forced filler
+        _, out_id, in_id, squad, in_price = best
+        cur_bank += float(proj.loc[out_id, "price"]) - in_price
+        swaps.append((out_id, in_id))
+    return squad, swaps
+
+
 def transfer_plans(players: pd.DataFrame, my_squad_ids: list[str], bank: float,
                    free_transfers: int = config.FREE_TRANSFERS_PER_ROUND,
                    xp_col: str = config.TRANSFER_VALUE_COL, top_n: int = 10,

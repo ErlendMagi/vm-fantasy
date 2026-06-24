@@ -167,6 +167,17 @@ def main() -> None:
                   f"(+{best['net_gain']} projected)")
         target_ids = [p for p in my_team["squad"] if p not in best["out_ids"]] + best["in_ids"]
 
+    # CLEAN-XI guarantee: never leave a benched-tier player FORCED into the starting XI when an
+    # affordable proven, played-all, owned main can replace him. Runs even on an anti-churn
+    # 'refresh only' pass, so a forced filler is fixed regardless of the main transfer decision;
+    # picks the highest whole-tournament-value add (a main who'll still score deep in the cup).
+    if not ti.get("unlimitedTransfers"):
+        _bank = best["new_bank"] if not already_transferred else my_team["bank"]
+        target_ids, _clean = optimizer.enforce_proven_xi(target_ids, proj, _bank, team_cap=team_cap)
+        for _o, _i in _clean:
+            print(f"  clean-XI: OUT {proj.loc[_o, 'name']} -> IN {proj.loc[_i, 'name']} "
+                  f"(replaced a forced benched starter with a proven main)")
+
     # choose the FORMATION + XI by P(finish 1st), not just expected points, when we
     # know the field (rivals + standings) — the shape that best chases/protects the title.
     win_ctx = None

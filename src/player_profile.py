@@ -52,14 +52,28 @@ def minutes_start_prob(players: pd.DataFrame, completed: list[int]):
     store = data_access.load_player_stats().get("rounds", {})
     if not completed or not store:
         return None, None
+    # which TEAMS were enriched (played + scraped) each round — so a player MISSING from an
+    # enriched team's sheet genuinely DID NOT PLAY that round (counts as 0'), while a player on
+    # a NON-enriched team that round is just a data gap (skipped, no false 0). This stops a
+    # 1-of-2-games player (e.g. Digne: 0' then 90') from reading as a nailed 88% starter.
+    enriched_by_round = {}
+    for r in completed:
+        recs = store.get(str(r), {}).get("players", {}) or {}
+        seen = [pid for pid, rec in recs.items() if rec and rec.get("minutes") is not None]
+        in_idx = [i for i in seen if i in players.index]
+        enriched_by_round[r] = set(players.loc[in_idx, "team"]) if in_idx else set()
+    teams = players["team"]
     obs = pd.Series(np.nan, index=players.index)
     games = pd.Series(0, index=players.index, dtype=float)
     for idx in players.index:
+        team = teams.loc[idx]
         mins = []
         for r in completed:
             rec = (store.get(str(r), {}).get("players", {}) or {}).get(idx)
             if rec and rec.get("minutes") is not None:
                 mins.append(min(float(rec["minutes"]), 95.0))
+            elif team in enriched_by_round[r]:
+                mins.append(0.0)             # team played & was scraped, he wasn't on it -> a missed game
         if mins:
             # recent-weighted mean minutes / 90, with a soft cap
             w = np.linspace(1.0, 1.6, len(mins))

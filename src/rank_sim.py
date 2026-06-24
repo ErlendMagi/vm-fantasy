@@ -147,6 +147,38 @@ def _rival_finals(proj, rival_sets, rival_captains, pts, n_sims, title, rl_sqrt,
     return out
 
 
+def _best_captain_by_win(owned, xi_ids, pts, rival_sims, my_current, rl_sqrt, n_sims):
+    """Pick the captain that MAXIMISES P(finish 1st) — loop every ELIGIBLE starter through the
+    SAME title sim the rivals use, instead of a heuristic EV score. This automatically does the
+    right thing by league position (a chaser's armband tilts to higher ceiling because that lifts
+    the right tail that wins; a leader's covers a rival's captain) and prices the discrete field
+    exactly. Hard floors first (never an unproven/benched captain). Vice = best P(1st) GIVEN the
+    captain is a late scratch, in a DIFFERENT match (one flat fixture can't kill both). Returns
+    (captain_id, vice_id, p_win_at_best_captain)."""
+    xi = owned.loc[[i for i in xi_ids if i in owned.index]]
+    pp = xi.get("p_play", pd.Series(0.85, index=xi.index)).fillna(0.85)
+    ps = xi.get("p_start", pd.Series(1.0, index=xi.index)).fillna(1.0)
+    elig = [i for i in xi.index
+            if pp.get(i, 0.0) >= config.CAPTAIN_PPLAY_FLOOR and ps.get(i, 1.0) >= config.XI_PSTART_FLOOR]
+    if not elig:                                            # degenerate squad: relax to the whole XI
+        elig = list(xi.index)
+
+    def _pwin(c):
+        mf = _final_standing(pts, owned, xi_ids, c, my_current, rl_sqrt, n_sims, config.XI_PSTART_FLOOR)
+        return win_probability(mf, rival_sims)
+
+    pw = {c: _pwin(c) for c in elig}
+    cap = max(elig, key=lambda c: (pw[c], float(xi.loc[c, "xp_next"])))   # ties -> higher EV (safer floor)
+
+    def _match(i):
+        return (xi.loc[i, "team"], xi.loc[i].get("opponent") if "opponent" in xi.columns else None)
+    cap_m = _match(cap)
+    vice_pool = ([i for i in elig if i != cap and _match(i) != cap_m]
+                 or [i for i in elig if i != cap] or [cap])
+    vice = max(vice_pool, key=lambda v: (pw.get(v, _pwin(v)), float(xi.loc[v, "xp_next"])))
+    return cap, vice, pw[cap]
+
+
 def formation_win_probs(proj, squad_ids, fixtures, rival_squads, rival_captains,
                         regime=None, field_own=None, n_sims=6000,
                         my_current=0.0, rival_current=None, rounds_left=1):
@@ -173,12 +205,17 @@ def formation_win_probs(proj, squad_ids, fixtures, rival_squads, rival_captains,
         xi_ids = [i for i in f["xi_ids"] if i in owned.index]
         if len(xi_ids) < 11:
             continue
-        cap, vice = optimizer.choose_captain(owned.loc[xi_ids], regime, field_own, "xp_next")
-        cap = cap or xi_ids[0]
-        my_final = (_final_standing(pts, owned, xi_ids, cap, my_current, rl_sqrt, n_sims,
-                                    config.XI_PSTART_FLOOR) if title
-                    else _squad_total(pts, xi_ids, cap, n_sims))
-        out.append({"formation": f["formation"], "p_win": round(win_probability(my_final, rival_sims), 4),
+        if title:
+            # CAPTAIN BY P(1st): choose the armband that maximises title probability, not EV —
+            # the research's #1 lever. (EV choose_captain stays the fallback when there's no field.)
+            cap, vice, pw = _best_captain_by_win(owned, xi_ids, pts, rival_sims,
+                                                 my_current, rl_sqrt, n_sims)
+            p_win = round(pw, 4)
+        else:
+            cap, vice = optimizer.choose_captain(owned.loc[xi_ids], regime, field_own, "xp_next")
+            cap = cap or xi_ids[0]
+            p_win = round(win_probability(_squad_total(pts, xi_ids, cap, n_sims), rival_sims), 4)
+        out.append({"formation": f["formation"], "p_win": p_win,
                     "xi_ids": xi_ids, "captain_id": cap, "vice_id": vice, "total": f["total"]})
     if not out:
         return out

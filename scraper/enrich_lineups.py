@@ -65,7 +65,12 @@ def main() -> None:
             lineup = ((md or {}).get("content") or {}).get("lineup")
             if not lineup or not lineup.get("homeTeam"):
                 continue
-            ltype = "standard" if lineup.get("lineupType") == "standard" else "predicted"
+            # FotMob serves a team's PRIOR XI as a 'lastStarting11'/'lastStartingLineups'
+            # placeholder before kickoff; the REAL confirmed XI (lands ~1h pre-KO, inside our
+            # window) carries any OTHER type. The old check keyed on "standard" — which FotMob
+            # never returns — so confirmed XIs were wrongly trusted only as soft 'predicted'.
+            _lt = str(lineup.get("lineupType") or "").lower()
+            ltype = "predicted" if _lt in ("", "laststarting11", "laststartinglineups") else "standard"
             for side in ("homeTeam", "awayTeam"):
                 tm = lineup.get(side) or {}
                 starters = [p.get("name", "") for p in (tm.get("starters") or [])]

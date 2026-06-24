@@ -1,6 +1,6 @@
 {
- "fetched_at": "2026-06-24T16:59:56.144277+00:00",
- "credits_remaining": "363",
+ "fetched_at": "2026-06-24T18:20:36.922301+00:00",
+ "credits_remaining": "336",
  "sport_key": "soccer_fifa_world_cup",
  "matches": [
   {
@@ -8,14 +8,14 @@
    "away": "Qatar",
    "kickoff_utc": "2026-06-24T19:00:00Z",
    "h2h": {
-    "home": 1.36,
-    "draw": 5.6,
-    "away": 8.2
+    "home": 1.4,
+    "draw": 5.4,
+    "away": 7.4
    },
    "totals": {
     "line": 2.5,
-    "over": 1.55,
-    "under": 2.52
+    "over": 1.62,
+    "under": 2.3
    }
   },
   {
@@ -23,14 +23,14 @@
    "away": "Canada",
    "kickoff_utc": "2026-06-24T19:00:00Z",
    "h2h": {
-    "home": 2.48,
+    "home": 2.51,
     "draw": 3.05,
-    "away": 3.3
+    "away": 3.25
    },
    "totals": {
     "line": 2.5,
-    "over": 2.2,
-    "under": 1.69
+    "over": 2.22,
+    "under": 1.68
    }
   },
   {
@@ -38,14 +38,14 @@
    "away": "Brazil",
    "kickoff_utc": "2026-06-24T22:00:00Z",
    "h2h": {
-    "home": 10.25,
-    "draw": 5.75,
+    "home": 10.4,
+    "draw": 5.7,
     "away": 1.31
    },
    "totals": {
     "line": 2.5,
     "over": 1.8,
-    "under": 2.05
+    "under": 2.04
    }
   },
   {
@@ -53,14 +53,14 @@
    "away": "Haiti",
    "kickoff_utc": "2026-06-24T22:00:00Z",
    "h2h": {
-    "home": 1.17,
-    "draw": 7.8,
+    "home": 1.18,
+    "draw": 7.75,
     "away": 17.75
    },
    "totals": {
     "line": 3.5,
     "over": 2.38,
-    "under": 1.61
+    "under": 1.59
    }
   },
   {
@@ -68,9 +68,9 @@
    "away": "Mexico",
    "kickoff_utc": "2026-06-25T01:00:00Z",
    "h2h": {
-    "home": 3.8,
+    "home": 3.76,
     "draw": 3.9,
-    "away": 1.92
+    "away": 1.95
    },
    "totals": {
     "line": 2.5,
@@ -83,7 +83,7 @@
    "away": "South Korea",
    "kickoff_utc": "2026-06-25T01:00:00Z",
    "h2h": {
-    "home": 6.16,
+    "home": 6.1,
     "draw": 4.0,
     "away": 1.6
    },
@@ -115,7 +115,7 @@
    "h2h": {
     "home": 3.9,
     "draw": 4.1,
-    "away": 1.85
+    "away": 1.84
    },
    "totals": {
     "line": 2.5,
@@ -143,14 +143,14 @@
    "away": "Netherlands",
    "kickoff_utc": "2026-06-25T23:00:00Z",
    "h2h": {
-    "home": 24.0,
-    "draw": 9.75,
+    "home": 25.42,
+    "draw": 10.0,
     "away": 1.1
    },
    "totals": {
     "line": 3.5,
-    "over": 2.11,
-    "under": 1.73
+    "over": 2.1,
+    "under": 1.75
    }
   },
   {
@@ -160,7 +160,7 @@
    "h2h": {
     "home": 2.85,
     "draw": 2.25,
-    "away": 3.95
+    "away": 3.9
    },
    "totals": {
     "line": 1.5,
@@ -188,14 +188,14 @@
    "away": "France",
    "kickoff_utc": "2026-06-26T19:00:00Z",
    "h2h": {
-    "home": 4.75,
+    "home": 4.8,
     "draw": 4.39,
-    "away": 1.67
+    "away": 1.65
    },
    "totals": {
     "line": 2.5,
     "over": 1.68,
-    "under": 2.2
+    "under": 2.23
    }
   },
   {
@@ -249,13 +249,13 @@
    "kickoff_utc": "2026-06-27T03:00:00Z",
    "h2h": {
     "home": 17.0,
-    "draw": 7.8,
+    "draw": 8.0,
     "away": 1.16
    },
    "totals": {
     "line": 3.5,
-    "over": 2.23,
-    "under": 1.63
+    "over": 2.19,
+    "under": 1.67
    }
   },
   {
@@ -278,9 +278,9 @@
    "away": "Ghana",
    "kickoff_utc": "2026-06-27T21:00:00Z",
    "h2h": {
-    "home": 1.77,
+    "home": 1.76,
     "draw": 3.3,
-    "away": 5.74
+    "away": 5.6
    },
    "totals": {
     "line": 2.5,
@@ -308,7 +308,7 @@
    "away": "Portugal",
    "kickoff_utc": "2026-06-27T23:30:00Z",
    "h2h": {
-    "home": 3.95,
+    "home": 4.0,
     "draw": 3.75,
     "away": 1.91
    },
@@ -323,9 +323,9 @@
    "away": "Uzbekistan",
    "kickoff_utc": "2026-06-27T23:30:00Z",
    "h2h": {
-    "home": 1.79,
+    "home": 1.8,
     "draw": 4.1,
-    "away": 4.2
+    "away": 4.23
    },
    "totals": {
     "line": 2.5,

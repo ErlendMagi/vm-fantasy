@@ -225,6 +225,30 @@ def test_unenriched_team_not_capped_unproven(d):
         assert (proj[proj["team"] == tm]["p_start_src"] != "unproven").all(), tm
 
 
+# ── invariant: the captain-by-P(1st) title sim actually RUNS and returns a legal armband (this path
+#    is what the autopilot uses every round — a regression here silently breaks the live decision) ──
+def test_captain_by_win_runs_in_title_mode(d, squad, league):
+    from src import analytics, rank_sim
+    proj = d["proj_plan"]
+    ls = analytics.league_state(data_access.load_league(), d["my_team"].get("squad_name"),
+                                data_access.completed_rounds(data_access.load_fixtures()))
+    if not (ls and ls.get("rival_squads") and ls.get("rival_totals")):
+        pytest.skip("no league field to simulate the title race")
+    fx = proj.attrs.get("fixtures_next") or proj.attrs.get("fixtures") or []
+    if not fx:
+        pytest.skip("no next-round fixtures to simulate")
+    res = rank_sim.formation_win_probs(proj, list(squad), fx, ls["rival_squads"],
+                                       ls.get("rival_captains"), my_current=ls.get("my_total", 0.0),
+                                       rival_current=ls.get("rival_totals"),
+                                       rounds_left=ls.get("rounds_left", 1))
+    assert res, "title-mode formation_win_probs returned nothing"
+    top = res[0]
+    assert top["captain_id"] in top["xi_ids"]                  # captain is a fielded starter
+    assert top["vice_id"] != top["captain_id"]                 # vice is distinct
+    owned = proj.loc[[i for i in top["xi_ids"] if i in proj.index]]
+    assert owned.loc[top["captain_id"], "p_start"] >= config.XI_PSTART_FLOOR   # never unproven
+
+
 # ── invariant: enforce_proven_xi yields a FULLY clean XI (or leaves it unchanged when it genuinely
 #    can't), is idempotent, keeps 15 players, and never breaks the per-nation cap ──
 def test_enforce_proven_xi_cleans_or_noops(d, squad):

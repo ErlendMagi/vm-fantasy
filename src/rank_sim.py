@@ -14,6 +14,7 @@ expected value. Goal/assist means and the clean-sheet probability match the mode
 exactly, so this adds variance + correlation without shifting the level.
 """
 import numpy as np
+import pandas as pd
 
 from src import config, optimizer
 

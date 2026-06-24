@@ -222,7 +222,7 @@
    }
   },
   "3": {
-   "synced_at": "2026-06-24T08:49:43.290751+00:00",
+   "synced_at": "2026-06-24T13:59:06.819563+00:00",
    "members": {
     "Republikken Jonaland": {
      "manager": "Jonathan",
@@ -294,7 +294,7 @@
      ],
      "captain_id": "1ac149aa-ce4a-45fe-a968-66e42d74c6d0",
      "formation": "3-4-3",
-     "total_points": 149
+     "total_points": 150
     },
     "USTAB IL": {
      "manager": "julle",
@@ -438,7 +438,7 @@
      ],
      "captain_id": "79765177-f1e1-4230-8f2c-922e3d5cde76",
      "formation": "4-5-1",
-     "total_points": 93
+     "total_points": 95
     }
    }
   }

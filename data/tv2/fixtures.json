@@ -374,9 +374,9 @@
    "away": "Ivory Coast",
    "kickoff_utc": "2026-06-25T20:00:00.000Z",
    "venue_id": "Philadelphia",
-   "status": "scheduled",
-   "score_home": null,
-   "score_away": null
+   "status": "finished",
+   "score_home": 0,
+   "score_away": 2
   },
   {
    "match_id": "M030",
@@ -387,9 +387,9 @@
    "away": "Germany",
    "kickoff_utc": "2026-06-25T20:00:00.000Z",
    "venue_id": "New York/New Jersey (East Rutherford)",
-   "status": "scheduled",
-   "score_home": null,
-   "score_away": null
+   "status": "finished",
+   "score_home": 2,
+   "score_away": 1
   },
   {
    "match_id": "M031",

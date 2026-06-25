@@ -222,7 +222,7 @@
    }
   },
   "3": {
-   "synced_at": "2026-06-24T22:58:49.052176+00:00",
+   "synced_at": "2026-06-25T00:10:13.177596+00:00",
    "members": {
     "I dont know what I am doing": {
      "manager": "Jostein",
@@ -258,7 +258,7 @@
      ],
      "captain_id": "1ac149aa-ce4a-45fe-a968-66e42d74c6d0",
      "formation": "3-4-3",
-     "total_points": 161
+     "total_points": 163
     },
     "Republikken Jonaland": {
      "manager": "Jonathan",
@@ -330,7 +330,7 @@
      ],
      "captain_id": "69128071-724f-4e9f-ab0a-ab8eb937cbf8",
      "formation": "3-4-3",
-     "total_points": 146
+     "total_points": 147
     },
     "Brødrene Dahl": {
      "manager": "Preben",
@@ -438,7 +438,7 @@
      ],
      "captain_id": "79765177-f1e1-4230-8f2c-922e3d5cde76",
      "formation": "4-4-2",
-     "total_points": 121
+     "total_points": 126
     }
    }
   }

@@ -62,9 +62,9 @@
    "away": "Mexico",
    "kickoff_utc": "2026-06-25T01:00:00.000Z",
    "venue_id": "Mexico City",
-   "status": "scheduled",
-   "score_home": null,
-   "score_away": null
+   "status": "finished",
+   "score_home": 0,
+   "score_away": 3
   },
   {
    "match_id": "M006",
@@ -75,9 +75,9 @@
    "away": "South Korea",
    "kickoff_utc": "2026-06-25T01:00:00.000Z",
    "venue_id": "Monterrey (Guadalupe)",
-   "status": "scheduled",
-   "score_home": null,
-   "score_away": null
+   "status": "finished",
+   "score_home": 1,
+   "score_away": 0
   },
   {
    "match_id": "M007",
@@ -218,9 +218,9 @@
    "away": "Brazil",
    "kickoff_utc": "2026-06-24T22:00:00.000Z",
    "venue_id": "Miami (Miami Gardens)",
-   "status": "scheduled",
+   "status": "finished",
    "score_home": 0,
-   "score_away": 1
+   "score_away": 3
   },
   {
    "match_id": "M018",
@@ -231,9 +231,9 @@
    "away": "Haiti",
    "kickoff_utc": "2026-06-24T22:00:00.000Z",
    "venue_id": "Atlanta",
-   "status": "scheduled",
-   "score_home": 0,
-   "score_away": 1
+   "status": "finished",
+   "score_home": 4,
+   "score_away": 2
   },
   {
    "match_id": "M019",

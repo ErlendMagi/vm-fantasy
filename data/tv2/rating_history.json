@@ -183,17 +183,17 @@
    "recorded_at": "2026-06-25T22:54:25.921158+00:00"
   },
   "2026-06-26": {
-   "squad_rating": 79.4,
+   "squad_rating": 79.5,
    "xi_rating": 88.1,
    "pos_rating": {
     "GK": 92.5,
     "DEF": 83.1,
-    "MID": 99.4,
+    "MID": 99.5,
     "FWD": 73.4
    },
-   "exp_next": 50.6,
+   "exp_next": 51.0,
    "points_so_far": 0,
-   "recorded_at": "2026-06-26T21:46:14.182758+00:00"
+   "recorded_at": "2026-06-26T22:59:02.688791+00:00"
   }
  }
 }

@@ -686,9 +686,9 @@
    "away": "France",
    "kickoff_utc": "2026-06-26T19:00:00.000Z",
    "venue_id": "Boston (Foxborough)",
-   "status": "scheduled",
-   "score_home": null,
-   "score_away": null
+   "status": "finished",
+   "score_home": 1,
+   "score_away": 4
   },
   {
    "match_id": "M054",
@@ -699,9 +699,9 @@
    "away": "Iraq",
    "kickoff_utc": "2026-06-26T19:00:00.000Z",
    "venue_id": "Toronto",
-   "status": "scheduled",
-   "score_home": null,
-   "score_away": null
+   "status": "finished",
+   "score_home": 5,
+   "score_away": 0
   },
   {
    "match_id": "M055",

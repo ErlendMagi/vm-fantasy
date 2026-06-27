@@ -530,9 +530,9 @@
    "away": "Iran",
    "kickoff_utc": "2026-06-27T03:00:00.000Z",
    "venue_id": "Seattle",
-   "status": "scheduled",
-   "score_home": null,
-   "score_away": null
+   "status": "finished",
+   "score_home": 1,
+   "score_away": 1
   },
   {
    "match_id": "M042",
@@ -543,9 +543,9 @@
    "away": "Belgium",
    "kickoff_utc": "2026-06-27T03:00:00.000Z",
    "venue_id": "Vancouver",
-   "status": "scheduled",
-   "score_home": null,
-   "score_away": null
+   "status": "finished",
+   "score_home": 1,
+   "score_away": 5
   },
   {
    "match_id": "M043",
@@ -608,9 +608,9 @@
    "away": "Saudi Arabia",
    "kickoff_utc": "2026-06-27T00:00:00.000Z",
    "venue_id": "Houston",
-   "status": "scheduled",
-   "score_home": null,
-   "score_away": null
+   "status": "finished",
+   "score_home": 0,
+   "score_away": 0
   },
   {
    "match_id": "M048",
@@ -621,9 +621,9 @@
    "away": "Spain",
    "kickoff_utc": "2026-06-27T00:00:00.000Z",
    "venue_id": "Guadalajara (Zapopan)",
-   "status": "scheduled",
-   "score_home": null,
-   "score_away": null
+   "status": "finished",
+   "score_home": 0,
+   "score_away": 1
   },
   {
    "match_id": "M049",

@@ -764,9 +764,9 @@
    "away": "Austria",
    "kickoff_utc": "2026-06-28T02:00:00.000Z",
    "venue_id": "Kansas City",
-   "status": "scheduled",
-   "score_home": null,
-   "score_away": null
+   "status": "finished",
+   "score_home": 3,
+   "score_away": 3
   },
   {
    "match_id": "M060",
@@ -777,9 +777,9 @@
    "away": "Argentina",
    "kickoff_utc": "2026-06-28T02:00:00.000Z",
    "venue_id": "Dallas (Arlington)",
-   "status": "scheduled",
-   "score_home": null,
-   "score_away": null
+   "status": "finished",
+   "score_home": 1,
+   "score_away": 3
   },
   {
    "match_id": "M061",
@@ -842,9 +842,9 @@
    "away": "Portugal",
    "kickoff_utc": "2026-06-27T23:30:00.000Z",
    "venue_id": "Miami (Miami Gardens)",
-   "status": "scheduled",
-   "score_home": null,
-   "score_away": null
+   "status": "finished",
+   "score_home": 0,
+   "score_away": 0
   },
   {
    "match_id": "M066",
@@ -855,9 +855,9 @@
    "away": "Uzbekistan",
    "kickoff_utc": "2026-06-27T23:30:00.000Z",
    "venue_id": "Atlanta",
-   "status": "scheduled",
-   "score_home": null,
-   "score_away": null
+   "status": "finished",
+   "score_home": 3,
+   "score_away": 1
   },
   {
    "match_id": "M067",
@@ -920,9 +920,9 @@
    "away": "England",
    "kickoff_utc": "2026-06-27T21:00:00.000Z",
    "venue_id": "New York/New Jersey (East Rutherford)",
-   "status": "scheduled",
-   "score_home": null,
-   "score_away": null
+   "status": "finished",
+   "score_home": 0,
+   "score_away": 2
   },
   {
    "match_id": "M072",
@@ -933,9 +933,9 @@
    "away": "Ghana",
    "kickoff_utc": "2026-06-27T21:00:00.000Z",
    "venue_id": "Philadelphia",
-   "status": "scheduled",
-   "score_home": null,
-   "score_away": null
+   "status": "finished",
+   "score_home": 2,
+   "score_away": 1
   },
   {
    "match_id": "M073",

@@ -100,7 +100,7 @@
    "expected": 44.4,
    "expected_full": 43.5,
    "expected_played": 12.0,
-   "actual": 2,
+   "actual": 6,
    "played": 1,
    "starters": 11,
    "finalized": false,
@@ -117,7 +117,7 @@
     },
     "MID": {
      "expected": 23.13,
-     "actual": 1.0,
+     "actual": 3.0,
      "n": 1
     },
     "FWD": {
@@ -126,7 +126,7 @@
      "n": 0
     }
    },
-   "updated_at": "2026-06-29T17:27:22.239624+00:00"
+   "updated_at": "2026-06-29T19:20:33.093511+00:00"
   }
  }
 }

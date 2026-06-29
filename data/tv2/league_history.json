@@ -443,7 +443,7 @@
    }
   },
   "4": {
-   "synced_at": "2026-06-29T14:43:18.889388+00:00",
+   "synced_at": "2026-06-29T17:27:04.629651+00:00",
    "members": {
     "Republikken Jonaland": {
      "manager": "Jonathan",
@@ -479,7 +479,7 @@
      ],
      "captain_id": "56896831-e471-495a-b9d2-e9d87606b0ab",
      "formation": "3-4-3",
-     "total_points": 205
+     "total_points": 206
     },
     "USTAB IL": {
      "manager": "julle",
@@ -515,7 +515,43 @@
      ],
      "captain_id": "32b8a7d5-97b7-40f9-8385-88a091bfbdf6",
      "formation": "4-3-3",
-     "total_points": 199
+     "total_points": 200
+    },
+    "Storgambler FC": {
+     "manager": "Thomas",
+     "squad": [
+      "bbc5a321-66a2-4285-9fe4-822f064efec7",
+      "37083f32-812e-43de-ab1b-aa999648b146",
+      "56896831-e471-495a-b9d2-e9d87606b0ab",
+      "2ff2269a-9c21-40ce-84d4-c30c24275a43",
+      "b5e2ee3e-eb94-4460-827f-32f2f39db023",
+      "507b33bf-b139-4bbf-a14e-44abd9597bed",
+      "a00e6c19-157f-4466-9c7e-a2ffc2188a1b",
+      "79765177-f1e1-4230-8f2c-922e3d5cde76",
+      "cd2b9e05-c249-4c21-9717-da200132d043",
+      "475fd155-6316-4032-870c-0b81b0cc55c3",
+      "8bb75dec-6ccb-462f-b33c-6740e99567be",
+      "635dd97c-987e-473c-9a7e-eba67ad2edef",
+      "c46375fa-4dfc-4e94-a590-5b61842477ae",
+      "537bbdcb-6ebf-412f-8dc6-c29f16420382",
+      "3fa8a2d2-9d57-4f9c-a712-99f9b097e414"
+     ],
+     "starter_ids": [
+      "bbc5a321-66a2-4285-9fe4-822f064efec7",
+      "37083f32-812e-43de-ab1b-aa999648b146",
+      "56896831-e471-495a-b9d2-e9d87606b0ab",
+      "2ff2269a-9c21-40ce-84d4-c30c24275a43",
+      "b5e2ee3e-eb94-4460-827f-32f2f39db023",
+      "507b33bf-b139-4bbf-a14e-44abd9597bed",
+      "a00e6c19-157f-4466-9c7e-a2ffc2188a1b",
+      "79765177-f1e1-4230-8f2c-922e3d5cde76",
+      "cd2b9e05-c249-4c21-9717-da200132d043",
+      "475fd155-6316-4032-870c-0b81b0cc55c3",
+      "8bb75dec-6ccb-462f-b33c-6740e99567be"
+     ],
+     "captain_id": "b5e2ee3e-eb94-4460-827f-32f2f39db023",
+     "formation": "3-4-3",
+     "total_points": 178
     },
     "6                              7": {
      "manager": "Preben",
@@ -552,42 +588,6 @@
      "captain_id": "b5e2ee3e-eb94-4460-827f-32f2f39db023",
      "formation": "3-4-3",
      "total_points": 178
-    },
-    "Storgambler FC": {
-     "manager": "Thomas",
-     "squad": [
-      "bbc5a321-66a2-4285-9fe4-822f064efec7",
-      "37083f32-812e-43de-ab1b-aa999648b146",
-      "56896831-e471-495a-b9d2-e9d87606b0ab",
-      "2ff2269a-9c21-40ce-84d4-c30c24275a43",
-      "b5e2ee3e-eb94-4460-827f-32f2f39db023",
-      "507b33bf-b139-4bbf-a14e-44abd9597bed",
-      "a00e6c19-157f-4466-9c7e-a2ffc2188a1b",
-      "79765177-f1e1-4230-8f2c-922e3d5cde76",
-      "cd2b9e05-c249-4c21-9717-da200132d043",
-      "475fd155-6316-4032-870c-0b81b0cc55c3",
-      "8bb75dec-6ccb-462f-b33c-6740e99567be",
-      "635dd97c-987e-473c-9a7e-eba67ad2edef",
-      "c46375fa-4dfc-4e94-a590-5b61842477ae",
-      "537bbdcb-6ebf-412f-8dc6-c29f16420382",
-      "3fa8a2d2-9d57-4f9c-a712-99f9b097e414"
-     ],
-     "starter_ids": [
-      "bbc5a321-66a2-4285-9fe4-822f064efec7",
-      "37083f32-812e-43de-ab1b-aa999648b146",
-      "56896831-e471-495a-b9d2-e9d87606b0ab",
-      "2ff2269a-9c21-40ce-84d4-c30c24275a43",
-      "b5e2ee3e-eb94-4460-827f-32f2f39db023",
-      "507b33bf-b139-4bbf-a14e-44abd9597bed",
-      "a00e6c19-157f-4466-9c7e-a2ffc2188a1b",
-      "79765177-f1e1-4230-8f2c-922e3d5cde76",
-      "cd2b9e05-c249-4c21-9717-da200132d043",
-      "475fd155-6316-4032-870c-0b81b0cc55c3",
-      "8bb75dec-6ccb-462f-b33c-6740e99567be"
-     ],
-     "captain_id": "b5e2ee3e-eb94-4460-827f-32f2f39db023",
-     "formation": "3-4-3",
-     "total_points": 177
     },
     "I dont know what I am doing": {
      "manager": "Jostein",
@@ -659,7 +659,7 @@
      ],
      "captain_id": "79765177-f1e1-4230-8f2c-922e3d5cde76",
      "formation": "3-5-2",
-     "total_points": 150
+     "total_points": 152
     }
    }
   }

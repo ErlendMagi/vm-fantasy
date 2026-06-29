@@ -443,7 +443,7 @@
    }
   },
   "4": {
-   "synced_at": "2026-06-29T22:34:45.800684+00:00",
+   "synced_at": "2026-06-29T23:52:35.705169+00:00",
    "members": {
     "Republikken Jonaland": {
      "manager": "Jonathan",
@@ -551,7 +551,7 @@
      ],
      "captain_id": "b5e2ee3e-eb94-4460-827f-32f2f39db023",
      "formation": "3-4-3",
-     "total_points": 189
+     "total_points": 190
     },
     "Storgambler FC": {
      "manager": "Thomas",
@@ -587,7 +587,7 @@
      ],
      "captain_id": "b5e2ee3e-eb94-4460-827f-32f2f39db023",
      "formation": "3-4-3",
-     "total_points": 187
+     "total_points": 189
     },
     "I dont know what I am doing": {
      "manager": "Jostein",
@@ -623,7 +623,7 @@
      ],
      "captain_id": "1ac149aa-ce4a-45fe-a968-66e42d74c6d0",
      "formation": "3-4-3",
-     "total_points": 183
+     "total_points": 182
     },
     "Erlend er best": {
      "manager": "Erlend",

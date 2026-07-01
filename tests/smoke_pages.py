@@ -12,8 +12,7 @@ from streamlit.testing.v1 import AppTest
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-PAGES = ["Home.py", "pages/1_My_Team.py", "pages/2_Projections.py", "pages/3_Transfers.py",
-         "pages/5_Data_Status.py", "pages/6_Match_Center.py"]
+PAGES = ["Home.py", "pages/2_Projections.py", "pages/6_Match_Center.py"]
 
 failed = False
 for page in PAGES:

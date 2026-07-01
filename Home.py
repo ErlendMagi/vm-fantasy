@@ -366,10 +366,9 @@ if _pwin is not None:
     _fair = 1.0 / max(len(members), 1)
     st.metric(f"🎲 Your win probability (round {target})", f"{_pwin * 100:.0f}%",
               delta=f"{(_pwin - _fair) * 100:+.0f}% vs an even split",
-              help=f"Monte-Carlo simulation of the **editable round you're planning (round {target})** across "
+              help=f"Monte-Carlo simulation of the **next editable round (round {target})** across "
                    "all squads (shared match scorelines for correlation), counting how often YOUR total "
-                   "finishes 1st. This is the objective the whole engine optimises — computed the same way "
-                   "(same regime + effective-ownership) as the Transfers keep-the-squad win probability.")
+                   "finishes 1st — the objective the whole engine optimises.")
 # expected points each manager still has TO COME in the live round: their starters
 # whose match hasn't kicked off yet (captain ×2). Drops as games kick off.
 _future_teams = set()

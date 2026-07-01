@@ -11,11 +11,8 @@ import streamlit as st
 # thumb bar uncluttered (they remain reachable on desktop).
 PAGES = [
     ("League", "/", "🏆", False),
-    ("My Team", "/My_Team", "⚽", False),
-    ("Transfers", "/Transfers", "🔁", False),
-    ("Match Center", "/Match_Center", "📰", False),
-    ("Players", "/Projections", "📈", True),
-    ("Data", "/Data_Status", "🧰", True),
+    ("Players", "/Projections", "📈", False),
+    ("Matches", "/Match_Center", "📰", False),
 ]
 
 _CSS = """

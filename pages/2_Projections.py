@@ -1,10 +1,9 @@
-import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 
-st.set_page_config(page_title="Player Ratings", page_icon="📈", layout="wide")
+st.set_page_config(page_title="Players", page_icon="📈", layout="wide")
 
-from src import config, nav, optimizer, services, viz
+from src import nav, services, viz
 
 nav.render("Players")
 d = services.get_data()
@@ -29,7 +28,7 @@ st.caption(
 )
 st.caption(
     "▶️ **Playtime drives everything** — each rating is scaled by the player's **start chance** (shown per "
-    "player below and on My Team). The model learns it from **observed minutes** (a 17-min cameo is "
+    "player below). The model learns it from **observed minutes** (a 17-min cameo is "
     "downweighted automatically) and from **FotMob's published XIs** near kickoff. No free API gives a clean "
     "start-probability days ahead, so to eyeball predicted lineups yourself check "
     "[FotMob](https://www.fotmob.com/), [RotoWire](https://www.rotowire.com/soccer/lineups.php?league=WOC) or "
@@ -142,79 +141,63 @@ if _bpg:
     else:
         st.caption("Per-player league scores appear here once a round has been scored.")
 
-# ---------------------------------------------------------------- why (not) this player
-st.subheader("🔍 Player check: why is he (not) in my team?")
-pick_list = proj.sort_values("xp_next", ascending=False)
-who = st.selectbox("Pick any player", pick_list["name"] + "  ·  " + pick_list["team"])
-if who:
-    name, team = [s.strip() for s in who.split("·")]
-    r = proj[(proj["name"] == name) & (proj["team"] == team)].iloc[0]
-    pos_peers = proj[proj["position"] == r["position"]]
-    rank_next = int((pos_peers["xp_next"] > r["xp_next"]).sum()) + 1
-    rank_tour = int((pos_peers["xp_tournament"] > r["xp_tournament"]).sum()) + 1
-    pct_tour = 100 * r["xp_tournament"] / max(float(pos_peers["xp_tournament"].max()), 0.01)
+# ---------------------------------------------------------------- who was a good pick (value)
+import numpy as _np
 
-    c1, c2, c3, c4, c5 = st.columns(5)
-    c1.metric(f"Rating round {target}", f"{r['xp_next']:.1f} pts",
-              f"#{rank_next} of {viz.POS_LABEL[r['position']].lower()} this round")
-    c2.metric("Rating whole cup", f"{r['xp_tournament']:.1f} pts", f"#{rank_tour} · {pct_tour:.0f}% of best")
-    _srcmap = {"lineup✓": "confirmed XI", "lineup~": "predicted XI", "minutes": "observed minutes",
-               "prior": "pre-game estimate"}
-    c3.metric("▶️ Start chance", f"{r['p_start'] * 100:.0f}%",
-              help="Probability this player STARTS — it scales his whole projection (no minutes, no points). "
-                   f"Source: {_srcmap.get(r.get('p_start_src', 'prior'), 'estimate')}.")
-    c4.metric("Price", f"{r['price']}M")
-    c5.metric("Owned by", f"{(r['ownership_pct'] or 0):.0f}%" if r["ownership_pct"] == r["ownership_pct"] else "–")
+st.subheader("💰 Who was a good pick — real points vs price")
+st.caption("Every player's **actual fantasy points banked so far** against their **price**. The dashed line is the "
+           "**going rate** (what a player of that price typically returns) — dots **above it are bargains** that beat "
+           "their cost, dots **below are flops**. Bigger 🟢 dots are owned by someone in the league. Hover for names.")
+_pl = proj[proj["total_points"].fillna(0) > 0].copy()
+if len(_pl) >= 6:
+    _owned_league = set()
+    if _bpg:
+        for _m in _bpg["members"]:
+            _owned_league.update(_m.get("squad") or [])
+    _px = _pl["price"].to_numpy(dtype=float)
+    _py = _pl["total_points"].to_numpy(dtype=float)
+    _slope, _icpt = _np.polyfit(_px, _py, 1)                       # going rate: points ~ price
+    _pl["expected"] = _slope * _pl["price"] + _icpt
+    _pl["surprise"] = _pl["total_points"] - _pl["expected"]        # + = beat its price, − = flop
+    _pl["value"] = _pl["total_points"] / _pl["price"].clip(lower=0.1)
+    _pl["owned"] = _pl.index.isin(_owned_league)
 
-    a, b = st.columns(2)
-    with a:
-        st.plotly_chart(viz.composition_figure(r, f"Where {viz.short_name(name)}'s points come from (round {target})"),
-                        width="stretch", config={"displayModeBar": False})
-        if r.get("rotation_risk", 0) > 0.03:
-            st.caption(f"🔄 **Rotation risk ~{r['rotation_risk'] * 100:.0f}%** — {viz.short_name(name)} is a "
-                       "nailed starter in a lopsided game, so there's a real chance of being rested (the "
-                       "projection already shaves this off).")
-    with b:
-        if r["id"] in my_ids:
-            st.success(f"✅ **{name} is in your team.**")
-        elif my_ids:
-            owned = proj.loc[[i for i in my.get("squad", []) if i in proj.index]]
-            base = optimizer.squad_xp(owned, "xp_tournament")
-            bank = float(my.get("bank", 0))
-            best_swap, best_gain = None, None
-            _cap = config.soft_team_cap(target)
-            _own_t = int((owned["team"] == r["team"]).sum())     # grandfather an existing stack
-            for out_id, out_row in owned[owned["position"] == r["position"]].iterrows():
-                if r["price"] > out_row["price"] + bank + 1e-9:
-                    continue
-                trial = owned.drop(index=out_id)
-                counts = trial["team"].value_counts()
-                if counts.get(r["team"], 0) + 1 > max(_cap, _own_t):
-                    continue
-                val = optimizer.squad_xp(pd.concat([trial, proj.loc[[r["id"]]]]), "xp_tournament")
-                gain = val - base
-                if best_gain is None or gain > best_gain:
-                    best_swap, best_gain = out_row["name"], gain
-            st.markdown(f"#### Why isn't {viz.short_name(name)} in the team?")
-            if best_swap is None:
-                st.warning(f"**He doesn't fit the budget/rules right now.** At {r['price']}M, no single "
-                           f"same-position swap is affordable with {bank:.1f}M in the bank (or the "
-                           f"{_cap}-per-country cap blocks it{' — group-stage diversification' if _cap < config.MAX_PER_TEAM else ''}).")
-            elif best_gain > 0.05:
-                st.info(f"**He actually would help.** Best swap: {best_swap} → {name}, "
-                        f"worth **+{best_gain:.1f}** team points over the rest of the tournament. "
-                        "The autopilot ranks every move on this same whole-tournament value before each "
-                        "deadline and applies the best ROI swaps within your free transfers (taking a −4 "
-                        "hit only when it clearly pays off) — so a clear upgrade like this gets made.")
-            else:
-                st.success(
-                    f"**The team is better without him.** Best possible swap ({best_swap} → {name}) "
-                    f"would change the TEAM's expected total by **{best_gain:+.1f}** points. "
-                    f"The optimiser maximises the *team's* total under the 100M budget and "
-                    f"{_cap}-per-country cap — a star's price has to beat what the same money buys elsewhere."
-                )
-        else:
-            st.caption("No squad loaded yet.")
+    fig = go.Figure()
+    _xs = _np.linspace(_px.min(), _px.max(), 40)
+    fig.add_trace(go.Scatter(x=_xs, y=_slope * _xs + _icpt, mode="lines", name="going rate",
+                             line=dict(dash="dash", color="#8a94a0"), hoverinfo="skip"))
+    for _lab, _mask, _col in [("bargain (beat its price)", _pl["surprise"] >= 0, "#00b894"),
+                              ("flop (under its price)", _pl["surprise"] < 0, "#e17055")]:
+        _s = _pl[_mask]
+        fig.add_trace(go.Scatter(
+            x=_s["price"], y=_s["total_points"], mode="markers", name=_lab,
+            marker=dict(color=_col, size=[11 if o else 6 for o in _s["owned"]],
+                        line=dict(width=[1.6 if o else 0 for o in _s["owned"]], color="#fff")),
+            text=[f"{viz.flag(t)} {n}" for n, t in zip(_s["name"], _s["team"])],
+            customdata=_np.stack([_s["price"], _s["total_points"], _s["ownership_pct"].fillna(0)], axis=-1),
+            hovertemplate="%{text}<br>%{customdata[0]}M · %{customdata[1]:.0f} pts · owned %{customdata[2]:.0f}%<extra></extra>"))
+    fig.update_layout(height=470, xaxis_title="price (M)", yaxis_title="real points banked so far",
+                      legend=dict(orientation="h", y=-0.16), margin=dict(l=10, r=10, t=10, b=10))
+    st.plotly_chart(fig, width="stretch", config={"displayModeBar": False})
+
+    _num = {"total_points": st.column_config.NumberColumn("pts", format="%d"),
+            "price": st.column_config.NumberColumn("M", format="%.1f"),
+            "ownership_pct": st.column_config.NumberColumn("owned %", format="%.0f")}
+    c1, c2 = st.columns(2)
+    with c1:
+        st.markdown("**🤑 Best value — most points per M**")
+        st.dataframe(_pl.sort_values("value", ascending=False).head(12)[
+                         ["name", "team", "price", "total_points", "value", "ownership_pct"]],
+                     hide_index=True, width="stretch",
+                     column_config={**_num, "value": st.column_config.NumberColumn("pts/M", format="%.1f")})
+    with c2:
+        st.markdown("**🥶 Biggest flops — priciest under-deliverers**")
+        _flop = _pl[_pl["price"] >= _pl["price"].median()].sort_values("surprise").head(12)
+        st.dataframe(_flop[["name", "team", "price", "total_points", "surprise", "ownership_pct"]],
+                     hide_index=True, width="stretch",
+                     column_config={**_num, "surprise": st.column_config.NumberColumn("vs price", format="%+.0f")})
+else:
+    st.caption("The value chart fills in once players have banked some points.")
 
 # ---------------------------------------------------------------- fixtures + nerd table
 st.subheader(f"Round {d['target_round']} fixtures the model sees")

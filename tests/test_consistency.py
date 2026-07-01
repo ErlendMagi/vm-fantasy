@@ -32,6 +32,13 @@ def league(d):
     return lg
 
 
+def _need_full_squad(d, squad):
+    """In the knockouts, eliminated-team players are dropped from the pool, so the squad can't form
+    a valid 15 and the optimizer/transfer paths (which the watch-along site no longer uses) can't run."""
+    if any(i not in d["proj_plan"].index for i in squad):
+        pytest.skip("knockouts: squad has eliminated players — optimizer/transfer paths n/a")
+
+
 # ── invariant: live tabs rank on the live round, planning tabs on the editable round ──
 def test_ranks_live_vs_planning_distinct_sources(d):
     rl = analytics.position_ranks(d["proj"], "xp_tournament")
@@ -86,6 +93,7 @@ def test_home_winprob_matches_transfers_keep(d, squad, league):
 
 # ── invariant: every group-stage transfer plan respects the hard max-2-per-team cap ──
 def test_no_group_stage_three_stack_bought(d, squad):
+    _need_full_squad(d, squad)
     proj, target = d["proj_plan"], d["target_round"]
     cap = config.soft_team_cap(target)
     plans = services.get_transfer_plans(squad, float(d["my_team"].get("bank", 0)),
@@ -155,6 +163,7 @@ def test_spi_proj_next_equals_fielded_value(d, league):
 #    player — a proven starter is NEVER sat for a likely-benched one at the same position
 #    (tiered playtime guarantee; a thin squad may still field fillers, but only as a last resort) ──
 def test_applied_xi_no_proven_player_benched(d, squad):
+    _need_full_squad(d, squad)
     import scraper.apply_team as apply
     proj = d["proj_plan"]
     t = apply.compose_lineup(proj, list(squad))
@@ -252,6 +261,7 @@ def test_captain_by_win_runs_in_title_mode(d, squad, league):
 # ── invariant: enforce_proven_xi yields a FULLY clean XI (or leaves it unchanged when it genuinely
 #    can't), is idempotent, keeps 15 players, and never breaks the per-nation cap ──
 def test_enforce_proven_xi_cleans_or_noops(d, squad):
+    _need_full_squad(d, squad)
     proj = d["proj_plan"]
     cap = config.soft_team_cap(d["target_round"])
     bank = float(d["my_team"].get("bank", 0))
@@ -278,6 +288,7 @@ def test_enforce_proven_xi_cleans_or_noops(d, squad):
 
 # ── invariant: the transfer search never proposes BUYING a likely-benched player ──
 def test_transfers_never_buy_benched(d, squad):
+    _need_full_squad(d, squad)
     proj = d["proj_plan"]
     plans = services.get_transfer_plans(squad, float(d["my_team"].get("bank", 0)),
                                         int(d["my_team"].get("free_transfers", 2)))

@@ -481,34 +481,6 @@ if proj is not None and have_squads:
     fielded_xi = {k: (v[0] if v else []) for k, v in fielded_full.items()}
     spi = analytics.squad_power_index(proj, managers, fielded=fielded_full)
 
-    # ---- whose games matter most in the LIVE round (not-yet-kicked-off games) ----
-    st.subheader(f"🗓️ Whose games matter most — round {live} (live)")
-    st.caption(f"Expected points each manager has riding on each **remaining round-{live} match** — the "
-               "brighter the cell, the more that game decides their round. Kicked-off games drop off.")
-    from datetime import datetime as _dt, timedelta as _td, timezone as _tz
-    fixtures_r = sorted([fx for fx in d["fixtures"] if fx.get("fantasy_round") == live and _ko(fx) >= _now],
-                        key=lambda f: f["kickoff_utc"])
-    sq_members = members[members["squad"].apply(len) > 0]
-    match_labels, zmat = [], []
-    for fx in fixtures_r:
-        teams = {fx["home"], fx["away"]}
-        col = [float(proj.loc[[i for i in mm["squad"] if i in proj.index]]
-                     .pipe(lambda o: o[o["team"].isin(teams)]["xp_next"].sum()))
-               for _, mm in sq_members.iterrows()]
-        if sum(col) > 0.5:
-            ko = _dt.fromisoformat(fx["kickoff_utc"].replace("Z", "+00:00")).astimezone(_tz(_td(hours=2)))
-            match_labels.append(f"{ko.strftime('%a %d')} {fx['home'][:3]}–{fx['away'][:3]}")
-            zmat.append(col)
-    if zmat:
-        zt = list(map(list, zip(*zmat)))
-        hm = go.Figure(go.Heatmap(
-            z=zt, x=match_labels,
-            y=[f"{'🟢 ' if me else ''}{t}" for t, me in zip(sq_members['squad_name'], sq_members['is_me'])],
-            colorscale="YlGn", colorbar=dict(title="xP"),
-            hovertemplate="%{y}<br>%{x}<br>%{z:.1f} expected points<extra></extra>"))
-        hm.update_layout(height=120 + 34 * len(zt), margin=dict(l=10, r=10, t=10, b=10))
-        st.plotly_chart(hm, width="stretch", config={"displayModeBar": False})
-
     st.subheader("🏅 Squad Power Index — every manager's team, strongest first")
     st.caption("A 0–100 rating blending this round's projected XI (60%), whole-cup durability (25%) and "
                "value-per-million (15%), graded across your league.")
@@ -666,23 +638,6 @@ if proj is not None and have_squads:
                 st.markdown(viz.pitch_html(owned, xi_ids, cap_id, "xp_next", bench, ranks, floors, ceils,
                                            vice_id=vice_id), unsafe_allow_html=True)
 
-    st.subheader("⚔️ What you win & lose on (vs each rival)")
-    mine = set((d["my_team"] or {}).get("squad", []))
-    cols = ["name", "team", "position", "price", "xp_next", "xp_tournament"]
-    for _, m in ordered[~ordered["is_me"]].iterrows():
-        theirs = set(m["squad"])
-        only_me = [i for i in mine - theirs if i in proj.index]
-        only_them = [i for i in theirs - mine if i in proj.index]
-        with st.expander(f"vs {m['manager']} ({m['squad_name']})"):
-            a, b = st.columns(2)
-            with a:
-                st.caption("Your edge — you own, they don't")
-                st.dataframe(proj.loc[only_me].sort_values("xp_tournament", ascending=False)[cols]
-                             if only_me else proj.head(0)[cols], hide_index=True, width="stretch")
-            with b:
-                st.caption("Their edge — they own, you don't")
-                st.dataframe(proj.loc[only_them].sort_values("xp_tournament", ascending=False)[cols]
-                             if only_them else proj.head(0)[cols], hide_index=True, width="stretch")
 else:
     st.caption("🔒 Rival squads are hidden by TV 2 until each round's deadline passes. Once they unlock "
                "they appear here — every manager's team on a pitch, their prices, projected points, "

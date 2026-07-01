@@ -205,18 +205,14 @@ live, target = d["next_round"], d["target_round"]
 proj_live, proj_plan = d["proj"], d["proj_plan"]
 team_of = proj_live["team"]   # player id -> team (every player)
 
-_SCOPE = st.radio(
-    "Race view", [f"This round (R{live})", "Live + next round"],
-    index=1, horizontal=True, label_visibility="collapsed",
-    help="‘This round’ shows only the live round; ‘Live + next round’ also draws the round after it.")
-_whole = False        # the 'projected finish' extension rode stale group-stage survival — retired
-_max_r = live if _SCOPE.startswith("This round") else target
+_now = datetime.now(timezone.utc)
 
-# per-manager per-round detail: lineup, this-round captain, and each player's
-# ACTUAL points. The race steps per MATCH through the group stage (real team names), then adds ONE
-# step per KNOCKOUT round from that round's total — TV2 scores the knockouts per round and the R32
-# fixtures carry bracket placeholders, so a per-round step is the honest granularity AND fixes the bug
-# that used to drop every R4+ match off the chart. Prefer the LIVE feed, fall back to the synced file.
+
+def _ko(fx):
+    return datetime.fromisoformat(fx["kickoff_utc"].replace("Z", "+00:00"))
+
+
+# every manager's round-by-round scores (LIVE feed first, else the synced file)
 synced = {}
 for _src in (source, league):
     for _L in (_src or {}).get("leagues", []):
@@ -225,78 +221,43 @@ for _src in (source, league):
             if _rounds:
                 synced.setdefault(_mm["squad_name"], _rounds)
 
-_now = datetime.now(timezone.utc)
-
-
-def _ko(fx):
-    return datetime.fromisoformat(fx["kickoff_utc"].replace("Z", "+00:00"))
-
-
-# group matches (rounds 1-3, real teams) a manager owns a player in — one step each
-owned_teams = {team_of.get(pid) for _, _m in members.iterrows()
-               for pid in (_m.get("squad") or [])} - {None}
-group_matches = sorted([fx for fx in d["fixtures"] if 0 < fx.get("fantasy_round", 0) <= min(_max_r, 3)],
-                       key=lambda f: f["kickoff_utc"])
-if owned_teams:
-    group_matches = [fx for fx in group_matches if {fx["home"], fx["away"]} & owned_teams]
-
-# knockout rounds that HAVE been scored (R32=4 … Final=8) — one per-round step each
-_STAGE = {4: "R32", 5: "R16", 6: "Quarter", 7: "Semi", 8: "Final"}
-ko_rounds = [r for r in range(4, _max_r + 1)
-             if any((rd.get(r) or {}).get("points") is not None for rd in synced.values())]
-steps = [("m", fx) for fx in group_matches] + [("r", r) for r in ko_rounds]
-
-labels = [(f"{v['home']}–{v['away']} ({_ko(v).astimezone(OSLO).strftime('%a %d %b')})" if k == "m"
-           else _STAGE.get(v, f"R{v}")) for k, v in steps]
-played = [(_ko(v) < _now) if k == "m" else True for k, v in steps]      # a scored KO round counts as played
-last_played = max([i for i, p in enumerate(played) if p], default=-1)
+# We step per ROUND, not per match: each manager's cumulative is the running sum of their OFFICIAL
+# round totals, which equal the standings exactly. (A per-match accrual silently dropped eliminated-
+# team players' historical points — once a team is knocked out its players leave the pool — which is
+# why the old chart under-counted everyone and mis-ranked the race.)
+_STAGE = {1: "Round 1", 2: "Round 2", 3: "Round 3", 4: "R32", 5: "R16", 6: "Quarters", 7: "Semis", 8: "Final"}
+scored_rounds = sorted({r for rd in synced.values() for r, e in rd.items()
+                        if (e or {}).get("points") is not None})
+labels = [_STAGE.get(r, f"R{r}") for r in scored_rounds]
 
 fig = go.Figure()
 for _, m in members.iterrows():
     sq = m["squad_name"]
     rdata = synced.get(sq, {})
-    xs, ys, run = [], [], 0.0
-    for i, (kind, val) in enumerate(steps):
-        if kind == "m":
-            rd = rdata.get(val["fantasy_round"], {})
-            _st = set(rd.get("starter_ids") or [])
-            teams = {val["home"], val["away"]}
-            run += sum(v for pid, v in (rd.get("scores") or {}).items()
-                       if v and pid in _st and team_of.get(pid) in teams)
-        else:
-            run += float((rdata.get(val) or {}).get("points") or 0.0)     # knockout round total
-        xs.append(i)
+    run, ys = 0.0, []
+    for r in scored_rounds:
+        run += float((rdata.get(r) or {}).get("points") or 0.0)
         ys.append(run)
-    if xs:
-        fig.add_scatter(x=xs, y=ys, customdata=[labels[i] for i in xs], mode="lines", name=sq,
-                        legendgroup=sq, line=dict(width=5 if m["is_me"] else 2, color=colour[sq],
-                                                  shape="spline", smoothing=0.5),
+    if ys:
+        fig.add_scatter(x=list(range(len(scored_rounds))), y=ys, customdata=labels,
+                        mode="lines+markers", name=sq, legendgroup=sq,
+                        line=dict(width=5 if m["is_me"] else 2.5, color=colour[sq], shape="spline", smoothing=0.4),
+                        marker=dict(size=7 if m["is_me"] else 4),
                         hovertemplate=f"%{{customdata}}<br>{sq}: %{{y:.0f}} pts<extra></extra>")
 
-# round bands + a 'now' marker at the last scored step
-for r in sorted({(v["fantasy_round"] if k == "m" else v) for k, v in steps}):
-    idxs = [i for i, (k, v) in enumerate(steps) if (v["fantasy_round"] if k == "m" else v) == r]
-    fig.add_vrect(x0=idxs[0] - 0.5, x1=idxs[-1] + 0.5,
-                  fillcolor="rgba(255,255,255,0.03)" if r % 2 else "rgba(0,0,0,0)", line_width=0)
-    fig.add_annotation(x=(idxs[0] + idxs[-1]) / 2, y=1.0, yref="paper",
-                       text=(_STAGE.get(r) or f"Round {r}") if r > 3 else f"Round {r}",
-                       showarrow=False, font=dict(size=12, color=theme.MUTED), yshift=8)
-if last_played >= 0:
-    fig.add_vline(x=last_played + 0.5, line=dict(color=theme.NEG, width=2),
-                  annotation_text="▲ now", annotation_position="top right",
-                  annotation_font=dict(color=theme.NEG, size=12))
+for i in range(0, len(scored_rounds), 2):                 # faint alternating round bands
+    fig.add_vrect(x0=i - 0.5, x1=i + 0.5, fillcolor="rgba(255,255,255,0.03)", line_width=0)
 
 fig.update_layout(
-    xaxis=dict(title="Group matches → then each knockout round", tickmode="array",
-               tickvals=list(range(len(steps))), ticktext=labels, tickangle=-55, tickfont=dict(size=9)),
-    yaxis_title="Cumulative points", height=560, legend=dict(orientation="h", y=-0.62),
-    margin=dict(l=10, r=10, t=22, b=150))
+    xaxis=dict(title="Round", tickmode="array", tickvals=list(range(len(scored_rounds))), ticktext=labels),
+    yaxis_title="Cumulative points", height=470, legend=dict(orientation="h", y=-0.3),
+    margin=dict(l=10, r=10, t=16, b=10))
 st.plotly_chart(fig, width="stretch")
-st.caption("The group stage steps **match by match**; each **knockout round adds one step** (TV2 scores the "
-           "knockouts per round). Your line is the thick one; the **red marker is now**.")
+st.caption("**Cumulative points by round.** Each line's endpoint is that manager's exact total in the "
+           "standings below — your line is the thick one.")
 
-if last_played < 0:
-    st.caption("No matches scored yet — the race fills in as results come in.")
+if not scored_rounds:
+    st.caption("No rounds scored yet — the race fills in as results come in.")
 
 # ---------------------------------------------------------------- standings (right under the race)
 st.subheader("🏆 Standings")

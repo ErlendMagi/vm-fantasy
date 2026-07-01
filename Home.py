@@ -4,7 +4,7 @@ import streamlit as st
 
 st.set_page_config(page_title="BPG League", page_icon="🏆", layout="wide")
 
-from src import config, data_access, nav, optimizer, services, viz
+from src import config, data_access, nav, optimizer, services, theme, viz
 
 nav.render("League")
 d = services.get_data()
@@ -57,8 +57,8 @@ else:
                "Streamlit app's Secrets (see README).")
 me_name = (d["my_team"] or {}).get("squad_name")
 members["is_me"] = members["squad_name"] == me_name
-PALETTE = ["#00b894", "#0984e3", "#e17055", "#fdcb6e", "#a29bfe", "#fd79a8", "#55efc4", "#ff7675"]
-colour = {sq: (("#00b894") if sq == me_name else PALETTE[(i + 1) % len(PALETTE)])
+PALETTE = theme.CAT
+colour = {sq: (theme.ACCENT if sq == me_name else PALETTE[(i + 1) % len(PALETTE)])
           for i, sq in enumerate(members["squad_name"])}
 
 
@@ -213,8 +213,10 @@ _whole = False        # the 'projected finish' extension rode stale group-stage 
 _max_r = live if _SCOPE.startswith("This round") else target
 
 # per-manager per-round detail: lineup, this-round captain, and each player's
-# ACTUAL points — so the race steps per MATCH on real results. Prefer the LIVE
-# feed (updates during matches), fall back to the synced file.
+# ACTUAL points. The race steps per MATCH through the group stage (real team names), then adds ONE
+# step per KNOCKOUT round from that round's total — TV2 scores the knockouts per round and the R32
+# fixtures carry bracket placeholders, so a per-round step is the honest granularity AND fixes the bug
+# that used to drop every R4+ match off the chart. Prefer the LIVE feed, fall back to the synced file.
 synced = {}
 for _src in (source, league):
     for _L in (_src or {}).get("leagues", []):
@@ -223,24 +225,6 @@ for _src in (source, league):
             if _rounds:
                 synced.setdefault(_mm["squad_name"], _rounds)
 
-race_matches = sorted([fx for fx in d["fixtures"] if fx.get("fantasy_round") and fx["fantasy_round"] <= _max_r],
-                      key=lambda f: f["kickoff_utc"])
-
-# only keep matches some manager actually has players in - those are the only
-# games where any of us can score. (union of every squad's teams; if rosters
-# aren't available yet, fall back to showing all matches)
-owned_teams = {team_of.get(pid) for _, _m in members.iterrows()
-               for pid in (_m.get("squad") or [])} - {None}
-if owned_teams:
-    race_matches = [fx for fx in race_matches if {fx["home"], fx["away"]} & owned_teams]
-
-
-def _mlbl(fx):
-    ko = datetime.fromisoformat(fx["kickoff_utc"].replace("Z", "+00:00")).astimezone(OSLO)
-    return f"{fx['home']}–{fx['away']} ({ko.strftime('%a %d %b %H:%M')})"
-
-
-mlabels = [_mlbl(fx) for fx in race_matches]
 _now = datetime.now(timezone.utc)
 
 
@@ -248,115 +232,71 @@ def _ko(fx):
     return datetime.fromisoformat(fx["kickoff_utc"].replace("Z", "+00:00"))
 
 
-# 'played' = kicked off (the fixtures' status field can lag; kickoff time can't)
-last_played = max([i for i, fx in enumerate(race_matches) if _ko(fx) < _now], default=-1)
+# group matches (rounds 1-3, real teams) a manager owns a player in — one step each
+owned_teams = {team_of.get(pid) for _, _m in members.iterrows()
+               for pid in (_m.get("squad") or [])} - {None}
+group_matches = sorted([fx for fx in d["fixtures"] if 0 < fx.get("fantasy_round", 0) <= min(_max_r, 3)],
+                       key=lambda f: f["kickoff_utc"])
+if owned_teams:
+    group_matches = [fx for fx in group_matches if {fx["home"], fx["away"]} & owned_teams]
 
+# knockout rounds that HAVE been scored (R32=4 … Final=8) — one per-round step each
+_STAGE = {4: "R32", 5: "R16", 6: "Quarter", 7: "Semi", 8: "Final"}
+ko_rounds = [r for r in range(4, _max_r + 1)
+             if any((rd.get(r) or {}).get("points") is not None for rd in synced.values())]
+steps = [("m", fx) for fx in group_matches] + [("r", r) for r in ko_rounds]
 
-def _expected(pid, rnd):
-    p = proj_live if rnd == live else proj_plan
-    return float(p.loc[pid, "xp_next"]) if pid in p.index else 0.0
-
+labels = [(f"{v['home']}–{v['away']} ({_ko(v).astimezone(OSLO).strftime('%a %d %b')})" if k == "m"
+           else _STAGE.get(v, f"R{v}")) for k, v in steps]
+played = [(_ko(v) < _now) if k == "m" else True for k, v in steps]      # a scored KO round counts as played
+last_played = max([i for i, p in enumerate(played) if p], default=-1)
 
 fig = go.Figure()
-end_actual = {}   # squad -> cumulative ACTUAL at the last kicked-off match (line start)
-end_run = {}      # squad -> cumulative through the END of the race (actual + EV up to target round)
 for _, m in members.iterrows():
     sq = m["squad_name"]
-    width = 5 if m["is_me"] else 2
     rdata = synced.get(sq, {})
-    sx, sy, dx, dy, run = [], [], [], [], 0.0
-    for i, fx in enumerate(race_matches):
-        rnd = fx["fantasy_round"]
-        rd = rdata.get(rnd, {})
-        teams = {fx["home"], fx["away"]}
-        if _ko(fx) < _now:
-            # actual: the round's scoring XI (auto-subs already folded into
-            # starter_ids by TV 2), real points, captain doubling baked in
+    xs, ys, run = [], [], 0.0
+    for i, (kind, val) in enumerate(steps):
+        if kind == "m":
+            rd = rdata.get(val["fantasy_round"], {})
             _st = set(rd.get("starter_ids") or [])
+            teams = {val["home"], val["away"]}
             run += sum(v for pid, v in (rd.get("scores") or {}).items()
                        if v and pid in _st and team_of.get(pid) in teams)
         else:
-            # expected: this round's starters in this match, captain doubled
-            starters = rd.get("starter_ids") or m.get("starter_ids") or m.get("squad") or []
-            capid = rd.get("captain_id") or m.get("captain_id")
-            run += sum(_expected(pid, rnd) * (2 if pid == capid else 1)
-                       for pid in starters if team_of.get(pid) in teams)
-        if i <= last_played:
-            sx.append(i)
-            sy.append(run)
-        else:
-            if not dx and sx:                                  # connect solid -> dashed
-                dx.append(sx[-1])
-                dy.append(sy[-1])
-            dx.append(i)
-            dy.append(run)
-    end_actual[sq] = sy[-1] if sy else 0.0
-    end_run[sq] = run                         # actual-where-played + EV for not-yet-kicked-off, through target
-    if sx:
-        fig.add_scatter(x=sx, y=sy, customdata=[mlabels[i] for i in sx], mode="lines", name=sq,
-                        legendgroup=sq, line=dict(width=width, color=colour[sq], shape="spline", smoothing=0.5),
+            run += float((rdata.get(val) or {}).get("points") or 0.0)     # knockout round total
+        xs.append(i)
+        ys.append(run)
+    if xs:
+        fig.add_scatter(x=xs, y=ys, customdata=[labels[i] for i in xs], mode="lines", name=sq,
+                        legendgroup=sq, line=dict(width=5 if m["is_me"] else 2, color=colour[sq],
+                                                  shape="spline", smoothing=0.5),
                         hovertemplate=f"%{{customdata}}<br>{sq}: %{{y:.0f}} pts<extra></extra>")
-    if dx:
-        fig.add_scatter(x=dx, y=dy, customdata=[mlabels[i] for i in dx], mode="lines", name=sq,
-                        legendgroup=sq, showlegend=not sx, opacity=0.75,
-                        line=dict(width=width, color=colour[sq], dash="dash", shape="spline", smoothing=0.5),
-                        hovertemplate=f"%{{customdata}}<br>{sq} (proj): %{{y:.0f}}<extra></extra>")
 
-# whole-tournament view: extend each manager's race line to a projected FINAL total.
-# end_run already blends realized (played) + EV (not-yet-kicked-off) THROUGH the target
-# round, so we add only the EV of rounds BEYOND the target — the live round is counted
-# exactly once (as actual where played, EV where not), never dropped and never doubled.
-if _whole and race_matches:
-    _fxx = len(race_matches) + max(2, len(race_matches) // 8)
-    _anchor_x = len(race_matches) - 1            # extend from the end of the race line
-    _proj_rows = []
-    for _, m in members.iterrows():
-        sq = m["squad_name"]
-        op = proj_plan.loc[[i for i in (m.get("squad") or []) if i in proj_plan.index]]
-        # xp_tournament(proj_plan) spans target..final; subtract the target round (xp_next)
-        # to leave only rounds AFTER target, which the race line hasn't covered yet.
-        beyond = max(0.0, optimizer.squad_xp(op, "xp_tournament") - optimizer.squad_xp(op, "xp_next")) \
-            if len(op) >= 11 else 0.0
-        start = end_run.get(sq, end_actual.get(sq, 0.0))   # the race line's endpoint
-        fin = start + beyond                               # projected finish
-        _proj_rows.append((sq, fin, m["is_me"]))
-        fig.add_scatter(x=[_anchor_x, _fxx], y=[start, fin],
-                        mode="lines", legendgroup=sq, showlegend=False, opacity=0.7,
-                        line=dict(width=5 if m["is_me"] else 2, color=colour[sq], dash="dot"),
-                        hovertemplate=f"{sq} — projected finish: {fin:.0f}<extra></extra>")
-    for sq, fin, isme in sorted(_proj_rows, key=lambda r: r[1]):
-        fig.add_annotation(x=_fxx, y=fin, text=f"  {fin:.0f} {'🟢' if isme else ''}", showarrow=False,
-                           xanchor="left", font=dict(size=11, color=colour[sq]))
-    fig.add_vrect(x0=len(race_matches) - 0.5, x1=_fxx + 0.5, fillcolor="#0984e3", opacity=0.05, line_width=0)
-    fig.add_annotation(x=(len(race_matches) + _fxx) / 2, y=1.0, yref="paper", text="projected finish",
-                       showarrow=False, font=dict(size=12, color="#74b9ff"), yshift=8)
-
-# round bands + a 'now' line at the latest finished match
-for r in sorted({fx["fantasy_round"] for fx in race_matches}):
-    idxs = [i for i, fx in enumerate(race_matches) if fx["fantasy_round"] == r]
-    fig.add_vrect(x0=idxs[0] - 0.5, x1=idxs[-1] + 0.5, fillcolor="#ffffff" if r % 2 else "#000000",
-                  opacity=0.04, line_width=0)
-    fig.add_annotation(x=(idxs[0] + idxs[-1]) / 2, y=1.0, yref="paper", text=f"Round {r}",
-                       showarrow=False, font=dict(size=12, color="#aaa"), yshift=8)
+# round bands + a 'now' marker at the last scored step
+for r in sorted({(v["fantasy_round"] if k == "m" else v) for k, v in steps}):
+    idxs = [i for i, (k, v) in enumerate(steps) if (v["fantasy_round"] if k == "m" else v) == r]
+    fig.add_vrect(x0=idxs[0] - 0.5, x1=idxs[-1] + 0.5,
+                  fillcolor="rgba(255,255,255,0.03)" if r % 2 else "rgba(0,0,0,0)", line_width=0)
+    fig.add_annotation(x=(idxs[0] + idxs[-1]) / 2, y=1.0, yref="paper",
+                       text=(_STAGE.get(r) or f"Round {r}") if r > 3 else f"Round {r}",
+                       showarrow=False, font=dict(size=12, color=theme.MUTED), yshift=8)
 if last_played >= 0:
-    fig.add_vline(x=last_played + 0.5, line=dict(color="#d63031", width=2),
+    fig.add_vline(x=last_played + 0.5, line=dict(color=theme.NEG, width=2),
                   annotation_text="▲ now", annotation_position="top right",
-                  annotation_font=dict(color="#d63031", size=12))
+                  annotation_font=dict(color=theme.NEG, size=12))
 
-_xaxis = dict(title="Every match any of us has a player in (chronological →)", tickmode="array",
-              tickvals=list(range(len(race_matches))), ticktext=mlabels, tickangle=-55, tickfont=dict(size=9))
-if _whole and race_matches:
-    _xaxis["range"] = [-0.5, len(race_matches) + max(2, len(race_matches) // 8) + 6]
-fig.update_layout(xaxis=_xaxis, yaxis_title="Cumulative points", height=580,
-                  legend=dict(orientation="h", y=-0.62),
-                  margin=dict(l=10, r=70 if _whole else 10, t=22, b=150))
+fig.update_layout(
+    xaxis=dict(title="Group matches → then each knockout round", tickmode="array",
+               tickvals=list(range(len(steps))), ticktext=labels, tickangle=-55, tickfont=dict(size=9)),
+    yaxis_title="Cumulative points", height=560, legend=dict(orientation="h", y=-0.62),
+    margin=dict(l=10, r=10, t=22, b=150))
 st.plotly_chart(fig, width="stretch")
-st.caption("Each step is one match, labelled with its **date & kickoff (Oslo time)**. **Solid** lines are "
-           "the points your players *actually* scored; **dashed** lines project the upcoming matches. The "
-           "**red line marks now** — everything left of it has kicked off.")
+st.caption("The group stage steps **match by match**; each **knockout round adds one step** (TV2 scores the "
+           "knockouts per round). Your line is the thick one; the **red marker is now**.")
 
 if last_played < 0:
-    st.caption("No matches finished yet — solid lines fill in match by match as results come in.")
+    st.caption("No matches scored yet — the race fills in as results come in.")
 
 # ---------------------------------------------------------------- standings (right under the race)
 st.subheader("🏆 Standings")

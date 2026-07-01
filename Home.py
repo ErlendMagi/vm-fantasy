@@ -206,11 +206,10 @@ proj_live, proj_plan = d["proj"], d["proj_plan"]
 team_of = proj_live["team"]   # player id -> team (every player)
 
 _SCOPE = st.radio(
-    "Race view", [f"This round (R{live})", "Live + next round", "Whole tournament (projected finish)"],
+    "Race view", [f"This round (R{live})", "Live + next round"],
     index=1, horizontal=True, label_visibility="collapsed",
-    help="‘This round’ shows only the live round. ‘Whole tournament’ extends each line to a projected "
-         "FINAL total using rest-of-cup expected value (survival-weighted), so you see who's on track to win.")
-_whole = _SCOPE.startswith("Whole")
+    help="‘This round’ shows only the live round; ‘Live + next round’ also draws the round after it.")
+_whole = False        # the 'projected finish' extension rode stale group-stage survival — retired
 _max_r = live if _SCOPE.startswith("This round") else target
 
 # per-manager per-round detail: lineup, this-round captain, and each player's
@@ -361,14 +360,6 @@ if last_played < 0:
 
 # ---------------------------------------------------------------- standings (right under the race)
 st.subheader("🏆 Standings")
-_pwin = services.get_win_probability()
-if _pwin is not None:
-    _fair = 1.0 / max(len(members), 1)
-    st.metric(f"🎲 Your win probability (round {target})", f"{_pwin * 100:.0f}%",
-              delta=f"{(_pwin - _fair) * 100:+.0f}% vs an even split",
-              help=f"Monte-Carlo simulation of the **next editable round (round {target})** across "
-                   "all squads (shared match scorelines for correlation), counting how often YOUR total "
-                   "finishes 1st — the objective the whole engine optimises.")
 # expected points each manager still has TO COME in the live round: their starters
 # whose match hasn't kicked off yet (captain ×2). Drops as games kick off.
 _future_teams = set()

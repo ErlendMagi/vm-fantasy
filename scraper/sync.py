@@ -23,45 +23,52 @@ from src import config, data_access  # noqa: E402
 from tv2_client import Tv2Client  # noqa: E402
 
 
-def validate(players: list[dict], my_team: dict) -> list[str]:
-    errors = []
-    if len(players) < 400:
-        errors.append(f"only {len(players)} players (expected 400+) - partial payload?")
+def validate(players: list[dict], my_team: dict) -> tuple[list[str], list[str]]:
+    """Returns (fatal, warnings). FATAL = a broken/partial payload — do NOT write. WARNINGS =
+    tolerable knockout-phase realities that must NOT block the sync, or the site freezes for the
+    rest of the cup: once a team is eliminated TV2 drops its players from the pool, so a few of
+    your squad ids legitimately go missing (they're kept as-is and ignored everywhere downstream)."""
+    fatal, warn = [], []
+    if len(players) < 30:              # a real pool stays >=~50 even at the final; below = broken fetch
+        fatal.append(f"only {len(players)} players - partial/broken payload?")
     ids = {p["id"] for p in players}
     if len(ids) != len(players):
-        errors.append(f"{len(players) - len(ids)} duplicate player ids in payload")
+        fatal.append(f"{len(players) - len(ids)} duplicate player ids in payload")
     if any(not p.get("name") for p in players):
-        errors.append("players with empty names")
-    missing = [pid for pid in my_team["squad"] if pid not in ids]
-    if len(my_team["squad"]) != config.SQUAD_SIZE:
-        errors.append(f"squad has {len(my_team['squad'])} ids (expected {config.SQUAD_SIZE})")
-    if len(set(my_team["squad"])) != len(my_team["squad"]):
-        errors.append("duplicate ids in squad")
-    if missing:
-        errors.append(f"squad ids not in player list: {missing}")
-    else:
-        by_id = {p["id"]: p for p in players}
-        shape: dict[str, int] = {}
-        for pid in my_team["squad"]:
-            pos = by_id[pid]["position"]
-            shape[pos] = shape.get(pos, 0) + 1
-        if shape != config.SQUAD_SHAPE:
-            errors.append(f"squad shape {shape} != expected {config.SQUAD_SHAPE}")
+        fatal.append("players with empty names")
     bad_own = [p["name"] for p in players
                if p["ownership_pct"] is not None and not 0 <= p["ownership_pct"] <= 100]
     if bad_own:
-        errors.append(f"ownership out of range: {bad_own[:5]}")
+        fatal.append(f"ownership out of range: {bad_own[:5]}")
     bad_price = [p["name"] for p in players if not 3.0 <= p["price"] <= 20.0]
     if len(bad_price) > 20:
-        errors.append(f"{len(bad_price)} players with implausible prices, e.g. {bad_price[:5]}")
+        fatal.append(f"{len(bad_price)} players with implausible prices, e.g. {bad_price[:5]}")
     bad_pos = {p["position"] for p in players} - {"GK", "DEF", "MID", "FWD"}
     if bad_pos:
-        errors.append(f"unmapped positions: {bad_pos} - extend POSITION_MAP in tv2_client.py")
+        fatal.append(f"unmapped positions: {bad_pos} - extend POSITION_MAP in tv2_client.py")
     unknown_teams = {p["team"] for p in players if data_access.normalize_team(p["team"]) == p["team"]
                      and p["team"] not in data_access.load_team_meta()}
     if unknown_teams:
-        errors.append(f"team names that didn't normalize: {unknown_teams} - extend team_names.json")
-    return errors
+        fatal.append(f"team names that didn't normalize: {unknown_teams} - extend team_names.json")
+    # squad checks — tolerant of the knockout phase (eliminated players leave the pool)
+    sq = my_team["squad"]
+    if len(set(sq)) != len(sq):
+        fatal.append("duplicate ids in squad")            # a player can't be owned twice -> parse bug
+    by_id = {p["id"]: p for p in players}
+    shape: dict[str, int] = {}
+    for pid in sq:
+        if pid in by_id:                                  # only present players (eliminated ones can't be looked up)
+            shape[by_id[pid]["position"]] = shape.get(by_id[pid]["position"], 0) + 1
+    over = {pos: n for pos, n in shape.items() if n > config.SQUAD_SHAPE.get(pos, 0)}
+    if over:                                              # MORE than allowed of a position -> broken payload
+        fatal.append(f"squad shape over limit {over} vs {config.SQUAD_SHAPE}")
+    missing = [pid for pid in sq if pid not in by_id]
+    if missing:
+        warn.append(f"{len(missing)} squad player(s) no longer in the pool (team eliminated) — "
+                    "kept as-is, ignored downstream")
+    if len(sq) != config.SQUAD_SIZE:
+        warn.append(f"squad has {len(sq)} ids (expected {config.SQUAD_SIZE})")
+    return fatal, warn
 
 
 def git(*args: str) -> None:
@@ -112,10 +119,12 @@ def main() -> None:
     players = client.normalize_players(raw["players"])
     my_team = client.normalize_my_team(raw["my_team"], raw.get("transfer_info"))
 
-    errors = validate(players, my_team)
-    if errors:
+    fatal, warnings = validate(players, my_team)
+    for w in warnings:
+        print(f"  ~ {w}", file=sys.stderr)
+    if fatal:
         print("VALIDATION FAILED - nothing written/committed:", file=sys.stderr)
-        for e in errors:
+        for e in fatal:
             print(f"  - {e}", file=sys.stderr)
         sys.exit(1)
 

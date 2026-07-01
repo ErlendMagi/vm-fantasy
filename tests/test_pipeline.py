@@ -72,31 +72,44 @@ def make_payload(n=450):
 
 def test_validate_passes_clean_payload():
     players, my_team = make_payload()
-    assert sync_mod.validate(players, my_team) == []
+    fatal, warn = sync_mod.validate(players, my_team)
+    assert fatal == [] and warn == []
 
 
 def test_validate_catches_duplicate_player_ids():
     players, my_team = make_payload()
     players.append(dict(players[0]))
-    assert any("duplicate player ids" in e for e in sync_mod.validate(players, my_team))
+    fatal, _ = sync_mod.validate(players, my_team)
+    assert any("duplicate player ids" in e for e in fatal)
 
 
 def test_validate_catches_duplicate_squad_ids():
     players, my_team = make_payload()
     my_team["squad"][1] = my_team["squad"][0]
-    errors = sync_mod.validate(players, my_team)
-    assert any("duplicate ids in squad" in e for e in errors)
+    fatal, _ = sync_mod.validate(players, my_team)
+    assert any("duplicate ids in squad" in e for e in fatal)
 
 
 def test_validate_catches_bad_squad_shape():
     players, my_team = make_payload()
     gks = [p["id"] for p in players if p["position"] == "GK"]
     my_team["squad"] = gks[:15] if len(gks) >= 15 else my_team["squad"][:14] + [gks[2]]
-    errors = sync_mod.validate(players, my_team)
-    assert any("squad shape" in e or "expected 15" in e for e in errors)
+    fatal, _ = sync_mod.validate(players, my_team)
+    assert any("squad shape" in e for e in fatal)          # too many of a position = broken payload
 
 
 def test_validate_catches_empty_names():
     players, my_team = make_payload()
     players[0]["name"] = None
-    assert any("empty names" in e for e in sync_mod.validate(players, my_team))
+    fatal, _ = sync_mod.validate(players, my_team)
+    assert any("empty names" in e for e in fatal)
+
+
+def test_validate_tolerates_eliminated_squad_players():
+    # KNOCKOUT reality: a squad player whose team is out is dropped from the pool — must be a
+    # non-fatal WARNING (the sync still writes) rather than blocking the site for the rest of the cup.
+    players, my_team = make_payload()
+    my_team["squad"][0] = "eliminated-player-id"           # not in the player list
+    fatal, warn = sync_mod.validate(players, my_team)
+    assert fatal == []                                     # NOT fatal
+    assert any("eliminated" in w for w in warn)

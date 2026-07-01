@@ -89,6 +89,16 @@ def main() -> None:
     from src import analytics, config
     proj = analytics.add_kpis(proj)
 
+    # KNOCKOUT SAFETY: once a team is eliminated TV2 drops its players from the pool, so some of your
+    # squad ids vanish. The optimiser can't safely value a squad it can't fully see — so step aside
+    # cleanly (exit 0) rather than crash. The data sync still runs and the site stays fresh; transfer
+    # out the eliminated players (on TV2, or wherever you manage this team) to resume auto-management.
+    _gone = [pid for pid in my_team["squad"] if pid not in proj.index]
+    if _gone:
+        print(f"{len(_gone)} squad player(s) eliminated / not in the pool — skipping auto-management "
+              "this round (manage transfers yourself); the site still syncs fine.")
+        return
+
     # league position -> play for P(win): cover rivals when ahead, differentiate
     # when behind, tune the captain + the −4 bar to the regime. Best-effort.
     regime, rivals, field_own, hit_margin = None, None, None, None

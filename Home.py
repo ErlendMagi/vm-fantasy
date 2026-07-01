@@ -221,43 +221,88 @@ for _src in (source, league):
             if _rounds:
                 synced.setdefault(_mm["squad_name"], _rounds)
 
-# We step per ROUND, not per match: each manager's cumulative is the running sum of their OFFICIAL
-# round totals, which equal the standings exactly. (A per-match accrual silently dropped eliminated-
-# team players' historical points — once a team is knocked out its players leave the pool — which is
-# why the old chart under-counted everyone and mis-ranked the race.)
-_STAGE = {1: "Round 1", 2: "Round 2", 3: "Round 3", 4: "R32", 5: "R16", 6: "Quarters", 7: "Semis", 8: "Final"}
-scored_rounds = sorted({r for rd in synced.values() for r, e in rd.items()
-                        if (e or {}).get("points") is not None})
-labels = [_STAGE.get(r, f"R{r}") for r in scored_rounds]
+# player -> team INCLUDING eliminated players (persistent registry), so a match-by-match chart can
+# still place a knocked-out team's historical goals; the current pool wins on ties.
+team_full = dict(data_access.load_player_teams())
+for pid in proj_live.index:
+    team_full[pid] = proj_live.loc[pid, "team"]
+
+# steps: one per GROUP match a manager owns a player in (rounds 1-3, real teams), then one per scored
+# KNOCKOUT round (R32=4 … Final=8; knockout fixtures carry bracket placeholders, so they can't be split
+# per match, and TV2 scores them per round anyway).
+owned_teams = {team_full.get(pid) for _, _m in members.iterrows()
+               for pid in (_m.get("squad") or [])} - {None}
+group_matches = sorted([fx for fx in d["fixtures"] if 0 < fx.get("fantasy_round", 0) <= 3],
+                       key=lambda f: f["kickoff_utc"])
+if owned_teams:
+    group_matches = [fx for fx in group_matches if {fx["home"], fx["away"]} & owned_teams]
+_STAGE = {4: "R32", 5: "R16", 6: "Quarters", 7: "Semis", 8: "Final"}
+ko_rounds = [r for r in range(4, 9) if any((rd.get(r) or {}).get("points") is not None for rd in synced.values())]
+steps = [("m", fx) for fx in group_matches] + [("r", r) for r in ko_rounds]
+labels = [(f"{v['home']}–{v['away']} ({_ko(v).astimezone(OSLO).strftime('%a %d %b')})" if k == "m"
+           else _STAGE.get(v, f"R{v}")) for k, v in steps]
+_group_idx = {r: [i for i, (k, v) in enumerate(steps) if k == "m" and v["fantasy_round"] == r] for r in (1, 2, 3)}
 
 fig = go.Figure()
 for _, m in members.iterrows():
     sq = m["squad_name"]
     rdata = synced.get(sq, {})
+    inc = []                                           # each step's raw point increment
+    for kind, val in steps:
+        if kind == "m":
+            rd = rdata.get(val["fantasy_round"], {})
+            _st = set(rd.get("starter_ids") or [])
+            teams = {val["home"], val["away"]}
+            inc.append(sum(v for pid, v in (rd.get("scores") or {}).items()
+                           if v and pid in _st and team_full.get(pid) in teams))
+        else:
+            inc.append(float((rdata.get(val) or {}).get("points") or 0.0))
+    # anchor each GROUP round's per-match steps to its OFFICIAL total, so the cumulative equals the
+    # standings EXACTLY (captaincy / auto-sub residual is absorbed proportionally across that round).
+    for r, idxs in _group_idx.items():
+        if not idxs:
+            continue
+        official = float((rdata.get(r) or {}).get("points") or 0.0)
+        raw = sum(inc[i] for i in idxs)
+        if raw > 0:
+            for i in idxs:
+                inc[i] *= official / raw
+        elif official:
+            for i in idxs:
+                inc[i] = official / len(idxs)
     run, ys = 0.0, []
-    for r in scored_rounds:
-        run += float((rdata.get(r) or {}).get("points") or 0.0)
+    for x in inc:
+        run += x
         ys.append(run)
     if ys:
-        fig.add_scatter(x=list(range(len(scored_rounds))), y=ys, customdata=labels,
-                        mode="lines+markers", name=sq, legendgroup=sq,
-                        line=dict(width=5 if m["is_me"] else 2.5, color=colour[sq], shape="spline", smoothing=0.4),
-                        marker=dict(size=7 if m["is_me"] else 4),
+        fig.add_scatter(x=list(range(len(steps))), y=ys, customdata=labels, mode="lines", name=sq,
+                        legendgroup=sq, line=dict(width=5 if m["is_me"] else 2, color=colour[sq],
+                                                  shape="spline", smoothing=0.5),
                         hovertemplate=f"%{{customdata}}<br>{sq}: %{{y:.0f}} pts<extra></extra>")
 
-for i in range(0, len(scored_rounds), 2):                 # faint alternating round bands
-    fig.add_vrect(x0=i - 0.5, x1=i + 0.5, fillcolor="rgba(255,255,255,0.03)", line_width=0)
+# round bands + a 'now' marker at the last step
+for r in sorted({(v["fantasy_round"] if k == "m" else v) for k, v in steps}):
+    idxs = [i for i, (k, v) in enumerate(steps) if (v["fantasy_round"] if k == "m" else v) == r]
+    fig.add_vrect(x0=idxs[0] - 0.5, x1=idxs[-1] + 0.5,
+                  fillcolor="rgba(255,255,255,0.03)" if r % 2 else "rgba(0,0,0,0)", line_width=0)
+    fig.add_annotation(x=(idxs[0] + idxs[-1]) / 2, y=1.0, yref="paper", text=_STAGE.get(r, f"Round {r}"),
+                       showarrow=False, font=dict(size=12, color=theme.MUTED), yshift=8)
+if steps:
+    fig.add_vline(x=len(steps) - 0.5, line=dict(color=theme.NEG, width=2),
+                  annotation_text="▲ now", annotation_position="top right",
+                  annotation_font=dict(color=theme.NEG, size=12))
 
 fig.update_layout(
-    xaxis=dict(title="Round", tickmode="array", tickvals=list(range(len(scored_rounds))), ticktext=labels),
-    yaxis_title="Cumulative points", height=470, legend=dict(orientation="h", y=-0.3),
-    margin=dict(l=10, r=10, t=16, b=10))
+    xaxis=dict(title="Group matches → then each knockout round", tickmode="array",
+               tickvals=list(range(len(steps))), ticktext=labels, tickangle=-55, tickfont=dict(size=9)),
+    yaxis_title="Cumulative points", height=560, legend=dict(orientation="h", y=-0.62),
+    margin=dict(l=10, r=10, t=22, b=150))
 st.plotly_chart(fig, width="stretch")
-st.caption("**Cumulative points by round.** Each line's endpoint is that manager's exact total in the "
-           "standings below — your line is the thick one.")
+st.caption("Steps **match by match** through the group stage, then one step per knockout round. Each line's "
+           "endpoint is that manager's **exact** standings total — your line is the thick one.")
 
-if not scored_rounds:
-    st.caption("No rounds scored yet — the race fills in as results come in.")
+if not steps:
+    st.caption("No matches scored yet — the race fills in as results come in.")
 
 # ---------------------------------------------------------------- standings (right under the race)
 st.subheader("🏆 Standings")

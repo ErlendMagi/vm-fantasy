@@ -115,6 +115,13 @@ def load_predicted_lineups() -> dict:
     return _read_json(config.TV2_DIR / "predicted_lineups.json") or {"players": {}}
 
 
+def load_player_teams() -> dict:
+    """Persistent player-id -> team registry, accumulated across syncs so it keeps ELIMINATED
+    players (once a team is knocked out TV2 drops its players from the pool, but a match-by-match
+    points chart still needs their team to place their historical goals). Written by sync.py."""
+    return _read_json(config.TV2_DIR / "player_teams.json") or {}
+
+
 def load_manual_overrides() -> dict:
     """Your hand-set start-status overrides — real-world knowledge the data lacks
     yet (a benched/injured star, or a confirmed nailed starter). Highest precedence

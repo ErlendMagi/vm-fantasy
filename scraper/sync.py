@@ -154,6 +154,18 @@ def main() -> None:
             print(f"backfilled points for {_filled} players from league round data "
                   "(TV2 omits per-player match scores in the knockouts)")
 
+    # persistent player->team registry: accumulate id->team so ELIMINATED players stay known (once a
+    # team is knocked out TV2 drops it from the pool, but the match-by-match race still needs its team).
+    _reg_path = ROOT / "data" / "tv2" / "player_teams.json"
+    try:
+        _reg = json.loads(_reg_path.read_text(encoding="utf-8")) if _reg_path.exists() else {}
+    except (ValueError, OSError):
+        _reg = {}
+    for _p in players:
+        if _p.get("id") and _p.get("team"):
+            _reg[_p["id"]] = _p["team"]
+    _reg_path.write_text(json.dumps(_reg, ensure_ascii=False), encoding="utf-8")
+
     fatal, warnings = validate(players, my_team)
     for w in warnings:
         print(f"  ~ {w}", file=sys.stderr)

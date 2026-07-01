@@ -23,6 +23,34 @@ from src import config, data_access  # noqa: E402
 from tv2_client import Tv2Client  # noqa: E402
 
 
+def backfill_player_points(players: list[dict], league: dict) -> int:
+    """TV2 stops sending per-player match scores (playerMatchScores) once the knockouts start, so
+    every player comes back with total_points 0. Reconstruct each player's points from the LEAGUE
+    round data (which DOES carry them), de-doubling the captain — base points are identical for
+    every owner, so the first entry seen per round wins. Only fills players whose points are empty,
+    so it never overwrites real data TV2 still provides. Returns how many players were filled."""
+    base: dict[str, dict] = {}
+    for lg in league.get("leagues", []):
+        for m in lg.get("members", []):
+            for r in (m.get("rounds") or []):
+                rn, cap = r.get("number"), r.get("captain_id")
+                if rn is None:
+                    continue
+                for pid, v in (r.get("scores") or {}).items():
+                    if v is not None:
+                        base.setdefault(pid, {}).setdefault(rn, (v / 2) if pid == cap else v)
+    filled = 0
+    for p in players:
+        if p.get("total_points"):                     # keep any real data TV2 does still provide
+            continue
+        rp = base.get(p["id"])
+        if rp:
+            p["round_points"] = {str(k): int(round(x)) for k, x in rp.items()}
+            p["total_points"] = int(round(sum(rp.values())))
+            filled += 1
+    return filled
+
+
 def validate(players: list[dict], my_team: dict) -> tuple[list[str], list[str]]:
     """Returns (fatal, warnings). FATAL = a broken/partial payload — do NOT write. WARNINGS =
     tolerable knockout-phase realities that must NOT block the sync, or the site freezes for the
@@ -118,6 +146,13 @@ def main() -> None:
     raw = client.fetch_raw()
     players = client.normalize_players(raw["players"])
     my_team = client.normalize_my_team(raw["my_team"], raw.get("transfer_info"))
+
+    _league = raw.get("_league") or {}
+    if _league.get("leagues") and not any(p.get("total_points") for p in players):
+        _filled = backfill_player_points(players, _league)
+        if _filled:
+            print(f"backfilled points for {_filled} players from league round data "
+                  "(TV2 omits per-player match scores in the knockouts)")
 
     fatal, warnings = validate(players, my_team)
     for w in warnings:

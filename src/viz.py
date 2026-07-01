@@ -2,19 +2,19 @@
 import pandas as pd
 import plotly.graph_objects as go
 
+from src import theme  # noqa: F401  — shared palette + Plotly template
+
 COMP = {"pts_appear": "Minutes on pitch", "pts_goals": "Goals", "pts_assists": "Assists",
         "pts_cs": "Clean sheet", "pts_motm": "Man of the Match", "pts_saves": "Saves",
         "pts_duty": "Set-piece/penalty duty", "pts_concede": "Goals conceded"}
-COLORS = {"Minutes on pitch": "#b2bec3", "Goals": "#00b894", "Assists": "#0984e3",
-          "Clean sheet": "#fdcb6e", "Man of the Match": "#e17055", "Saves": "#a29bfe",
-          "Set-piece/penalty duty": "#fd79a8", "Goals conceded": "#d63031"}
+COLORS = theme.COMPOSITION           # semantic scoring-component colours, on the palette
 # distinct accents so a colour never means two things on one screen
-MINE_GREEN = "#00b894"      # reserved: "in your squad"
-GAIN_BLUE = "#0984e3"       # reserved: "positive transfer gain"
-NEUTRAL = "#636e72"
+MINE_GREEN = theme.ACCENT            # reserved: "in your squad" / "you"
+GAIN_BLUE = theme.INFO               # reserved: "positive / rival / info"
+NEUTRAL = theme.MUTED
 POS_ORDER = ["GK", "DEF", "MID", "FWD"]
 POS_LABEL = {"GK": "Keepers", "DEF": "Defenders", "MID": "Midfielders", "FWD": "Forwards"}
-POS_COLOR = {"GK": "#6c5ce7", "DEF": "#fdcb6e", "MID": "#74b9ff", "FWD": "#55efc4"}
+POS_COLOR = {"GK": "#B892FF", "DEF": theme.GOLD, "MID": theme.INFO, "FWD": theme.ACCENT}
 ROW_Y = {"GK": 0.7, "DEF": 2.1, "MID": 3.7, "FWD": 5.2}
 
 # national-team flag emoji (by canonical team name; FIFA code as fallback)

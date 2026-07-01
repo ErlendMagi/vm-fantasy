@@ -4,7 +4,7 @@ import streamlit as st
 
 st.set_page_config(page_title="BPG League", page_icon="🏆", layout="wide")
 
-from src import config, data_access, nav, optimizer, services, theme, viz
+from src import analytics, config, data_access, nav, optimizer, services, theme, viz
 
 nav.render("League")
 d = services.get_data()
@@ -332,137 +332,11 @@ st.dataframe(
                    "exp_left": st.column_config.NumberColumn(f"Exp. left R{live}", format="%.1f"),
                    "is_me": st.column_config.CheckboxColumn("You")})
 
-# ---------------------------------------------------------------- watch guide (after standings)
-# round {live} games that have NOT kicked off yet (played/in-progress dropped)
-watch_rows = []
-if proj_live is not None and have_squads:
-    me_row = next((m for _, m in members.iterrows() if m["is_me"] and m["squad"]), None)
-    if me_row is not None:
-        my_owned = proj_live.loc[[i for i in me_row["squad"] if i in proj_live.index]]
-        my_xi = optimizer.best_xi(my_owned, "xp_next", p_start_floor=config.XI_PSTART_FLOOR)  # my fielded XI floors playtime
-        rival_xis = []
-        for _, mm in members.iterrows():
-            if mm["is_me"] or not mm["squad"]:
-                continue
-            ow = proj_live.loc[[i for i in mm["squad"] if i in proj_live.index]]
-            if len(ow) >= 11:
-                rival_xis.append((mm["squad_name"], ow, optimizer.best_xi(ow, "xp_next")))
-
-        def stake(ow, xi_, teams):
-            sel = ow[(ow["team"].isin(teams)) & (ow["id"].isin(xi_["xi_ids"]))]
-            s = float(sel["xp_next"].sum())
-            if xi_["captain_id"] in set(sel["id"]):
-                s += float(ow.loc[xi_["captain_id"], "xp_next"])
-            return s
-
-        for fx in d["fixtures"]:
-            if fx.get("fantasy_round") != live or _ko(fx) < _now:   # drop kicked-off games
-                continue
-            ko = datetime.fromisoformat(fx["kickoff_utc"].replace("Z", "+00:00")).astimezone(OSLO)
-            teams = {fx["home"], fx["away"]}
-            mine = stake(my_owned, my_xi, teams)
-            threats = sorted(((stake(ow, xi_, teams) - mine, sn) for sn, ow, xi_ in rival_xis), reverse=True)
-            danger, threat_name = (threats[0] if threats else (0.0, "-"))
-            watch_rows.append({"ko": ko, "match": f"{viz.flag(fx['home'])} {fx['home']} – {fx['away']} {viz.flag(fx['away'])}",
-                               "mine": round(mine, 1), "danger": round(max(danger, 0), 1), "threat": threat_name})
-
-if watch_rows:
-    st.markdown(f"#### 📺 Your watch guide — round {live} (still to kick off)")
-    st.caption("Only round-{0} games that **haven't started yet** (played ones drop off). **Your stake** = "
-               "expected points your XI has riding on the match (captain ×2). **Danger** = how many points the "
-               "strongest rival gains on you there — the games that can hurt.".format(live))
-    wg = pd.DataFrame(sorted(watch_rows, key=lambda r_: r_["ko"]))
-    wg["When (Oslo)"] = wg["ko"].apply(lambda k: k.strftime("%a %d %b · %H:%M"))
-    wg["verdict"] = ["📺 must-watch" if m_ >= wg["mine"].quantile(0.7) and m_ > 0
-                     else ("⚠️ danger" if dg > 2 else "—")
-                     for m_, dg in zip(wg["mine"], wg["danger"])]
-    st.dataframe(
-        wg[["When (Oslo)", "match", "mine", "danger", "threat", "verdict"]],
-        hide_index=True, width="stretch",
-        column_config={"match": "Match", "mine": st.column_config.NumberColumn("Your stake", format="%.1f"),
-                       "danger": st.column_config.NumberColumn("Danger", format="%.1f"),
-                       "threat": "Biggest threat", "verdict": ""})
-elif proj_live is not None and have_squads:
-    st.caption(f"📺 All your round-{live} games have kicked off — the watch guide refills when round "
-               f"{live + 1}'s fixtures open.")
-
-# ---------------------------------------------------------------- rivals' squads, ranked by SPI
+# ---------------------------------------------------------------- rivals' squads + luck + pitches
 if proj is not None and have_squads:
-    from src import analytics
-    ranks = d["ranks_live"]   # live tab → live-round ranks (match the pitch the cards draw)
+    ranks = d["ranks_live"]   # live-round ranks (match the pitch the cards draw)
     floors = dict(zip(proj.index, proj["floor"]))
     ceils = dict(zip(proj.index, proj["ceiling"]))
-    managers = [{"squad_name": m["squad_name"], "manager": m["manager"], "is_me": m["is_me"],
-                 "squad": m["squad"], "total_points": m["total_points"]}
-                for _, m in members.iterrows() if m["squad"]]
-
-    # each manager's ACTUAL fielded XI + captain (synced starters when a full 11, else
-    # the model's best XI), so EVERY rank/rating/projection below — SPI, the card's
-    # 'proj pts', team_rating and 'Avg XI rank' — describes the same XI the pitch draws.
-    def _fielded(m):
-        ow = proj.loc[[pid for pid in (m.get("squad") or []) if pid in proj.index]]
-        if len(ow) < 11:
-            return None
-        best = optimizer.best_xi(ow, "xp_next")
-        starters = [pid for pid in (m.get("starter_ids") or []) if pid in ow.index]
-        xi_ids = starters if len(starters) == 11 else best["xi_ids"]
-        cap_id = m.get("captain_id") if m.get("captain_id") in ow.index else best["captain_id"]
-        return (xi_ids, cap_id)
-    fielded_full = {m["squad_name"]: _fielded(m) for _, m in members.iterrows() if m["squad"]}
-    fielded_xi = {k: (v[0] if v else []) for k, v in fielded_full.items()}
-    spi = analytics.squad_power_index(proj, managers, fielded=fielded_full)
-
-    st.subheader("🏅 Squad Power Index — every manager's team, strongest first")
-    st.caption("A 0–100 rating blending this round's projected XI (60%), whole-cup durability (25%) and "
-               "value-per-million (15%), graded across your league.")
-    rev = spi.iloc[::-1]  # plotly draws horizontal bars bottom-up
-    sbar = go.Figure(go.Bar(
-        x=rev["SPI"], y=[f"{'🟢 ' if me else ''}{sn}" for sn, me in zip(rev["squad_name"], rev["is_me"])],
-        orientation="h", marker_color=[colour.get(sn, viz.NEUTRAL) for sn in rev["squad_name"]],
-        text=[f"{v:.0f}" for v in rev["SPI"]], textposition="outside", cliponaxis=False))
-    sbar.update_layout(height=90 + 34 * len(spi), xaxis=dict(title="Squad Power Index", range=[0, 108]),
-                       margin=dict(l=10, r=10, t=10, b=10))
-    st.plotly_chart(sbar, width="stretch", config={"displayModeBar": False})
-
-    # ---- overall player-quality + ROI, one number each, you vs rivals ----
-    a, b = st.columns(2)
-    qual_rows = []
-    for mgr in managers:
-        tr = analytics.team_rating(proj, mgr["squad"], ranks, xi_ids=fielded_xi.get(mgr["squad_name"]))
-        owned_m = proj.loc[[i for i in mgr["squad"] if i in proj.index]]
-        cost = max(float(owned_m["price"].sum()), 0.1)
-        qual_rows.append({"squad_name": mgr["squad_name"], "is_me": mgr["is_me"],
-                          "avg_rank": tr["avg_rank_overall"],
-                          "actual_roi": round(mgr["total_points"] / cost, 2),
-                          "proj_roi": round(float(spi.set_index("squad_name").loc[mgr["squad_name"], "proj_tour"]) / cost, 2)
-                          if mgr["squad_name"] in set(spi["squad_name"]) else 0.0})
-    qd = pd.DataFrame(qual_rows)
-    with a:
-        st.markdown("**🎖️ Overall player quality** — average rank of each XI across *all* positions "
-                    "(lower = better players)")
-        q = qd.sort_values("avg_rank", ascending=False)  # plotly bottom-up: best ends on top
-        qf = go.Figure(go.Bar(
-            x=q["avg_rank"], y=[f"{'🟢 ' if me else ''}{s}" for s, me in zip(q["squad_name"], q["is_me"])],
-            orientation="h", marker_color=[colour.get(s, viz.NEUTRAL) for s in q["squad_name"]],
-            text=[f"#{v:.0f}" for v in q["avg_rank"]], textposition="outside", cliponaxis=False))
-        qf.update_layout(height=70 + 32 * len(q), xaxis_title="Avg player rank in XI (lower = better)",
-                         margin=dict(l=10, r=10, t=6, b=10))
-        st.plotly_chart(qf, width="stretch", config={"displayModeBar": False})
-    with b:
-        st.markdown("**💸 Squad ROI** — points per million spent: actual so far (solid) and expected "
-                    "for the whole cup (faded). **Sorted by expected cup ROI**, so the solid 'actual' bars "
-                    "needn't decrease in step.")
-        r = qd.sort_values("proj_roi")
-        labels = [f"{'🟢 ' if me else ''}{s}" for s, me in zip(r["squad_name"], r["is_me"])]
-        rf = go.Figure()
-        rf.add_bar(x=r["proj_roi"], y=labels, orientation="h", name="expected (cup)",
-                   marker_color=[colour.get(s, viz.NEUTRAL) for s in r["squad_name"]], opacity=0.35,
-                   text=[f"{v:.2f}" for v in r["proj_roi"]], textposition="outside", cliponaxis=False)
-        rf.add_bar(x=r["actual_roi"], y=labels, orientation="h", name="actual so far",
-                   marker_color=[colour.get(s, viz.NEUTRAL) for s in r["squad_name"]])
-        rf.update_layout(barmode="overlay", height=70 + 32 * len(r), xaxis_title="points per million",
-                         legend=dict(orientation="h", y=-0.3), margin=dict(l=10, r=10, t=6, b=10))
-        st.plotly_chart(rf, width="stretch", config={"displayModeBar": False})
 
     # ---- luck over time: cumulative over/under-performance vs the field ----
     st.subheader("🎲 Luck — cumulative over/under-performance vs the field")
@@ -510,29 +384,13 @@ if proj is not None and have_squads:
     else:
         st.caption("Luck lines appear once the first round has been scored.")
 
-    if not spi.empty and not spi.iloc[0]["is_me"]:
-        with st.expander("🤔 Why isn't my team #1 on the projection?"):
-            st.markdown(
-                f"This board ranks teams by the **Squad Power Index** — a blend of your projected round-{live} "
-                "XI (60%), whole-cup durability (25%) and value-per-million (15%) — not who could build the "
-                "best team today. Three reasons you can sit behind a rival here and it's still fine:\n\n"
-                "1. **You're rules-locked.** Each round you only get **2 free transfers** (a 3rd "
-                "costs −4 pts), so you can't rebuild to the current optimum in one week — a small gap is often "
-                "less than a single −4 hit.\n"
-                "2. **You're built for the whole cup, not one week.** The autopilot maximises rest-of-tournament "
-                "value; a rival can have softer fixtures *this specific round*.\n"
-                "3. **The autopilot re-optimises right before each deadline** on the freshest odds and makes the "
-                "best transfers/captain within your free transfers — so your team climbs toward the top over the "
-                "tournament rather than leading every single week.")
-
     # ---- rival pitches, always visible, in columns ----
     st.subheader("🔍 Everyone's team")
-    st.caption("Each manager's XI on the pitch with photos, flags, price, rank and expected points. "
-               "Sorted by Squad Power Index.")
+    st.caption("Each manager's XI on the pitch — photos, flags, price and points. Sorted by total points.")
     history = data_access.load_league_history().get("rounds", {})
     prev_round = str((league.get("current_round") or 2) - 1)
     prev_members = (history.get(prev_round) or {}).get("members", {})
-    ordered = spi.merge(members, on=["squad_name", "manager", "is_me"], suffixes=("", "_m"))
+    ordered = members[members["squad"].apply(len) > 0].sort_values("total_points", ascending=False)
     cols = st.columns(2)
     for i, (_, m) in enumerate(ordered.iterrows()):
         owned = proj.loc[[pid for pid in m["squad"] if pid in proj.index]]
@@ -551,8 +409,7 @@ if proj is not None and have_squads:
         rating = analytics.team_rating(proj, m["squad"], ranks, xi_ids=xi_ids)
         with cols[i % 2]:
             st.markdown(f"### {'🟢 ' if m['is_me'] else ''}{m['squad_name']}")
-            st.caption(f"**{m['manager']}** · SPI {m['SPI']:.0f} · {formation} · {m['proj_next']:.0f} proj pts · "
-                       f"{m['total_points']} actual · {owned['price'].sum():.0f}M")
+            st.caption(f"**{m['manager']}** · {formation} · {m['total_points']} pts · {owned['price'].sum():.0f}M")
             cap_nm = viz.short_name(owned.loc[cap_id, "name"]) if cap_id in owned.index else "—"
             vice_nm = viz.short_name(owned.loc[vice_id, "name"]) if vice_id in owned.index else "—"
             st.caption(f"🟠 **C** {cap_nm}  ·  🔵 **V** {vice_nm}")

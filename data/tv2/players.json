@@ -1,5 +1,5 @@
 {
- "synced_at": "2026-07-02T03:50:17.207544+00:00",
+ "synced_at": "2026-07-02T03:50:43.170426+00:00",
  "source": "xhr",
  "players": [
   {
@@ -217,7 +217,7 @@
    "team_code": "ALG",
    "position": "FWD",
    "price": 4.5,
-   "ownership_pct": 0.653,
+   "ownership_pct": 0.654,
    "total_points": 0,
    "round_points": {},
    "status": "available",
@@ -5909,7 +5909,7 @@
    "team_code": "NOR",
    "position": "DEF",
    "price": 5.0,
-   "ownership_pct": 4.13,
+   "ownership_pct": 4.131,
    "total_points": 0,
    "round_points": {},
    "status": "available",
@@ -7101,7 +7101,7 @@
    "team_code": "SEN",
    "position": "FWD",
    "price": 6.5,
-   "ownership_pct": 3.335,
+   "ownership_pct": 3.334,
    "total_points": 0,
    "round_points": {},
    "status": "available",
@@ -7501,7 +7501,7 @@
    "team_code": "ESP",
    "position": "FWD",
    "price": 9.0,
-   "ownership_pct": 15.466,
+   "ownership_pct": 15.467,
    "total_points": 20,
    "round_points": {
     "1": 3,

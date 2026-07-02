@@ -664,7 +664,7 @@
    }
   },
   "5": {
-   "synced_at": "2026-07-02T18:24:06.635133+00:00",
+   "synced_at": "2026-07-02T19:59:57.477112+00:00",
    "members": {
     "USTAB IL": {
      "manager": "julle",
@@ -700,7 +700,7 @@
      ],
      "captain_id": "32b8a7d5-97b7-40f9-8385-88a091bfbdf6",
      "formation": "4-3-3",
-     "total_points": 242
+     "total_points": 247
     },
     "Republikken Jonaland": {
      "manager": "Jonathan",
@@ -736,7 +736,7 @@
      ],
      "captain_id": "56896831-e471-495a-b9d2-e9d87606b0ab",
      "formation": "3-4-3",
-     "total_points": 235
+     "total_points": 240
     },
     "6                              7": {
      "manager": "Preben",
@@ -772,7 +772,7 @@
      ],
      "captain_id": "b5e2ee3e-eb94-4460-827f-32f2f39db023",
      "formation": "3-4-3",
-     "total_points": 234
+     "total_points": 239
     },
     "Storgambler FC": {
      "manager": "Thomas",
@@ -808,7 +808,7 @@
      ],
      "captain_id": "b5e2ee3e-eb94-4460-827f-32f2f39db023",
      "formation": "3-4-3",
-     "total_points": 228
+     "total_points": 233
     },
     "I dont know what I am doing": {
      "manager": "Jostein",
@@ -880,7 +880,7 @@
      ],
      "captain_id": "79765177-f1e1-4230-8f2c-922e3d5cde76",
      "formation": "3-5-2",
-     "total_points": 178
+     "total_points": 183
     }
    }
   }

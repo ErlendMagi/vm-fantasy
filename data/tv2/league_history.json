@@ -664,7 +664,7 @@
    }
   },
   "5": {
-   "synced_at": "2026-07-03T19:08:16.569863+00:00",
+   "synced_at": "2026-07-03T20:36:17.631816+00:00",
    "members": {
     "USTAB IL": {
      "manager": "julle",
@@ -808,7 +808,7 @@
      ],
      "captain_id": "56896831-e471-495a-b9d2-e9d87606b0ab",
      "formation": "3-4-3",
-     "total_points": 256
+     "total_points": 255
     },
     "I dont know what I am doing": {
      "manager": "Jostein",
@@ -880,7 +880,7 @@
      ],
      "captain_id": "79765177-f1e1-4230-8f2c-922e3d5cde76",
      "formation": "3-5-2",
-     "total_points": 203
+     "total_points": 204
     }
    }
   }

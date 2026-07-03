@@ -100,19 +100,19 @@
    "expected": 44.4,
    "expected_full": 53.6,
    "expected_played": 48.3,
-   "actual": 46,
+   "actual": 52,
    "played": 9,
    "starters": 11,
    "finalized": false,
    "by_pos": {
     "GK": {
      "expected": 3.75,
-     "actual": 1.0,
+     "actual": 6.0,
      "n": 1
     },
     "DEF": {
-     "expected": 5.07,
-     "actual": 18.0,
+     "expected": 5.08,
+     "actual": 19.0,
      "n": 2
     },
     "?": {
@@ -131,7 +131,7 @@
      "n": 1
     }
    },
-   "updated_at": "2026-07-03T03:33:53.906993+00:00"
+   "updated_at": "2026-07-03T07:23:35.114546+00:00"
   }
  }
 }

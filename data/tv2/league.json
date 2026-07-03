@@ -1,5 +1,5 @@
 {
- "synced_at": "2026-07-03T20:36:48.902236+00:00",
+ "synced_at": "2026-07-03T22:00:03.632623+00:00",
  "current_round": 5,
  "leagues": [
   {
@@ -219,6 +219,7 @@
         "1d8fbd81-3902-4363-ba31-900b5793de66": 3,
         "c91b73b7-d7b5-40d0-9a10-379ca315abc3": 2,
         "7645e3fe-cf66-4caf-81f4-12c9f816ec1e": 3,
+        "463b94c8-ee4a-4906-9bf7-ab52f2504aa9": 0,
         "584d64cb-43d5-4300-b5f9-f7b568dfa929": 2,
         "635dd97c-987e-473c-9a7e-eba67ad2edef": 0,
         "475fd155-6316-4032-870c-0b81b0cc55c3": 6,
@@ -439,6 +440,7 @@
         "f00150a1-6e98-40d8-91eb-3c7d72c28ac3": 4,
         "3ab1b429-a4a7-411d-85a3-ec5acb922398": 13,
         "8a04907a-aebc-488a-b125-d4edc878a391": 6,
+        "f55c7c50-78a7-4ba3-87ae-3853df6cd8f7": 0,
         "d152738e-f1b5-442f-93b7-32d4aaac36b1": 11,
         "635dd97c-987e-473c-9a7e-eba67ad2edef": 0
        }
@@ -651,6 +653,7 @@
        "scores": {
         "bbc5a321-66a2-4285-9fe4-822f064efec7": 6,
         "37083f32-812e-43de-ab1b-aa999648b146": 2,
+        "56896831-e471-495a-b9d2-e9d87606b0ab": 0,
         "2ff2269a-9c21-40ce-84d4-c30c24275a43": 3,
         "b5e2ee3e-eb94-4460-827f-32f2f39db023": 26,
         "507b33bf-b139-4bbf-a14e-44abd9597bed": 4,
@@ -873,6 +876,8 @@
         "cd2b9e05-c249-4c21-9717-da200132d043": 14,
         "c5426c55-9dee-4b81-a249-369c5afac644": 0,
         "69128071-724f-4e9f-ab0a-ab8eb937cbf8": 7,
+        "f55c7c50-78a7-4ba3-87ae-3853df6cd8f7": 0,
+        "56896831-e471-495a-b9d2-e9d87606b0ab": 0,
         "79765177-f1e1-4230-8f2c-922e3d5cde76": 3,
         "f15544d1-3bb8-49c0-b356-cba21e1078e3": 7,
         "21af8d29-db66-49ba-ac07-eea18b504e53": 0,
@@ -1093,6 +1098,7 @@
         "13993950-3e6e-4572-bb03-916cdc1af3b9": 5,
         "4128e206-4953-473a-b332-29fd09c83576": 2,
         "a00e6c19-157f-4466-9c7e-a2ffc2188a1b": 9,
+        "56896831-e471-495a-b9d2-e9d87606b0ab": 0,
         "14f15c08-aff9-4e0f-abbd-977eea79f97d": 2,
         "8a04907a-aebc-488a-b125-d4edc878a391": 6,
         "2ede12ab-22a0-42c3-88e0-0ee24466c034": 3,
@@ -1315,6 +1321,7 @@
         "d152738e-f1b5-442f-93b7-32d4aaac36b1": 11,
         "1d8fbd81-3902-4363-ba31-900b5793de66": 3,
         "7645e3fe-cf66-4caf-81f4-12c9f816ec1e": 3,
+        "dcbc593f-bf0c-4b2e-ba2d-cac9221d5bff": 0,
         "00e18352-b860-42be-9266-a80e9fd6acda": 6,
         "cedf7811-5ff9-4323-9608-78bdba52bf38": 2,
         "5c94b0f6-fe80-4e88-99ea-ce08e2ee9377": 0,
@@ -1329,7 +1336,7 @@
   {
    "name": "Oslo",
    "league_id": "9427c891-ef7c-4e41-ad77-efc3222ab02e",
-   "my_rank": 9175,
+   "my_rank": 9180,
    "members": [
     {
      "manager": "Henrik",
@@ -5036,7 +5043,7 @@
   {
    "name": "Østensjø",
    "league_id": "e9370530-7abb-41a2-ac24-6c71937fa8a6",
-   "my_rank": 614,
+   "my_rank": 615,
    "members": [
     {
      "manager": "Patrik",
@@ -8184,10 +8191,47 @@
      "rounds": []
     },
     {
+     "manager": "Petter",
+     "squad_name": "Eltvig",
+     "squad_id": "a469778a-2c0b-4727-baee-5c842c47d8c0",
+     "rank": 83,
+     "total_points": 279,
+     "latest_round_points": 60,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 90
+      },
+      {
+       "roundNumber": 2,
+       "roundName": "Runde 2 - Gruppespill",
+       "points": 81
+      },
+      {
+       "roundNumber": 3,
+       "roundName": "Runde 3 - Gruppespill",
+       "points": 48
+      },
+      {
+       "roundNumber": 4,
+       "roundName": "Runde 4 - Sluttspill",
+       "points": 60
+      }
+     ],
+     "squad": [],
+     "starter_ids": [],
+     "bench_ids": [],
+     "captain_id": null,
+     "vice_captain_id": null,
+     "formation": null,
+     "rounds": []
+    },
+    {
      "manager": "THERESE HARP",
      "squad_name": "FC Hockey",
      "squad_id": "a1fb3e0b-ce0d-4069-ab8c-d3b6b0af5880",
-     "rank": 86,
+     "rank": 87,
      "total_points": 278,
      "latest_round_points": 79,
      "round_scores": [
@@ -8224,7 +8268,7 @@
      "manager": "Even",
      "squad_name": "De beste",
      "squad_id": "4a88ea8a-138e-4a93-979a-12abcd410bac",
-     "rank": 86,
+     "rank": 87,
      "total_points": 278,
      "latest_round_points": 76,
      "round_scores": [
@@ -8258,47 +8302,10 @@
      "rounds": []
     },
     {
-     "manager": "Petter",
-     "squad_name": "Eltvig",
-     "squad_id": "a469778a-2c0b-4727-baee-5c842c47d8c0",
-     "rank": 86,
-     "total_points": 278,
-     "latest_round_points": 59,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 90
-      },
-      {
-       "roundNumber": 2,
-       "roundName": "Runde 2 - Gruppespill",
-       "points": 81
-      },
-      {
-       "roundNumber": 3,
-       "roundName": "Runde 3 - Gruppespill",
-       "points": 48
-      },
-      {
-       "roundNumber": 4,
-       "roundName": "Runde 4 - Sluttspill",
-       "points": 59
-      }
-     ],
-     "squad": [],
-     "starter_ids": [],
-     "bench_ids": [],
-     "captain_id": null,
-     "vice_captain_id": null,
-     "formation": null,
-     "rounds": []
-    },
-    {
      "manager": "RITTIK",
      "squad_name": "Gutta fra Calcutta",
      "squad_id": "4742ecf3-227d-46ce-8f1d-15138c6c85c9",
-     "rank": 86,
+     "rank": 87,
      "total_points": 278,
      "latest_round_points": 59,
      "round_scores": [
@@ -8335,7 +8342,7 @@
      "manager": "Jørgen ",
      "squad_name": "Banjolaget",
      "squad_id": "b1735671-6d40-41a5-a82a-aded11c1f2b5",
-     "rank": 86,
+     "rank": 87,
      "total_points": 278,
      "latest_round_points": 50,
      "round_scores": [

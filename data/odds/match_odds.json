@@ -1,6 +1,6 @@
 {
- "fetched_at": "2026-07-04T12:10:17.950366+00:00",
- "credits_remaining": "473",
+ "fetched_at": "2026-07-04T14:40:41.815641+00:00",
+ "credits_remaining": "462",
  "sport_key": "soccer_fifa_world_cup",
  "matches": [
   {
@@ -8,14 +8,14 @@
    "away": "Morocco",
    "kickoff_utc": "2026-07-04T17:00:00Z",
    "h2h": {
-    "home": 5.5,
-    "draw": 3.49,
-    "away": 1.76
+    "home": 5.6,
+    "draw": 3.5,
+    "away": 1.74
    },
    "totals": {
     "line": 2.5,
-    "over": 2.21,
-    "under": 1.68
+    "over": 2.2,
+    "under": 1.67
    }
   },
   {
@@ -23,7 +23,7 @@
    "away": "France",
    "kickoff_utc": "2026-07-04T21:00:00Z",
    "h2h": {
-    "home": 18.0,
+    "home": 17.0,
     "draw": 7.25,
     "away": 1.18
    },
@@ -38,13 +38,13 @@
    "away": "Norway",
    "kickoff_utc": "2026-07-05T20:00:00Z",
    "h2h": {
-    "home": 1.82,
-    "draw": 3.77,
-    "away": 4.4
+    "home": 1.83,
+    "draw": 3.75,
+    "away": 4.35
    },
    "totals": {
     "line": 2.5,
-    "over": 1.76,
+    "over": 1.73,
     "under": 2.08
    }
   },
@@ -53,13 +53,13 @@
    "away": "England",
    "kickoff_utc": "2026-07-06T00:00:00Z",
    "h2h": {
-    "home": 3.15,
-    "draw": 3.24,
-    "away": 2.42
+    "home": 3.1,
+    "draw": 3.22,
+    "away": 2.44
    },
    "totals": {
     "line": 2.5,
-    "over": 2.38,
+    "over": 2.4,
     "under": 1.57
    }
   },
@@ -70,11 +70,11 @@
    "h2h": {
     "home": 4.1,
     "draw": 3.65,
-    "away": 1.9
+    "away": 1.91
    },
    "totals": {
     "line": 2.5,
-    "over": 1.84,
+    "over": 1.83,
     "under": 1.95
    }
   },
@@ -85,11 +85,11 @@
    "h2h": {
     "home": 2.75,
     "draw": 3.4,
-    "away": 2.6
+    "away": 2.63
    },
    "totals": {
     "line": 2.5,
-    "over": 1.77,
+    "over": 1.78,
     "under": 2.05
    }
   },
@@ -100,12 +100,12 @@
    "h2h": {
     "home": 1.36,
     "draw": 4.9,
-    "away": 9.66
+    "away": 9.6
    },
    "totals": {
     "line": 2.5,
     "over": 2.0,
-    "under": 1.85
+    "under": 1.81
    }
   },
   {
@@ -113,14 +113,14 @@
    "away": "Colombia",
    "kickoff_utc": "2026-07-07T20:00:00Z",
    "h2h": {
-    "home": 3.5,
+    "home": 3.45,
     "draw": 3.2,
     "away": 2.25
    },
    "totals": {
     "line": 2.5,
-    "over": 2.35,
-    "under": 1.62
+    "over": 2.29,
+    "under": 1.63
    }
   }
  ]

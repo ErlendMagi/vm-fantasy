@@ -664,7 +664,7 @@
    }
   },
   "5": {
-   "synced_at": "2026-07-04T20:05:44.377317+00:00",
+   "synced_at": "2026-07-04T21:26:26.293718+00:00",
    "members": {
     "Republikken Jonaland": {
      "manager": "Jonathan",
@@ -700,7 +700,7 @@
      ],
      "captain_id": "b5e2ee3e-eb94-4460-827f-32f2f39db023",
      "formation": "3-4-3",
-     "total_points": 302
+     "total_points": 305
     },
     "USTAB IL": {
      "manager": "julle",
@@ -736,7 +736,7 @@
      ],
      "captain_id": "b5e2ee3e-eb94-4460-827f-32f2f39db023",
      "formation": "4-3-3",
-     "total_points": 284
+     "total_points": 287
     },
     "6                              7": {
      "manager": "Preben",
@@ -772,7 +772,7 @@
      ],
      "captain_id": "b5e2ee3e-eb94-4460-827f-32f2f39db023",
      "formation": "3-4-3",
-     "total_points": 283
+     "total_points": 287
     },
     "Storgambler FC": {
      "manager": "Thomas",
@@ -808,7 +808,7 @@
      ],
      "captain_id": "b5e2ee3e-eb94-4460-827f-32f2f39db023",
      "formation": "3-4-3",
-     "total_points": 275
+     "total_points": 279
     },
     "I dont know what I am doing": {
      "manager": "Jostein",
@@ -844,7 +844,7 @@
      ],
      "captain_id": "56896831-e471-495a-b9d2-e9d87606b0ab",
      "formation": "3-4-3",
-     "total_points": 258
+     "total_points": 260
     },
     "Erlend er best": {
      "manager": "Erlend",
@@ -880,7 +880,7 @@
      ],
      "captain_id": "d152738e-f1b5-442f-93b7-32d4aaac36b1",
      "formation": "3-4-3",
-     "total_points": 191
+     "total_points": 195
     }
    }
   }

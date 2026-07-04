@@ -1,23 +1,23 @@
 {
- "fetched_at": "2026-07-04T10:56:13.510075+00:00",
- "credits_remaining": "483",
+ "fetched_at": "2026-07-04T12:10:18.137981+00:00",
+ "credits_remaining": "472",
  "sport_key": "soccer_fifa_world_cup_winner",
  "prices": {
   "France": 3.0,
-  "Argentina": 6.0,
+  "Argentina": 5.9,
   "Spain": 7.4,
   "England": 13.0,
   "Brazil": 14.0,
-  "Portugal": 16.0,
+  "Portugal": 16.5,
   "Colombia": 29.0,
-  "Mexico": 30.0,
+  "Mexico": 32.0,
+  "Morocco": 38.0,
   "USA": 40.0,
-  "Morocco": 40.0,
   "Norway": 50.0,
   "Belgium": 75.0,
   "Switzerland": 100.0,
   "Canada": 360.0,
-  "Egypt": 420.0,
+  "Egypt": 470.0,
   "Paraguay": 520.0
  }
 }

@@ -98,8 +98,8 @@
   },
   "4": {
    "expected": 44.4,
-   "expected_full": 48.4,
-   "expected_played": 48.4,
+   "expected_full": 48.3,
+   "expected_played": 48.3,
    "actual": 56,
    "played": 11,
    "starters": 11,
@@ -121,7 +121,7 @@
      "n": 1
     },
     "MID": {
-     "expected": 25.85,
+     "expected": 25.82,
      "actual": 21.0,
      "n": 5
     },
@@ -131,7 +131,7 @@
      "n": 2
     }
    },
-   "updated_at": "2026-07-05T03:40:40.108631+00:00"
+   "updated_at": "2026-07-05T07:29:38.201927+00:00"
   }
  }
 }

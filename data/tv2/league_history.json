@@ -883,6 +883,227 @@
      "total_points": 215
     }
    }
+  },
+  "6": {
+   "synced_at": "2026-07-06T08:23:39.055873+00:00",
+   "members": {
+    "Republikken Jonaland": {
+     "manager": "Jonathan",
+     "squad": [
+      "bbc5a321-66a2-4285-9fe4-822f064efec7",
+      "7a06da13-07bf-4c98-8b0d-d70889165c70",
+      "b5e2ee3e-eb94-4460-827f-32f2f39db023",
+      "cd2b9e05-c249-4c21-9717-da200132d043",
+      "f55c7c50-78a7-4ba3-87ae-3853df6cd8f7",
+      "56896831-e471-495a-b9d2-e9d87606b0ab",
+      "79765177-f1e1-4230-8f2c-922e3d5cde76",
+      "d152738e-f1b5-442f-93b7-32d4aaac36b1",
+      "cedf7811-5ff9-4323-9608-78bdba52bf38",
+      "2ff2269a-9c21-40ce-84d4-c30c24275a43",
+      "507b33bf-b139-4bbf-a14e-44abd9597bed",
+      "21af8d29-db66-49ba-ac07-eea18b504e53",
+      "21b15e87-3a84-4b47-9d94-7f808fe40e94",
+      "c46375fa-4dfc-4e94-a590-5b61842477ae",
+      "c5426c55-9dee-4b81-a249-369c5afac644"
+     ],
+     "starter_ids": [
+      "bbc5a321-66a2-4285-9fe4-822f064efec7",
+      "7a06da13-07bf-4c98-8b0d-d70889165c70",
+      "b5e2ee3e-eb94-4460-827f-32f2f39db023",
+      "cd2b9e05-c249-4c21-9717-da200132d043",
+      "f55c7c50-78a7-4ba3-87ae-3853df6cd8f7",
+      "56896831-e471-495a-b9d2-e9d87606b0ab",
+      "79765177-f1e1-4230-8f2c-922e3d5cde76",
+      "d152738e-f1b5-442f-93b7-32d4aaac36b1",
+      "cedf7811-5ff9-4323-9608-78bdba52bf38",
+      "2ff2269a-9c21-40ce-84d4-c30c24275a43",
+      "507b33bf-b139-4bbf-a14e-44abd9597bed"
+     ],
+     "captain_id": "b5e2ee3e-eb94-4460-827f-32f2f39db023",
+     "formation": "3-4-3",
+     "total_points": 326
+    },
+    "USTAB IL": {
+     "manager": "julle",
+     "squad": [
+      "8a04907a-aebc-488a-b125-d4edc878a391",
+      "3ab1b429-a4a7-411d-85a3-ec5acb922398",
+      "32b8a7d5-97b7-40f9-8385-88a091bfbdf6",
+      "7a06da13-07bf-4c98-8b0d-d70889165c70",
+      "463b94c8-ee4a-4906-9bf7-ab52f2504aa9",
+      "584d64cb-43d5-4300-b5f9-f7b568dfa929",
+      "b5e2ee3e-eb94-4460-827f-32f2f39db023",
+      "475fd155-6316-4032-870c-0b81b0cc55c3",
+      "507b33bf-b139-4bbf-a14e-44abd9597bed",
+      "f55c7c50-78a7-4ba3-87ae-3853df6cd8f7",
+      "bbc5a321-66a2-4285-9fe4-822f064efec7",
+      "635dd97c-987e-473c-9a7e-eba67ad2edef",
+      "cedf7811-5ff9-4323-9608-78bdba52bf38",
+      "c5426c55-9dee-4b81-a249-369c5afac644",
+      "c46375fa-4dfc-4e94-a590-5b61842477ae"
+     ],
+     "starter_ids": [
+      "8a04907a-aebc-488a-b125-d4edc878a391",
+      "3ab1b429-a4a7-411d-85a3-ec5acb922398",
+      "32b8a7d5-97b7-40f9-8385-88a091bfbdf6",
+      "7a06da13-07bf-4c98-8b0d-d70889165c70",
+      "463b94c8-ee4a-4906-9bf7-ab52f2504aa9",
+      "584d64cb-43d5-4300-b5f9-f7b568dfa929",
+      "b5e2ee3e-eb94-4460-827f-32f2f39db023",
+      "475fd155-6316-4032-870c-0b81b0cc55c3",
+      "507b33bf-b139-4bbf-a14e-44abd9597bed",
+      "f55c7c50-78a7-4ba3-87ae-3853df6cd8f7",
+      "bbc5a321-66a2-4285-9fe4-822f064efec7"
+     ],
+     "captain_id": "b5e2ee3e-eb94-4460-827f-32f2f39db023",
+     "formation": "4-3-3",
+     "total_points": 316
+    },
+    "6                              7": {
+     "manager": "Preben",
+     "squad": [
+      "b5e2ee3e-eb94-4460-827f-32f2f39db023",
+      "7a06da13-07bf-4c98-8b0d-d70889165c70",
+      "bbc5a321-66a2-4285-9fe4-822f064efec7",
+      "5782b687-70d6-4be8-88eb-b78880f9fa7d",
+      "f00150a1-6e98-40d8-91eb-3c7d72c28ac3",
+      "3ab1b429-a4a7-411d-85a3-ec5acb922398",
+      "8a04907a-aebc-488a-b125-d4edc878a391",
+      "f55c7c50-78a7-4ba3-87ae-3853df6cd8f7",
+      "d152738e-f1b5-442f-93b7-32d4aaac36b1",
+      "2ff2269a-9c21-40ce-84d4-c30c24275a43",
+      "cd2b9e05-c249-4c21-9717-da200132d043",
+      "635dd97c-987e-473c-9a7e-eba67ad2edef",
+      "753caed2-2027-4cf4-af65-26f554b96263",
+      "cb6156b9-aa0c-4341-9e97-3785532cc888",
+      "c46375fa-4dfc-4e94-a590-5b61842477ae"
+     ],
+     "starter_ids": [
+      "b5e2ee3e-eb94-4460-827f-32f2f39db023",
+      "7a06da13-07bf-4c98-8b0d-d70889165c70",
+      "bbc5a321-66a2-4285-9fe4-822f064efec7",
+      "5782b687-70d6-4be8-88eb-b78880f9fa7d",
+      "f00150a1-6e98-40d8-91eb-3c7d72c28ac3",
+      "3ab1b429-a4a7-411d-85a3-ec5acb922398",
+      "8a04907a-aebc-488a-b125-d4edc878a391",
+      "f55c7c50-78a7-4ba3-87ae-3853df6cd8f7",
+      "d152738e-f1b5-442f-93b7-32d4aaac36b1",
+      "2ff2269a-9c21-40ce-84d4-c30c24275a43",
+      "cd2b9e05-c249-4c21-9717-da200132d043"
+     ],
+     "captain_id": "b5e2ee3e-eb94-4460-827f-32f2f39db023",
+     "formation": "3-4-3",
+     "total_points": 307
+    },
+    "Storgambler FC": {
+     "manager": "Thomas",
+     "squad": [
+      "bbc5a321-66a2-4285-9fe4-822f064efec7",
+      "56896831-e471-495a-b9d2-e9d87606b0ab",
+      "2ff2269a-9c21-40ce-84d4-c30c24275a43",
+      "b5e2ee3e-eb94-4460-827f-32f2f39db023",
+      "507b33bf-b139-4bbf-a14e-44abd9597bed",
+      "a00e6c19-157f-4466-9c7e-a2ffc2188a1b",
+      "cd2b9e05-c249-4c21-9717-da200132d043",
+      "475fd155-6316-4032-870c-0b81b0cc55c3",
+      "3ab1b429-a4a7-411d-85a3-ec5acb922398",
+      "d152738e-f1b5-442f-93b7-32d4aaac36b1",
+      "8a04907a-aebc-488a-b125-d4edc878a391",
+      "635dd97c-987e-473c-9a7e-eba67ad2edef",
+      "c46375fa-4dfc-4e94-a590-5b61842477ae",
+      "537bbdcb-6ebf-412f-8dc6-c29f16420382",
+      "3fa8a2d2-9d57-4f9c-a712-99f9b097e414"
+     ],
+     "starter_ids": [
+      "bbc5a321-66a2-4285-9fe4-822f064efec7",
+      "56896831-e471-495a-b9d2-e9d87606b0ab",
+      "2ff2269a-9c21-40ce-84d4-c30c24275a43",
+      "b5e2ee3e-eb94-4460-827f-32f2f39db023",
+      "507b33bf-b139-4bbf-a14e-44abd9597bed",
+      "a00e6c19-157f-4466-9c7e-a2ffc2188a1b",
+      "cd2b9e05-c249-4c21-9717-da200132d043",
+      "475fd155-6316-4032-870c-0b81b0cc55c3",
+      "3ab1b429-a4a7-411d-85a3-ec5acb922398",
+      "d152738e-f1b5-442f-93b7-32d4aaac36b1",
+      "8a04907a-aebc-488a-b125-d4edc878a391"
+     ],
+     "captain_id": "b5e2ee3e-eb94-4460-827f-32f2f39db023",
+     "formation": "3-4-3",
+     "total_points": 299
+    },
+    "I dont know what I am doing": {
+     "manager": "Jostein",
+     "squad": [
+      "1ac149aa-ce4a-45fe-a968-66e42d74c6d0",
+      "bbc5a321-66a2-4285-9fe4-822f064efec7",
+      "13993950-3e6e-4572-bb03-916cdc1af3b9",
+      "7a06da13-07bf-4c98-8b0d-d70889165c70",
+      "4128e206-4953-473a-b332-29fd09c83576",
+      "a00e6c19-157f-4466-9c7e-a2ffc2188a1b",
+      "56896831-e471-495a-b9d2-e9d87606b0ab",
+      "93dc4bc4-cdba-4848-b641-a23d043f1612",
+      "8a04907a-aebc-488a-b125-d4edc878a391",
+      "cd2b9e05-c249-4c21-9717-da200132d043",
+      "142454fd-5dc2-42bf-ba69-2d949fdf93ac",
+      "2ede12ab-22a0-42c3-88e0-0ee24466c034",
+      "14f15c08-aff9-4e0f-abbd-977eea79f97d",
+      "cedf7811-5ff9-4323-9608-78bdba52bf38",
+      "0daf8375-dddd-4b10-9246-907d7b6b34bc"
+     ],
+     "starter_ids": [
+      "1ac149aa-ce4a-45fe-a968-66e42d74c6d0",
+      "bbc5a321-66a2-4285-9fe4-822f064efec7",
+      "13993950-3e6e-4572-bb03-916cdc1af3b9",
+      "7a06da13-07bf-4c98-8b0d-d70889165c70",
+      "4128e206-4953-473a-b332-29fd09c83576",
+      "a00e6c19-157f-4466-9c7e-a2ffc2188a1b",
+      "56896831-e471-495a-b9d2-e9d87606b0ab",
+      "93dc4bc4-cdba-4848-b641-a23d043f1612",
+      "8a04907a-aebc-488a-b125-d4edc878a391",
+      "cd2b9e05-c249-4c21-9717-da200132d043",
+      "142454fd-5dc2-42bf-ba69-2d949fdf93ac"
+     ],
+     "captain_id": "56896831-e471-495a-b9d2-e9d87606b0ab",
+     "formation": "3-4-3",
+     "total_points": 278
+    },
+    "Erlend er best": {
+     "manager": "Erlend",
+     "squad": [
+      "9a6d69d5-2ae2-4349-92e8-9715f997b343",
+      "3ab1b429-a4a7-411d-85a3-ec5acb922398",
+      "f55c7c50-78a7-4ba3-87ae-3853df6cd8f7",
+      "7a06da13-07bf-4c98-8b0d-d70889165c70",
+      "d152738e-f1b5-442f-93b7-32d4aaac36b1",
+      "8a04907a-aebc-488a-b125-d4edc878a391",
+      "2ff2269a-9c21-40ce-84d4-c30c24275a43",
+      "cedf7811-5ff9-4323-9608-78bdba52bf38",
+      "56896831-e471-495a-b9d2-e9d87606b0ab",
+      "b5e2ee3e-eb94-4460-827f-32f2f39db023",
+      "1fe567d6-5769-426a-bb08-cd9e38d61001",
+      "bbc5a321-66a2-4285-9fe4-822f064efec7",
+      "475fd155-6316-4032-870c-0b81b0cc55c3",
+      "00e18352-b860-42be-9266-a80e9fd6acda",
+      "c5426c55-9dee-4b81-a249-369c5afac644"
+     ],
+     "starter_ids": [
+      "9a6d69d5-2ae2-4349-92e8-9715f997b343",
+      "3ab1b429-a4a7-411d-85a3-ec5acb922398",
+      "f55c7c50-78a7-4ba3-87ae-3853df6cd8f7",
+      "7a06da13-07bf-4c98-8b0d-d70889165c70",
+      "d152738e-f1b5-442f-93b7-32d4aaac36b1",
+      "8a04907a-aebc-488a-b125-d4edc878a391",
+      "2ff2269a-9c21-40ce-84d4-c30c24275a43",
+      "cedf7811-5ff9-4323-9608-78bdba52bf38",
+      "56896831-e471-495a-b9d2-e9d87606b0ab",
+      "b5e2ee3e-eb94-4460-827f-32f2f39db023",
+      "1fe567d6-5769-426a-bb08-cd9e38d61001"
+     ],
+     "captain_id": "d152738e-f1b5-442f-93b7-32d4aaac36b1",
+     "formation": "3-4-3",
+     "total_points": 217
+    }
+   }
   }
  }
 }

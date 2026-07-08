@@ -98,8 +98,8 @@
   },
   "4": {
    "expected": 44.4,
-   "expected_full": 24.3,
-   "expected_played": 24.3,
+   "expected_full": 21.2,
+   "expected_played": 21.2,
    "actual": 56,
    "played": 11,
    "starters": 11,
@@ -117,13 +117,13 @@
     },
     "?": {
      "expected": 0.0,
-     "actual": 16.0,
-     "n": 5
+     "actual": 18.0,
+     "n": 6
     },
     "MID": {
-     "expected": 13.07,
-     "actual": 16.0,
-     "n": 3
+     "expected": 9.97,
+     "actual": 14.0,
+     "n": 2
     },
     "FWD": {
      "expected": 2.57,
@@ -131,7 +131,7 @@
      "n": 1
     }
    },
-   "updated_at": "2026-07-08T08:34:57.671896+00:00"
+   "updated_at": "2026-07-08T11:08:31.988384+00:00"
   }
  }
 }

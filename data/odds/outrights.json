@@ -1,14 +1,14 @@
 {
- "fetched_at": "2026-07-08T17:58:18.876580+00:00",
- "credits_remaining": "438",
+ "fetched_at": "2026-07-09T16:00:14.254560+00:00",
+ "credits_remaining": "435",
  "sport_key": "soccer_fifa_world_cup_winner",
  "prices": {
-  "France": 3.05,
+  "France": 3.1,
+  "Argentina": 5.1,
   "Spain": 5.2,
-  "Argentina": 5.2,
-  "England": 6.0,
-  "Norway": 17.5,
-  "Morocco": 36.0,
+  "England": 5.9,
+  "Norway": 18.5,
+  "Morocco": 34.0,
   "Belgium": 38.0,
   "Switzerland": 42.0
  }

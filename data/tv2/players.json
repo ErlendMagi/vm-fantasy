@@ -1,5 +1,5 @@
 {
- "synced_at": "2026-07-10T21:05:31.753590+00:00",
+ "synced_at": "2026-07-10T22:31:17.724299+00:00",
  "source": "xhr",
  "players": [
   {
@@ -2463,13 +2463,13 @@
    "position": "MID",
    "price": 8.0,
    "ownership_pct": 4.243,
-   "total_points": 22,
+   "total_points": 25,
    "round_points": {
     "2": 5,
     "3": 4,
     "4": 4,
     "5": 7,
-    "6": 2
+    "6": 5
    },
    "status": "available",
    "photo": "https://cdn.sportmonks.com/images/soccer/players/30/186910.png"

@@ -1106,7 +1106,7 @@
    }
   },
   "7": {
-   "synced_at": "2026-07-11T22:12:43.045781+00:00",
+   "synced_at": "2026-07-11T23:22:55.476164+00:00",
    "members": {
     "Republikken Jonaland": {
      "manager": "Jonathan",
@@ -1142,7 +1142,7 @@
      ],
      "captain_id": "b5e2ee3e-eb94-4460-827f-32f2f39db023",
      "formation": "4-3-3",
-     "total_points": 403
+     "total_points": 404
     },
     "6                              7": {
      "manager": "Preben",
@@ -1214,7 +1214,7 @@
      ],
      "captain_id": "b5e2ee3e-eb94-4460-827f-32f2f39db023",
      "formation": "4-3-3",
-     "total_points": 384
+     "total_points": 386
     },
     "Storgambler FC": {
      "manager": "Thomas",
@@ -1250,7 +1250,7 @@
      ],
      "captain_id": "56896831-e471-495a-b9d2-e9d87606b0ab",
      "formation": "3-4-3",
-     "total_points": 346
+     "total_points": 347
     },
     "I dont know what I am doing": {
      "manager": "Jostein",
@@ -1286,7 +1286,7 @@
      ],
      "captain_id": "1ac149aa-ce4a-45fe-a968-66e42d74c6d0",
      "formation": "3-4-3",
-     "total_points": 341
+     "total_points": 344
     },
     "Erlend er best": {
      "manager": "Erlend",
@@ -1322,7 +1322,7 @@
      ],
      "captain_id": "1ac149aa-ce4a-45fe-a968-66e42d74c6d0",
      "formation": "3-4-3",
-     "total_points": 275
+     "total_points": 279
     }
    }
   }

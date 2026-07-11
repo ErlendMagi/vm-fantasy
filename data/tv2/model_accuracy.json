@@ -106,12 +106,12 @@
    "finalized": true,
    "by_pos": {
     "GK": {
-     "expected": 4.22,
+     "expected": 4.23,
      "actual": 6.0,
      "n": 1
     },
     "DEF": {
-     "expected": 4.37,
+     "expected": 4.39,
      "actual": 13.0,
      "n": 1
     },
@@ -121,7 +121,7 @@
      "n": 6
     },
     "MID": {
-     "expected": 10.0,
+     "expected": 10.01,
      "actual": 14.0,
      "n": 2
     },
@@ -131,7 +131,7 @@
      "n": 1
     }
    },
-   "updated_at": "2026-07-11T20:01:23.113558+00:00"
+   "updated_at": "2026-07-11T21:13:01.985448+00:00"
   }
  }
 }

@@ -391,7 +391,7 @@
    "recorded_at": "2026-07-11T23:23:09.800796+00:00"
   },
   "2026-07-12": {
-   "squad_rating": 92.1,
+   "squad_rating": 85.3,
    "xi_rating": 0.0,
    "pos_rating": {
     "GK": null,
@@ -400,8 +400,8 @@
     "FWD": null
    },
    "exp_next": 0.0,
-   "points_so_far": 221,
-   "recorded_at": "2026-07-12T16:52:04.768320+00:00"
+   "points_so_far": 278,
+   "recorded_at": "2026-07-12T16:57:23.835761+00:00"
   }
  }
 }

@@ -1106,7 +1106,7 @@
    }
   },
   "7": {
-   "synced_at": "2026-07-12T03:14:29.118495+00:00",
+   "synced_at": "2026-07-12T06:18:05.284881+00:00",
    "members": {
     "Republikken Jonaland": {
      "manager": "Jonathan",
@@ -1178,7 +1178,7 @@
      ],
      "captain_id": "b5e2ee3e-eb94-4460-827f-32f2f39db023",
      "formation": "4-3-3",
-     "total_points": 399
+     "total_points": 400
     },
     "6                              7": {
      "manager": "Preben",
@@ -1250,7 +1250,7 @@
      ],
      "captain_id": "56896831-e471-495a-b9d2-e9d87606b0ab",
      "formation": "3-4-3",
-     "total_points": 359
+     "total_points": 361
     },
     "I dont know what I am doing": {
      "manager": "Jostein",
@@ -1286,7 +1286,7 @@
      ],
      "captain_id": "1ac149aa-ce4a-45fe-a968-66e42d74c6d0",
      "formation": "3-4-3",
-     "total_points": 352
+     "total_points": 354
     },
     "Erlend er best": {
      "manager": "Erlend",
@@ -1322,7 +1322,7 @@
      ],
      "captain_id": "1ac149aa-ce4a-45fe-a968-66e42d74c6d0",
      "formation": "3-4-3",
-     "total_points": 291
+     "total_points": 292
     }
    }
   }

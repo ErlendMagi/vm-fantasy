@@ -1106,7 +1106,7 @@
    }
   },
   "7": {
-   "synced_at": "2026-07-12T08:23:22.094859+00:00",
+   "synced_at": "2026-07-12T10:37:03.924324+00:00",
    "members": {
     "Republikken Jonaland": {
      "manager": "Jonathan",
@@ -1265,9 +1265,9 @@
       "142454fd-5dc2-42bf-ba69-2d949fdf93ac",
       "3ab1b429-a4a7-411d-85a3-ec5acb922398",
       "d152738e-f1b5-442f-93b7-32d4aaac36b1",
-      "23853a5b-a6d3-4024-9e6f-9316c4853c07",
-      "bbc5a321-66a2-4285-9fe4-822f064efec7",
       "14f15c08-aff9-4e0f-abbd-977eea79f97d",
+      "bbc5a321-66a2-4285-9fe4-822f064efec7",
+      "23853a5b-a6d3-4024-9e6f-9316c4853c07",
       "cedf7811-5ff9-4323-9608-78bdba52bf38",
       "0daf8375-dddd-4b10-9246-907d7b6b34bc"
      ],
@@ -1282,11 +1282,11 @@
       "142454fd-5dc2-42bf-ba69-2d949fdf93ac",
       "3ab1b429-a4a7-411d-85a3-ec5acb922398",
       "d152738e-f1b5-442f-93b7-32d4aaac36b1",
-      "23853a5b-a6d3-4024-9e6f-9316c4853c07"
+      "14f15c08-aff9-4e0f-abbd-977eea79f97d"
      ],
      "captain_id": "1ac149aa-ce4a-45fe-a968-66e42d74c6d0",
      "formation": "3-4-3",
-     "total_points": 357
+     "total_points": 358
     },
     "Erlend er best": {
      "manager": "Erlend",

@@ -1,38 +1,38 @@
 {
- "synced_at": "2026-07-12T16:52:13.611327+00:00",
+ "synced_at": "2026-07-12T16:57:14.375607+00:00",
  "squad": [
+  "9d4819aa-c2db-4ef4-9b82-8aebcc27de34",
   "9a6d69d5-2ae2-4349-92e8-9715f997b343",
-  "bbc5a321-66a2-4285-9fe4-822f064efec7",
   "c5426c55-9dee-4b81-a249-369c5afac644",
   "f55c7c50-78a7-4ba3-87ae-3853df6cd8f7",
   "00e18352-b860-42be-9266-a80e9fd6acda",
   "991caea2-0063-4448-a686-3e38548c33f0",
   "3ab1b429-a4a7-411d-85a3-ec5acb922398",
+  "02c0df59-39c0-41bc-9f58-3e3dbc94665a",
+  "8a04907a-aebc-488a-b125-d4edc878a391",
   "cedf7811-5ff9-4323-9608-78bdba52bf38",
   "475fd155-6316-4032-870c-0b81b0cc55c3",
   "d152738e-f1b5-442f-93b7-32d4aaac36b1",
-  "ab2525a4-8890-4445-8b41-6e78b43c505d",
-  "7e44e451-bdb0-48d2-bb49-fddf0e082a3e",
+  "366a967f-3ed7-416a-966a-9047a7ebd348",
   "56896831-e471-495a-b9d2-e9d87606b0ab",
-  "b5e2ee3e-eb94-4460-827f-32f2f39db023",
-  "1ac149aa-ce4a-45fe-a968-66e42d74c6d0"
+  "b5e2ee3e-eb94-4460-827f-32f2f39db023"
  ],
  "starting_xi": [
+  "9d4819aa-c2db-4ef4-9b82-8aebcc27de34",
   "9a6d69d5-2ae2-4349-92e8-9715f997b343",
-  "bbc5a321-66a2-4285-9fe4-822f064efec7",
   "c5426c55-9dee-4b81-a249-369c5afac644",
   "f55c7c50-78a7-4ba3-87ae-3853df6cd8f7",
   "00e18352-b860-42be-9266-a80e9fd6acda",
   "991caea2-0063-4448-a686-3e38548c33f0",
   "3ab1b429-a4a7-411d-85a3-ec5acb922398",
+  "02c0df59-39c0-41bc-9f58-3e3dbc94665a",
+  "8a04907a-aebc-488a-b125-d4edc878a391",
   "cedf7811-5ff9-4323-9608-78bdba52bf38",
-  "475fd155-6316-4032-870c-0b81b0cc55c3",
-  "d152738e-f1b5-442f-93b7-32d4aaac36b1",
-  "ab2525a4-8890-4445-8b41-6e78b43c505d"
+  "475fd155-6316-4032-870c-0b81b0cc55c3"
  ],
  "captain_id": null,
- "bank": 5.0,
- "free_transfers": 3,
+ "bank": 1.5,
+ "free_transfers": 0,
  "squad_name": "Erlend er best",
  "round_history": {}
 }

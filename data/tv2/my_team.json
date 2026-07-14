@@ -1,5 +1,5 @@
 {
- "synced_at": "2026-07-14T08:12:55.389666+00:00",
+ "synced_at": "2026-07-14T10:50:25.262842+00:00",
  "squad": [
   "9d4819aa-c2db-4ef4-9b82-8aebcc27de34",
   "9a6d69d5-2ae2-4349-92e8-9715f997b343",
@@ -13,9 +13,9 @@
   "cedf7811-5ff9-4323-9608-78bdba52bf38",
   "475fd155-6316-4032-870c-0b81b0cc55c3",
   "d152738e-f1b5-442f-93b7-32d4aaac36b1",
-  "366a967f-3ed7-416a-966a-9047a7ebd348",
   "56896831-e471-495a-b9d2-e9d87606b0ab",
-  "b5e2ee3e-eb94-4460-827f-32f2f39db023"
+  "b5e2ee3e-eb94-4460-827f-32f2f39db023",
+  "8fea28a2-73cf-458a-8a62-cbe298e8e9d5"
  ],
  "starting_xi": [
   "9d4819aa-c2db-4ef4-9b82-8aebcc27de34",
@@ -31,7 +31,7 @@
   "475fd155-6316-4032-870c-0b81b0cc55c3"
  ],
  "captain_id": null,
- "bank": 1.5,
+ "bank": 0.0,
  "free_transfers": 0,
  "squad_name": "Erlend er best",
  "round_history": {}

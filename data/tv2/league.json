@@ -1,5 +1,5 @@
 {
- "synced_at": "2026-07-15T22:30:27.549941+00:00",
+ "synced_at": "2026-07-15T23:31:44.783668+00:00",
  "current_round": 8,
  "leagues": [
   {
@@ -2059,7 +2059,7 @@
   {
    "name": "Oslo",
    "league_id": "9427c891-ef7c-4e41-ad77-efc3222ab02e",
-   "my_rank": 7148,
+   "my_rank": 7149,
    "members": [
     {
      "manager": "Einar",
@@ -11741,6 +11741,58 @@
      "rounds": []
     },
     {
+     "manager": "Morten",
+     "squad_name": "The Wirzards WC",
+     "squad_id": "2ae30503-a12e-4d61-933b-a3f2766d4bac",
+     "rank": 87,
+     "total_points": 444,
+     "latest_round_points": 55,
+     "round_scores": [
+      {
+       "roundNumber": 1,
+       "roundName": "Runde 1 - Gruppespill",
+       "points": 83
+      },
+      {
+       "roundNumber": 2,
+       "roundName": "Runde 2 - Gruppespill",
+       "points": 84
+      },
+      {
+       "roundNumber": 3,
+       "roundName": "Runde 3 - Gruppespill",
+       "points": 54
+      },
+      {
+       "roundNumber": 4,
+       "roundName": "Runde 4 - Sluttspill",
+       "points": 75
+      },
+      {
+       "roundNumber": 5,
+       "roundName": "Runde 5 - Sluttspill",
+       "points": 56
+      },
+      {
+       "roundNumber": 6,
+       "roundName": "Runde 6 - Sluttspill",
+       "points": 37
+      },
+      {
+       "roundNumber": 7,
+       "roundName": "Runde 7 - Sluttspill",
+       "points": 55
+      }
+     ],
+     "squad": [],
+     "starter_ids": [],
+     "bench_ids": [],
+     "captain_id": null,
+     "vice_captain_id": null,
+     "formation": null,
+     "rounds": []
+    },
+    {
      "manager": "Kenneth ",
      "squad_name": "Kimchi ",
      "squad_id": "44071855-62df-4f23-bc47-4e1e8987d43d",
@@ -11793,62 +11845,10 @@
      "rounds": []
     },
     {
-     "manager": "Morten",
-     "squad_name": "The Wirzards WC",
-     "squad_id": "2ae30503-a12e-4d61-933b-a3f2766d4bac",
-     "rank": 88,
-     "total_points": 443,
-     "latest_round_points": 54,
-     "round_scores": [
-      {
-       "roundNumber": 1,
-       "roundName": "Runde 1 - Gruppespill",
-       "points": 83
-      },
-      {
-       "roundNumber": 2,
-       "roundName": "Runde 2 - Gruppespill",
-       "points": 84
-      },
-      {
-       "roundNumber": 3,
-       "roundName": "Runde 3 - Gruppespill",
-       "points": 54
-      },
-      {
-       "roundNumber": 4,
-       "roundName": "Runde 4 - Sluttspill",
-       "points": 75
-      },
-      {
-       "roundNumber": 5,
-       "roundName": "Runde 5 - Sluttspill",
-       "points": 56
-      },
-      {
-       "roundNumber": 6,
-       "roundName": "Runde 6 - Sluttspill",
-       "points": 37
-      },
-      {
-       "roundNumber": 7,
-       "roundName": "Runde 7 - Sluttspill",
-       "points": 54
-      }
-     ],
-     "squad": [],
-     "starter_ids": [],
-     "bench_ids": [],
-     "captain_id": null,
-     "vice_captain_id": null,
-     "formation": null,
-     "rounds": []
-    },
-    {
      "manager": "Victor Lind",
      "squad_name": "Ingen Hjemmekamper",
      "squad_id": "5973bd40-8ad6-4e54-8e31-c2aa7162bbcc",
-     "rank": 88,
+     "rank": 89,
      "total_points": 443,
      "latest_round_points": 47,
      "round_scores": [
@@ -11900,7 +11900,7 @@
      "manager": "Daniel",
      "squad_name": "Herjings i USA",
      "squad_id": "842f831d-73b7-464c-9c17-683a44266b48",
-     "rank": 88,
+     "rank": 89,
      "total_points": 443,
      "latest_round_points": 44,
      "round_scores": [

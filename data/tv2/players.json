@@ -1,5 +1,5 @@
 {
- "synced_at": "2026-07-15T05:34:50.461133+00:00",
+ "synced_at": "2026-07-15T08:19:47.230455+00:00",
  "source": "xhr",
  "players": [
   {
@@ -1406,9 +1406,9 @@
    "position": "DEF",
    "price": 6.0,
    "ownership_pct": 8.529,
-   "total_points": 14,
+   "total_points": 17,
    "round_points": {
-    "7": 12,
+    "7": 15,
     "6": 2
    },
    "status": "available",

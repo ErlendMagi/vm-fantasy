@@ -1106,7 +1106,7 @@
    }
   },
   "7": {
-   "synced_at": "2026-07-15T05:34:50.461133+00:00",
+   "synced_at": "2026-07-15T08:19:47.230455+00:00",
    "members": {
     "Republikken Jonaland": {
      "manager": "Jonathan",
@@ -1142,7 +1142,7 @@
      ],
      "captain_id": "b5e2ee3e-eb94-4460-827f-32f2f39db023",
      "formation": "4-3-3",
-     "total_points": 452
+     "total_points": 455
     },
     "USTAB IL": {
      "manager": "julle",
@@ -1250,7 +1250,7 @@
      ],
      "captain_id": "56896831-e471-495a-b9d2-e9d87606b0ab",
      "formation": "3-4-3",
-     "total_points": 383
+     "total_points": 386
     },
     "I dont know what I am doing": {
      "manager": "Jostein",

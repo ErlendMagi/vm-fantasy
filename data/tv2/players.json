@@ -1,5 +1,5 @@
 {
- "synced_at": "2026-07-15T19:01:01.409371+00:00",
+ "synced_at": "2026-07-15T20:15:09.293899+00:00",
  "source": "xhr",
  "players": [
   {
@@ -10,12 +10,12 @@
    "position": "MID",
    "price": 8.5,
    "ownership_pct": 7.973,
-   "total_points": 19,
+   "total_points": 20,
    "round_points": {
     "4": 6,
     "5": 3,
     "6": 10,
-    "7": 0
+    "7": 1
    },
    "status": "available",
    "photo": "https://cdn.sportmonks.com/images/soccer/players/4/216612.png"
@@ -41,9 +41,9 @@
    "position": "GK",
    "price": 6.0,
    "ownership_pct": 26.077,
-   "total_points": 0,
+   "total_points": 1,
    "round_points": {
-    "7": 0
+    "7": 1
    },
    "status": "available",
    "photo": "https://cdn.sportmonks.com/images/soccer/players/31/1343.png"
@@ -176,9 +176,9 @@
    "position": "FWD",
    "price": 10.0,
    "ownership_pct": 5.232,
-   "total_points": 0,
+   "total_points": 1,
    "round_points": {
-    "7": 0
+    "7": 1
    },
    "status": "available",
    "photo": "https://cdn.sportmonks.com/images/soccer/players/3/21394947.png"
@@ -232,12 +232,12 @@
    "position": "FWD",
    "price": 11.0,
    "ownership_pct": 38.137,
-   "total_points": 65,
+   "total_points": 66,
    "round_points": {
     "4": 9,
     "5": 11,
     "6": 9,
-    "7": 0,
+    "7": 1,
     "1": 17,
     "2": 12,
     "3": 7
@@ -496,7 +496,7 @@
    "position": "FWD",
    "price": 12.5,
    "ownership_pct": 18.708,
-   "total_points": 49,
+   "total_points": 50,
    "round_points": {
     "1": 14,
     "2": 3,
@@ -504,7 +504,7 @@
     "4": 14,
     "5": 8,
     "6": 3,
-    "7": 0
+    "7": 1
    },
    "status": "available",
    "photo": "https://cdn.sportmonks.com/images/soccer/players/5/997.png"
@@ -582,9 +582,9 @@
    "position": "GK",
    "price": 6.0,
    "ownership_pct": 9.204,
-   "total_points": 0,
+   "total_points": 1,
    "round_points": {
-    "7": 0
+    "7": 1
    },
    "status": "available",
    "photo": "https://cdn.sportmonks.com/images/soccer/players/2/1826.png"
@@ -597,9 +597,9 @@
    "position": "MID",
    "price": 9.5,
    "ownership_pct": 25.618,
-   "total_points": 0,
+   "total_points": 1,
    "round_points": {
-    "7": 0
+    "7": 1
    },
    "status": "available",
    "photo": "https://cdn.sportmonks.com/images/soccer/players/0/37255840.png"

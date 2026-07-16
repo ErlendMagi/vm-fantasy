@@ -443,7 +443,7 @@
    "recorded_at": "2026-07-15T23:32:00.535225+00:00"
   },
   "2026-07-16": {
-   "squad_rating": 84.8,
+   "squad_rating": 81.0,
    "xi_rating": 0.0,
    "pos_rating": {
     "GK": null,
@@ -453,7 +453,7 @@
    },
    "exp_next": 0.0,
    "points_so_far": 313,
-   "recorded_at": "2026-07-16T16:12:19.734473+00:00"
+   "recorded_at": "2026-07-16T17:45:04.297845+00:00"
   }
  }
 }

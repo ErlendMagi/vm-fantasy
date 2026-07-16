@@ -1,5 +1,5 @@
 {
- "synced_at": "2026-07-16T19:00:04.378667+00:00",
+ "synced_at": "2026-07-16T19:00:29.572474+00:00",
  "source": "xhr",
  "players": [
   {
@@ -9,7 +9,7 @@
    "team_code": "ARG",
    "position": "MID",
    "price": 8.5,
-   "ownership_pct": 9.043,
+   "ownership_pct": 9.045,
    "total_points": 22,
    "round_points": {
     "4": 6,
@@ -27,7 +27,7 @@
    "team_code": "ARG",
    "position": "DEF",
    "price": 6.5,
-   "ownership_pct": 8.635,
+   "ownership_pct": 8.636,
    "total_points": 0,
    "round_points": {},
    "status": "available",
@@ -55,7 +55,7 @@
    "team_code": "ARG",
    "position": "MID",
    "price": 8.5,
-   "ownership_pct": 6.42,
+   "ownership_pct": 6.424,
    "total_points": 0,
    "round_points": {},
    "status": "available",
@@ -81,7 +81,7 @@
    "team_code": "ARG",
    "position": "DEF",
    "price": 5.0,
-   "ownership_pct": 14.387,
+   "ownership_pct": 14.385,
    "total_points": 0,
    "round_points": {
     "6": 0,
@@ -123,7 +123,7 @@
    "team_code": "ARG",
    "position": "MID",
    "price": 7.5,
-   "ownership_pct": 0.302,
+   "ownership_pct": 0.303,
    "total_points": 0,
    "round_points": {},
    "status": "available",
@@ -149,7 +149,7 @@
    "team_code": "ARG",
    "position": "FWD",
    "price": 6.5,
-   "ownership_pct": 1.215,
+   "ownership_pct": 1.217,
    "total_points": 0,
    "round_points": {},
    "status": "available",
@@ -175,7 +175,7 @@
    "team_code": "ARG",
    "position": "FWD",
    "price": 10.0,
-   "ownership_pct": 5.661,
+   "ownership_pct": 5.664,
    "total_points": 3,
    "round_points": {
     "7": 3
@@ -190,7 +190,7 @@
    "team_code": "ARG",
    "position": "FWD",
    "price": 9.0,
-   "ownership_pct": 3.281,
+   "ownership_pct": 3.282,
    "total_points": 2,
    "round_points": {
     "4": 2
@@ -231,7 +231,7 @@
    "team_code": "ARG",
    "position": "FWD",
    "price": 11.0,
-   "ownership_pct": 38.745,
+   "ownership_pct": 38.748,
    "total_points": 77,
    "round_points": {
     "4": 9,
@@ -252,7 +252,7 @@
    "team_code": "ARG",
    "position": "DEF",
    "price": 6.0,
-   "ownership_pct": 18.292,
+   "ownership_pct": 18.288,
    "total_points": 17,
    "round_points": {
     "4": 13,
@@ -335,7 +335,7 @@
    "team_code": "ARG",
    "position": "MID",
    "price": 8.0,
-   "ownership_pct": 1.819,
+   "ownership_pct": 1.817,
    "total_points": 0,
    "round_points": {},
    "status": "available",
@@ -374,7 +374,7 @@
    "team_code": "ENG",
    "position": "MID",
    "price": 7.5,
-   "ownership_pct": 5.798,
+   "ownership_pct": 5.8,
    "total_points": 0,
    "round_points": {},
    "status": "available",
@@ -400,7 +400,7 @@
    "team_code": "ENG",
    "position": "DEF",
    "price": 5.0,
-   "ownership_pct": 2.719,
+   "ownership_pct": 2.722,
    "total_points": 0,
    "round_points": {},
    "status": "available",
@@ -426,7 +426,7 @@
    "team_code": "ENG",
    "position": "MID",
    "price": 7.5,
-   "ownership_pct": 6.44,
+   "ownership_pct": 6.438,
    "total_points": 0,
    "round_points": {},
    "status": "available",
@@ -465,7 +465,7 @@
    "team_code": "ENG",
    "position": "MID",
    "price": 6.5,
-   "ownership_pct": 7.345,
+   "ownership_pct": 7.349,
    "total_points": 2,
    "round_points": {
     "7": 2
@@ -495,7 +495,7 @@
    "team_code": "ENG",
    "position": "FWD",
    "price": 12.5,
-   "ownership_pct": 17.991,
+   "ownership_pct": 17.986,
    "total_points": 52,
    "round_points": {
     "1": 14,
@@ -529,7 +529,7 @@
    "team_code": "ENG",
    "position": "GK",
    "price": 5.5,
-   "ownership_pct": 0.271,
+   "ownership_pct": 0.272,
    "total_points": 0,
    "round_points": {},
    "status": "available",
@@ -555,7 +555,7 @@
    "team_code": "ENG",
    "position": "DEF",
    "price": 5.5,
-   "ownership_pct": 2.42,
+   "ownership_pct": 2.419,
    "total_points": 0,
    "round_points": {},
    "status": "available",
@@ -568,7 +568,7 @@
    "team_code": "ENG",
    "position": "MID",
    "price": 6.0,
-   "ownership_pct": 1.373,
+   "ownership_pct": 1.374,
    "total_points": 0,
    "round_points": {},
    "status": "available",
@@ -581,7 +581,7 @@
    "team_code": "ENG",
    "position": "GK",
    "price": 6.0,
-   "ownership_pct": 9.025,
+   "ownership_pct": 9.021,
    "total_points": 2,
    "round_points": {
     "7": 2
@@ -596,7 +596,7 @@
    "team_code": "ENG",
    "position": "MID",
    "price": 9.5,
-   "ownership_pct": 24.858,
+   "ownership_pct": 24.855,
    "total_points": 3,
    "round_points": {
     "7": 3
@@ -624,7 +624,7 @@
    "team_code": "ENG",
    "position": "DEF",
    "price": 6.5,
-   "ownership_pct": 4.305,
+   "ownership_pct": 4.307,
    "total_points": 0,
    "round_points": {},
    "status": "available",
@@ -736,7 +736,7 @@
    "team_code": "FRA",
    "position": "MID",
    "price": 7.5,
-   "ownership_pct": 2.568,
+   "ownership_pct": 2.57,
    "total_points": 8,
    "round_points": {
     "5": 4,
@@ -753,7 +753,7 @@
    "team_code": "FRA",
    "position": "MID",
    "price": 7.5,
-   "ownership_pct": 0.9,
+   "ownership_pct": 0.899,
    "total_points": 0,
    "round_points": {},
    "status": "available",
@@ -766,7 +766,7 @@
    "team_code": "FRA",
    "position": "MID",
    "price": 9.0,
-   "ownership_pct": 3.847,
+   "ownership_pct": 3.848,
    "total_points": 1,
    "round_points": {
     "7": 1
@@ -794,7 +794,7 @@
    "team_code": "FRA",
    "position": "DEF",
    "price": 7.0,
-   "ownership_pct": 12.34,
+   "ownership_pct": 12.341,
    "total_points": 1,
    "round_points": {
     "7": 1
@@ -809,7 +809,7 @@
    "team_code": "FRA",
    "position": "MID",
    "price": 9.0,
-   "ownership_pct": 4.135,
+   "ownership_pct": 4.132,
    "total_points": 8,
    "round_points": {
     "3": 8
@@ -837,7 +837,7 @@
    "team_code": "FRA",
    "position": "FWD",
    "price": 7.0,
-   "ownership_pct": 1.024,
+   "ownership_pct": 1.023,
    "total_points": 0,
    "round_points": {
     "7": 0
@@ -852,7 +852,7 @@
    "team_code": "FRA",
    "position": "DEF",
    "price": 6.5,
-   "ownership_pct": 10.665,
+   "ownership_pct": 10.663,
    "total_points": 0,
    "round_points": {},
    "status": "available",
@@ -865,7 +865,7 @@
    "team_code": "FRA",
    "position": "FWD",
    "price": 12.5,
-   "ownership_pct": 40.531,
+   "ownership_pct": 40.529,
    "total_points": 69,
    "round_points": {
     "1": 14,
@@ -981,7 +981,7 @@
    "team_code": "FRA",
    "position": "MID",
    "price": 10.5,
-   "ownership_pct": 36.142,
+   "ownership_pct": 36.132,
    "total_points": 32,
    "round_points": {
     "5": 3,
@@ -1001,7 +1001,7 @@
    "team_code": "FRA",
    "position": "GK",
    "price": 6.5,
-   "ownership_pct": 13.154,
+   "ownership_pct": 13.152,
    "total_points": 1,
    "round_points": {
     "7": 1
@@ -1016,7 +1016,7 @@
    "team_code": "FRA",
    "position": "MID",
    "price": 6.5,
-   "ownership_pct": 1.178,
+   "ownership_pct": 1.179,
    "total_points": 0,
    "round_points": {},
    "status": "available",
@@ -1029,7 +1029,7 @@
    "team_code": "FRA",
    "position": "MID",
    "price": 11.5,
-   "ownership_pct": 23.785,
+   "ownership_pct": 23.781,
    "total_points": 60,
    "round_points": {
     "6": 12,
@@ -1063,7 +1063,7 @@
    "team_code": "FRA",
    "position": "GK",
    "price": 4.5,
-   "ownership_pct": 1.475,
+   "ownership_pct": 1.477,
    "total_points": 0,
    "round_points": {},
    "status": "available",
@@ -1131,7 +1131,7 @@
    "team_code": "ESP",
    "position": "MID",
    "price": 7.0,
-   "ownership_pct": 5.612,
+   "ownership_pct": 5.613,
    "total_points": 4,
    "round_points": {
     "6": 1,
@@ -1147,7 +1147,7 @@
    "team_code": "ESP",
    "position": "DEF",
    "price": 6.0,
-   "ownership_pct": 11.526,
+   "ownership_pct": 11.531,
    "total_points": 7,
    "round_points": {
     "7": 6,
@@ -1176,7 +1176,7 @@
    "team_code": "ESP",
    "position": "MID",
    "price": 8.5,
-   "ownership_pct": 4.077,
+   "ownership_pct": 4.081,
    "total_points": 0,
    "round_points": {},
    "status": "available",
@@ -1228,7 +1228,7 @@
    "team_code": "ESP",
    "position": "FWD",
    "price": 8.5,
-   "ownership_pct": 3.826,
+   "ownership_pct": 3.827,
    "total_points": 0,
    "round_points": {},
    "status": "available",
@@ -1267,7 +1267,7 @@
    "team_code": "ESP",
    "position": "MID",
    "price": 12.0,
-   "ownership_pct": 21.431,
+   "ownership_pct": 21.438,
    "total_points": 9,
    "round_points": {
     "1": 1,
@@ -1283,7 +1283,7 @@
    "team_code": "ESP",
    "position": "DEF",
    "price": 6.5,
-   "ownership_pct": 35.334,
+   "ownership_pct": 35.34,
    "total_points": 47,
    "round_points": {
     "6": 2,
@@ -1317,7 +1317,7 @@
    "team_code": "ESP",
    "position": "DEF",
    "price": 6.5,
-   "ownership_pct": 2.51,
+   "ownership_pct": 2.508,
    "total_points": 0,
    "round_points": {},
    "status": "available",
@@ -1343,7 +1343,7 @@
    "team_code": "ESP",
    "position": "MID",
    "price": 6.5,
-   "ownership_pct": 4.492,
+   "ownership_pct": 4.49,
    "total_points": 0,
    "round_points": {},
    "status": "available",
@@ -1356,7 +1356,7 @@
    "team_code": "ESP",
    "position": "FWD",
    "price": 9.0,
-   "ownership_pct": 26.569,
+   "ownership_pct": 26.576,
    "total_points": 44,
    "round_points": {
     "1": 3,
@@ -1392,7 +1392,7 @@
    "team_code": "ESP",
    "position": "DEF",
    "price": 6.0,
-   "ownership_pct": 7.284,
+   "ownership_pct": 7.285,
    "total_points": 0,
    "round_points": {},
    "status": "available",
@@ -1405,7 +1405,7 @@
    "team_code": "ESP",
    "position": "MID",
    "price": 8.5,
-   "ownership_pct": 5.118,
+   "ownership_pct": 5.119,
    "total_points": 14,
    "round_points": {
     "2": 3,
@@ -1423,7 +1423,7 @@
    "team_code": "ESP",
    "position": "DEF",
    "price": 6.0,
-   "ownership_pct": 10.388,
+   "ownership_pct": 10.394,
    "total_points": 17,
    "round_points": {
     "7": 15,
@@ -1439,7 +1439,7 @@
    "team_code": "ESP",
    "position": "MID",
    "price": 8.0,
-   "ownership_pct": 7.688,
+   "ownership_pct": 7.697,
    "total_points": 30,
    "round_points": {
     "2": 5,
@@ -1459,7 +1459,7 @@
    "team_code": "ESP",
    "position": "GK",
    "price": 6.5,
-   "ownership_pct": 7.763,
+   "ownership_pct": 7.77,
    "total_points": 2,
    "round_points": {
     "6": 2

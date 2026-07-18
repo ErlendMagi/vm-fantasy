@@ -1,6 +1,6 @@
 {
- "fetched_at": "2026-07-18T14:57:39.973426+00:00",
- "credits_remaining": "383",
+ "fetched_at": "2026-07-18T15:49:00.451047+00:00",
+ "credits_remaining": "378",
  "sport_key": "soccer_fifa_world_cup",
  "matches": [
   {
@@ -10,7 +10,7 @@
    "h2h": {
     "home": 1.87,
     "draw": 4.1,
-    "away": 3.9
+    "away": 3.96
    },
    "totals": {
     "line": 3.5,

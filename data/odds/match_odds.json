@@ -1,6 +1,6 @@
 {
- "fetched_at": "2026-07-18T16:48:33.359539+00:00",
- "credits_remaining": "373",
+ "fetched_at": "2026-07-18T17:51:29.750548+00:00",
+ "credits_remaining": "368",
  "sport_key": "soccer_fifa_world_cup",
  "matches": [
   {
@@ -29,8 +29,8 @@
    },
    "totals": {
     "line": 2.5,
-    "over": 2.25,
-    "under": 1.65
+    "over": 2.24,
+    "under": 1.67
    }
   }
  ]

@@ -1327,7 +1327,7 @@
    }
   },
   "8": {
-   "synced_at": "2026-07-18T22:12:21.080321+00:00",
+   "synced_at": "2026-07-18T23:23:37.508608+00:00",
    "members": {
     "Republikken Jonaland": {
      "manager": "Jonathan",
@@ -1363,7 +1363,7 @@
      ],
      "captain_id": "b5e2ee3e-eb94-4460-827f-32f2f39db023",
      "formation": "4-3-3",
-     "total_points": 488
+     "total_points": 511
     },
     "USTAB IL": {
      "manager": "julle",
@@ -1399,7 +1399,7 @@
      ],
      "captain_id": "32b8a7d5-97b7-40f9-8385-88a091bfbdf6",
      "formation": "3-4-3",
-     "total_points": 447
+     "total_points": 480
     },
     "6                              7": {
      "manager": "Preben",
@@ -1435,43 +1435,7 @@
      ],
      "captain_id": "b5e2ee3e-eb94-4460-827f-32f2f39db023",
      "formation": "3-4-3",
-     "total_points": 446
-    },
-    "Storgambler FC": {
-     "manager": "Thomas",
-     "squad": [
-      "56896831-e471-495a-b9d2-e9d87606b0ab",
-      "b5e2ee3e-eb94-4460-827f-32f2f39db023",
-      "3ab1b429-a4a7-411d-85a3-ec5acb922398",
-      "d1381d98-d89c-4335-a213-2a8585fa9f06",
-      "02c0df59-39c0-41bc-9f58-3e3dbc94665a",
-      "463b94c8-ee4a-4906-9bf7-ab52f2504aa9",
-      "4399b3fa-118c-4a3f-a88f-759b11e88dec",
-      "f55c7c50-78a7-4ba3-87ae-3853df6cd8f7",
-      "32b8a7d5-97b7-40f9-8385-88a091bfbdf6",
-      "8bfafd1b-e917-4fde-97d3-19fdfbc425f7",
-      "dce3e684-7c45-48d9-b3d6-46758281d120",
-      "635dd97c-987e-473c-9a7e-eba67ad2edef",
-      "c46375fa-4dfc-4e94-a590-5b61842477ae",
-      "537bbdcb-6ebf-412f-8dc6-c29f16420382",
-      "3fa8a2d2-9d57-4f9c-a712-99f9b097e414"
-     ],
-     "starter_ids": [
-      "56896831-e471-495a-b9d2-e9d87606b0ab",
-      "b5e2ee3e-eb94-4460-827f-32f2f39db023",
-      "3ab1b429-a4a7-411d-85a3-ec5acb922398",
-      "d1381d98-d89c-4335-a213-2a8585fa9f06",
-      "02c0df59-39c0-41bc-9f58-3e3dbc94665a",
-      "463b94c8-ee4a-4906-9bf7-ab52f2504aa9",
-      "4399b3fa-118c-4a3f-a88f-759b11e88dec",
-      "f55c7c50-78a7-4ba3-87ae-3853df6cd8f7",
-      "32b8a7d5-97b7-40f9-8385-88a091bfbdf6",
-      "8bfafd1b-e917-4fde-97d3-19fdfbc425f7",
-      "dce3e684-7c45-48d9-b3d6-46758281d120"
-     ],
-     "captain_id": "56896831-e471-495a-b9d2-e9d87606b0ab",
-     "formation": "3-4-3",
-     "total_points": 427
+     "total_points": 469
     },
     "I dont know what I am doing": {
      "manager": "Jostein",
@@ -1507,7 +1471,43 @@
      ],
      "captain_id": "b5e2ee3e-eb94-4460-827f-32f2f39db023",
      "formation": "3-4-3",
-     "total_points": 413
+     "total_points": 442
+    },
+    "Storgambler FC": {
+     "manager": "Thomas",
+     "squad": [
+      "56896831-e471-495a-b9d2-e9d87606b0ab",
+      "b5e2ee3e-eb94-4460-827f-32f2f39db023",
+      "3ab1b429-a4a7-411d-85a3-ec5acb922398",
+      "d1381d98-d89c-4335-a213-2a8585fa9f06",
+      "02c0df59-39c0-41bc-9f58-3e3dbc94665a",
+      "463b94c8-ee4a-4906-9bf7-ab52f2504aa9",
+      "4399b3fa-118c-4a3f-a88f-759b11e88dec",
+      "f55c7c50-78a7-4ba3-87ae-3853df6cd8f7",
+      "32b8a7d5-97b7-40f9-8385-88a091bfbdf6",
+      "8bfafd1b-e917-4fde-97d3-19fdfbc425f7",
+      "dce3e684-7c45-48d9-b3d6-46758281d120",
+      "635dd97c-987e-473c-9a7e-eba67ad2edef",
+      "c46375fa-4dfc-4e94-a590-5b61842477ae",
+      "537bbdcb-6ebf-412f-8dc6-c29f16420382",
+      "3fa8a2d2-9d57-4f9c-a712-99f9b097e414"
+     ],
+     "starter_ids": [
+      "56896831-e471-495a-b9d2-e9d87606b0ab",
+      "b5e2ee3e-eb94-4460-827f-32f2f39db023",
+      "3ab1b429-a4a7-411d-85a3-ec5acb922398",
+      "d1381d98-d89c-4335-a213-2a8585fa9f06",
+      "02c0df59-39c0-41bc-9f58-3e3dbc94665a",
+      "463b94c8-ee4a-4906-9bf7-ab52f2504aa9",
+      "4399b3fa-118c-4a3f-a88f-759b11e88dec",
+      "f55c7c50-78a7-4ba3-87ae-3853df6cd8f7",
+      "32b8a7d5-97b7-40f9-8385-88a091bfbdf6",
+      "8bfafd1b-e917-4fde-97d3-19fdfbc425f7",
+      "dce3e684-7c45-48d9-b3d6-46758281d120"
+     ],
+     "captain_id": "56896831-e471-495a-b9d2-e9d87606b0ab",
+     "formation": "3-4-3",
+     "total_points": 442
     },
     "Erlend er best": {
      "manager": "Erlend",
@@ -1543,7 +1543,7 @@
      ],
      "captain_id": "8a04907a-aebc-488a-b125-d4edc878a391",
      "formation": "3-4-3",
-     "total_points": 331
+     "total_points": 356
     }
    }
   }

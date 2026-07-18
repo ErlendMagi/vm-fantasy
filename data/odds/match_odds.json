@@ -1,6 +1,6 @@
 {
- "fetched_at": "2026-07-18T15:49:00.451047+00:00",
- "credits_remaining": "378",
+ "fetched_at": "2026-07-18T16:48:33.359539+00:00",
+ "credits_remaining": "373",
  "sport_key": "soccer_fifa_world_cup",
  "matches": [
   {
@@ -8,13 +8,13 @@
    "away": "England",
    "kickoff_utc": "2026-07-18T21:00:00Z",
    "h2h": {
-    "home": 1.87,
+    "home": 1.85,
     "draw": 4.1,
-    "away": 3.96
+    "away": 4.0
    },
    "totals": {
     "line": 3.5,
-    "over": 2.14,
+    "over": 2.12,
     "under": 1.76
    }
   },
@@ -29,8 +29,8 @@
    },
    "totals": {
     "line": 2.5,
-    "over": 2.24,
-    "under": 1.67
+    "over": 2.25,
+    "under": 1.65
    }
   }
  ]

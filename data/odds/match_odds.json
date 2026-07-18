@@ -1,6 +1,6 @@
 {
- "fetched_at": "2026-07-18T07:15:33.867298+00:00",
- "credits_remaining": "390",
+ "fetched_at": "2026-07-18T13:23:16.027340+00:00",
+ "credits_remaining": "388",
  "sport_key": "soccer_fifa_world_cup",
  "matches": [
   {
@@ -9,13 +9,13 @@
    "kickoff_utc": "2026-07-18T21:00:00Z",
    "h2h": {
     "home": 1.88,
-    "draw": 4.05,
-    "away": 3.9
+    "draw": 4.0,
+    "away": 3.89
    },
    "totals": {
     "line": 3.5,
-    "over": 2.14,
-    "under": 1.72
+    "over": 2.15,
+    "under": 1.74
    }
   },
   {
@@ -23,14 +23,14 @@
    "away": "Argentina",
    "kickoff_utc": "2026-07-19T19:00:00Z",
    "h2h": {
-    "home": 2.3,
-    "draw": 3.08,
-    "away": 3.65
+    "home": 2.32,
+    "draw": 3.05,
+    "away": 3.6
    },
    "totals": {
     "line": 2.5,
     "over": 2.25,
-    "under": 1.65
+    "under": 1.67
    }
   }
  ]

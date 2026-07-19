@@ -111,22 +111,22 @@
      "n": 7
     },
     "DEF": {
-     "expected": 4.41,
+     "expected": 4.4,
      "actual": 13.0,
      "n": 1
     },
     "MID": {
-     "expected": 9.96,
+     "expected": 9.95,
      "actual": 14.0,
      "n": 2
     },
     "FWD": {
-     "expected": 2.51,
+     "expected": 2.5,
      "actual": 2.0,
      "n": 1
     }
    },
-   "updated_at": "2026-07-19T18:57:51.367122+00:00"
+   "updated_at": "2026-07-19T20:05:11.693851+00:00"
   }
  }
 }

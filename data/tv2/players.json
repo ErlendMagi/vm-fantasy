@@ -1,5 +1,5 @@
 {
- "synced_at": "2026-07-19T21:13:32.195039+00:00",
+ "synced_at": "2026-07-19T22:22:31.076475+00:00",
  "source": "xhr",
  "players": [
   {
@@ -10,9 +10,9 @@
    "position": "MID",
    "price": 8.5,
    "ownership_pct": 10.243,
-   "total_points": 25,
+   "total_points": 24,
    "round_points": {
-    "8": 3,
+    "8": 2,
     "4": 6,
     "5": 3,
     "6": 10,
@@ -236,13 +236,13 @@
    "position": "FWD",
    "price": 11.0,
    "ownership_pct": 39.649,
-   "total_points": 79,
+   "total_points": 80,
    "round_points": {
     "4": 9,
     "5": 11,
     "6": 9,
     "7": 12,
-    "8": 2,
+    "8": 3,
     "1": 17,
     "2": 12,
     "3": 7
@@ -1289,9 +1289,9 @@
    "position": "MID",
    "price": 12.0,
    "ownership_pct": 24.49,
-   "total_points": 12,
+   "total_points": 13,
    "round_points": {
-    "8": 3,
+    "8": 4,
     "1": 1,
     "2": 8
    },
@@ -1417,9 +1417,9 @@
    "position": "DEF",
    "price": 6.0,
    "ownership_pct": 8.113,
-   "total_points": 6,
+   "total_points": 7,
    "round_points": {
-    "8": 6
+    "8": 7
    },
    "status": "available",
    "photo": "https://cdn.sportmonks.com/images/soccer/players/22/37656790.png"
@@ -1467,7 +1467,7 @@
    "position": "MID",
    "price": 8.0,
    "ownership_pct": 9.347,
-   "total_points": 33,
+   "total_points": 35,
    "round_points": {
     "2": 5,
     "3": 4,
@@ -1475,7 +1475,7 @@
     "5": 7,
     "6": 6,
     "7": 4,
-    "8": 3
+    "8": 5
    },
    "status": "available",
    "photo": "https://cdn.sportmonks.com/images/soccer/players/30/186910.png"

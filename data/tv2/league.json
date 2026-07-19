@@ -1,5 +1,5 @@
 {
- "synced_at": "2026-07-19T00:14:50.434742+00:00",
+ "synced_at": "2026-07-19T02:55:24.283130+00:00",
  "current_round": 8,
  "leagues": [
   {
@@ -2220,7 +2220,7 @@
       {
        "number": 8,
        "formation": "3-4-3",
-       "points": 28,
+       "points": 30,
        "transfer_hit": -4,
        "captain_id": "8a04907a-aebc-488a-b125-d4edc878a391",
        "vice_captain_id": null,
@@ -2240,7 +2240,7 @@
        "scores": {
         "8a04907a-aebc-488a-b125-d4edc878a391": 12,
         "02c0df59-39c0-41bc-9f58-3e3dbc94665a": 6,
-        "b5e2ee3e-eb94-4460-827f-32f2f39db023": 14
+        "b5e2ee3e-eb94-4460-827f-32f2f39db023": 16
        }
       }
      ]

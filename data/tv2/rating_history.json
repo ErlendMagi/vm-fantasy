@@ -1546,6 +1546,19 @@
    "exp_next": 0.0,
    "points_so_far": 0,
    "recorded_at": "2026-10-08T20:27:22.305185+00:00"
+  },
+  "2026-10-09": {
+   "squad_rating": 89.3,
+   "xi_rating": 0.0,
+   "pos_rating": {
+    "GK": null,
+    "DEF": null,
+    "MID": null,
+    "FWD": null
+   },
+   "exp_next": 0.0,
+   "points_so_far": 0,
+   "recorded_at": "2026-10-09T00:33:12.451980+00:00"
   }
  }
 }
